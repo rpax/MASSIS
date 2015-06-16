@@ -1,0 +1,161 @@
+package rpax.massis.sim;
+
+import rpax.massis.model.building.Building;
+import rpax.massis.model.building.Building.BuildingProgressMonitor;
+import sim.engine.MakesSimState;
+import sim.engine.SimState;
+
+import com.eteks.sweethome3d.model.RecorderException;
+
+public abstract class AbstractSimulation extends SimState {
+
+	protected final String buildingFilePath;
+	private boolean finishCalled = false;
+	protected Building building;
+	protected final String resourcesPath;
+	protected BuildingProgressMonitor buildingProgress;
+
+	protected String logFileLocation;
+
+	public AbstractSimulation(long seed, String buildingFilePath,
+			String resourcesPath, BuildingProgressMonitor buildingProgress,
+			String logFileLocation) {
+		super(seed);
+		this.buildingFilePath = buildingFilePath;
+		this.resourcesPath = resourcesPath;
+		this.logFileLocation = logFileLocation;
+		this.buildingProgress = buildingProgress;
+	}
+
+	public AbstractSimulation(long seed, String buildingFilePath,
+			String resourcesPath, String logFileLocation) {
+		this(seed, buildingFilePath, resourcesPath, null, logFileLocation);
+	}
+
+	public AbstractSimulation(long seed, String buildingFilePath,
+			String resourcesPath, BuildingProgressMonitor buildingProgress) {
+		this(seed, buildingFilePath, resourcesPath, buildingProgress, null);
+	}
+
+	public AbstractSimulation(long seed, String buildingFilePath,
+			String resourcesPath) {
+		this(seed, buildingFilePath, resourcesPath, null, null);
+	}
+
+	private static final long serialVersionUID = 575438688820685250L;
+
+	public static void runSimulation(
+			final Class<? extends AbstractSimulation> c, String[] args) {
+
+		if (!keyExists("-building", args))
+		{
+			System.err
+					.println("Building filepath argument not provided. Exiting now");
+			System.exit(-1);
+		}
+
+		final String buildingFilePath = argumentForKey("-building", args);
+		final String saveLocation = argumentForKey("-logfile", args);
+		final String resourcesPath = argumentForKey("-resources", args);
+		doLoop(new MakesSimState() {
+			@Override
+			public SimState newInstance(long seed, String[] args) {
+				try
+				{
+					return (c.getConstructor(new Class[] {
+					/**
+					 * Seed
+					 */
+					Long.TYPE,
+					/**
+					 * buildingFilePath
+					 */
+					String.class,
+					/**
+					 * resourcesPath
+					 */
+					String.class,
+					/**
+					 * saveLocation
+					 */
+					String.class
+					}).newInstance(new Object[] {
+							Long.valueOf(seed), buildingFilePath,
+							resourcesPath, saveLocation
+
+					}));
+				}
+				catch (Exception e)
+				{
+					throw new RuntimeException(
+							"Exception occurred while trying to construct the simulation "
+									+ c + "\n" + e);
+				}
+			}
+
+			@Override
+			@SuppressWarnings("rawtypes")
+			public Class simulationClass() {
+				return c;
+			}
+		}, args);
+
+		System.exit(0);
+	}
+
+	@Override
+	public void start() {
+		try
+		{
+			this.building = this.createBuilding();
+		}
+		catch (RecorderException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		super.start();
+
+	}
+
+	protected Building createBuilding() throws RecorderException {
+		if (buildingProgress != null)
+			return new Building(this, buildingFilePath, this.resourcesPath,
+					this.buildingProgress);
+		else
+			return new Building(this, buildingFilePath, this.resourcesPath);
+	}
+
+	static boolean keyExists(String key, String[] args) {
+		for (int x = 0; x < args.length; x++)
+			if (args[x].equalsIgnoreCase(key))
+				return true;
+		return false;
+	}
+
+	static String argumentForKey(String key, String[] args) {
+		for (int x = 0; x < args.length - 1; x++)
+			// if a key has an argument, it can't be the last string
+			if (args[x].equalsIgnoreCase(key))
+				return args[x + 1];
+		return null;
+	}
+
+	@Override
+	protected void finalize() throws Throwable {
+		this.finish();
+	}
+
+	@Override
+	public void finish() {
+		if (!this.finishCalled)
+		{
+			this.finishCalled = true;
+			this.endSimulation();
+
+		}
+	}
+
+	protected abstract void endSimulation();
+
+}

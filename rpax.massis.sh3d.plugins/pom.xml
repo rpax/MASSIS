@@ -1,0 +1,38 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<repositories>
+		<repository>
+			<id>sweethome3d-specific</id>
+			<name>sweethome3d-specific repo</name>
+			<url>file://${project.basedir}/../massis_external_libs</url>
+		</repository>
+	</repositories>
+	<groupId>rpax.massis</groupId>
+	<artifactId>sh3d-plugins</artifactId>
+	<version>0.0.1</version>
+
+	<build>
+		<sourceDirectory>src</sourceDirectory>
+		<resources>
+			<resource>
+				<directory>src</directory>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+			</resource>
+		</resources>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>sweethome3d</groupId>
+			<artifactId>sweethome3d</artifactId>
+			<version>4.6</version>
+		</dependency>
+	</dependencies>
+	<properties>
+		<maven.compiler.source>1.7</maven.compiler.source>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.target>1.7</maven.compiler.target>
+	</properties>
+</project>
