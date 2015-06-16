@@ -1,4 +1,4 @@
-# What is MASSIS?
+#![alt massislogo](http://s11.postimg.org/zc946k2nz/massis_logo.png)What is MASSIS?
 
 MASSIS is a simulation framework for scenarios in indoor environments, allowing to design spaces, and specifying the behavior of the elements and people in them.
 
