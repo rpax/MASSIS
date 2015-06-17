@@ -5,12 +5,12 @@
 		<repository>
 			<id>sweethome3d-specific</id>
 			<name>sweethome3d-specific repo</name>
-			<url>file://${project.basedir}/../massis_external_libs</url>
+			<url>file://${project.basedir}/../rpax.tfg/libs</url>
 		</repository>
 	</repositories>
-	<groupId>rpax.massis</groupId>
+	<groupId>massis</groupId>
 	<artifactId>sh3d-plugins</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.1-SNAPSHOT</version>
 
 	<build>
 		<sourceDirectory>src</sourceDirectory>

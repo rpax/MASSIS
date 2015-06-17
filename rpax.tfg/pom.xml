@@ -4,7 +4,7 @@
 		<repository>
 			<id>sweethome3d-specific</id>
 			<name>sweethome3d-specific repo</name>
-			<url>file://${project.basedir}/../massis_external_libs</url>
+			<url>file://${project.basedir}/libs</url>
 		</repository>
 		<repository>
 			<id>amis-artifactory</id>
@@ -15,7 +15,7 @@
 
 	</repositories>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>rpax.massis</groupId>
+	<groupId>massis</groupId>
 	<artifactId>massis-core</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
@@ -39,66 +39,92 @@
 				<version>1.7</version>
 				<executions>
 					<execution>
-						<id>add-source</id>
 						<phase>generate-sources</phase>
 						<goals>
 							<goal>add-source</goal>
 						</goals>
 						<configuration>
 							<sources>
+								<source>gpcj</source>
+								<source>straightedge</source>
 								<source>massis</source>
 							</sources>
 						</configuration>
 					</execution>
+				</executions>
+			</plugin>
+
+
+			<!-- compiler plug in -->
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+			<!-- assembly plugin -->
+			<!-- the assembly plugin is used to define your final deploy output (jar, 
+				zip, dir, war, etc..) -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
 					<execution>
-						<id>add-resource</id>
-						<phase>generate-resources</phase>
+						<id>assembly:package</id>
+						<phase>package</phase>
 						<goals>
-							<goal>add-resource</goal>
+							<goal>single</goal>
 						</goals>
 						<configuration>
-							<resources>
-								<resource>
-									<directory>straightedge</directory>
-									<targetPath>resources</targetPath>
-								</resource>
-							</resources>
+							<!-- The filename of the assembled distribution file defualt ${project.build.finalName} -->
+							<finalName>${project.build.finalName}</finalName>
+							<appendAssemblyId>false</appendAssemblyId>
+							<!-- A list of descriptor files path to generate from -->
+							<descriptors>
+								<descriptor>assembly/assembly.xml</descriptor>
+							</descriptors>
 						</configuration>
 					</execution>
 				</executions>
 			</plugin>
+			<!-- jar plug in -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.3</version>
 				<configuration>
-
 					<archive>
 						<manifest>
-							<addClasspath>true</addClasspath>
 							<mainClass>rpax.massis.launcher.MASSISLauncher</mainClass>
-							<classpathPrefix>lib</classpathPrefix>
+							<!-- to create a class path to your dependecies you have to fill true 
+								in this field -->
+							<addClasspath>true</addClasspath>
+							<!-- if you put your dependencySet/outputDirectory in the assembly 
+								file is in a specific folder (lib for example), you need to add classpathPrefix -->
+							<classpathPrefix>lib/</classpathPrefix>
+
+							<!-- if you defined your dependencySet/outputFileNameMapping in the 
+								assembly, instead of using the classpathPrefix, you should use customClasspathLayout, 
+								add the classpathPrefix at the begining of the customClasspathLayout, and 
+								then add the pattern of the outputFileNameMapping, NOTICE YOU NEED TO ADD 
+								'$' BEFOR OF EACH '$'. supported only from version 2.3> -->
+							<!--<classpathLayoutType>custom</classpathLayoutType> <customClasspathLayout> 
+								lib/$${artifact.groupId}.$${artifact.artifactId}.$${artifact.extension} </customClasspathLayout> -->
+
 						</manifest>
+
+						<manifestEntries>
+							<Class-Path>conf/</Class-Path>
+						</manifestEntries>
 					</archive>
+
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>2.5.1</version>
-				<executions>
-					<execution>
-						<id>copy-dependencies</id>
-						<phase>package</phase>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${project.build.directory}/lib</outputDirectory>
 
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+
+
+
 		</plugins>
 	</build>
 
@@ -120,7 +146,6 @@
 			<groupId>java3d</groupId>
 			<artifactId>j3d-core-utils</artifactId>
 			<version>1.5.2</version>
-
 		</dependency>
 		<dependency>
 			<groupId>java3d</groupId>
@@ -137,11 +162,23 @@
 		</dependency>
 
 		<dependency>
-			<groupId>rpax.massis</groupId>
+			<groupId>massis</groupId>
 			<artifactId>sh3d-plugins</artifactId>
 			<version>0.0.1</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.openjdk.jmh</groupId>
+			<artifactId>jmh-core</artifactId>
+			<version>1.10</version>
+		</dependency>
+		<dependency>
+			<groupId>org.openjdk.jmh</groupId>
+			<artifactId>jmh-generator-annprocess</artifactId>
+			<version>1.10</version>
+			<!-- the processor artifact is required only during compilation and does 
+				not need to be transitive, hence provided scope -->
+			<scope>provided</scope>
+		</dependency>
 
 
 
@@ -174,12 +211,13 @@
 			<artifactId>mason</artifactId>
 			<version>18</version>
 		</dependency>
+		<!-- <dependency> <groupId>javax.jnlp</groupId> <artifactId>jnlp-api</artifactId> 
+			<version>7.0</version> <scope>system</scope> <systemPath>${java.home}/lib/javaws.jar</systemPath> 
+			</dependency> -->
 		<dependency>
 			<groupId>javax.jnlp</groupId>
 			<artifactId>jnlp-api</artifactId>
 			<version>7.0</version>
-			<scope>system</scope>
-			<systemPath>${java.home}/lib/javaws.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.vividsolutions</groupId>
