@@ -100,9 +100,9 @@ public class SimulationWithUI extends GUIState {
 		displayFrame3D.setTitle("Building 3D");
 		BuildingMap buildingMap = new BuildingMap(simulation.building,
 				new RoomsLayer(false), new RoomsLabelLayer(false),
-				new VisionRadioLayer(false), new CrowdDensityLayer(false),
+				new VisionRadioLayer(false), new CrowdDensityLayer(true),
 				new WallLayer(true), new DoorLayer(true), new ConnectionsLayer(
-						false), new PathLayer(true), new PeopleLayer(true),
+						false), new PathLayer(false), new PeopleLayer(true),
 				new RadioLayer(false), new PathFinderLayer(false),
 				new PeopleIDLayer(false), new VisibleAgentsLines(false),
 				new QTLayer(false)

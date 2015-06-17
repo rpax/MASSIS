@@ -22,9 +22,9 @@ import rpax.massis.model.building.Floor;
 public class CrowdDensityLayer extends FloorMapLayer {
 	/**
 	 * An arbitrary image size. It must be a tradeoff between resolution, CPU
-	 * and memory. 256 it is fair enough.
+	 * and memory. 512 it is fair enough.
 	 */
-	private static double IMG_MAX_SIZE = 256;
+	private static double IMG_MAX_SIZE = 512;
 
 	public CrowdDensityLayer(boolean enabled) {
 		super(enabled);
