@@ -1,0 +1,30 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>rpax.massis</groupId>
+    <artifactId>massis-builder</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+  
+    <name>massis-builder</name>
+    
+    <modules>
+        <module>../massis-sweethome3d</module>
+        
+        <module>../gpcj</module>
+        <module>../massis-straightedge</module>
+        
+        <module>../massis-utils</module>
+        <module>../massis-sh3d-plugins</module>
+        <module>../massis-core</module>
+        
+        <module>../massis-ai-sposh</module>
+        <module>../massis-app</module>
+        <!-- Massis v2
+        <module>../massis2-core</module>
+        <module>../editor-plugin</module> -->
+        
+    </modules>
+    
+    
+</project>
