@@ -4,31 +4,14 @@
  */
 package rpax.massis.util.building;
 
-import com.eteks.sweethome3d.io.DefaultHomeInputStream;
-import com.eteks.sweethome3d.io.HomeFileRecorder;
 import com.eteks.sweethome3d.model.Home;
-import com.eteks.sweethome3d.model.RecorderException;
-import com.eteks.sweethome3d.tools.OperatingSystem;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.Writer;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-import java.util.zip.ZipOutputStream;
-import rpax.massis.util.io.ZipOutputStreamWriter;
 import rpax.massis.util.io.storage.BuildingMetadata;
-import rpax.massis.util.io.storage.DefaultMassisStorage;
 import rpax.massis.util.io.storage.MassisStorage;
 
 /**
