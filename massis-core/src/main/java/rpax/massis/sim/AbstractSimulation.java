@@ -21,26 +21,18 @@ public abstract class AbstractSimulation extends SimState {
     private boolean finishCalled = false;
     protected final String resourcesPath;
     protected BuildingProgressMonitor buildingProgress;
-    protected MassisStorage storage;
-    protected String logFileLocation;
+    protected File buildingFile;
+    protected String outputFileLocation;
     protected Building building;
 
     public AbstractSimulation(long seed, String buildingFilePath,
-            String resourcesPath, String logFileLocation,
+            String resourcesPath, String outputFileLocation,
             BuildingProgressMonitor buildingProgress)
     {
         super(seed);
-        try
-        {
-            this.storage=DefaultMassisStorage.getStorage(new File(buildingFilePath));
-        } catch (IOException ex)
-        {
-            Logger.getLogger(AbstractSimulation.class.getName()).log(Level.SEVERE,
-                    null, ex);
-            System.exit(1);
-        }
+        this.buildingFile = new File(buildingFilePath);
         this.resourcesPath = resourcesPath;
-        this.logFileLocation = logFileLocation;
+        this.outputFileLocation = outputFileLocation;
         this.buildingProgress = buildingProgress;
     }
 
@@ -139,7 +131,7 @@ public abstract class AbstractSimulation extends SimState {
 
     protected Building createBuilding() throws RecorderException
     {
-        try
+        try (MassisStorage storage = new DefaultMassisStorage(this.buildingFile))
         {
             BuildingData bd = new BuildingData(
                     storage.loadHome(),

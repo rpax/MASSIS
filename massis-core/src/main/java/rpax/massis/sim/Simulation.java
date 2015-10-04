@@ -19,17 +19,18 @@ public class Simulation extends AbstractSimulation {
     protected SimulationSaver simulationSaver;
 
     public Simulation(long seed, String buildingFilePath, String resourcesPath,
-            String logFileLocation, BuildingProgressMonitor buildingProgress)
+            String outputFileLocation, BuildingProgressMonitor buildingProgress)
     {
-        super(seed, buildingFilePath, resourcesPath, logFileLocation,
+        super(seed, buildingFilePath, resourcesPath, outputFileLocation,
                 buildingProgress);
-        if (this.logFileLocation != null)
+        if (this.outputFileLocation != null)
         {
             try
             {
-                File logFile = new File(this.logFileLocation);
-                this.simulationSaver = new SimulationSaver(
-                        this.storage, logFile);
+                final File outputFile = new File(this.outputFileLocation);
+
+                this.simulationSaver = new SimulationSaver(this.buildingFile,
+                        outputFile);
             } catch (Exception ex)
             {
                 Logger.getLogger(Simulation.class.getName()).log(Level.SEVERE,

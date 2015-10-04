@@ -8,6 +8,7 @@ import sim.engine.Steppable;
 import sim.engine.Stoppable;
 import com.google.gson.Gson;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -15,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import rpax.massis.model.building.Building.BuildingProgressMonitor;
 import rpax.massis.util.gson.CompressorProcessor;
+import rpax.massis.util.io.storage.DefaultMassisStorage;
 import rpax.massis.util.io.storage.MassisStorage;
 
 public class RecordedSimulation extends AbstractSimulation {
@@ -39,10 +41,10 @@ public class RecordedSimulation extends AbstractSimulation {
     @Override
     public void start()
     {
-        
+
         try
         {
-            this.simPlayer = new SimulationPlayer(this.storage);
+            this.simPlayer = new SimulationPlayer(this.buildingFile);
             super.start();
         } catch (ClassNotFoundException | IOException e)
         {
@@ -69,11 +71,12 @@ public class RecordedSimulation extends AbstractSimulation {
         private final Gson gson;
         private boolean finished;
 
-        public SimulationPlayer(MassisStorage storage)
+        public SimulationPlayer(File buildingFile)
                 throws ClassNotFoundException, IOException
         {
 
             this.states = new ArrayBlockingQueue<>(50);
+            final MassisStorage storage = new DefaultMassisStorage(buildingFile);
             this.logInputStream = storage.getLogInputStream();
             final String[][] compressionMap = storage.loadCompressionMap();
             final CompressorProcessor compressorProcessor = new CompressorProcessor(
@@ -108,6 +111,15 @@ public class RecordedSimulation extends AbstractSimulation {
                                 null, ex);
                     }
                     finished = true;
+                    try
+                    {
+                        storage.close();
+                    } catch (IOException ex)
+                    {
+                        Logger.getLogger(RecordedSimulation.class.getName()).log(
+                                Level.SEVERE,
+                                null, ex);
+                    }
                 }
             });
             readerThread.start();

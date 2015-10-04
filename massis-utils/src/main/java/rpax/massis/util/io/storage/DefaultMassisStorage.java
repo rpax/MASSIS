@@ -50,15 +50,15 @@ public class DefaultMassisStorage implements MassisStorage {
 
     }
 
-    public static DefaultMassisStorage getStorage(File zipFile) throws IOException
-    {
-        if (!storages.containsKey(zipFile.getAbsolutePath()))
-        {
-            storages.put(zipFile.getAbsolutePath(), new DefaultMassisStorage(
-                    zipFile));
-        }
-        return storages.get(zipFile.getAbsolutePath());
-    }
+//    public static DefaultMassisStorage getStorage(File zipFile) throws IOException
+//    {
+//        if (!storages.containsKey(zipFile.getAbsolutePath()))
+//        {
+//            storages.put(zipFile.getAbsolutePath(), new DefaultMassisStorage(
+//                    zipFile));
+//        }
+//        return storages.get(zipFile.getAbsolutePath());
+//    }
     public static void closeAll() throws IOException{
         for (DefaultMassisStorage value : storages.values())
         {
@@ -66,7 +66,7 @@ public class DefaultMassisStorage implements MassisStorage {
         }
         storages.clear();
     }
-    private DefaultMassisStorage(File zipFile) throws IOException
+    public DefaultMassisStorage(File zipFile) throws IOException
     {
         Map<String, String> env = new HashMap<>();
         env.put("create", "true");
@@ -166,10 +166,8 @@ public class DefaultMassisStorage implements MassisStorage {
         }
     }
 
-    @Override
-    public OutputStream getLogOutputStream() throws IOException
-    {
-        return this.newOutputStream(SIMULATION_LOG_FILENAME);
+    public void saveSimulationLogFile(File logFile) throws IOException{
+        this.copy(logFile, SIMULATION_LOG_FILENAME);
     }
 
     @Override

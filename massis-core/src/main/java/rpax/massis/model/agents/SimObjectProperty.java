@@ -21,7 +21,7 @@ public enum SimObjectProperty {
     IS_DYNAMIC(Boolean.class),
     TYPE(String.class),
     START(String.class),
-    ID(Integer.class);
+    ID(Integer.class){ public String toString(){return "id";}};
     public final Class<?> propertyType;
 
     private SimObjectProperty(Class<?> propertyType)

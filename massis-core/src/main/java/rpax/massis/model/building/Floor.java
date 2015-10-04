@@ -3,7 +3,6 @@
  */
 package rpax.massis.model.building;
 
-import com.eteks.sweethome3d.model.Home;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -37,9 +36,6 @@ import java.util.logging.Logger;
 import rpax.massis.model.agents.HighLevelController;
 import rpax.massis.model.agents.LowLevelAgent;
 import rpax.massis.model.agents.SimObjectProperty;
-import rpax.massis.model.managers.AnimationManager;
-import rpax.massis.model.managers.EnvironmentManager;
-import rpax.massis.model.managers.movement.MovementManager;
 
 /**
  * Represents a level/Floor in the building
@@ -238,7 +234,7 @@ public class Floor implements Indexable {
                  */
                 // Comprobar si es ventana o no
                 if (f.getName() != null
-                        && f.getName().toLowerCase().contains(
+                        && f.getName().toUpperCase().contains(
                         SimObjectProperty.WINDOW.toString()))
                 {
                     SimWindow window = new SimWindow(metadata, location,

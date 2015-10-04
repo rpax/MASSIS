@@ -1,12 +1,15 @@
 package rpax.massis.model.agents;
 
 import java.awt.Shape;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.concurrent.ThreadLocalRandom;
 import org.apache.commons.lang.StringUtils;
 import rpax.massis.model.building.Building;
 import rpax.massis.model.building.RoomConnector;
@@ -76,11 +79,9 @@ public class DefaultAgent extends SimulationObject implements
     private final boolean isDynamic;
     private Object highLevelData;
     private static final int DEFAULT_VISION_POLY_POINTS;
-    private static final double 
-            DEFAULT_VISION_RADIO, 
+    private static final double DEFAULT_VISION_RADIO,
             DEFAULT_MAX_FORCE,
-            DEFAULT_MAX_SPEED
-            ;
+            DEFAULT_MAX_SPEED;
 
     static
     {
@@ -438,14 +439,22 @@ public class DefaultAgent extends SimulationObject implements
     @Override
     public Location approachToRandomTarget()
     {
-
         Location target = null;
+        KPoint p = new KPoint();
         do
         {
-            target = this
-                    .getEnvironment()
-                    .getRandomRoom()
-                    .getRandomLoc();
+            SimRoom sr = null;
+            Random rnd = ThreadLocalRandom.current();
+            do
+            {
+                sr = this.getEnvironment().getRandomRoom();
+                Rectangle2D.Double bounds = sr.getPolygon().getBounds2D();
+                p.x = bounds.getX() + rnd.nextInt((int) bounds.getWidth());
+                p.y = bounds.getY() + rnd.nextInt((int) bounds.getHeight());
+                p = this.getLocation().getFloor().getNearestPointOutsideOfObstacles(
+                        p);
+            } while (!sr.getPolygon().contains(p));
+            target=new Location(p,this.getLocation().getFloor());
         } while (this.approachTo(target));
         return target;
     }

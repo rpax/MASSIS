@@ -1,9 +1,11 @@
 package rpax.massis.util.io;
 
 import com.eteks.sweethome3d.model.RecorderException;
+import com.eteks.sweethome3d.tools.OperatingSystem;
 import com.google.gson.Gson;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -29,32 +31,45 @@ public class SimulationSaver implements Steppable, Stoppable, RestorableObserver
     private boolean closed = false;
     private final HashSet<Restorable> changedObjects = new HashSet<>();
     private List<JsonState> states = new ArrayList<>();
-    private final MassisStorage destination;
     private final CompressorProcessor processor;
     private final Gson gson;
     private final BufferedWriter logBufferedWriter;
     private boolean started;
     private final Thread writerThread;
     private final Object lock = new Object();
+    private final File inputFile;
+    private final File outputFile;
+    private final File tmpLog;
 
-    public SimulationSaver(MassisStorage original, File destination) throws IOException, RecorderException, ClassNotFoundException
+    public SimulationSaver(File inputFile, File outputFile) throws IOException, RecorderException, ClassNotFoundException
     {
-        this(original, destination, DEFAULT_MAX_QUEUE_SIZE);
+        this(inputFile, outputFile, DEFAULT_MAX_QUEUE_SIZE);
     }
 
-    public SimulationSaver(MassisStorage original, File destinationFile,
+    public SimulationSaver(File inputFile, File outputFile,
             int max_queue_size) throws IOException, RecorderException, ClassNotFoundException
     {
-        
+        this.inputFile = inputFile;
+        this.outputFile = outputFile;
         this.queue = new ArrayBlockingQueue<>(max_queue_size);
-        this.destination = DefaultMassisStorage.getStorage(destinationFile);
-        this.destination.saveHome(original.loadHome());
-        this.destination.saveMetadata(original.loadMetadata());
-        
+        /*
+         * Copy metadata & home info before start 
+         */
+        try (MassisStorage origin = new DefaultMassisStorage(inputFile))
+        {
+            try (MassisStorage destination = new DefaultMassisStorage(outputFile))
+            {
+                destination.saveHome(origin.loadHome());
+                destination.saveMetadata(origin.loadMetadata());
+            }
+        }
         this.processor = new CompressorProcessor();
         this.gson = this.processor.createBuilder().createGson();
 
-        final OutputStream logOS = this.destination.getLogOutputStream();
+        this.tmpLog = OperatingSystem.createTemporaryFile("_MASSIS_log_",
+                ".json");
+
+        final OutputStream logOS = new FileOutputStream(tmpLog);
         final OutputStreamWriter osw = new OutputStreamWriter(logOS);
         this.logBufferedWriter = new BufferedWriter(osw);
         this.started = false;
@@ -87,8 +102,22 @@ public class SimulationSaver implements Steppable, Stoppable, RestorableObserver
                 /*
                  * Save the compression map
                  */
-                String[][] compressionMap = this.processor.getCompressionKeyValueArray();
-                this.destination.saveCompressionMap(compressionMap);
+                try (MassisStorage destination = new DefaultMassisStorage(
+                        this.outputFile))
+                {
+                    String[][] compressionMap = this.processor.getCompressionKeyValueArray();
+                    destination.saveCompressionMap(compressionMap);
+                }
+                /*
+                 * Save log file
+                 */
+                try (MassisStorage destination = new DefaultMassisStorage(
+                        this.outputFile))
+                {
+
+                    destination.saveSimulationLogFile(this.tmpLog);
+                    this.tmpLog.deleteOnExit();
+                }
 
             }
 //            synchronized (writerThread)
@@ -116,8 +145,9 @@ public class SimulationSaver implements Steppable, Stoppable, RestorableObserver
         try
         {
 
-            this.queue.put(this.states.toArray(new JsonState[this.states.size()]));
-            System.err.println("SIZE STATES "+this.states.size());
+            this.queue.put(
+                    this.states.toArray(new JsonState[this.states.size()]));
+            System.err.println("SIZE STATES " + this.states.size());
 
         } catch (InterruptedException ex)
         {
@@ -139,7 +169,7 @@ public class SimulationSaver implements Steppable, Stoppable, RestorableObserver
         if (!started)
         {
             this.started = true;
-           
+
         }
     }
 

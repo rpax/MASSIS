@@ -85,9 +85,9 @@ public class BuildingSaveAction extends MASSISPluginAction {
         {
 
             File file = fc.getSelectedFile();
-            try (MassisStorage storage = DefaultMassisStorage.getStorage(
-                    file))
+            try (MassisStorage storage = new DefaultMassisStorage(file))
             {
+                this.plugin.getHome().setName(file.getName());
                 storage.saveHome(this.plugin.getHome());
                 storage.saveMetadata(BuildingData.getBuildingData(
                         this.plugin.getHome()).getMetadataManager().getBuildingMetadata());

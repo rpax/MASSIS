@@ -7,6 +7,7 @@ package rpax.massis.util.io.storage;
 import com.eteks.sweethome3d.model.Home;
 import com.eteks.sweethome3d.model.RecorderException;
 import java.io.Closeable;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -56,13 +57,7 @@ public interface MassisStorage extends Closeable{
      */
     public void saveHome(Home home) throws IOException, RecorderException;
 
-    /**
-     * Creates an {@link OutputStream} pointing to the simulation log file
-     *
-     * @return the outputstream
-     * @throws IOException if an I/O error occurs
-     */
-    public OutputStream getLogOutputStream() throws IOException;
+   
 
     /**
      * Creates an {@link InputStream} pointing to the simulation log file
@@ -92,4 +87,8 @@ public interface MassisStorage extends Closeable{
      * every time the building is saved in the editor.
      */
     public void deleteLogFiles() throws IOException;
+    /**
+     * Saves the simulation log file.
+     */
+    public void saveSimulationLogFile(File logFile) throws IOException;
 }

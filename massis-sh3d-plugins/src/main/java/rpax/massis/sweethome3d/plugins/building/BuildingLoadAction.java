@@ -43,11 +43,9 @@ public class BuildingLoadAction extends MASSISPluginAction {
         if (returnVal == JFileChooser.APPROVE_OPTION)
         {
 
-
-            try
+            final File file = fc.getSelectedFile();
+            try (MassisStorage storage = new DefaultMassisStorage(file))
             {
-                MassisStorage storage = DefaultMassisStorage.getStorage(
-                       fc.getSelectedFile());
                 //Extract building data
                 BuildingData bd = new BuildingData(storage.loadHome(),
                         storage.loadMetadata());
