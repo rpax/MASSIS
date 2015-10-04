@@ -89,7 +89,7 @@ public class DefaultMassisStorage implements MassisStorage {
     public void delete(String filePath) throws IOException
     {
         Path pathInZipfile = zipfs.getPath(filePath);
-        Files.delete(pathInZipfile);
+        Files.deleteIfExists(pathInZipfile);
     }
 
     private InputStream newInputStream(String filePath) throws IOException
