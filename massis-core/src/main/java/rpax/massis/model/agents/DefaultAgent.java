@@ -1,5 +1,6 @@
 package rpax.massis.model.agents;
 
+import rpax.massis.util.SimObjectProperty;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.ResourceBundle;
 import java.util.concurrent.ThreadLocalRandom;
 import org.apache.commons.lang.StringUtils;
 import rpax.massis.model.building.Building;
+import rpax.massis.model.building.Floor;
 import rpax.massis.model.building.RoomConnector;
 import rpax.massis.model.building.SimRoom;
 import rpax.massis.model.building.SimulationObject;
@@ -439,22 +441,56 @@ public class DefaultAgent extends SimulationObject implements
     @Override
     public Location approachToRandomTarget()
     {
+        /*
+         * Common variables
+         */
         Location target = null;
         KPoint p = new KPoint();
+        Random rnd = ThreadLocalRandom.current();
         do
         {
-            SimRoom sr = null;
-            Random rnd = ThreadLocalRandom.current();
+            /*
+             * Auxiliary "random" room & its shape
+             */
+            SimRoom sr;
+            KPolygon roomPoly;
+            Floor roomFloor;
             do
             {
+                /*
+                 * Initialization
+                 */
                 sr = this.getEnvironment().getRandomRoom();
-                Rectangle2D.Double bounds = sr.getPolygon().getBounds2D();
-                p.x = bounds.getX() + rnd.nextInt((int) bounds.getWidth());
-                p.y = bounds.getY() + rnd.nextInt((int) bounds.getHeight());
-                p = this.getLocation().getFloor().getNearestPointOutsideOfObstacles(
+                roomPoly = sr.getPolygon();
+                roomFloor = sr.getLocation().getFloor();
+
+                final Rectangle2D.Double bounds = roomPoly.getBounds2D();
+                final int bounds_width = (int) bounds.getWidth();
+                final int bounds_height = (int) bounds.getHeight();
+
+                /*
+                 * Random point in bounds
+                 */
+                p.x = bounds.getX() + rnd.nextInt(bounds_width);
+                p.y = bounds.getY() + rnd.nextInt(bounds_height);
+                /*
+                 * Try to get a point outside obstacles
+                 */
+                p = roomFloor.getNearestPointOutsideOfObstacles(
                         p);
-            } while (!sr.getPolygon().contains(p));
-            target=new Location(p,this.getLocation().getFloor());
+                /*
+                 * If the room does not contain the point,
+                 * repeat with another rnd room
+                 */
+            } while (!roomPoly.contains(p));
+            /*
+             * Create the target.
+             */
+            target = new Location(p, roomFloor);
+            /*
+             * Exists the (remote) possibility that the agent is in
+             * the rnd target selected.In that case, repeat the whole loop.
+             */
         } while (this.approachTo(target));
         return target;
     }

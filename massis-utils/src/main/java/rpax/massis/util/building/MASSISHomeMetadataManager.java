@@ -18,6 +18,7 @@ import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Objects;
+import rpax.massis.util.SimObjectProperty;
 import rpax.massis.util.io.storage.BuildingMetadata;
 
 public class MASSISHomeMetadataManager {
@@ -25,7 +26,7 @@ public class MASSISHomeMetadataManager {
     private final HashMap<Selectable, HashMap<String, String>> idMap;
     private Home home;
     private int current_max_id;
-    protected static final String ID_KEY = "id";
+    protected static final String ID_KEY = SimObjectProperty.ID.toString();
 
     public MASSISHomeMetadataManager(Home home, File metadataFile) throws FileNotFoundException
     {

@@ -7,7 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
-import rpax.massis.model.agents.SimObjectProperty;
+import java.util.logging.Logger;
+import rpax.massis.util.SimObjectProperty;
 
 import rpax.massis.model.location.Location;
 import rpax.massis.model.location.SimLocation;
@@ -75,8 +76,10 @@ public class Teleport extends SimulationObject implements RoomConnector {
 
     public boolean isInTeleport(Location loc)
     {
-        return (this.getLocation().isInSameFloor(loc) && this.getPolygon()
+        final boolean isIn= (this.getLocation().isInSameFloor(loc) && this.getPolygon()
                 .contains(loc.getX(), loc.getY()));
+        
+        return isIn;
     }
 
     public String getName()

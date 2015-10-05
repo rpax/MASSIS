@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package rpax.massis.model.agents;
+package rpax.massis.util;
 
 /**
  *
@@ -21,7 +21,7 @@ public enum SimObjectProperty {
     IS_DYNAMIC(Boolean.class),
     TYPE(String.class),
     START(String.class),
-    ID(Integer.class){ public String toString(){return "id";}};
+    ID(Integer.class);
     public final Class<?> propertyType;
 
     private SimObjectProperty(Class<?> propertyType)

@@ -35,7 +35,7 @@ import java.io.File;
 import java.util.logging.Logger;
 import rpax.massis.model.agents.HighLevelController;
 import rpax.massis.model.agents.LowLevelAgent;
-import rpax.massis.model.agents.SimObjectProperty;
+import rpax.massis.util.SimObjectProperty;
 
 /**
  * Represents a level/Floor in the building
@@ -216,69 +216,76 @@ public class Floor implements Indexable {
                 this.building.addTeleport(teleport);
                 this.teleports.add(teleport);
                 this.roomConnectors.add(teleport);
-                f.setVisible(false);
+                f.setVisible(true);
 
-            } else if (metadata.containsKey(
-                    SimObjectProperty.POINT_OF_INTEREST.toString()))
+            } else
             {
-                /* 
-                 * Is it an special place?
-                 */
-                this.building.addNamedLocation(metadata.get(
-                        SimObjectProperty.NAME.toString()),
-                        new Location(f.getX(), f.getY(), this));
-            } else if (f instanceof HomeDoorOrWindow)
-            {
-                /*
-                 * Windows & doors are the same in SH3D but not in MASSIS.
-                 */
-                // Comprobar si es ventana o no
-                if (f.getName() != null
-                        && f.getName().toUpperCase().contains(
-                        SimObjectProperty.WINDOW.toString()))
+                if (metadata.containsKey(
+                        SimObjectProperty.POINT_OF_INTEREST.toString()))
                 {
-                    SimWindow window = new SimWindow(metadata, location,
-                            this.building.getMovementManager(),
-                            this.building.getAnimationManager(),
-                            this.building.getEnvironmentManager());
-                    this.building.addSH3DRepresentation(window, f);
-                    this.windows.add(window);
-
+                    /* 
+                     * Is it an special place?
+                     */
+                    this.building.addNamedLocation(metadata.get(
+                            SimObjectProperty.NAME.toString()),
+                            new Location(f.getX(), f.getY(), this));
                 } else
                 {
-                    SimDoor door = new SimDoor(metadata, location,
-                            this.building.getMovementManager(),
-                            this.building.getAnimationManager(),
-                            this.building.getEnvironmentManager());
-                    this.building.addSH3DRepresentation(door, f);
-                    this.doors.add(door);
-                    this.roomConnectors.add(door);
+                    if (f instanceof HomeDoorOrWindow)
+                    {
+                        /*
+                         * Windows & doors are the same in SH3D but not in MASSIS.
+                         */
+                        // Comprobar si es ventana o no
+                        if (f.getName() != null
+                                && f.getName().toUpperCase().contains(
+                                SimObjectProperty.WINDOW.toString()))
+                        {
+                            SimWindow window = new SimWindow(metadata, location,
+                                    this.building.getMovementManager(),
+                                    this.building.getAnimationManager(),
+                                    this.building.getEnvironmentManager());
+                            this.building.addSH3DRepresentation(window, f);
+                            this.windows.add(window);
+
+                        } else
+                        {
+                            SimDoor door = new SimDoor(metadata, location,
+                                    this.building.getMovementManager(),
+                                    this.building.getAnimationManager(),
+                                    this.building.getEnvironmentManager());
+                            this.building.addSH3DRepresentation(door, f);
+                            this.doors.add(door);
+                            this.roomConnectors.add(door);
+                        }
+                    } else /*  Should be an agent then */
+
+                    {
+                        /*
+                         * Tries to build an agent, by its metadata.
+                         */
+
+                        DefaultAgent person =
+                                new DefaultAgent(metadata, location,
+                                this.building.getMovementManager(),
+                                this.building.getAnimationManager(),
+                                this.building.getEnvironmentManager());
+
+                        HighLevelController hlc = createHLController(person,
+                                metadata,
+                                resourcesFolder);
+
+                        this.building.addToSchedule(hlc);
+                        /*
+                         * If the furniture parameters were right, add the agent
+                         */
+
+                        this.building.addSH3DRepresentation(person, f);
+                        this.addPerson(person);
+
+
+                    }
                 }
-            } else /*  Should be an agent then */
-
-            {
-                /*
-                 * Tries to build an agent, by its metadata.
-                 */
-
-                DefaultAgent person =
-                        new DefaultAgent(metadata, location,
-                        this.building.getMovementManager(),
-                        this.building.getAnimationManager(),
-                        this.building.getEnvironmentManager());
-
-                HighLevelController hlc = createHLController(person, metadata,
-                        resourcesFolder);
-
-                this.building.addToSchedule(hlc);
-                /*
-                 * If the furniture parameters were right, add the agent
-                 */
-
-                this.building.addSH3DRepresentation(person, f);
-                this.addPerson(person);
-
-
             }
 
         }
@@ -539,10 +546,39 @@ public class Floor implements Indexable {
      * @param to the desired location
      * @return the path.
      */
-    public Path findPath(Location fromLoc, Location to)
+    public Path findPath(final Location fromLoc, Location to)
     {
-        assert fromLoc.getFloor() == this;
-        return this.pathFinder.findPath(fromLoc, to);
+        /*
+         * If the target location has a different floor that the
+         * current location, the path is generated to the nearest teleport.
+         */
+        if (fromLoc.getFloor() != to.getFloor())
+        {
+
+            List<Teleport> teleportsConnecting = getTeleportsConnectingFloor(
+                    to.getFloor());
+            if (teleportsConnecting == null)
+            {
+                logInfo("No teleports connecting {0} with {1} ", new Object[]
+                {
+                    fromLoc, to
+                });
+                return null;
+            }
+            Teleport targetTeleport = teleportsConnecting.get(0);
+            final Location targetLocation = targetTeleport.getLocation();
+            Path path = this.pathFinder.findPath(fromLoc, targetLocation);
+            if (path == null)
+            {
+                return null;
+            } else
+            {
+                return new Path(path.getPoints(), targetTeleport);
+            }
+        } else
+        {
+            return this.pathFinder.findPath(fromLoc, to);
+        }
     }
 
     /**
@@ -693,5 +729,12 @@ public class Floor implements Indexable {
         {
             return false;
         }
+    }
+
+    private static void logInfo(String str, Object[] data)
+    {
+
+        Logger.getLogger(Floor.class.getName()).log(java.util.logging.Level.INFO,
+                str, data);
     }
 }

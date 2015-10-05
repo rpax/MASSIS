@@ -30,13 +30,10 @@ public class CollisionAvoidance extends SteeringBehavior {
         KVector separationVector = new KVector();
         KVector repulsionVector = new KVector();
         final double agent_vel_magnitude = v.getVelocity().magnitude();
-        for (DefaultAgent other : v.getAgentsInRange(STEPS_AHEAD * 2
+        for (DefaultAgent other : getActiveAgentsInRange(this.v,STEPS_AHEAD * 2
                 * agent_vel_magnitude))
         {
-            if (other == v || other.getRoom() != v.getRoom())
-            {
-                continue;
-            }
+           
             double distance = v.getXY().distance(other.getXY());
             double d1 = (v.getPolygon().getRadius() + other.getPolygon()
                     .getRadius()) * 1.5;

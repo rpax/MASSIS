@@ -3,9 +3,12 @@ package rpax.massis.model.managers.movement;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import rpax.massis.model.agents.DefaultAgent;
 import rpax.massis.model.building.SimRoom;
+import rpax.massis.model.building.Teleport;
 import rpax.massis.model.location.Location;
 import rpax.massis.model.managers.movement.steering.SteeringBehavior;
 import rpax.massis.util.geom.KVector;
@@ -27,6 +30,8 @@ public class MovementManager {
      * Cached targets
      */
     private final HashMap<DefaultAgent, Location> targets = new HashMap<>();
+    private static Logger logger = Logger.getLogger(
+            MovementManager.class.getName());
 
     /**
      * Approachs an agent to the desired location
@@ -80,10 +85,22 @@ public class MovementManager {
             {
                 // Si si que tiene camino, y resulta que esta en el teleport
                 // adecuado, se le teletransporta
+                logger.log(Level.INFO,
+                        "Vehicle is in target teleport.{0}.",
+                        new Object[]
+                {
+                    path.getTargetTeleport()
+                });
 
                 vehicle.getVelocity().mult(0);
-                vehicle.moveTo(path.getTargetTeleport().getConnection()
-                        .getLocation());
+                final Teleport connectedTeleport=path.getTargetTeleport()
+                        .getConnection();
+                
+                logger.log(Level.INFO,
+                        "Moving vehicle to connected teleport: {0}.",connectedTeleport);
+                vehicle.moveTo(connectedTeleport.getLocation());
+                removeFromCache(vehicle);
+                vehicle.clearCache();
                 for (SimRoom sr : path.getTargetTeleport().getConnection()
                         .getLocation().getFloor().getRooms())
                 {
@@ -96,8 +113,8 @@ public class MovementManager {
                 /*
                  * Remove from cache : Now the agent is in another floor.
                  */
-                removeFromCache(vehicle);
-                vehicle.clearCache();
+
+               // return this.approachTo(vehicle, toLoc);
                 return false;
             }
             /*
@@ -135,6 +152,8 @@ public class MovementManager {
 
     private void fixInvalidLocation(DefaultAgent agent, Location toLoc)
     {
+        logger.log(Level.INFO,
+                        "Fixing location for {0}.",agent);
         // 1. Quitamos todo.vehicle.getVelocity().limit(vehicle.getMaxSpeed());
         removeFromCache(agent);
         // 2. Se busca la localizacion valida mas cercana

@@ -3,6 +3,8 @@ package rpax.massis.pathfinding.straightedge;
 import java.awt.geom.Area;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import rpax.massis.model.agents.DefaultAgent;
 import rpax.massis.model.building.Floor;
@@ -316,41 +318,18 @@ public class SEPathFinder {
      */
     public Path findPath(Location fromLocation, Location toLocation)
     {
-        assert this.floor == fromLocation.getFloor();
-        Floor fromFloor = this.floor;
-        Floor toFloor = toLocation.getFloor();
-        if (fromFloor == toLocation.getFloor())
+        if (this.floor != fromLocation.getFloor())
         {
-            List<KPoint> path = this.findPath(fromLocation.getXY(),
-                    toLocation.getXY());
-            if (path == null)
-            {
-                return null;
-            }
-            return new Path(path);
-        } else
-        {
-            Teleport nearestTeleport = null;
-
-            double minDist = Double.MAX_VALUE;
-
-            for (Teleport t : fromFloor.getTeleportsConnectingFloor(toFloor))
-            {
-                double dist = t.getLocation().distance2D(fromLocation)
-                        + t.getDistanceToFloor(toFloor) * 100000;
-                if (dist < minDist || nearestTeleport == null)
-                {
-                    minDist = dist;
-                    nearestTeleport = t;
-                }
-            }
-            List<KPoint> path = this.findPath(fromLocation.getXY(),
-                    nearestTeleport.getLocation().getXY());
-            if (path == null)
-            {
-                return null;
-            }
-            return new Path(path, nearestTeleport);
+            throw new RuntimeException("Floors cannot be different");
         }
+
+        List<KPoint> points = this.findPath(fromLocation.getXY(),
+                toLocation.getXY());
+        if (points == null)
+        {
+            return null;
+        }
+        return new Path(points);
+
     }
 }

@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import rpax.massis.model.agents.SimObjectProperty;
+import rpax.massis.util.SimObjectProperty;
 
 import rpax.massis.model.location.Location;
 import rpax.massis.model.location.SimLocation;
@@ -20,7 +20,6 @@ import rpax.massis.util.geom.CoordinateHolder;
 import rpax.massis.util.io.JsonState;
 import rpax.massis.util.io.Restorable;
 import rpax.massis.util.io.RestorableObserver;
-import rpax.massis.util.io.SimulationSaver;
 import straightedge.geom.KPoint;
 import straightedge.geom.KPolygon;
 import straightedge.geom.PolygonHolder;

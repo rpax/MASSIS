@@ -23,14 +23,16 @@ public class PeopleLayer extends FloorMapLayer {
 
         for (DefaultAgent p : f.getPeople())
         {
-
             if (!p.isDynamic())
             {
                 g.setColor(new Color(165, 42, 42));
                 g.fill(p.getPolygon());
-            } else
+            }
+        }
+        for (DefaultAgent p : f.getPeople())
+        {
+            if (p.isDynamic())
             {
-
                 KPolygon poly = KPolygon.createRegularPolygon(3, p.getPolygon()
                         .getRadius());
                 poly.scale(1, 0.6);
@@ -43,9 +45,7 @@ public class PeopleLayer extends FloorMapLayer {
                 g.fill(poly);
                 g.setColor(DEFAULT_PERSON_DRAW_COLOR);
                 g.draw(poly);
-
             }
-
         }
 
     }

@@ -10,6 +10,8 @@ import rpax.massis.util.io.Restorable;
 import straightedge.geom.KPolygon;
 
 import com.eteks.sweethome3d.model.Selectable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Location used by simulation objects
@@ -84,6 +86,15 @@ public class SimLocation extends Location implements Restorable {
         }
         if (this.floor != other.floor)
         {
+            Logger.getLogger(SimLocation.class.getName()).log(
+                    Level.INFO,
+                    "Changed from {0} to {1}", new Object[]
+            
+            {
+                this.floor.getName()
+                ,other.floor.getName()
+            }
+            );
             this.floor.remove(attached);
         }
         other.floor.addPerson(attached);

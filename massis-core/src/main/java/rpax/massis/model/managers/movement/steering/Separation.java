@@ -4,6 +4,7 @@ import java.util.List;
 
 import rpax.massis.model.agents.DefaultAgent;
 import rpax.massis.model.managers.movement.Steering;
+import static rpax.massis.model.managers.movement.steering.SteeringBehavior.getActiveAgentsInRange;
 import rpax.massis.util.geom.KLine;
 import rpax.massis.util.geom.KVector;
 import straightedge.geom.AABB;
@@ -41,13 +42,9 @@ public class Separation extends SteeringBehavior {
                 / agent_vel_magnitude;
         KVector vCenterAtIntersection = null;
         KVector otherCenterAtIntersection = null;
-        for (DefaultAgent other : v.getAgentsInRange(
+        for (DefaultAgent other : getActiveAgentsInRange(v,
                 STEPS_AHEAD * agent_vel_magnitude))
         {
-            if (other == v || other.getRoom() != v.getRoom())
-            {
-                continue;
-            }
             double agent_other_dist = other.getXY().distance(v.getXY());
             boolean isCollisionInminent = agent_other_dist < v.getPolygon()
                     .getRadius() + other.getPolygon().getRadius();

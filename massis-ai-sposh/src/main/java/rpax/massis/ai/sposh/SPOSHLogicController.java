@@ -24,7 +24,7 @@ import cz.cuni.amis.pogamut.sposh.engine.timer.SystemClockTimer;
 import cz.cuni.amis.pogamut.sposh.executor.StateWorkExecutor;
 import java.nio.file.Paths;
 import rpax.massis.model.agents.LowLevelAgent;
-import rpax.massis.model.agents.SimObjectProperty;
+import rpax.massis.util.SimObjectProperty;
 
 /**
  * SPOSH Logic controller in MASSIS. Based in Pogamut's Logic Controller
