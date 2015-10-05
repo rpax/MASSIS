@@ -50,15 +50,6 @@ public class DefaultMassisStorage implements MassisStorage {
 
     }
 
-//    public static DefaultMassisStorage getStorage(File zipFile) throws IOException
-//    {
-//        if (!storages.containsKey(zipFile.getAbsolutePath()))
-//        {
-//            storages.put(zipFile.getAbsolutePath(), new DefaultMassisStorage(
-//                    zipFile));
-//        }
-//        return storages.get(zipFile.getAbsolutePath());
-//    }
     public static void closeAll() throws IOException{
         for (DefaultMassisStorage value : storages.values())
         {
