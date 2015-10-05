@@ -1,15 +1,14 @@
 package rpax.massis.sweethome3d.plugins.design;
 
+import com.eteks.sweethome3d.plugin.Plugin;
 import javax.swing.JFrame;
-import rpax.massis.sweethome3d.plugins.MASSISPlugin;
-
 import rpax.massis.sweethome3d.plugins.MASSISPluginAction;
 
 public class DesignerToolsAction extends MASSISPluginAction {
 
     private final DesignerToolsFrame frame;
 
-    public DesignerToolsAction(MASSISPlugin plugin)
+    public DesignerToolsAction(Plugin plugin)
     {
         super(plugin);
         putPropertyValue(Property.MENU, "Tools");

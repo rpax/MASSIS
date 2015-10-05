@@ -15,8 +15,11 @@ import rpax.massis.sim.AbstractSimulation;
 import rpax.massis.sim.RecordedSimulation;
 import rpax.massis.sim.Simulation;
 import rpax.massis.sim.SimulationWithUI;
-import rpax.massis.sweethome3d.plugins.MASSISPlugin;
 import rpax.massis.sweethome3d.plugins.PluginLoader;
+import rpax.massis.sweethome3d.plugins.building.BuildingLoaderPlugin;
+import rpax.massis.sweethome3d.plugins.design.DesignerToolsPlugin;
+import rpax.massis.sweethome3d.plugins.design.NameGenerationPlugin;
+import rpax.massis.sweethome3d.plugins.metadata.MetadataPlugin;
 import sim.display.Console;
 import sim.display.GUIState;
 import sim.engine.SimState;
@@ -101,7 +104,7 @@ public class MASSISLauncher {
                 + SIMULATION
                 + ". Saves the simulation into the specified file.")
                 .hasArg().withArgName(SIMULATION_RESULTS_FILE).create());
-       
+
 
         options.addOption(OptionBuilder
                 .withLongOpt(run_for)
@@ -135,80 +138,37 @@ public class MASSISLauncher {
             {
                 launchEditor();
                 return;
-            } else if (SIMULATOR.equals(launch_optionValue))
+            } else
             {
-                if (!line.hasOption(building_path))
+                if (SIMULATOR.equals(launch_optionValue))
                 {
-                    System.err.println(building_path + " is mandatory.");
-                    formatter.printHelp(helpHeader, options);
-                    return;
-                }
-                String buildingFilePath = line.getOptionValue(building_path);
-
-                if (!line.hasOption(resource_folder))
-                {
-                    System.err.println(resource_folder + " is mandatory.");
-                    formatter.printHelp(helpHeader, options);
-                    return;
-                }
-                String resourceFolderPath = line
-                        .getOptionValue(resource_folder);
-                if (!line.hasOption(simulation_mode))
-                {
-                    System.err.println(simulation_mode + " is mandatory.");
-                    formatter.printHelp(helpHeader, options);
-                    return;
-                }
-                String simulationMode = line.getOptionValue(simulation_mode);
-                int runFor = 0;
-                if (!line.hasOption(display)
-                        || (!line.getOptionValue(display).equals(GUI) && !line
-                        .getOptionValue(display).equals(CONSOLE)))
-                {
-                    System.err.println(display + " is mandatory.");
-                    formatter.printHelp(helpHeader, options);
-                    return;
-
-                }
-
-                String displayMode = line.getOptionValue(display);
-
-                if (displayMode.equals(CONSOLE))
-                {
-                    if (!line.hasOption(run_for)
-                            || !isNumeric(line.getOptionValue(run_for)))
+                    if (!line.hasOption(building_path))
                     {
-                        System.err.println(run_for + " is mandatory.");
+                        System.err.println(building_path + " is mandatory.");
                         formatter.printHelp(helpHeader, options);
                         return;
-
-                    } else
-                    {
-                        runFor = Integer.parseInt(line.getOptionValue(run_for));
                     }
-                }
-                if (simulationMode.equals(SIMULATION))
-                {
+                    String buildingFilePath = line.getOptionValue(building_path);
 
-                    String saveLocation = null;
-                    if (line.hasOption(save_location))
+                    if (!line.hasOption(resource_folder))
                     {
-                        saveLocation = line.getOptionValue(save_location);
-
+                        System.err.println(resource_folder + " is mandatory.");
+                        formatter.printHelp(helpHeader, options);
+                        return;
                     }
-
-                    simulate(buildingFilePath, resourceFolderPath,
-                            saveLocation, displayMode.equals(GUI), false,
-                            runFor);
-                } else if (simulationMode.equals(PLAYBACK))
-                {
-                    String saveLocation = null;
-                    if (line.hasOption(save_location))
+                    String resourceFolderPath = line
+                            .getOptionValue(resource_folder);
+                    if (!line.hasOption(simulation_mode))
                     {
-                        saveLocation = line.getOptionValue(save_location);
-
+                        System.err.println(simulation_mode + " is mandatory.");
+                        formatter.printHelp(helpHeader, options);
+                        return;
                     }
-                    if (!line.hasOption(display))
+                    String simulationMode = line.getOptionValue(simulation_mode);
+                    int runFor = 0;
+                    if (!line.hasOption(display)
+                            || (!line.getOptionValue(display).equals(GUI) && !line
+                            .getOptionValue(display).equals(CONSOLE)))
                     {
                         System.err.println(display + " is mandatory.");
                         formatter.printHelp(helpHeader, options);
@@ -216,20 +176,71 @@ public class MASSISLauncher {
 
                     }
 
-                    simulate(buildingFilePath, resourceFolderPath,
-                            saveLocation, displayMode.equals(GUI), true, runFor);
+                    String displayMode = line.getOptionValue(display);
+
+                    if (displayMode.equals(CONSOLE))
+                    {
+                        if (!line.hasOption(run_for)
+                                || !isNumeric(line.getOptionValue(run_for)))
+                        {
+                            System.err.println(run_for + " is mandatory.");
+                            formatter.printHelp(helpHeader, options);
+                            return;
+
+                        } else
+                        {
+                            runFor = Integer.parseInt(line.getOptionValue(
+                                    run_for));
+                        }
+                    }
+                    if (simulationMode.equals(SIMULATION))
+                    {
+
+                        String saveLocation = null;
+                        if (line.hasOption(save_location))
+                        {
+                            saveLocation = line.getOptionValue(save_location);
+
+                        }
+
+                        simulate(buildingFilePath, resourceFolderPath,
+                                saveLocation, displayMode.equals(GUI), false,
+                                runFor);
+                    } else
+                    {
+                        if (simulationMode.equals(PLAYBACK))
+                        {
+                            String saveLocation = null;
+                            if (line.hasOption(save_location))
+                            {
+                                saveLocation = line.getOptionValue(save_location);
+
+                            }
+                            if (!line.hasOption(display))
+                            {
+                                System.err.println(display + " is mandatory.");
+                                formatter.printHelp(helpHeader, options);
+                                return;
+
+                            }
+
+                            simulate(buildingFilePath, resourceFolderPath,
+                                    saveLocation, displayMode.equals(GUI), true,
+                                    runFor);
+                        } else
+                        {
+                            System.err.println("Invalid " + simulation_mode
+                                    + " value. (" + simulationMode + ")");
+                            formatter.printHelp(helpHeader, options);
+                            return;
+                        }
+                    }
                 } else
                 {
-                    System.err.println("Invalid " + simulation_mode
-                            + " value. (" + simulationMode + ")");
+                    System.err.println("Invalid " + launch_opt + " value.");
                     formatter.printHelp(helpHeader, options);
                     return;
                 }
-            } else
-            {
-                System.err.println("Invalid " + launch_opt + " value.");
-                formatter.printHelp(helpHeader, options);
-                return;
             }
 
         } catch (ParseException e)
@@ -274,7 +285,7 @@ public class MASSISLauncher {
             {
                 simState = new Simulation(System.currentTimeMillis(),
                         buildingFilePath, resourceFolderPath,
-                        logFileLocation,progressMonitor);
+                        logFileLocation, progressMonitor);
 
             }
             GUIState vid = new SimulationWithUI(simState);
@@ -334,6 +345,10 @@ public class MASSISLauncher {
         System.setProperty("j3d.optimizeForSpace", "false");
         System.setProperty("sun.java2d.opengl", "false");
         //SweetHome3D.main(new String[] {});
-        PluginLoader.runSweetHome3DWithPlugins(MASSISPlugin.class);
+        PluginLoader.runSweetHome3DWithPlugins(
+                BuildingLoaderPlugin.class,
+                DesignerToolsPlugin.class,
+                NameGenerationPlugin.class,
+                MetadataPlugin.class);
     }
 }

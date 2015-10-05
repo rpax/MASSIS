@@ -6,15 +6,13 @@ import rpax.massis.sweethome3d.plugins.MASSISPluginAction;
 
 import com.eteks.sweethome3d.model.DoorOrWindow;
 import com.eteks.sweethome3d.model.HomePieceOfFurniture;
-import rpax.massis.sweethome3d.plugins.MASSISPlugin;
+import com.eteks.sweethome3d.plugin.Plugin;
 
 public class DoorNameGenerationAction extends MASSISPluginAction {
 
-    public DoorNameGenerationAction(MASSISPlugin plugin)
+    public DoorNameGenerationAction(Plugin plugin)
     {
         super(plugin);
-
-
         putPropertyValue(Property.MENU, "Name Generation");
         putPropertyValue(Property.NAME, "Generate Door/Window names");
         setEnabled(true);

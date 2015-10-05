@@ -5,7 +5,7 @@
 package rpax.massis.sweethome3d.plugins.building;
 
 import com.eteks.sweethome3d.model.RecorderException;
-import com.eteks.sweethome3d.plugin.PluginAction;
+import com.eteks.sweethome3d.plugin.Plugin;
 import com.eteks.sweethome3d.viewcontroller.HomeView;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -18,7 +18,6 @@ import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import rpax.massis.sweethome3d.plugins.MASSISPlugin;
 import rpax.massis.sweethome3d.plugins.MASSISPluginAction;
 import rpax.massis.util.building.BuildingData;
 import rpax.massis.util.io.storage.DefaultMassisStorage;
@@ -30,7 +29,7 @@ import rpax.massis.util.io.storage.MassisStorage;
  */
 public class BuildingSaveAction extends MASSISPluginAction {
 
-    public BuildingSaveAction(MASSISPlugin plugin)
+    public BuildingSaveAction(Plugin plugin)
     {
         super(plugin);
         putPropertyValue(Property.MENU, "File");

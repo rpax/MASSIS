@@ -5,11 +5,11 @@ import javax.swing.JOptionPane;
 import rpax.massis.sweethome3d.plugins.MASSISPluginAction;
 
 import com.eteks.sweethome3d.model.Room;
-import rpax.massis.sweethome3d.plugins.MASSISPlugin;
+import com.eteks.sweethome3d.plugin.Plugin;
 
 public class RoomNameGenerationAction extends MASSISPluginAction {
 
-    public RoomNameGenerationAction(MASSISPlugin plugin)
+    public RoomNameGenerationAction(Plugin plugin)
     {
         super(plugin);
         putPropertyValue(Property.MENU, "Name Generation");

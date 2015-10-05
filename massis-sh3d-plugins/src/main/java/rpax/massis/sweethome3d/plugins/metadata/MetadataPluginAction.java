@@ -17,7 +17,7 @@ import com.eteks.sweethome3d.model.HomePieceOfFurniture;
 import com.eteks.sweethome3d.model.Selectable;
 import com.eteks.sweethome3d.model.SelectionEvent;
 import com.eteks.sweethome3d.model.SelectionListener;
-import rpax.massis.sweethome3d.plugins.MASSISPlugin;
+import com.eteks.sweethome3d.plugin.Plugin;
 import rpax.massis.util.building.BuildingData;
 
 /**
@@ -30,7 +30,7 @@ public class MetadataPluginAction extends MASSISPluginAction {
     /**
      * @param metadataPlugin
      */
-    public MetadataPluginAction(MASSISPlugin plugin)
+    public MetadataPluginAction(Plugin plugin)
     {
         super(plugin);
         putPropertyValue(Property.MENU, "Tools");
