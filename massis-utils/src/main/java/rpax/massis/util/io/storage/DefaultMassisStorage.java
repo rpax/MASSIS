@@ -34,12 +34,12 @@ import java.util.ResourceBundle;
  */
 public class DefaultMassisStorage implements MassisStorage {
 
-    private static final String SH3D_BUILDING_FILENAME;
-    private static final String METADATA_FILENAME;
-    private static final String SIMULATION_LOG_FILENAME = "logs/simulation.log";
-    private static final String COMPRESSION_MAP_FILENAME = "logs/compression_map.json";
-    private FileSystem zipfs;
-    private static final HashMap<String, DefaultMassisStorage> storages = new HashMap<>();
+    protected static final String SH3D_BUILDING_FILENAME;
+    protected static final String METADATA_FILENAME;
+    protected static final String SIMULATION_LOG_FILENAME = "logs/simulation.log";
+    protected static final String COMPRESSION_MAP_FILENAME = "logs/compression_map.json";
+    protected FileSystem zipfs;
+    protected static final HashMap<String, DefaultMassisStorage> storages = new HashMap<>();
 
     static
     {
