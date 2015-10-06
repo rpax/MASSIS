@@ -1,4 +1,4 @@
-package rpax.massis.pathfinding.straightedge;
+package rpax.massis.util;
 
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
