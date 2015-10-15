@@ -13,9 +13,9 @@ import org.apache.commons.collections15.iterators.IteratorChain;
  */
 public final class WrapperUtils {
 
-    public <T> Iterable<T> unwrap(Iterable<AbstractWrapper<T>> items)
+    public <T> Iterable<T> unwrap(Iterable<GenericWrapper<T>> items)
     {
-        final Iterator<AbstractWrapper<T>> it = items.iterator();
+        final Iterator<GenericWrapper<T>> it = items.iterator();
         return new Iterable<T>() {
             @Override
             public Iterator<T> iterator()

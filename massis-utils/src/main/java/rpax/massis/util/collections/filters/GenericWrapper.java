@@ -9,11 +9,11 @@ package rpax.massis.util.collections.filters;
  *
  * @author Rafael Pax
  */
-public class AbstractWrapper<T> {
+public class GenericWrapper<T> {
 
     protected T element;
 
-    public AbstractWrapper(T element)
+    public GenericWrapper(T element)
     {
         this.element = element;
     }
