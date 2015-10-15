@@ -9,7 +9,7 @@ package rpax.massis.util.collections.filters;
  *
  * @author Rafael Pax
  */
-public abstract class AbstractWrapper<T> {
+public class AbstractWrapper<T> {
 
     protected T element;
 
