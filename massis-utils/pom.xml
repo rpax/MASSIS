@@ -67,5 +67,10 @@
             <artifactId>jmh-core</artifactId>
             <version>1.11</version>
         </dependency>
+        <dependency>
+            <groupId>com.badlogicgames.gdx</groupId>
+            <artifactId>gdx</artifactId>
+            <version>1.7.0</version>
+        </dependency>
     </dependencies>
 </project>
