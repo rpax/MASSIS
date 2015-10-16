@@ -9,22 +9,7 @@ package rpax.massis.util.collections.filters;
  *
  * @author Rafael Pax
  */
-public class GenericWrapper<T> {
+public interface GenericWrapper<T> {
 
-    protected T element;
-
-    public GenericWrapper(T element)
-    {
-        this.element = element;
-    }
-
-    public T getElement()
-    {
-        return element;
-    }
-
-    public void setElement(T element)
-    {
-        this.element = element;
-    }
+    public T getElement();
 }
