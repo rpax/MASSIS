@@ -182,7 +182,7 @@ public class MenuBar extends JMenuBar
    {
       public AboutAction()
       {
-         super(LBL_ABOUT, new ImageIcon( MenuBar.this.getClass().getResource(ICON_STR_ABOUT)));
+         super(LBL_ABOUT, new ImageIcon(/* MenuBar.this.getClass().getResource(ICON_STR_ABOUT)*/));
       }
       public void actionPerformed(ActionEvent e)
       {

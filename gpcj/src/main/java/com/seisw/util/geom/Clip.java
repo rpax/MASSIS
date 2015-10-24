@@ -110,7 +110,9 @@ public class Clip
    {
       return clip( OperationType.GPC_INT, p1, p2, polyClass );
    }
-
+   public static Poly substract(Poly p1,Poly p2) {
+       return Clip.clip( OperationType.GPC_DIFF, p1,p2, PolyDefault.class );
+   }
    /**
     * Return the union of <code>p1</code> and <code>p2</code> where the
     * return type is of <code>polyClass</code>.  See the note in the class description

@@ -121,7 +121,7 @@ public class PolyDemo
     */
    private JFrame createFrame()
    {
-      ImageIcon icon = new ImageIcon( this.getClass().getResource(ICON_STR_PD));
+      ImageIcon icon = new ImageIcon(/* this.getClass().getResource(ICON_STR_PD)*/);
 
       JFrame retFrame = new JFrame();
       retFrame.setTitle( TITLE );
