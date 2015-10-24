@@ -10,10 +10,7 @@
     
     <modules>
         <module>../massis-sweethome3d</module>
-        
-        <module>../gpcj</module>
         <module>../massis-straightedge</module>
-        
         <module>../massis-utils</module>
         <module>../massis-sh3d-plugins</module>
         <module>../massis-core</module>
