@@ -42,7 +42,7 @@
         <dependency>
             <groupId>rpax.massis</groupId>
             <artifactId>massis-sweethome3d</artifactId>
-            <version>5.0-SNAPSHOT</version>
+            <version>5.0</version>
         </dependency>
         <dependency>
             <groupId>rpax.massis.utils</groupId>
