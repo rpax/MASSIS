@@ -10,12 +10,13 @@
     
     <modules>
         <module>../massis-straightedge</module>
+        <module>../massis-gui</module>
         <module>../massis-utils</module>
         <module>../massis-sh3d-plugins</module>
         <module>../massis-core</module>
-        
         <module>../massis-ai-sposh</module>
         <module>../massis-app</module>
+        
         <!-- Massis v2
         <module>../massis2-core</module>
         <module>../editor-plugin</module> -->

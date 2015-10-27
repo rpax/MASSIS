@@ -14,3 +14,4 @@ massis-app/nbactions.xml
 *.xml
 massis-app/nbactions.xml
 massis-app/nbactions.xml
+/massis-gui/target/
