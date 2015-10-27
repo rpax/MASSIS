@@ -293,7 +293,7 @@ public class ModelManager {
   
   /**
    * Returns <code>true</code> if the rotation matrix matches only rotations of 
-   * a multiple of 90° degrees around x, y or z axis.
+   * a multiple of 90ï¿½ degrees around x, y or z axis.
    */
   private boolean isOrthogonalRotation(Transform3D transformation) {
     Matrix3f matrix = new Matrix3f();
