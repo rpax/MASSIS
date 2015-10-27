@@ -9,7 +9,6 @@
     <name>massis-builder</name>
     
     <modules>
-        <module>../massis-straightedge</module>
         <module>../massis-gui</module>
         <module>../massis-utils</module>
         <module>../massis-sh3d-plugins</module>

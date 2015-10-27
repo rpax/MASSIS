@@ -54,9 +54,9 @@
             <version>1.0.1</version>
         </dependency>
         <dependency>
-            <groupId>rpax.massis</groupId>
-            <artifactId>massis-straightedge</artifactId>
-            <version>1.0</version>
+            <groupId>straightedge</groupId>
+            <artifactId>straightedge</artifactId>
+            <version>0.3</version>
         </dependency>
         <dependency>
             <groupId>math.geom2d</groupId>
