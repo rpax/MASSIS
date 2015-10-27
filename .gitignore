@@ -15,3 +15,4 @@ massis-app/nbactions.xml
 massis-app/nbactions.xml
 massis-app/nbactions.xml
 /massis-gui/target/
+!/massis-gui/pom.xml
