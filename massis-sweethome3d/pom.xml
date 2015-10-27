@@ -10,7 +10,7 @@
     </repositories>
     <groupId>rpax.massis</groupId>
     <artifactId>massis-sweethome3d</artifactId>
-    <version>5.0-SNAPSHOT</version>
+    <version>5.0</version>
     <packaging>jar</packaging>
     <name>massis-sweethome3d</name>
     <properties>
