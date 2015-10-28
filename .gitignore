@@ -16,3 +16,5 @@ massis-app/nbactions.xml
 massis-app/nbactions.xml
 /massis-gui/target/
 !/massis-gui/pom.xml
+/sh3d-additionaldata-app/target/
+/massis-builder/target/

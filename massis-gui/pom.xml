@@ -6,10 +6,13 @@
     <artifactId>massis-gui</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-
     <name>massis-gui</name>
     <url>http://maven.apache.org</url>
-
+    <parent>
+        <groupId>rpax.massis</groupId>
+        <artifactId>massis-builder</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.7</maven.compiler.source>
