@@ -18,3 +18,4 @@ massis-app/nbactions.xml
 !/massis-gui/pom.xml
 /sh3d-additionaldata-app/target/
 /massis-builder/target/
+/massis-builder/deploy.bat
