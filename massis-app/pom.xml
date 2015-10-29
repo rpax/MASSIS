@@ -6,11 +6,7 @@
     <artifactId>massis-app</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <parent>
-        <groupId>rpax.massis</groupId>
-        <artifactId>massis-builder</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
+    
     <repositories>
         <repository>
             <id>rpax</id>

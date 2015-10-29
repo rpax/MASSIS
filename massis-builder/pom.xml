@@ -13,8 +13,15 @@
         <module>../massis-core</module>
         <module>../massis-ai-sposh</module>
         <module>../massis-app</module>
-        <!-- <module>../sh3d-additionaldata-app</module>-->
+        <module>../sh3d-additionaldata-app</module>
     </modules>
+    <distributionManagement>
+        <repository>
+            <id>internal.repo</id>
+            <name>Temporary Staging Repository</name>
+            <url>file://${project.build.directory}/mvn-repo</url>
+        </repository>
+    </distributionManagement>
     <build>
         <plugins>
             <plugin>
