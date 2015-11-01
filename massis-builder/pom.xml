@@ -13,7 +13,6 @@
         <module>../massis-core</module>
         <module>../massis-ai-sposh</module>
         <module>../massis-app</module>
-        <module>../sh3d-additionaldata-app</module>
     </modules>
     <distributionManagement>
         <repository>
