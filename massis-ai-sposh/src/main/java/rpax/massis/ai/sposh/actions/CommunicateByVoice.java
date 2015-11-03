@@ -13,7 +13,7 @@ import cz.cuni.amis.pogamut.sposh.executor.Param;
 import cz.cuni.amis.pogamut.sposh.executor.PrimitiveInfo;
 import rpax.massis.ai.sposh.SPOSHLogicController;
 import rpax.massis.ai.sposh.SPOSHLogicProperty;
-import rpax.massis.model.agents.LowLevelAgent;
+import com.massisframework.massis.model.agents.LowLevelAgent;
 
 /**
  * Sends a message to every agent in the vision area

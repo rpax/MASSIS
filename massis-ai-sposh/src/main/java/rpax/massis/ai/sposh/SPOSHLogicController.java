@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import rpax.massis.model.agents.HighLevelController;
+import com.massisframework.massis.model.agents.HighLevelController;
 import rpax.massis.ai.sposh.actions.SimulationAction;
 import rpax.massis.ai.sposh.senses.SimulationSense;
 import cz.cuni.amis.pogamut.sposh.elements.ParseException;
@@ -23,8 +23,8 @@ import cz.cuni.amis.pogamut.sposh.engine.PoshEngine.EvaluationResultInfo;
 import cz.cuni.amis.pogamut.sposh.engine.timer.SystemClockTimer;
 import cz.cuni.amis.pogamut.sposh.executor.StateWorkExecutor;
 import java.nio.file.Paths;
-import rpax.massis.model.agents.LowLevelAgent;
-import rpax.massis.util.SimObjectProperty;
+import com.massisframework.massis.model.agents.LowLevelAgent;
+import com.massisframework.massis.util.SimObjectProperty;
 
 /**
  * SPOSH Logic controller in MASSIS. Based in Pogamut's Logic Controller

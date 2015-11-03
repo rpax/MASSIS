@@ -9,18 +9,12 @@
     <modules>
         <module>../massis-gui</module>
         <module>../massis-utils</module>
-        <module>../massis-sh3d-plugins</module>
+      <!--  <module>../massis-sh3d-plugins</module>-->
         <module>../massis-core</module>
         <module>../massis-ai-sposh</module>
         <module>../massis-app</module>
     </modules>
-    <distributionManagement>
-        <repository>
-            <id>internal.repo</id>
-            <name>Temporary Staging Repository</name>
-            <url>file://${project.build.directory}/mvn-repo</url>
-        </repository>
-    </distributionManagement>
+    
     <build>
         <plugins>
             <plugin>

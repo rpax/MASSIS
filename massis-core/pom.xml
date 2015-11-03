@@ -2,17 +2,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>rpax.massis</groupId>
+    <groupId>com.massisframework.massis</groupId>
     <artifactId>massis-core</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <repositories>
-        <repository>
-            <id>rpax</id>
-            <name>maven-repo</name>
-            <url>https://github.com/rpax/maven-repo/raw/master/</url>
-        </repository>
-    </repositories>
+    
     <name>massis-core</name>
     <url>http://maven.apache.org</url>
     
@@ -40,13 +34,18 @@
         </dependency>
         <!-- -->
         <dependency>
-            <groupId>rpax.massis</groupId>
-            <artifactId>massis-sweethome3d</artifactId>
-            <version>5.0</version>
+            <groupId>com.massisframework.sweethome3d</groupId>
+            <artifactId>sh3d-additionaldata-app</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>rpax.massis.utils</groupId>
+            <groupId>com.massisframework.massis</groupId>
             <artifactId>massis-utils</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.massisframework.sweethome3d</groupId>
+            <artifactId>sh3d-metadata</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <!-- -->

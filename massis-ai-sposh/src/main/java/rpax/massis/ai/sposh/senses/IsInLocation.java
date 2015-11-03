@@ -3,7 +3,7 @@ package rpax.massis.ai.sposh.senses;
 import cz.cuni.amis.pogamut.sposh.executor.Param;
 import cz.cuni.amis.pogamut.sposh.executor.PrimitiveInfo;
 import rpax.massis.ai.sposh.SimulationContext;
-import rpax.massis.model.agents.LowLevelAgent;
+import com.massisframework.massis.model.agents.LowLevelAgent;
 
 @PrimitiveInfo(name = "Is in location", description = "True it is in a named location")
 public class IsInLocation extends SimulationSense<Boolean>  {

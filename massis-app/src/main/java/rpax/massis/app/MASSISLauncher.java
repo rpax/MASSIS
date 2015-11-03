@@ -1,5 +1,6 @@
 package rpax.massis.app;
 
+import com.eteks.sweethome3d.plugin.Plugin;
 import java.io.IOException;
 
 import org.apache.commons.cli.CommandLine;
@@ -11,15 +12,23 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 
-import rpax.massis.sim.AbstractSimulation;
-import rpax.massis.sim.RecordedSimulation;
-import rpax.massis.sim.Simulation;
-import rpax.massis.sim.SimulationWithUI;
-import rpax.massis.sweethome3d.plugins.PluginLoader;
-import rpax.massis.sweethome3d.plugins.building.BuildingLoaderPlugin;
-import rpax.massis.sweethome3d.plugins.design.DesignerToolsPlugin;
-import rpax.massis.sweethome3d.plugins.design.NameGenerationPlugin;
-import rpax.massis.sweethome3d.plugins.metadata.MetadataPlugin;
+import com.massisframework.massis.sim.AbstractSimulation;
+import com.massisframework.massis.sim.RecordedSimulation;
+import com.massisframework.massis.sim.Simulation;
+import com.massisframework.massis.sim.SimulationWithUI;
+import com.massisframework.sweethome3d.additionaldata.AdditionalDataReader;
+import com.massisframework.sweethome3d.additionaldata.AdditionalDataWriter;
+import com.massisframework.sweethome3d.additionaldata.SweetHome3DAdditionalDataApplication;
+import com.massisframework.sweethome3d.metadata.HomeMetadataLoader;
+import com.massisframework.sweethome3d.plugins.BuildingMetadataPlugin;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+//import rpax.massis.sweethome3d.plugins.PluginLoader;
+//import rpax.massis.sweethome3d.plugins.building.BuildingLoaderPlugin;
+//import rpax.massis.sweethome3d.plugins.design.DesignerToolsPlugin;
+//import rpax.massis.sweethome3d.plugins.design.NameGenerationPlugin;
+//import rpax.massis.sweethome3d.plugins.metadata.MetadataPlugin;
 import sim.display.Console;
 import sim.display.GUIState;
 import sim.engine.SimState;
@@ -344,11 +353,26 @@ public class MASSISLauncher {
         System.setProperty("j3d.implicitAntialiasing", "true");
         System.setProperty("j3d.optimizeForSpace", "false");
         System.setProperty("sun.java2d.opengl", "false");
+        HomeMetadataLoader metadataLoader = new HomeMetadataLoader();
+        List<? extends AdditionalDataWriter> writers = Arrays.asList(
+                metadataLoader);
+        List<? extends AdditionalDataReader> loaders = Arrays.asList(
+                metadataLoader);
+
+        List<Class<? extends Plugin>> plugins = new ArrayList<>();
+        plugins.add(BuildingMetadataPlugin.class);
         //SweetHome3D.main(new String[] {});
-        PluginLoader.runSweetHome3DWithPlugins(
-                BuildingLoaderPlugin.class,
-                DesignerToolsPlugin.class,
-                NameGenerationPlugin.class,
-                MetadataPlugin.class);
+//        PluginLoader.runSweetHome3DWithPlugins(
+//                BuildingLoaderPlugin.class,
+//                DesignerToolsPlugin.class,
+//                NameGenerationPlugin.class,
+//                MetadataPlugin.class);
+        SweetHome3DAdditionalDataApplication.run(
+                new String[]
+        {
+        },
+                loaders,
+                writers,
+                plugins);
     }
 }

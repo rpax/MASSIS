@@ -5,10 +5,10 @@
 package rpax.massis.ai.sposh.actions;
 
 import rpax.massis.ai.sposh.SimulationContext;
-import rpax.massis.model.location.Location;
+import com.massisframework.massis.model.location.Location;
 import cz.cuni.amis.pogamut.sposh.executor.ActionResult;
 import cz.cuni.amis.pogamut.sposh.executor.PrimitiveInfo;
-import rpax.massis.model.agents.LowLevelAgent;
+import com.massisframework.massis.model.agents.LowLevelAgent;
 
 /**
  * Goes to assigned target

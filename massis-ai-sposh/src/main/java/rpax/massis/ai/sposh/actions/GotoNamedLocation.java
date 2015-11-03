@@ -5,7 +5,7 @@
 package rpax.massis.ai.sposh.actions;
 
 import rpax.massis.ai.sposh.SimulationContext;
-import rpax.massis.model.location.Location;
+import com.massisframework.massis.model.location.Location;
 import cz.cuni.amis.pogamut.sposh.executor.ActionResult;
 import cz.cuni.amis.pogamut.sposh.executor.Param;
 import cz.cuni.amis.pogamut.sposh.executor.PrimitiveInfo;

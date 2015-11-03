@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import rpax.massis.util.field.grid.quadtree.lines.ObstaclesLineGrid;
-import rpax.massis.util.geom.KLine;
+import com.massisframework.massis.util.field.grid.quadtree.lines.ObstaclesLineGrid;
+import com.massisframework.massis.util.geom.KLine;
 import straightedge.geom.AABB;
 import straightedge.geom.KPoint;
 import straightedge.geom.KPolygon;

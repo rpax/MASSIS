@@ -14,8 +14,8 @@ import javax.swing.JProgressBar;
 import javax.swing.JWindow;
 import javax.swing.Timer;
 
-import rpax.massis.displays.MASSISIcon;
-import rpax.massis.model.building.Building.BuildingProgressMonitor;
+import com.massisframework.massis.displays.MASSISIcon;
+import com.massisframework.massis.model.building.Building.BuildingProgressMonitor;
 
 @SuppressWarnings("serial")
 public class LauncherProgressMonitor extends JWindow implements
