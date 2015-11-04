@@ -51,6 +51,7 @@
             <configuration>
                 <archive>
                     <manifest>
+                        <addClasspath>true</addClasspath>
                         <mainClass>com.massisframework.massis.app.MASSISLauncher</mainClass>
                     </manifest>
                 </archive>
