@@ -9,7 +9,19 @@
     
     <name>massis-core</name>
     <url>http://maven.apache.org</url>
-    
+    <repositories>
+        <repository>
+            <id>nexus-massisframework</id>
+            <name>nexus-massisframework repository</name>
+            <url>http://nexus-massisframework.rhcloud.com/nexus/content/groups/public</url>
+        </repository>
+    </repositories>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <url>http://nexus-massisframework.rhcloud.com/nexus/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.7</maven.compiler.source>
@@ -33,21 +45,30 @@
             <scope>test</scope>
         </dependency>
         <!-- -->
-        <dependency>
-            <groupId>com.massisframework.sweethome3d</groupId>
-            <artifactId>sh3d-additionaldata-app</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
+        
         <dependency>
             <groupId>com.massisframework.massis</groupId>
             <artifactId>massis-utils</artifactId>
             <version>1.0-SNAPSHOT</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.eteks</groupId>
+            <artifactId>sweethome3d</artifactId>
+            <version>5.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.massisframework.sweethome3d</groupId>
             <artifactId>sh3d-metadata</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.massisframework.sweethome3d</groupId>
+            <artifactId>sh3d-metadata-plugin</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        
+        
         <!-- -->
         <dependency>
             <groupId>org.xerial</groupId>

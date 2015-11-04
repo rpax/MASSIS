@@ -2,20 +2,26 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>rpax.massis</groupId>
+    <groupId>com.massisframework</groupId>
     <artifactId>massis-ai-sposh</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     
     <name>massis-ai-sposh</name>
     <url>http://maven.apache.org</url>
-    <repositories>
+        <repositories>
         <repository>
-            <id>amis-artifactory</id>
-            <name>AMIS Artifactory</name>
-            <url>http://diana.ms.mff.cuni.cz:8081/artifactory/repo</url>
+            <id>nexus-massisframework</id>
+            <name>nexus-massisframework repository</name>
+            <url>http://nexus-massisframework.rhcloud.com/nexus/content/groups/public</url>
         </repository>
     </repositories>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <url>http://nexus-massisframework.rhcloud.com/nexus/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.7</maven.compiler.source>

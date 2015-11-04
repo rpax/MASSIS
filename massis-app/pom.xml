@@ -27,7 +27,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
-        <java3d.groupId>rpax.massis.java3d</java3d.groupId>
+        
     </properties>
     
     <dependencies>
@@ -54,25 +54,9 @@
             <artifactId>massis-core</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-       
-        <!--  <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>massis-sh3d-plugins</artifactId>
-            <version>${project.version}</version>
-        </dependency>-->
         <dependency>
-            <groupId>rpax.massis</groupId>
+            <groupId>com.massisframework</groupId>
             <artifactId>massis-ai-sposh</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.massisframework.sweethome3d</groupId>
-            <artifactId>sh3d-metadata</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.massisframework.sweethome3d</groupId>
-            <artifactId>sh3d-metadata-plugin</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
