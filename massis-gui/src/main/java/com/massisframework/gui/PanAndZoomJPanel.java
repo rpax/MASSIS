@@ -1,4 +1,4 @@
-package rpax.massis.gui;
+package com.massisframework.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;

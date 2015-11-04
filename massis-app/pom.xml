@@ -6,30 +6,14 @@
     <artifactId>massis-app</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <repositories>
-        <repository>
-            <id>nexus-massisframework</id>
-            <name>nexus-massisframework repository</name>
-            <url>http://nexus-massisframework.rhcloud.com/nexus/content/groups/public</url>
-        </repository>
-    </repositories>
-    <distributionManagement>
-        <snapshotRepository>
-            <id>snapshots</id>
-            <url>http://nexus-massisframework.rhcloud.com/nexus/content/repositories/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
-    
     <name>massis-app</name>
-    <url>http://maven.apache.org</url>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.7</maven.compiler.source>
-        <maven.compiler.target>1.7</maven.compiler.target>
-        
-    </properties>
-    
+    <url>http://massisframework.com</url>
+    <parent>
+        <groupId>com.massisframework.massis</groupId>
+        <artifactId>massis-framework-all</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../massis-framework-all</relativePath>
+    </parent>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -42,8 +26,6 @@
             <artifactId>jnlp-api</artifactId>
             <version>7.0-SNAPSHOT</version>
         </dependency>
-        
-        
         <dependency>
             <groupId>commons-cli</groupId>
             <artifactId>commons-cli</artifactId>

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package rpax.massis.gui;
+package com.massisframework.gui;
 
 /**
  * @author Rafael Pax
