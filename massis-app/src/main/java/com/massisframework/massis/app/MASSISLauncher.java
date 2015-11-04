@@ -1,6 +1,6 @@
 package com.massisframework.massis.app;
 
-import com.eteks.sweethome3d.SweetHome3D;
+
 import com.eteks.sweethome3d.plugin.Plugin;
 import java.io.IOException;
 
@@ -25,11 +25,6 @@ import com.massisframework.sweethome3d.plugins.BuildingMetadataPlugin;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-//import rpax.massis.sweethome3d.plugins.PluginLoader;
-//import rpax.massis.sweethome3d.plugins.building.BuildingLoaderPlugin;
-//import rpax.massis.sweethome3d.plugins.design.DesignerToolsPlugin;
-//import rpax.massis.sweethome3d.plugins.design.NameGenerationPlugin;
-//import rpax.massis.sweethome3d.plugins.metadata.MetadataPlugin;
 import sim.display.Console;
 import sim.display.GUIState;
 import sim.engine.SimState;
