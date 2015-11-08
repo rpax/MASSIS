@@ -1,9 +1,5 @@
-/massis-utils/target/
-/massis-sh3d-plugins/target/
-/massis-core/target/
-/massis-ai-sposh/target/
-/massis-app/target/
-/massis-app/buildings/
-/massis-gui/target/
-/sh3d-additionaldata-app/target/
-/massis-builder/target/
+/*/target/
+/*/.settings/
+/*/.classpath
+/*/.project
+
