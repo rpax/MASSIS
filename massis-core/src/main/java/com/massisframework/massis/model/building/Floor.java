@@ -151,7 +151,7 @@ public class Floor implements Indexable {
 		this.quadPilu = new ArrayQuadTree<>(7, this.minX, this.maxX, this.minY, this.maxY);
 		System.err.println("Initializing simulation objects..");
 		this.initializeSimObjects();
-		System.err.println("# of persons: " + this.quadPilu.countElements());
+		System.err.println("# of SimulationObjects: " + this.quadPilu.countElements());
 		System.err.println("# of rooms: " + this.getRooms().size());
 		System.err.println("======================================================");
 		/**

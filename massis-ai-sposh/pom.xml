@@ -2,18 +2,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.massisframework</groupId>
+    <parent>
+		<groupId>com.massisframework.massis</groupId>
+		<artifactId>massis-framework-all</artifactId>
+		<version>1.0-SNAPSHOT</version>
+		<relativePath>../massis-framework-all</relativePath>
+	</parent>
+	
     <artifactId>massis-ai-sposh</artifactId>
-    <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>massis-ai-sposh</name>
-     <url>http://massisframework.com</url>
-    <parent>
-        <groupId>com.massisframework.massis</groupId>
-        <artifactId>massis-framework-all</artifactId>
-        <version>1.0-SNAPSHOT</version>
-        <relativePath>../massis-framework-all</relativePath>
-    </parent>
+    
     <dependencies>
         <dependency>
             <groupId>junit</groupId>

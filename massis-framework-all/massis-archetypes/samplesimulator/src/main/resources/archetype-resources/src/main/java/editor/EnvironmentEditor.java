@@ -1,4 +1,4 @@
-package com.massisframework.massis.archetypes.simulator.editor;
+package $package .editor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,7 +11,7 @@ import com.massisframework.sweethome3d.additionaldata.SweetHome3DAdditionalDataA
 import com.massisframework.sweethome3d.metadata.HomeMetadataLoader;
 import com.massisframework.sweethome3d.plugins.BuildingMetadataPlugin;
 
-public class SimulatorEditor {
+public class EnvironmentEditor {
 
 	public static void main(String[] args) {
 		HomeMetadataLoader metadataLoader = new HomeMetadataLoader();

@@ -14,30 +14,26 @@ import com.massisframework.massis.model.building.Floor;
  */
 public class RadioLayer extends FloorMapLayer {
 
-    private static final Color RADIO_COLOR = Color.CYAN;
+	private static final Color RADIO_COLOR = Color.CYAN;
 
-    public RadioLayer(boolean enabled)
-    {
-        super(enabled);
-    }
+	public RadioLayer(boolean enabled) {
+		super(enabled);
+	}
 
-    @Override
-    protected void draw(Floor f, Graphics2D g)
-    {
-        g.setColor(RADIO_COLOR);
-        for (DefaultAgent p : f.getPeople())
-        {
+	@Override
+	protected void draw(Floor f, Graphics2D g) {
+		g.setColor(RADIO_COLOR);
+		for (DefaultAgent p : f.getPeople()) {
+			if (p.isDynamic()) {
+				FloorMapLayersUtils.drawCircle(g, p.getXY(), p.getPolygon().getRadius());
+			}
 
-            FloorMapLayersUtils.drawCircle(g, p.getXY(), p.getPolygon()
-                    .getRadius());
+		}
 
-        }
+	}
 
-    }
-
-    @Override
-    public String getName()
-    {
-        return "Body Radios";
-    }
+	@Override
+	public String getName() {
+		return "Body Radios";
+	}
 }

@@ -6,6 +6,7 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>massis-framework-all</name>
+    <url>http://massisframework.com</url>
     <modules>
         <module>../massis-gui</module>
         <module>../massis-utils</module>
@@ -14,7 +15,7 @@
         <module>../massis-ai-sposh</module>
         <module>../massis-app</module>
         <!-- Archetypes -->
-        <module>../simulator-archetype</module>
+        <module>massis-archetypes</module>
     </modules>
     <repositories> 
         <repository>
