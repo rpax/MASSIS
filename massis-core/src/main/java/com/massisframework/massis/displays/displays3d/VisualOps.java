@@ -4,9 +4,6 @@
  */
 package com.massisframework.massis.displays.displays3d;
 
-import com.eteks.sweethome3d.model.Home;
-import com.eteks.sweethome3d.model.Room;
-import com.eteks.sweethome3d.model.Wall;
 import java.awt.BasicStroke;
 import java.awt.Shape;
 import java.awt.geom.Area;
@@ -24,6 +21,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.eteks.sweethome3d.model.Home;
+import com.eteks.sweethome3d.model.Room;
+import com.eteks.sweethome3d.model.Wall;
 
 /**
  *

@@ -6,11 +6,6 @@ import javax.swing.JFrame;
 import javax.vecmath.Vector3d;
 import javax.vecmath.Vector3f;
 
-import com.massisframework.massis.displays.SimulationDisplay;
-import com.massisframework.massis.model.building.Building;
-import com.massisframework.massis.model.building.SimulationObject;
-
-
 import com.eteks.sweethome3d.io.FileUserPreferences;
 import com.eteks.sweethome3d.j3d.HomePieceOfFurniture3D;
 import com.eteks.sweethome3d.model.Home;
@@ -19,6 +14,9 @@ import com.eteks.sweethome3d.model.UserPreferences;
 import com.eteks.sweethome3d.swing.FileContentManager;
 import com.eteks.sweethome3d.swing.SwingViewFactory;
 //import rpax.massis.util.building.VisualOps;
+import com.massisframework.massis.displays.SimulationDisplay;
+import com.massisframework.massis.model.building.Building;
+import com.massisframework.massis.model.building.SimulationObject;
 
 public class HomeDisplay3D extends JFrame implements SimulationDisplay {
 

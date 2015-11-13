@@ -27,6 +27,7 @@ import com.massisframework.massis.model.managers.EnvironmentManager;
 import com.massisframework.massis.model.managers.movement.MovementManager;
 import com.massisframework.massis.util.geom.KPolygonUtils;
 import com.massisframework.massis.util.io.JsonState;
+
 import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.engine.Stoppable;

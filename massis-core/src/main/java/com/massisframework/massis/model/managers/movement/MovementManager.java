@@ -12,6 +12,7 @@ import com.massisframework.massis.model.building.Teleport;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.managers.movement.steering.SteeringBehavior;
 import com.massisframework.massis.util.geom.KVector;
+
 import straightedge.geom.KPoint;
 
 /**

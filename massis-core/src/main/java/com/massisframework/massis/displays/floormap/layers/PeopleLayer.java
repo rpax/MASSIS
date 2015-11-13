@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 
 import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.model.building.Floor;
+
 import straightedge.geom.KPolygon;
 
 public class PeopleLayer extends FloorMapLayer {

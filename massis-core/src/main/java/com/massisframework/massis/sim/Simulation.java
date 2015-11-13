@@ -1,7 +1,6 @@
 package com.massisframework.massis.sim;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -10,8 +9,6 @@ import com.massisframework.massis.model.building.Building.BuildingProgressMonito
 import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.SimulationObject;
-
-
 import com.massisframework.massis.util.io.SimulationSaver;
 
 public class Simulation extends AbstractSimulation {

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.model.building.Teleport;
+
 import straightedge.geom.KPoint;
 
 /**

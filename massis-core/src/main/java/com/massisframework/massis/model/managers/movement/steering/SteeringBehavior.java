@@ -1,8 +1,10 @@
 package com.massisframework.massis.model.managers.movement.steering;
 
 import java.util.Iterator;
+
 import org.apache.commons.collections15.Predicate;
 import org.apache.commons.collections15.iterators.FilterIterator;
+
 import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.util.geom.KVector;
 

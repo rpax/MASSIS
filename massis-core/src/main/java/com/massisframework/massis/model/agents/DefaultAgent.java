@@ -11,7 +11,9 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.concurrent.ThreadLocalRandom;
+
 import org.apache.commons.lang.StringUtils;
+
 import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.building.RoomConnector;
@@ -27,10 +29,11 @@ import com.massisframework.massis.model.managers.movement.steering.Containment;
 import com.massisframework.massis.model.managers.movement.steering.FollowPath;
 import com.massisframework.massis.model.managers.movement.steering.SteeringBehavior;
 import com.massisframework.massis.model.managers.movement.steering.SteeringCombinationBehavior;
+import com.massisframework.massis.util.SimObjectProperty;
 import com.massisframework.massis.util.geom.KPolygonUtils;
 import com.massisframework.massis.util.geom.KVector;
 import com.massisframework.massis.util.io.JsonState;
-import com.massisframework.massis.util.SimObjectProperty;
+
 import straightedge.geom.KPoint;
 import straightedge.geom.KPolygon;
 

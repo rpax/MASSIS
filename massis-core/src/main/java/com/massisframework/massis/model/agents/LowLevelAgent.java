@@ -7,13 +7,16 @@ package com.massisframework.massis.model.agents;
 import java.awt.Shape;
 import java.util.Collection;
 import java.util.List;
+
 import com.massisframework.massis.model.building.LocationHolder;
 import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.location.SimLocation;
 import com.massisframework.massis.util.Indexable;
+import com.massisframework.massis.util.SimObjectProperty;
 import com.massisframework.massis.util.geom.CoordinateHolder;
 import com.massisframework.massis.util.geom.KVector;
+
 import straightedge.geom.KPoint;
 import straightedge.geom.KPolygon;
 import straightedge.geom.PolygonHolder;

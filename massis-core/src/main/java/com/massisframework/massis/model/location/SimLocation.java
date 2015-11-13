@@ -1,17 +1,18 @@
 package com.massisframework.massis.model.location;
 
-import odk.lang.FastMath;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import com.eteks.sweethome3d.model.Selectable;
 import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.building.SimulationObject;
 import com.massisframework.massis.util.SH3DUtils;
 import com.massisframework.massis.util.io.JsonState;
 import com.massisframework.massis.util.io.Restorable;
-import straightedge.geom.KPolygon;
 
-import com.eteks.sweethome3d.model.Selectable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import odk.lang.FastMath;
+import straightedge.geom.KPolygon;
 
 /**
  * Location used by simulation objects

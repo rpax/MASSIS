@@ -3,6 +3,7 @@
  */
 package com.massisframework.massis.model.building;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -11,31 +12,30 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import com.massisframework.massis.model.agents.DefaultAgent;
-import com.massisframework.massis.model.location.Location;
-import com.massisframework.massis.model.location.SimLocation;
-import com.massisframework.massis.model.managers.movement.Path;
-import com.massisframework.massis.util.Indexable;
-import com.massisframework.massis.util.field.grid.quadtree.array.ArrayQuadTree;
-import com.massisframework.massis.util.field.grid.quadtree.array.ArrayQuadTreeCallback;
-import com.massisframework.massis.util.geom.ContainmentPolygon;
-import com.massisframework.massis.pathfinding.straightedge.SEPathFinder;
-import straightedge.geom.KPoint;
-import straightedge.geom.KPolygon;
-import straightedge.geom.PolygonBufferer;
-import straightedge.geom.path.PathBlockingObstacleImpl;
+import java.util.logging.Logger;
 
 import com.eteks.sweethome3d.model.HomeDoorOrWindow;
 import com.eteks.sweethome3d.model.HomePieceOfFurniture;
 import com.eteks.sweethome3d.model.Level;
 import com.eteks.sweethome3d.model.Room;
 import com.eteks.sweethome3d.model.Wall;
-import java.io.File;
-import java.util.logging.Logger;
+import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.model.agents.HighLevelController;
 import com.massisframework.massis.model.agents.LowLevelAgent;
+import com.massisframework.massis.model.location.Location;
+import com.massisframework.massis.model.location.SimLocation;
+import com.massisframework.massis.model.managers.movement.Path;
+import com.massisframework.massis.pathfinding.straightedge.SEPathFinder;
+import com.massisframework.massis.util.Indexable;
 import com.massisframework.massis.util.SimObjectProperty;
+import com.massisframework.massis.util.field.grid.quadtree.array.ArrayQuadTree;
+import com.massisframework.massis.util.field.grid.quadtree.array.ArrayQuadTreeCallback;
+import com.massisframework.massis.util.geom.ContainmentPolygon;
+
+import straightedge.geom.KPoint;
+import straightedge.geom.KPolygon;
+import straightedge.geom.PolygonBufferer;
+import straightedge.geom.path.PathBlockingObstacleImpl;
 
 /**
  * Represents a level/Floor in the building

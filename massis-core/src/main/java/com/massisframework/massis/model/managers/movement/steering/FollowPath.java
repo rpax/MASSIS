@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.util.geom.KVector;
+
 import straightedge.geom.KPoint;
 
 public class FollowPath extends SteeringBehavior {

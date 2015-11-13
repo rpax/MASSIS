@@ -2,6 +2,7 @@ package com.massisframework.massis.model.managers.movement.steering;
 
 import static odk.lang.FastMath.pow;
 import static odk.lang.FastMath.sqrt;
+
 import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.util.geom.KVector;
 

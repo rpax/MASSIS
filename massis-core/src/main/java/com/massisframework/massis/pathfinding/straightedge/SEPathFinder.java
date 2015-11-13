@@ -1,6 +1,5 @@
 package com.massisframework.massis.pathfinding.straightedge;
 
-import com.massisframework.massis.util.PathFindingUtils;
 import java.awt.geom.Area;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +10,9 @@ import com.massisframework.massis.model.building.SimDoor;
 import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.managers.movement.Path;
+import com.massisframework.massis.util.PathFindingUtils;
 import com.massisframework.massis.util.geom.KPolygonUtils;
+
 import straightedge.geom.KPoint;
 import straightedge.geom.KPolygon;
 import straightedge.geom.PolygonHolder;

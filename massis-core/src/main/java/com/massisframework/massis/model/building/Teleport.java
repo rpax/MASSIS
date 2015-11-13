@@ -7,16 +7,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
-import java.util.logging.Logger;
-
 
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.location.SimLocation;
 import com.massisframework.massis.model.managers.AnimationManager;
 import com.massisframework.massis.model.managers.EnvironmentManager;
 import com.massisframework.massis.model.managers.movement.MovementManager;
-import com.massisframework.massis.util.io.JsonState;
 import com.massisframework.massis.util.SimObjectProperty;
+import com.massisframework.massis.util.io.JsonState;
 
 /**
  * Represents a Teleport in the building.

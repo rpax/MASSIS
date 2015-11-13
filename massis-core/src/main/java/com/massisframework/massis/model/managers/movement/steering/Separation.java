@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.model.managers.movement.Steering;
-import static com.massisframework.massis.model.managers.movement.steering.SteeringBehavior.getActiveAgentsInRange;
 import com.massisframework.massis.util.geom.KLine;
 import com.massisframework.massis.util.geom.KVector;
+
 import straightedge.geom.AABB;
 import straightedge.geom.KPoint;
 

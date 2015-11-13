@@ -9,21 +9,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.location.SimLocation;
 import com.massisframework.massis.model.managers.AnimationManager;
 import com.massisframework.massis.model.managers.EnvironmentManager;
 import com.massisframework.massis.model.managers.movement.MovementManager;
 import com.massisframework.massis.util.Indexable;
+import com.massisframework.massis.util.SimObjectProperty;
 import com.massisframework.massis.util.geom.CoordinateHolder;
 import com.massisframework.massis.util.io.JsonState;
 import com.massisframework.massis.util.io.Restorable;
 import com.massisframework.massis.util.io.RestorableObserver;
+
 import straightedge.geom.KPoint;
 import straightedge.geom.KPolygon;
 import straightedge.geom.PolygonHolder;
-import com.massisframework.massis.util.SimObjectProperty;
 
 /**
  * Basic element of the simulation. It is the result of processing the elements

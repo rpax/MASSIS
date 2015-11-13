@@ -7,6 +7,7 @@ import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.util.geom.ContainmentPolygon;
 import com.massisframework.massis.util.geom.KLine;
 import com.massisframework.massis.util.geom.KVector;
+
 import straightedge.geom.KPoint;
 
 /**

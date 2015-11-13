@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import com.massisframework.massis.util.geom.KLine;
+
 import straightedge.geom.AABB;
 import straightedge.geom.KPoint;
 

@@ -9,14 +9,6 @@ import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.massisframework.massis.displays.SimulationDisplay;
-import com.massisframework.massis.model.agents.DefaultAgent;
-import com.massisframework.massis.model.location.Location;
-import com.massisframework.massis.model.managers.AnimationManager;
-import com.massisframework.massis.model.managers.EnvironmentManager;
-import com.massisframework.massis.model.managers.movement.MovementManager;
-import com.massisframework.massis.sim.AbstractSimulation;
-
 import com.eteks.sweethome3d.model.Elevatable;
 import com.eteks.sweethome3d.model.Home;
 import com.eteks.sweethome3d.model.HomePieceOfFurniture;
@@ -25,7 +17,15 @@ import com.eteks.sweethome3d.model.RecorderException;
 import com.eteks.sweethome3d.model.Room;
 import com.eteks.sweethome3d.model.Selectable;
 import com.eteks.sweethome3d.model.Wall;
+import com.massisframework.massis.displays.SimulationDisplay;
+import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.model.agents.HighLevelController;
+import com.massisframework.massis.model.building.Building.BuildingProgressMonitor;
+import com.massisframework.massis.model.location.Location;
+import com.massisframework.massis.model.managers.AnimationManager;
+import com.massisframework.massis.model.managers.EnvironmentManager;
+import com.massisframework.massis.model.managers.movement.MovementManager;
+import com.massisframework.massis.sim.AbstractSimulation;
 import com.massisframework.sweethome3d.metadata.HomeMetadataLoader;
 
 /**

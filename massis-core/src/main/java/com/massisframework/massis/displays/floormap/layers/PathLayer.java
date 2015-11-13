@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.model.building.Floor;
+
 import straightedge.geom.KPoint;
 
 /**

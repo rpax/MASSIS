@@ -11,6 +11,7 @@ import com.massisframework.massis.model.managers.movement.Steering;
 import com.massisframework.massis.util.geom.KLine;
 import com.massisframework.massis.util.geom.KPolygonUtils;
 import com.massisframework.massis.util.geom.KVector;
+
 import straightedge.geom.AABB;
 import straightedge.geom.KPoint;
 import straightedge.geom.path.PathBlockingObstacleImpl;

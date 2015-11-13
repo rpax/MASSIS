@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.model.building.Floor;
+
 import straightedge.geom.KPoint;
 import straightedge.geom.KPolygon;
 import straightedge.geom.path.PathBlockingObstacleImpl;

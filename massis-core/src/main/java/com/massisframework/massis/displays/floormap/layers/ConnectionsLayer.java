@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 
 import com.massisframework.massis.model.building.Floor;
+
 import straightedge.geom.path.KNode;
 import straightedge.geom.path.KNodeOfObstacle;
 import straightedge.geom.path.PathBlockingObstacleImpl;

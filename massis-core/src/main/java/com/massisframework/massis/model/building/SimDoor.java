@@ -13,6 +13,7 @@ import com.massisframework.massis.model.managers.AnimationManager;
 import com.massisframework.massis.model.managers.EnvironmentManager;
 import com.massisframework.massis.model.managers.movement.MovementManager;
 import com.massisframework.massis.util.io.JsonState;
+
 import straightedge.geom.KPoint;
 
 /**

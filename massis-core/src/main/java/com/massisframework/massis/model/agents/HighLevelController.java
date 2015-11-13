@@ -1,9 +1,9 @@
 package com.massisframework.massis.model.agents;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.engine.Stoppable;
