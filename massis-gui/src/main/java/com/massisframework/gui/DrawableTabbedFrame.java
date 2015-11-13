@@ -44,7 +44,7 @@ public class DrawableTabbedFrame extends javax.swing.JFrame {
      */
     public DrawableTabbedFrame(final Collection<? extends DrawableZone> drawableZones,
             String welcomeHTMLText,
-            final DrawableLayer...layers)
+            final DrawableLayer<?>...layers)
     {
         if (welcomeHTMLText!=null) {
             this.welcomeHTMLText=welcomeHTMLText;
@@ -82,7 +82,7 @@ public class DrawableTabbedFrame extends javax.swing.JFrame {
      * GUI
      */
     private void initiate(final Collection<? extends DrawableZone> drawableZones,
-            final Collection<? extends DrawableLayer> layers)
+            final Collection<? extends DrawableLayer<?>> layers)
     {
         /*
          * Basic components initialization
@@ -91,7 +91,7 @@ public class DrawableTabbedFrame extends javax.swing.JFrame {
         /*
          *Configuration of every layer in this map
          */
-        for (final DrawableLayer layer : layers)
+        for (final DrawableLayer<?> layer : layers)
         {
             /*
              * Checkbox for enabling/disabling the layer

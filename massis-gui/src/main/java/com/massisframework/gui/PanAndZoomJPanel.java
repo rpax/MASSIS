@@ -87,7 +87,7 @@ public class PanAndZoomJPanel<DZ extends DrawableZone> extends JPanel {
      * @see <p> {@link #PanAndZoomJPanel(Floor, Building, List)}
      * </p>
      */
-    private PanAndZoomJPanel initiate(DZ drawableZone,
+    private PanAndZoomJPanel<DZ> initiate(DZ drawableZone,
              Collection<? extends DrawableLayer<DZ>> layers)
     {
         if (initiated)
@@ -168,7 +168,7 @@ public class PanAndZoomJPanel<DZ extends DrawableZone> extends JPanel {
     private void renderGraphics(Graphics2D g)
     {
 
-        for (DrawableLayer layer : layers)
+        for (DrawableLayer<DZ> layer : layers)
         {
             if (layer.isEnabled())
             {
