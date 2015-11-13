@@ -34,7 +34,6 @@ import straightedge.geom.PolygonHolder;
  */
 public abstract class SimulationObject implements PolygonHolder, Indexable, CoordinateHolder, LocationHolder, Restorable {
 
-    private static final long serialVersionUID = 1L;
     /**
      * The id of this object
      */

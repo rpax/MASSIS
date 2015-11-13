@@ -19,7 +19,6 @@ import com.massisframework.massis.util.io.JsonState;
  */
 public class SimWall extends SimulationObject {
 
-    private static final long serialVersionUID = 1L;
 
     public SimWall(Map<String, String> metadata, SimLocation location,
             MovementManager movementManager, AnimationManager animationManager,
@@ -29,7 +28,7 @@ public class SimWall extends SimulationObject {
     }
 
     @Override
-    public JsonState getState()
+    public JsonState<Building> getState()
     {
         throw new UnsupportedOperationException("Not implemented yet");
     }

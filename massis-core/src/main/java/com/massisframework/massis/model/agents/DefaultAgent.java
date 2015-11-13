@@ -47,7 +47,6 @@ import straightedge.geom.KPolygon;
 public class DefaultAgent extends SimulationObject implements
         LowLevelAgent {
 
-    private static final long serialVersionUID = 1L;
     /**
      * Current velocity
      */
@@ -78,7 +77,6 @@ public class DefaultAgent extends SimulationObject implements
     private Shape visionPolygon;
     private double lastAngleOfVision;
     private KPolygon boundaryPolygon;
-    private HighLevelController highLevelController;
     public static final double VISION_RADIO_SCALE;
     private final SteeringBehavior steeringBehavior;
     private final boolean isObstacle;

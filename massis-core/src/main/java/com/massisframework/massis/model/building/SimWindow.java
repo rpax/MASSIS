@@ -15,7 +15,6 @@ import com.massisframework.massis.model.managers.movement.MovementManager;
  */
 public class SimWindow extends SimulationObject {
 
-    private static final long serialVersionUID = 1L;
 
     public SimWindow(Map<String, String> metadata, SimLocation location,
             MovementManager movementManager, AnimationManager animationManager,

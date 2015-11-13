@@ -18,174 +18,142 @@ import sim.engine.SimState;
 
 public abstract class AbstractSimulation extends SimState {
 
-    private boolean finishCalled = false;
-    protected final String resourcesPath;
-    protected BuildingProgressMonitor buildingProgress;
-    protected File buildingFile;
-    protected String outputFileLocation;
-    protected Building building;
+	private boolean finishCalled = false;
+	protected final String resourcesPath;
+	protected BuildingProgressMonitor buildingProgress;
+	protected File buildingFile;
+	protected String outputFileLocation;
+	protected Building building;
 
-    public AbstractSimulation(long seed, String buildingFilePath,
-            String resourcesPath, String outputFileLocation,
-            BuildingProgressMonitor buildingProgress)
-    {
-        super(seed);
-        this.buildingFile = new File(buildingFilePath);
-        this.resourcesPath = resourcesPath;
-        this.outputFileLocation = outputFileLocation;
-        this.buildingProgress = buildingProgress;
-    }
+	public AbstractSimulation(long seed, String buildingFilePath, String resourcesPath, String outputFileLocation,
+			BuildingProgressMonitor buildingProgress) {
+		super(seed);
+		this.buildingFile = new File(buildingFilePath);
+		this.resourcesPath = resourcesPath;
+		this.outputFileLocation = outputFileLocation;
+		this.buildingProgress = buildingProgress;
+	}
 
-    public AbstractSimulation(long seed, String buildingFilePath,
-            String resourcesPath, String logFileLocation)
-    {
-        this(seed, buildingFilePath, resourcesPath, logFileLocation, null);
-    }
-    private static final long serialVersionUID = 575438688820685250L;
+	public AbstractSimulation(long seed, String buildingFilePath, String resourcesPath, String logFileLocation) {
+		this(seed, buildingFilePath, resourcesPath, logFileLocation, null);
+	}
 
-    public static void runSimulation(
-            final Class<? extends AbstractSimulation> c, String[] args)
-    {
+	private static final long serialVersionUID = 575438688820685250L;
 
-        if (!keyExists("-building", args))
-        {
-            System.err
-                    .println(
-                    "Building filepath argument not provided. Exiting now");
-            System.exit(-1);
-        }
+	public static void runSimulation(final Class<? extends AbstractSimulation> c, String[] args) {
 
-        final String buildingFilePath = argumentForKey("-building", args);
-        final String saveLocation = argumentForKey("-logfile", args);
-        final String resourcesPath = argumentForKey("-resources", args);
-        doLoop(new MakesSimState() {
-            @Override
-            public SimState newInstance(long seed, String[] args)
-            {
-                try
-                {
-                    return (c.getDeclaredConstructor(
-                            /**
-                             * Seed
-                             */
-                            Long.TYPE,
-                            /**
-                             * buildingFilePath
-                             */
-                            String.class,
-                            /**
-                             * resourcesPath
-                             */
-                            String.class,
-                            /**
-                             * saveLocation
-                             */
-                            String.class).newInstance(seed, buildingFilePath,
-                            resourcesPath, saveLocation));
-                } catch (Exception e)
-                {
-                    StringBuilder sb = new StringBuilder();
-                    sb.append(
-                            "Exception occurred while trying to construct the simulation ");
-                    sb.append(c);
-                    sb.append("\n");
-                    sb.append("Available constructors: \n");
-                    for (Constructor constructor : c.getDeclaredConstructors())
-                    {
-                        sb.append(Arrays.toString(
-                                constructor.getParameterTypes()));
-                        sb.append("\n");
-                    }
+		if (!keyExists("-building", args)) {
+			System.err.println("Building filepath argument not provided. Exiting now");
+			System.exit(-1);
+		}
 
-                    throw new RuntimeException(sb.toString(), e);
+		final String buildingFilePath = argumentForKey("-building", args);
+		final String saveLocation = argumentForKey("-logfile", args);
+		final String resourcesPath = argumentForKey("-resources", args);
+		doLoop(new MakesSimState() {
+			@Override
+			public SimState newInstance(long seed, String[] args) {
+				try {
+					return (c.getDeclaredConstructor(
+							/**
+							 * Seed
+							 */
+							Long.TYPE,
+							/**
+							 * buildingFilePath
+							 */
+							String.class,
+							/**
+							 * resourcesPath
+							 */
+							String.class,
+							/**
+							 * saveLocation
+							 */
+							String.class).newInstance(seed, buildingFilePath, resourcesPath, saveLocation));
+				} catch (Exception e) {
+					StringBuilder sb = new StringBuilder();
+					sb.append("Exception occurred while trying to construct the simulation ");
+					sb.append(c);
+					sb.append("\n");
+					sb.append("Available constructors: \n");
+					for (@SuppressWarnings("rawtypes")
+					Constructor constructor : c.getDeclaredConstructors()) {
+						sb.append(Arrays.toString(constructor.getParameterTypes()));
+						sb.append("\n");
+					}
 
+					throw new RuntimeException(sb.toString(), e);
 
-                }
-            }
+				}
+			}
 
-            @Override
-            @SuppressWarnings("rawtypes")
-            public Class simulationClass()
-            {
-                return c;
-            }
-        }, args);
+			@Override
+			public Class<? extends AbstractSimulation> simulationClass() {
+				return c;
+			}
+		}, args);
 
-        System.exit(0);
-    }
+		System.exit(0);
+	}
 
-    @Override
-    public void start()
-    {
-        try
-        {
-            this.building = this.createBuilding();
-        } catch (RecorderException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        super.start();
+	@Override
+	public void start() {
+		try {
+			this.building = this.createBuilding();
+		} catch (RecorderException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		super.start();
 
-    }
+	}
 
-    protected Building createBuilding() throws RecorderException
-    {
-        final HomeFileRecorder recorder = new AdditionalDataHomeRecorder(
-                (AdditionalDataReader) new HomeMetadataLoader());
-        final Home home = recorder.readHome(this.buildingFile.getAbsolutePath());
-        if (buildingProgress != null)
-        {
-            return new Building(home, this.resourcesPath,
-                    this.buildingProgress);
-        } else
-        {
-            return new Building(home, this.resourcesPath);
-        }
+	protected Building createBuilding() throws RecorderException {
+		final HomeFileRecorder recorder = new AdditionalDataHomeRecorder(
+				(AdditionalDataReader) new HomeMetadataLoader());
+		final Home home = recorder.readHome(this.buildingFile.getAbsolutePath());
+		if (buildingProgress != null) {
+			return new Building(home, this.resourcesPath, this.buildingProgress);
+		} else {
+			return new Building(home, this.resourcesPath);
+		}
 
-    }
+	}
 
-    static boolean keyExists(String key, String[] args)
-    {
-        for (int x = 0; x < args.length; x++)
-        {
-            if (args[x].equalsIgnoreCase(key))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
+	static boolean keyExists(String key, String[] args) {
+		for (int x = 0; x < args.length; x++) {
+			if (args[x].equalsIgnoreCase(key)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
-    static String argumentForKey(String key, String[] args)
-    {
-        for (int x = 0; x < args.length - 1; x++)
-        // if a key has an argument, it can't be the last string
-        {
-            if (args[x].equalsIgnoreCase(key))
-            {
-                return args[x + 1];
-            }
-        }
-        return null;
-    }
+	static String argumentForKey(String key, String[] args) {
+		for (int x = 0; x < args.length - 1; x++)
+		// if a key has an argument, it can't be the last string
+		{
+			if (args[x].equalsIgnoreCase(key)) {
+				return args[x + 1];
+			}
+		}
+		return null;
+	}
 
-    @Override
-    protected void finalize() throws Throwable
-    {
-        this.finish();
-    }
+	@Override
+	protected void finalize() throws Throwable {
+		this.finish();
+	}
 
-    @Override
-    public void finish()
-    {
-        if (!this.finishCalled)
-        {
-            this.finishCalled = true;
-            this.endSimulation();
+	@Override
+	public void finish() {
+		if (!this.finishCalled) {
+			this.finishCalled = true;
+			this.endSimulation();
 
-        }
-    }
+		}
+	}
 
-    protected abstract void endSimulation();
+	protected abstract void endSimulation();
 }

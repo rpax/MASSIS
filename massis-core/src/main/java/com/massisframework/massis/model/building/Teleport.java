@@ -36,7 +36,6 @@ public class Teleport extends SimulationObject implements RoomConnector {
     /**
      *
      */
-    private static final long serialVersionUID = 1L;
     public static final byte START = 0;
     public static final byte END = 1;
     //
@@ -282,7 +281,7 @@ public class Teleport extends SimulationObject implements RoomConnector {
     }
 
     @Override
-    public JsonState getState()
+    public JsonState<Building> getState()
     {
         throw new UnsupportedOperationException("Not implemented yet");
     }

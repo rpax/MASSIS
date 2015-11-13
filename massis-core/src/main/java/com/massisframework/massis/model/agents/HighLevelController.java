@@ -18,6 +18,10 @@ import sim.engine.Stoppable;
 public abstract class HighLevelController implements Steppable, Stoppable {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
      * The low level agent controlled by this controller
      */
     protected LowLevelAgent agent;
@@ -92,7 +96,10 @@ public abstract class HighLevelController implements Steppable, Stoppable {
     public abstract void step();
     private static final HighLevelController dummyController =
             new HighLevelController(null, null, null) {
-        @Override
+       
+		private static final long serialVersionUID = 1L;
+
+		@Override
         public void step()
         {
         }

@@ -78,7 +78,7 @@ public class RecordedSimulation extends AbstractSimulation {
             try
             {
 
-                for (JsonState ks : lr.nextStep())
+                for (JsonState<Building> ks : lr.nextStep())
                 {
                     ks.restore(building);
                 }

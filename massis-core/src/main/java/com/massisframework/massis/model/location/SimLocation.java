@@ -126,7 +126,7 @@ public class SimLocation extends Location implements Restorable {
     }
 
     @Override
-    public JsonState getState()
+    public JsonState<Building> getState()
     {
         return new SimLocationState(this);
     }
