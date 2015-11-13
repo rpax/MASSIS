@@ -385,7 +385,7 @@ public class DefaultAgent extends SimulationObject implements
     }
 
     @Override
-    public JsonState getState()
+    public JsonState<Building> getState()
     {
 
         return new VehicleState(this, super.getState());
@@ -502,9 +502,9 @@ public class DefaultAgent extends SimulationObject implements
         private final double visionRadio;
         private final double maxforce;
         private final double maxspeed;
-        private final JsonState data;
+        private final JsonState<Building> data;
 
-        public VehicleState(DefaultAgent v, JsonState data)
+        public VehicleState(DefaultAgent v, JsonState<Building> data)
         {
             this.data = data;
             this.velocity = v.velocity.copy();

@@ -226,7 +226,7 @@ public class SimRoom extends SimulationObject implements Occluder, Steppable, St
     }
 
     @Override
-    public JsonState getState()
+    public JsonState<Building> getState()
     {
         throw new UnsupportedOperationException("Not supported yet");
     }

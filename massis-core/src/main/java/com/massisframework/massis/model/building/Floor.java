@@ -581,6 +581,7 @@ public class Floor implements Indexable {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	private HighLevelController createHLController(LowLevelAgent agent, Map<String, String> metadata,
 			String resourcesFolder) {
 
@@ -593,6 +594,7 @@ public class Floor implements Indexable {
 		HighLevelController hlc = HighLevelController.getDummyController();
 		if (className != null) {
 			try {
+				@SuppressWarnings("rawtypes")
 				Class agentClass = Class.forName(className);
 
 				hlc = HighLevelController.newInstance(agentClass, agent, metadata, absResFolder);

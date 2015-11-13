@@ -23,7 +23,6 @@ import straightedge.geom.KPoint;
  */
 public class SimDoor extends SimulationObject implements RoomConnector {
 
-    private static final long serialVersionUID = 1L;
     /**
      * The rooms connected by this Door
      */
@@ -114,9 +113,9 @@ public class SimDoor extends SimulationObject implements RoomConnector {
     public static class SimDoorState implements JsonState<Building> {
 
         private final boolean isOpen;
-        private final JsonState data;
+        private final JsonState<Building> data;
 
-        public SimDoorState(SimDoor d, JsonState simulationObjectData)
+        public SimDoorState(SimDoor d, JsonState<Building> simulationObjectData)
         {
             this.data = simulationObjectData;
             this.isOpen = d.open;

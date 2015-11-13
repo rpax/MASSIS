@@ -220,7 +220,7 @@ public abstract class SimulationObject implements PolygonHolder, Indexable, Coor
     }
 
     @Override
-    public JsonState getState()
+    public JsonState<Building> getState()
     {
         return new SimulationObjectState(this);
     }
@@ -259,7 +259,7 @@ public abstract class SimulationObject implements PolygonHolder, Indexable, Coor
 
         protected int id;
         protected HashMap<String, Object> properties;
-        protected JsonState locationState;
+        protected JsonState<Building> locationState;
 
         public SimulationObjectState(SimulationObject obj)
         {
