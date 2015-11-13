@@ -3,6 +3,7 @@ package com.massisframework.massis.displays.floormap.layers;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import com.massisframework.gui.DrawableLayer;
 import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.building.SimWall;
 
@@ -12,7 +13,7 @@ import com.massisframework.massis.model.building.SimWall;
  * @author rpax
  *
  */
-public class WallLayer extends FloorMapLayer {
+public class WallLayer extends DrawableLayer<DrawableFloor> {
 
     private static final Color WALL_COLOR = new Color(121, 197, 109);
 
@@ -22,8 +23,9 @@ public class WallLayer extends FloorMapLayer {
     }
 
     @Override
-    protected void draw(Floor f, Graphics2D g)
+    public void draw(DrawableFloor dfloor, Graphics2D g)
     {
+    	final Floor f = dfloor.getFloor();
         g.setColor(WALL_COLOR);
         for (SimWall wall : f.getWalls())
         {

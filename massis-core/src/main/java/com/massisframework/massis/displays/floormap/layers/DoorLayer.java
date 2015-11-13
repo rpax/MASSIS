@@ -3,6 +3,7 @@ package com.massisframework.massis.displays.floormap.layers;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import com.massisframework.gui.DrawableLayer;
 import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.building.SimDoor;
 import com.massisframework.massis.model.building.Teleport;
@@ -13,7 +14,7 @@ import com.massisframework.massis.model.building.Teleport;
  * @author rpax
  *
  */
-public class DoorLayer extends FloorMapLayer {
+public class DoorLayer extends DrawableLayer<DrawableFloor> {
 
     public DoorLayer(boolean enabled)
     {
@@ -21,8 +22,9 @@ public class DoorLayer extends FloorMapLayer {
     }
 
     @Override
-    protected void draw(Floor f, Graphics2D g)
+    public void draw(DrawableFloor dfloor, Graphics2D g)
     {
+		final Floor f = dfloor.getFloor();
         g.setColor(Color.green);
         for (SimDoor d : f.getDoors())
         {

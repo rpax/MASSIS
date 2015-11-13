@@ -1,14 +1,19 @@
 package com.massisframework.massis.sim;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import javax.swing.JFrame;
 
+import com.massisframework.gui.DrawableLayer;
+import com.massisframework.gui.DrawableTabbedFrame;
 import com.massisframework.massis.displays.HomeDisplay;
 import com.massisframework.massis.displays.buildingmap.BuildingMap;
 import com.massisframework.massis.displays.displays3d.HomeDisplay3D;
 import com.massisframework.massis.displays.floormap.layers.ConnectionsLayer;
 import com.massisframework.massis.displays.floormap.layers.CrowdDensityLayer;
 import com.massisframework.massis.displays.floormap.layers.DoorLayer;
-import com.massisframework.massis.displays.floormap.layers.FloorMapLayer;
+import com.massisframework.massis.displays.floormap.layers.DrawableFloor;
 import com.massisframework.massis.displays.floormap.layers.PathFinderLayer;
 import com.massisframework.massis.displays.floormap.layers.PathLayer;
 import com.massisframework.massis.displays.floormap.layers.PeopleIDLayer;
@@ -20,6 +25,7 @@ import com.massisframework.massis.displays.floormap.layers.RoomsLayer;
 import com.massisframework.massis.displays.floormap.layers.VisibleAgentsLines;
 import com.massisframework.massis.displays.floormap.layers.VisionRadioLayer;
 import com.massisframework.massis.displays.floormap.layers.WallLayer;
+import com.massisframework.massis.model.building.Floor;
 
 import sim.display.Controller;
 import sim.display.GUIState;
@@ -33,13 +39,13 @@ public class SimulationWithUI extends GUIState {
 
 	}
 
-	private FloorMapLayer[] layers;
+	private DrawableLayer<DrawableFloor>[] layers;
 
 	public SimulationWithUI(SimState state) {
 		super(state);
 	}
 
-	public SimulationWithUI(SimState state, FloorMapLayer... layers) {
+	public SimulationWithUI(SimState state, DrawableLayer<DrawableFloor>... layers) {
 		super(state);
 		this.layers = layers;
 	}
@@ -88,6 +94,7 @@ public class SimulationWithUI extends GUIState {
 		return "";
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void start() {
 		super.start();
@@ -101,7 +108,7 @@ public class SimulationWithUI extends GUIState {
 			 * @formatter:off
 			 * Default layers
 			 **/
-			this.layers = new FloorMapLayer[] {
+			this.layers = new DrawableLayer[] {
 					new RoomsLayer(false),
 					new RoomsLabelLayer(false),
 					new VisionRadioLayer(false),
@@ -122,8 +129,10 @@ public class SimulationWithUI extends GUIState {
 			 */
 		}
 
-		BuildingMap buildingMap = new BuildingMap(simulation.building, layers);
+		
+		String welcomeText = "MASSIS";
 
+		BuildingMap buildingMap = new BuildingMap(simulation.building, layers);
 		buildingMap.setTitle("Building Map");
 
 		this.controller.registerFrame(buildingMap);

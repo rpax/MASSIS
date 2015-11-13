@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 
+import com.massisframework.gui.DrawableLayer;
 import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.model.building.Floor;
 
@@ -13,7 +14,7 @@ import com.massisframework.massis.model.building.Floor;
  * @author rpax
  *
  */
-public class PeopleIDLayer extends FloorMapLayer {
+public class PeopleIDLayer extends DrawableLayer<DrawableFloor> {
 
     private static final Font ID_FONT = new Font("Georgia", Font.BOLD, 30);
 
@@ -23,8 +24,9 @@ public class PeopleIDLayer extends FloorMapLayer {
     }
 
     @Override
-    protected void draw(Floor f, Graphics2D g)
+    public void draw(DrawableFloor dfloor, Graphics2D g)
     {
+    	final Floor f = dfloor.getFloor();
         g.setColor(Color.orange);
         Font originalF = g.getFont();
 

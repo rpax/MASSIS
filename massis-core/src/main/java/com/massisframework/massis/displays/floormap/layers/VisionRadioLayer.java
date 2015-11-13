@@ -3,6 +3,7 @@ package com.massisframework.massis.displays.floormap.layers;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import com.massisframework.gui.DrawableLayer;
 import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.model.building.Floor;
 
@@ -12,7 +13,7 @@ import com.massisframework.massis.model.building.Floor;
  * @author rpax
  *
  */
-public class VisionRadioLayer extends FloorMapLayer {
+public class VisionRadioLayer extends DrawableLayer<DrawableFloor> {
 
     public VisionRadioLayer(boolean enabled)
     {
@@ -21,8 +22,9 @@ public class VisionRadioLayer extends FloorMapLayer {
     }
 
     @Override
-    protected void draw(Floor f, Graphics2D g)
+    public void draw(DrawableFloor dfloor, Graphics2D g)
     {
+    	final Floor f = dfloor.getFloor();
         for (DefaultAgent p : f.getPeople())
         {
             if (!p.isDynamic())

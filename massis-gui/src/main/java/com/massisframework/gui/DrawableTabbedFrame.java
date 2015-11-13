@@ -126,7 +126,8 @@ public class DrawableTabbedFrame extends javax.swing.JFrame {
             /*
              * Creation of the panel
              */
-            final PanAndZoomJPanel panAndZoomJPanel = new PanAndZoomJPanel(
+            @SuppressWarnings({ "rawtypes", "unchecked" })
+			final PanAndZoomJPanel panAndZoomJPanel = new PanAndZoomJPanel(
                     drawableZone, layers);
             /*
              * TODO
