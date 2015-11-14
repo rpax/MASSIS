@@ -9,6 +9,7 @@ import com.massisframework.massis.model.location.SimLocation;
 import com.massisframework.massis.model.managers.AnimationManager;
 import com.massisframework.massis.model.managers.EnvironmentManager;
 import com.massisframework.massis.model.managers.movement.MovementManager;
+import com.massisframework.massis.model.managers.pathfinding.PathFindingManager;
 import com.massisframework.massis.util.io.JsonState;
 
 /**
@@ -19,17 +20,15 @@ import com.massisframework.massis.util.io.JsonState;
  */
 public class SimWall extends SimulationObject {
 
+	public SimWall(Map<String, String> metadata, SimLocation location,
+			MovementManager movementManager, AnimationManager animationManager,
+			EnvironmentManager environment, PathFindingManager pathManager) {
+		super(metadata, location, movementManager, animationManager,
+				environment, pathManager);
+	}
 
-    public SimWall(Map<String, String> metadata, SimLocation location,
-            MovementManager movementManager, AnimationManager animationManager,
-            EnvironmentManager environment)
-    {
-        super(metadata, location, movementManager, animationManager, environment);
-    }
-
-    @Override
-    public JsonState<Building> getState()
-    {
-        throw new UnsupportedOperationException("Not implemented yet");
-    }
+	@Override
+	public JsonState<Building> getState() {
+		throw new UnsupportedOperationException("Not implemented yet");
+	}
 }

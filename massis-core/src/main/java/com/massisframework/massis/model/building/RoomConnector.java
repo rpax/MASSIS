@@ -10,7 +10,8 @@ import straightedge.geom.vision.Occluder;
  * @author rpax
  *
  */
-public interface RoomConnector extends Occluder {
+public interface RoomConnector extends Occluder{
 
     public List<SimRoom> getConnectedRooms();
+    
 }

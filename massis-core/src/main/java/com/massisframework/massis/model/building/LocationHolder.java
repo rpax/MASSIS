@@ -4,17 +4,18 @@
  */
 package com.massisframework.massis.model.building;
 
-import com.massisframework.massis.model.location.SimLocation;
+import com.massisframework.massis.model.location.Location;
+import com.massisframework.massis.util.geom.CoordinateHolder;
 
 /**
  *
  * @author Rafael Pax
  */
-public interface LocationHolder {
+public interface LocationHolder extends CoordinateHolder{
 
     /**
      *
      * @return the location of this element
      */
-    public SimLocation getLocation();
+    public Location getLocation();
 }

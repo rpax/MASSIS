@@ -6,16 +6,14 @@ package com.massisframework.massis.model.agents;
 
 import java.awt.Shape;
 import java.util.Collection;
-import java.util.List;
 
-import com.massisframework.massis.model.building.LocationHolder;
 import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.location.SimLocation;
+import com.massisframework.massis.model.managers.movement.ApproachCallback;
+import com.massisframework.massis.model.managers.pathfinding.PathFollower;
 import com.massisframework.massis.util.Indexable;
 import com.massisframework.massis.util.SimObjectProperty;
-import com.massisframework.massis.util.geom.CoordinateHolder;
-import com.massisframework.massis.util.geom.KVector;
 
 import straightedge.geom.KPoint;
 import straightedge.geom.KPolygon;
@@ -26,7 +24,7 @@ import straightedge.geom.vision.Occluder;
  *
  * @author Rafael Pax
  */
-public interface LowLevelAgent extends LocationHolder, CoordinateHolder, Indexable {
+public interface LowLevelAgent extends  PathFollower,Indexable,SteeringCapable {
 
     /**
      * Tries to approach to an specific {@link Location} in the building.
@@ -41,17 +39,7 @@ public interface LowLevelAgent extends LocationHolder, CoordinateHolder, Indexab
      * @param location the target {@link Location}
      * @return if the agent has reached the location or not
      */
-    public boolean approachTo(Location location);
-
-    /**
-     * Returns the acceleration of the agent in the current step. This
-     * acceleration will be applied to the agent's velocity every time {@link #approachTo(rpax.massis.model.location.Location)
-     * } method is called and can vary. Should not be modified.
-     *
-     * @return the acceleration of the agent in the current step.
-     */
-    public KVector getAcceleration();
-
+    public void approachTo(Location location,ApproachCallback callback);
     /**
      * Returns the agents lying in the area defined by the location of the agent
      * and the radius defined by the range provided. It is an alternative method
@@ -62,52 +50,18 @@ public interface LowLevelAgent extends LocationHolder, CoordinateHolder, Indexab
      * @return
      */
     public Iterable<? extends LowLevelAgent> getAgentsInRange(double range);
-
     /**
      * Returns the <i>visible</i> agents in the vision radio of this agent.
      *
      * @return the agents in the vision radio of this agent.
      */
     public Iterable<? extends LowLevelAgent> getAgentsInVisionRadio();
-
-    /**
-     * Returns the maximum force that can be applied to the agent in order to
-     * obtain the acceleration, which will be applied to the agent's velocity.
-     *
-     * @see #getAcceleration()
-     * @return the maximum force that can be applied to the velocity.
-     */
-    public double getMaxForce();
-
-    /**
-     *
-     * @return the maximum speed of the agent
-     */
-    public double getMaxSpeed();
-
-    /**
-     * Returns the current path of the agent.
-     * <p>
-     * A path is generated when the method
-     * {@link #approachTo(rpax.massis.model.location.Location)} is called, if
-     * the target {@link Location} is different.
-     * </p>
-     * <p> If not, the path is reused, due to performance reasons.
-     * <b>Should not be modified</b>.
-     * </p> Mostly used for displaying the paths in the displays.</p>
-     *
-     * @see rpax.massis.displays.floormap.layers.PathLayer
-     * @return the current path of the agent
-     */
-    public List<KPoint> getPath();
-
     /**
      * Returns the current room of the agent
      *
      * @return The room where the agent is
      */
     public SimRoom getRoom();
-
     /**
      * Retrieves the agents in the current room of the agent. Equivalent method
      * to the call {@link SimRoom#getPeopleIn()}
@@ -115,14 +69,6 @@ public interface LowLevelAgent extends LocationHolder, CoordinateHolder, Indexab
      * @return the agents in the current room of the agent.
      */
     public Collection<? extends LowLevelAgent> getAgentsInRoom();
-
-    /**
-     * Retrieves the current velocity of the agent
-     *
-     * @return the current velocity of the agent
-     */
-    public KVector getVelocity();
-
     /**
      * Retrieves the vision radio of this agent
      *
@@ -237,16 +183,16 @@ public interface LowLevelAgent extends LocationHolder, CoordinateHolder, Indexab
      * @return if has reached the {@link SimLocation} of the
      * {@link NamedLocation} or not.
      */
-    public boolean approachToNamedLocation(String name);
+    public void approachToNamedLocation(String name,ApproachCallback callback);
 
-    /**
-     * Creates a random target and tries to make the {@link #approachTo(rpax.massis.model.location.Location)
-     * } step for reaching it.
-     *
-     * @return The random target generated. It is returned because it might be
-     * useful for some High-Level operations.
-     */
-    public Location approachToRandomTarget();
+//    /**
+//     * Creates a random target and tries to make the {@link #approachTo(rpax.massis.model.location.Location)
+//     * } step for reaching it.
+//     *
+//     * @return The random target generated. It is returned because it might be
+//     * useful for some High-Level operations.
+//     */
+//    public Location approachToRandomTarget();
 
     /**
      * Returns a dynamic property of the agent. <p> This properties can be used

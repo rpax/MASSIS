@@ -12,6 +12,8 @@ import straightedge.geom.KPoint;
  */
 public class KVector extends KPoint implements CoordinateHolder {
 
+	public static final KVector ZERO = new KVector();
+
 	public KVector(KPoint other) {
 		this.x = other.x;
 		this.y = other.y;

@@ -24,6 +24,7 @@ import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.managers.AnimationManager;
 import com.massisframework.massis.model.managers.EnvironmentManager;
 import com.massisframework.massis.model.managers.movement.MovementManager;
+import com.massisframework.massis.model.managers.pathfinding.PathFindingManager;
 import com.massisframework.massis.sim.AbstractSimulation;
 import com.massisframework.sweethome3d.metadata.HomeMetadataLoader;
 
@@ -70,6 +71,7 @@ public class Building {
     private final MovementManager movement;
     private final AnimationManager animation;
     private final EnvironmentManager environment;
+    private PathFindingManager pathManager;
     //
     /**
      * Map of the named locations of the building. POI & more
@@ -81,6 +83,7 @@ public class Building {
      */
     private final Map<String, SimRoom> namedRooms = new HashMap<>();
     private Collection<HighLevelController> scheduledControllers = new ArrayList<>();
+	
 
     /**
      *
@@ -110,6 +113,7 @@ public class Building {
         this.movement = new MovementManager();
         this.animation = new AnimationManager();
         this.environment = new EnvironmentManager(this);
+        this.pathManager=new PathFindingManager();
         // Initial message
         progressMonitor.onUpdate(1, "Building loaded");
         /*
@@ -434,4 +438,8 @@ public class Building {
 
         public void onUpdate(final double progress, final String msg);
     }
+
+	public PathFindingManager getPathManager() {
+		return this.pathManager;
+	}
 }

@@ -8,6 +8,7 @@ import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.building.SimDoor;
 import com.massisframework.massis.model.building.SimRoom;
+import com.massisframework.massis.model.building.Teleport;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.managers.movement.Path;
 import com.massisframework.massis.util.PathFindingUtils;
@@ -28,307 +29,265 @@ import straightedge.geom.vision.Occluder;
  * @author rpax
  *
  */
-@SuppressWarnings(
-        {
-    "unchecked", "rawtypes"
-})
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class SEPathFinder {
 
-    /**
-     * The amount to expand the walls
-     */
-    private static final double BUFFER_AMOUNT = 35;
-    /**
-     * Expansion AABB of the rooms
-     */
-    private static final int AABB_Expansion = 100;
-    /**
-     * Used when buffering, for smoothing points. Its defined as a constant for
-     * clarity
-     */
-    private static final int NUM_POINTS_IN_A_QUADRANT = 0;
-    /**
-     * The obstacles of this pathfinder
-     */
-    private ArrayList<PathBlockingObstacleImpl> stationaryObstacles;
-    /**
-     * Connector of the pathfinder noder
-     */
-    private MNodeConnector nodeConnector;
-    /**
-     * ...
-     */
-    private final float maxConnectionDistanceBetweenObstacles = Float.MAX_VALUE;
-    /**
-     * MASSIS Pathfinder, based on SE pathfinder
-     */
-    private MASSISPathFinder pathFinder;
-    /**
-     * Floor of this pathfinder
-     */
-    private final Floor floor;
-    /**
-     * Allowed walkable polygons
-     */
-    private ArrayList<KPolygon> walkAblePolys;
-    /**
-     * Initialization flag
-     */
-    private boolean initialized = false;
+	/**
+	 * The amount to expand the walls
+	 */
+	private static final double BUFFER_AMOUNT = 35;
+	/**
+	 * Expansion AABB of the rooms
+	 */
+	private static final int AABB_Expansion = 100;
+	/**
+	 * Used when buffering, for smoothing points. Its defined as a constant for
+	 * clarity
+	 */
+	private static final int NUM_POINTS_IN_A_QUADRANT = 0;
+	/**
+	 * The obstacles of this pathfinder
+	 */
+	private ArrayList<PathBlockingObstacleImpl> stationaryObstacles;
+	/**
+	 * Connector of the pathfinder noder
+	 */
+	private MNodeConnector nodeConnector;
+	/**
+	 * ...
+	 */
+	private final float maxConnectionDistanceBetweenObstacles = Float.MAX_VALUE;
+	/**
+	 * MASSIS Pathfinder, based on SE pathfinder
+	 */
+	private MASSISPathFinder pathFinder;
+	/**
+	 * Floor of this pathfinder
+	 */
+	private final Floor floor;
+	/**
+	 * Allowed walkable polygons
+	 */
+	private ArrayList<KPolygon> walkAblePolys;
+	/**
+	 * Initialization flag
+	 */
+	private boolean initialized = false;
 
-    /**
-     * Main constructor. Does not build the pathfinder data, that must be done
-     * with {@link #initialize()}
-     *
-     * @param floor
-     */
-    public SEPathFinder(Floor floor)
-    {
-        this.floor = floor;
-    }
+	/**
+	 * Main constructor. Does not build the pathfinder data, that must be done
+	 * with {@link #initialize()}
+	 *
+	 * @param floor
+	 */
+	public SEPathFinder(Floor floor) {
+		this.floor = floor;
+	}
 
-    /**
-     * Recomputes the pathfinder data
-     */
-    private void recomputeMesh()
-    {
+	/**
+	 * Recomputes the pathfinder data
+	 */
+	private void recomputeMesh() {
 
-        this.stationaryObstacles = new ArrayList<PathBlockingObstacleImpl>();
-        List<KPolygon> obstPolys = new ArrayList<KPolygon>();
-        for (PolygonHolder so : floor.getWalls())
-        {
-            /*
-             * Substraction of the doors area to the walls area
-             */
-            Area area = new Area(so.getPolygon());
-            for (SimDoor d : floor.getDoors())
-            {
+		this.stationaryObstacles = new ArrayList<PathBlockingObstacleImpl>();
+		List<KPolygon> obstPolys = new ArrayList<KPolygon>();
+		for (PolygonHolder so : floor.getWalls()) {
+			/*
+			 * Substraction of the doors area to the walls area
+			 */
+			Area area = new Area(so.getPolygon());
+			for (SimDoor d : floor.getDoors()) {
 
-                if (d.isOpened())
-                {
-                    area.subtract(new Area(d.getPolygon()));
-                }
-            }
-            /*
-             * It is possible that the area to be splitted in two
-             */
-            for (Area a : PathFindingUtils.getAreas(area))
-            {
-                KPolygon poly = PathFindingUtils.createKPolygonFromShape(a);
-                if (poly == null)
-                {
-                    continue;
-                }
-                obstPolys.add(poly);
+				if (d.isOpened()) {
+					area.subtract(new Area(d.getPolygon()));
+				}
+			}
+			/*
+			 * It is possible that the area to be splitted in two
+			 */
+			for (Area a : PathFindingUtils.getAreas(area)) {
+				KPolygon poly = PathFindingUtils.createKPolygonFromShape(a);
+				if (poly == null) {
+					continue;
+				}
+				obstPolys.add(poly);
 
-            }
-        }
-        /*
-         * Debugging stuff
-         */
-        int nlines1 = 0;
-        for (KPolygon kPolygon : obstPolys)
-        {
-            nlines1 += KPolygonUtils.getLines(kPolygon).size();
-        }
+			}
+		}
+		/*
+		 * Debugging stuff
+		 */
+		int nlines1 = 0;
+		for (KPolygon kPolygon : obstPolys) {
+			nlines1 += KPolygonUtils.getLines(kPolygon).size();
+		}
 
-        int beforeReduction = obstPolys.size();
-        long start = System.currentTimeMillis();
-        obstPolys = PathFindingUtils.getMinimizedPolygons2(obstPolys);
-        long end = System.currentTimeMillis();
+		int beforeReduction = obstPolys.size();
+		long start = System.currentTimeMillis();
+		obstPolys = PathFindingUtils.getMinimizedPolygons2(obstPolys);
+		long end = System.currentTimeMillis();
 
-        int afterReduction = obstPolys.size();
-        int nlines2 = 0;
-        for (KPolygon kPolygon : obstPolys)
-        {
-            nlines2 += KPolygonUtils.getLines(kPolygon).size();
-        }
-        /*
-         * Inflation
-         */
-        for (KPolygon kPolygon : obstPolys)
-        {
-            this.stationaryObstacles.add(PathFindingUtils
-                    .createObstacleFromInnerPolygon(kPolygon, BUFFER_AMOUNT,
-                    NUM_POINTS_IN_A_QUADRANT));
-        }
+		int afterReduction = obstPolys.size();
+		int nlines2 = 0;
+		for (KPolygon kPolygon : obstPolys) {
+			nlines2 += KPolygonUtils.getLines(kPolygon).size();
+		}
+		/*
+		 * Inflation
+		 */
+		for (KPolygon kPolygon : obstPolys) {
+			this.stationaryObstacles.add(
+					PathFindingUtils.createObstacleFromInnerPolygon(kPolygon, BUFFER_AMOUNT, NUM_POINTS_IN_A_QUADRANT));
+		}
 
-        System.out.println("Before/After Reduction : " + beforeReduction + "/"
-                + afterReduction + ",[" + nlines1 + "=>" + nlines2 + "] took "
-                + (end - start) + " ms");
-        for (DefaultAgent v : floor.getPeople())
-        {
-            if (v.isObstacle() && !v.isDynamic())
-            {
-                this.stationaryObstacles.add(PathFindingUtils
-                        .createObstacleFromInnerPolygon(v.getPolygon(),
-                        BUFFER_AMOUNT, NUM_POINTS_IN_A_QUADRANT));
-            }
-        }
-        // =================================================================================
-        // ahora se relacionan los Room con los obstaculos que intersectan con
-        // el, dejando el poligono libre de obstaculos
-        // es otra cosa totalmente diferente
+		System.out.println("Before/After Reduction : " + beforeReduction + "/" + afterReduction + ",[" + nlines1 + "=>"
+				+ nlines2 + "] took " + (end - start) + " ms");
+		for (DefaultAgent v : floor.getPeople()) {
+			if (v.isObstacle() && !v.isDynamic()) {
+				this.stationaryObstacles.add(PathFindingUtils.createObstacleFromInnerPolygon(v.getPolygon(),
+						BUFFER_AMOUNT, NUM_POINTS_IN_A_QUADRANT));
+			}
+		}
+		// =================================================================================
+		// ahora se relacionan los Room con los obstaculos que intersectan con
+		// el, dejando el poligono libre de obstaculos
+		// es otra cosa totalmente diferente
 
-        walkAblePolys = new ArrayList<>();
+		walkAblePolys = new ArrayList<>();
 
-        for (SimRoom sr : this.floor.getRooms())
-        {
-            Area walkAble = new Area(sr.getPolygon());
+		for (SimRoom sr : this.floor.getRooms()) {
+			Area walkAble = new Area(sr.getPolygon());
 
-            walkAblePolys.add(PathFindingUtils
-                    .createKPolygonFromShape(walkAble));
+			walkAblePolys.add(PathFindingUtils.createKPolygonFromShape(walkAble));
 
-        }
-        // Connect the obstacles' nodes so that the PathFinder can do its work:
+		}
+		// Connect the obstacles' nodes so that the PathFinder can do its work:
 
-        nodeConnector = new MNodeConnector(stationaryObstacles,
-                maxConnectionDistanceBetweenObstacles, AABB_Expansion,
-                floor.minX, floor.maxX, floor.minY, floor.maxY);
+		nodeConnector = new MNodeConnector(stationaryObstacles, maxConnectionDistanceBetweenObstacles, AABB_Expansion,
+				floor.minX, floor.maxX, floor.minY, floor.maxY);
 
-        pathFinder = new MASSISPathFinder();
-        // ////////
+		pathFinder = new MASSISPathFinder();
+		// ////////
 
-    }
+	}
 
-    //
-    public ArrayList<KPoint> findPath(KPoint from, KPoint to)
-    {
-        //get room
-//        for (SimRoom sr : this.floor.getRooms())
-//        {
-//            if (sr.getPolygon().contains(from))
-//            {
-//                return findPath(from, to, sr);
-//            }
-//        }
-        return findPath(from, to, null);
+	//
 
-    }
+	public KPoint getNearestPointOutsideOfObstacles(KPoint point) {
+		checkForInitialization();
 
-    public ArrayList<KPoint> findPath(KPoint from, KPoint to,
-            Occluder restrictionPolygon)
-    {
-        checkForInitialization();
+		// // check that the target point isn't inside any obstacles.
+		// // if so, move it.
+		KPoint movedPoint = point.copy();
+		boolean targetIsInsideObstacle = false;
+		int count = 0;
+		while (true) {
+			for (PathBlockingObstacleImpl obst : stationaryObstacles) {
+				if (obst.getOuterPolygon().contains(movedPoint)) {
 
-        KPoint pos = getNearestPointOutsideOfObstacles(from);
-        KPoint targetAdjusted = getNearestPointOutsideOfObstacles(to);
+					targetIsInsideObstacle = true;
+					KPolygon poly = obst.getOuterPolygon();
+					KPoint p = poly.getBoundaryPointClosestTo(movedPoint);
+					if (p != null) {
 
-        PathData pathData = null;
+						movedPoint.x = p.x;
+						movedPoint.y = p.y;
 
-        pathData = pathFinder.calc(pos, targetAdjusted,
-                maxConnectionDistanceBetweenObstacles, nodeConnector,
-                this.stationaryObstacles, restrictionPolygon);
+					}
 
-        if (pathData.isError())
-        {
-            // Let caller solve the problem
-            return null;
-        }
-        return pathData.points;
-    }
+				}
+			}
+			count++;
+			if (targetIsInsideObstacle == false || count >= 3) {
+				break;
+			}
+			targetIsInsideObstacle = false;
+		}
+		return movedPoint;
+	}
 
-    public KPoint getNearestPointOutsideOfObstacles(KPoint point)
-    {
-        checkForInitialization();
+	/**
+	 *
+	 * @return the obstacles used in this pathfinder
+	 */
+	public Iterable<PathBlockingObstacleImpl> getStationaryObstacles() {
+		checkForInitialization();
+		return this.stationaryObstacles;
+	}
 
-        // // check that the target point isn't inside any obstacles.
-        // // if so, move it.
-        KPoint movedPoint = point.copy();
-        boolean targetIsInsideObstacle = false;
-        int count = 0;
-        while (true)
-        {
-            for (PathBlockingObstacleImpl obst : stationaryObstacles)
-            {
-                if (obst.getOuterPolygon().contains(movedPoint))
-                {
+	/**
+	 *
+	 * @return the walkable areas
+	 */
+	public Iterable<KPolygon> getWalkableAreas() {
+		checkForInitialization();
+		return this.walkAblePolys;
+	}
 
-                    targetIsInsideObstacle = true;
-                    KPolygon poly = obst.getOuterPolygon();
-                    KPoint p = poly.getBoundaryPointClosestTo(movedPoint);
-                    if (p != null)
-                    {
+	/**
+	 * Recomputes mesh if necessary
+	 */
+	private void checkForInitialization() {
+		if (!this.initialized) {
+			this.recomputeMesh();
+			this.initialized = true;
+		}
+	}
 
-                        movedPoint.x = p.x;
-                        movedPoint.y = p.y;
+	/**
+	 * Initializes the pathfinder. <strong>Note:</strong> it will be only
+	 * initialized once.
+	 */
+	public void initialize() {
+		this.checkForInitialization();
+	}
 
-                    }
+	/**
+	 * Finds a path
+	 *
+	 * @param fromLocation
+	 *            start loc
+	 * @param toLocation
+	 *            goal
+	 * @return the path between them, noll if it does not exist
+	 */
+	public void findPath(Location fromLocation, Location toLocation,Teleport targetTeleport, FindPathResult callback) {
+		if (this.floor != fromLocation.getFloor()) {
+			callback.onError(FindPathResult.PathFinderErrorReason.DIFFERENT_FLOORS);
+		}
 
-                }
-            }
-            count++;
-            if (targetIsInsideObstacle == false || count >= 3)
-            {
-                break;
-            }
-            targetIsInsideObstacle = false;
-        }
-        return movedPoint;
-    }
+		PathData pathData = this.findPath(fromLocation.getXY(), toLocation.getXY(), null);
+		switch (pathData.getResult()) {
+		case ERROR2:
+			callback.onError(FindPathResult.PathFinderErrorReason.INVALID_START_LOCATION);
+			break;
+		case ERROR3:
+			callback.onError(FindPathResult.PathFinderErrorReason.INVALID_END_LOCATION);
+			break;
+		case ERROR4:
+		case NO_RESULT:
+			callback.onError(FindPathResult.PathFinderErrorReason.UNREACHABLE_TARGET);
+			break;
+		case SUCCESS:
+			callback.onSuccess(new Path(pathData.getPoints(),targetTeleport));
+			break;
+		case ERROR1:
+		default:
+			throw new UnsupportedOperationException();
+		}
+	}
 
-    /**
-     *
-     * @return the obstacles used in this pathfinder
-     */
-    public Iterable<PathBlockingObstacleImpl> getStationaryObstacles()
-    {
-        checkForInitialization();
-        return this.stationaryObstacles;
-    }
+	private PathData findPath(KPoint from, KPoint to, Occluder restrictionPolygon) {
+		checkForInitialization();
 
-    /**
-     *
-     * @return the walkable areas
-     */
-    public Iterable<KPolygon> getWalkableAreas()
-    {
-        checkForInitialization();
-        return this.walkAblePolys;
-    }
+		KPoint pos = getNearestPointOutsideOfObstacles(from);
+		KPoint targetAdjusted = getNearestPointOutsideOfObstacles(to);
 
-    /**
-     * Recomputes mesh if necessary
-     */
-    private void checkForInitialization()
-    {
-        if (!this.initialized)
-        {
-            this.recomputeMesh();
-            this.initialized = true;
-        }
-    }
+		PathData pathData = null;
 
-    /**
-     * Initializes the pathfinder. <strong>Note:</strong> it will be only
-     * initialized once.
-     */
-    public void initialize()
-    {
-        this.checkForInitialization();
-    }
+		pathData = pathFinder.calc(pos, targetAdjusted, maxConnectionDistanceBetweenObstacles, nodeConnector,
+				this.stationaryObstacles, restrictionPolygon);
+		return pathData;
+	}
 
-    /**
-     * Finds a path
-     *
-     * @param fromLocation start loc
-     * @param toLocation goal
-     * @return the path between them, noll if it does not exist
-     */
-    public Path findPath(Location fromLocation, Location toLocation)
-    {
-        if (this.floor != fromLocation.getFloor())
-        {
-            throw new RuntimeException("Floors cannot be different");
-        }
-
-        List<KPoint> points = this.findPath(fromLocation.getXY(),
-                toLocation.getXY());
-        if (points == null)
-        {
-            return null;
-        }
-        return new Path(points);
-
-    }
 }

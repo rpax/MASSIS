@@ -8,6 +8,7 @@ import java.util.List;
 import com.massisframework.gui.DrawableLayer;
 import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.model.building.Floor;
+import com.massisframework.massis.model.building.WayPoint;
 
 import straightedge.geom.KPoint;
 
@@ -33,13 +34,13 @@ public class PathLayer extends DrawableLayer<DrawableFloor> {
         for (DefaultAgent p : f.getPeople())
         {
 
-            List<KPoint> path = new ArrayList<>(p.getPath());
+            List<WayPoint> path = new ArrayList<>(p.getPath().getPoints());
             for (int i = 0; i < path.size() - 1; i++)
             {
-
-                g.drawLine((int) path.get(i).x, (int) path.get(i).y,
-                        (int) path.get(i + 1).x, (int) path.get(i + 1).y);
-                g.fillOval((int) path.get(i + 1).x, (int) path.get(i + 1).y,
+            	FloorMapLayersUtils.drawLine(g, path.get(i), path.get(i + 1));
+                g.drawLine((int) path.get(i).getX(), (int) path.get(i).getY(),
+                        (int) path.get(i + 1).getX(), (int) path.get(i + 1).getY());
+                g.fillOval((int) path.get(i + 1).getX(), (int) path.get(i + 1).getY(),
                         10, 10);
             }
 

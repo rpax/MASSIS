@@ -3,6 +3,7 @@ package com.massisframework.massis.displays.floormap.layers;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import com.massisframework.massis.util.geom.CoordinateHolder;
 import com.massisframework.massis.util.geom.KLine;
 
 import straightedge.geom.AABB;
@@ -181,11 +182,11 @@ public class FloorMapLayersUtils {
     {
         g.drawLine((int) p1.x, (int) p1.y, (int) p2.x, (int) p2.y);
     }
-
-    public static void drawLine(Graphics2D g, KLine line)
+    public static void drawLine(Graphics2D g, CoordinateHolder p1, CoordinateHolder p2)
     {
-        drawLine(g, line.from, line.to);
+        g.drawLine((int) p1.getX(), (int) p1.getY(), (int) p2.getX(), (int) p2.getY());
     }
+    
 
     public static void drawAABB(Graphics2D g, AABB aabb)
     {

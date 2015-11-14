@@ -3,6 +3,7 @@ package com.massisframework.massis.model.managers.movement.steering;
 import java.util.List;
 
 import com.massisframework.massis.model.agents.DefaultAgent;
+import com.massisframework.massis.model.building.WayPoint;
 import com.massisframework.massis.util.geom.KVector;
 
 import straightedge.geom.KPoint;
@@ -22,7 +23,8 @@ public class FollowPath extends SteeringBehavior {
     @Override
     public KVector steer()
     {
-        List<KPoint> p = v.getPath();
+    	if (!v.hasPath())  return KVector.ZERO;
+        List<WayPoint> p = v.getPath().getPoints();
         KVector vel = v.getVelocity();
         KVector loc = new KVector(v.getXY());
         KVector predict = vel.copy();
@@ -38,8 +40,8 @@ public class FollowPath extends SteeringBehavior {
         for (int i = 0; i < p.size() - 1; i++)
         {
 
-            KPoint a = p.get(i);
-            KPoint b = p.get(Math.min((i + 1), p.size() - 1));
+            KPoint a = p.get(i).getXY();
+            KPoint b = p.get(Math.min((i + 1), p.size() - 1)).getXY();
             normal = KVector.getNormalPoint(predictLoc, a, b);
 
             double da = KVector.distance(normal, a);
@@ -48,8 +50,8 @@ public class FollowPath extends SteeringBehavior {
             if (da + db > line.magnitude() + 1)
             {
                 normal = new KVector(b);
-                a = p.get(Math.min((i + 1), p.size() - 1));
-                b = p.get(Math.min((i + 2), p.size() - 1));
+                a = p.get(Math.min((i + 1), p.size() - 1)).getXY();
+                b = p.get(Math.min((i + 2), p.size() - 1)).getXY();
                 line = KVector.sub(b, a);
 
             }

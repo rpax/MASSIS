@@ -24,7 +24,7 @@ import com.massisframework.massis.model.agents.HighLevelController;
 import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.location.SimLocation;
-import com.massisframework.massis.model.managers.movement.Path;
+import com.massisframework.massis.pathfinding.straightedge.FindPathResult;
 import com.massisframework.massis.pathfinding.straightedge.SEPathFinder;
 import com.massisframework.massis.util.Indexable;
 import com.massisframework.massis.util.SimObjectProperty;
@@ -50,7 +50,8 @@ public class Floor implements Indexable {
 	 */
 	private final int id;
 	// UID "generator"
-	private static final AtomicInteger CURRENT_FLOOR_MAX_ID = new AtomicInteger(0);
+	private static final AtomicInteger CURRENT_FLOOR_MAX_ID = new AtomicInteger(
+			0);
 
 	private static int getNewUID() {
 		return CURRENT_FLOOR_MAX_ID.getAndIncrement();
@@ -116,7 +117,8 @@ public class Floor implements Indexable {
 	 * @param furniture3D
 	 *            the furniture in that level
 	 */
-	public Floor(com.eteks.sweethome3d.model.Level level3D, ArrayList<Room> rooms3D, ArrayList<Wall> walls3D,
+	public Floor(com.eteks.sweethome3d.model.Level level3D,
+			ArrayList<Room> rooms3D, ArrayList<Wall> walls3D,
 			ArrayList<HomePieceOfFurniture> furniture3D, Building building) {
 
 		this.id = getNewUID();
@@ -199,19 +201,24 @@ public class Floor implements Indexable {
 			 */
 			if (metadata.containsKey(SimObjectProperty.TELEPORT.toString())) {
 
-				Teleport teleport = new Teleport(metadata, location, this.building.getMovementManager(),
-						this.building.getAnimationManager(), this.building.getEnvironmentManager());
+				Teleport teleport = new Teleport(metadata, location,
+						this.building.getMovementManager(),
+						this.building.getAnimationManager(),
+						this.building.getEnvironmentManager(),
+						this.building.getPathManager());
 				this.building.addTeleport(teleport);
 				this.teleports.add(teleport);
 				this.roomConnectors.add(teleport);
 				f.setVisible(true);
 
 			} else {
-				if (metadata.containsKey(SimObjectProperty.POINT_OF_INTEREST.toString())) {
+				if (metadata.containsKey(
+						SimObjectProperty.POINT_OF_INTEREST.toString())) {
 					/*
 					 * Is it an special place?
 					 */
-					this.building.addNamedLocation(metadata.get(SimObjectProperty.NAME.toString()),
+					this.building.addNamedLocation(
+							metadata.get(SimObjectProperty.NAME.toString()),
 							new Location(f.getX(), f.getY(), this));
 				} else {
 					if (f instanceof HomeDoorOrWindow) {
@@ -221,15 +228,22 @@ public class Floor implements Indexable {
 						 */
 						// Comprobar si es ventana o no
 						if (f.getName() != null
-								&& f.getName().toUpperCase().contains(SimObjectProperty.WINDOW.toString())) {
-							SimWindow window = new SimWindow(metadata, location, this.building.getMovementManager(),
-									this.building.getAnimationManager(), this.building.getEnvironmentManager());
+								&& f.getName().toUpperCase().contains(
+										SimObjectProperty.WINDOW.toString())) {
+							SimWindow window = new SimWindow(metadata, location,
+									this.building.getMovementManager(),
+									this.building.getAnimationManager(),
+									this.building.getEnvironmentManager(),
+									this.building.getPathManager());
 							this.building.addSH3DRepresentation(window, f);
 							this.windows.add(window);
 
 						} else {
-							SimDoor door = new SimDoor(metadata, location, this.building.getMovementManager(),
-									this.building.getAnimationManager(), this.building.getEnvironmentManager());
+							SimDoor door = new SimDoor(metadata, location,
+									this.building.getMovementManager(),
+									this.building.getAnimationManager(),
+									this.building.getEnvironmentManager(),
+									this.building.getPathManager());
 							this.building.addSH3DRepresentation(door, f);
 							this.doors.add(door);
 							this.roomConnectors.add(door);
@@ -241,10 +255,14 @@ public class Floor implements Indexable {
 						 * Tries to build an agent, by its metadata.
 						 */
 
-						DefaultAgent person = new DefaultAgent(metadata, location, this.building.getMovementManager(),
-								this.building.getAnimationManager(), this.building.getEnvironmentManager());
+						DefaultAgent person = new DefaultAgent(metadata,
+								location, this.building.getMovementManager(),
+								this.building.getAnimationManager(),
+								this.building.getEnvironmentManager(),
+								this.building.getPathManager());
 
-						HighLevelController hlc = createHLController(person, metadata, resourcesFolder);
+						HighLevelController hlc = createHLController(person,
+								metadata, resourcesFolder);
 
 						this.building.addToSchedule(hlc);
 						/*
@@ -268,8 +286,11 @@ public class Floor implements Indexable {
 		for (Wall w : this.walls3D) {
 			SimLocation location = new SimLocation(w, this);
 			Map<String, String> metadata = this.building.getMetadata(w);
-			SimWall simWall = new SimWall(metadata, location, this.building.getMovementManager(),
-					this.building.getAnimationManager(), this.building.getEnvironmentManager());
+			SimWall simWall = new SimWall(metadata, location,
+					this.building.getMovementManager(),
+					this.building.getAnimationManager(),
+					this.building.getEnvironmentManager(),
+					this.building.getPathManager());
 
 			this.walls.add(simWall);
 		}
@@ -285,8 +306,11 @@ public class Floor implements Indexable {
 
 			Map<String, String> metadata = this.building.getMetadata(r);
 
-			SimRoom simRoom = new SimRoom(metadata, location, this.building.getMovementManager(),
-					this.building.getAnimationManager(), this.building.getEnvironmentManager());
+			SimRoom simRoom = new SimRoom(metadata, location,
+					this.building.getMovementManager(),
+					this.building.getAnimationManager(),
+					this.building.getEnvironmentManager(),
+					this.building.getPathManager());
 			/*
 			 * If has a name, must be added to the named rooms section
 			 */
@@ -304,7 +328,8 @@ public class Floor implements Indexable {
 	private void initializeContainmentPolygons() {
 		this.containmentPolygons = new ArrayList<>();
 		for (SimWall w : this.walls) {
-			this.containmentPolygons.add(new ContainmentPolygon(new PolygonBufferer().buffer(w.getPolygon(), 50, 1)));
+			this.containmentPolygons.add(new ContainmentPolygon(
+					new PolygonBufferer().buffer(w.getPolygon(), 50, 1)));
 		}
 
 	}
@@ -372,7 +397,8 @@ public class Floor implements Indexable {
 	 */
 	public SimRoom getRandomRoom() {
 
-		SimRoom room = this.rooms.get(ThreadLocalRandom.current().nextInt(this.rooms.size()));
+		SimRoom room = this.rooms
+				.get(ThreadLocalRandom.current().nextInt(this.rooms.size()));
 		return room;
 	}
 
@@ -482,28 +508,29 @@ public class Floor implements Indexable {
 	 *            the desired location
 	 * @return the path.
 	 */
-	public Path findPath(final Location fromLoc, Location to) {
+	public void findPath(final Location fromLoc, Location to,
+			FindPathResult callback) {
 		/*
 		 * If the target location has a different floor that the current
 		 * location, the path is generated to the nearest teleport.
 		 */
 		if (fromLoc.getFloor() != to.getFloor()) {
 
-			List<Teleport> teleportsConnecting = getTeleportsConnectingFloor(to.getFloor());
+			List<Teleport> teleportsConnecting = getTeleportsConnectingFloor(
+					to.getFloor());
 			if (teleportsConnecting == null) {
-				logInfo("No teleports connecting {0} with {1} ", new Object[] { fromLoc, to });
-				return null;
+				logInfo("No teleports connecting {0} with {1} ",
+						new Object[] { fromLoc, to });
+				callback.onError(FindPathResult.PathFinderErrorReason.UNREACHABLE_TARGET);
+				// return null;
 			}
 			Teleport targetTeleport = teleportsConnecting.get(0);
 			final Location targetLocation = targetTeleport.getLocation();
-			Path path = this.pathFinder.findPath(fromLoc, targetLocation);
-			if (path == null) {
-				return null;
-			} else {
-				return new Path(path.getPoints(), targetTeleport);
-			}
+			this.pathFinder.findPath(fromLoc, targetLocation, targetTeleport,
+					callback);
+
 		} else {
-			return this.pathFinder.findPath(fromLoc, to);
+			this.pathFinder.findPath(fromLoc, to, null, callback);
 		}
 	}
 
@@ -520,17 +547,20 @@ public class Floor implements Indexable {
 		if (!this.teleportConnectingFloors.containsKey(other)) {
 			ArrayList<Teleport> teleportsConnecting = new ArrayList<>();
 			for (Teleport teleport : this.teleports) {
-				if (teleport.getType() == Teleport.START && teleport.getDistanceToFloor(other) < Integer.MAX_VALUE) {
+				if (teleport.getType() == Teleport.START && teleport
+						.getDistanceToFloor(other) < Integer.MAX_VALUE) {
 					teleportsConnecting.add(teleport);
 				}
 			}
 			Collections.sort(teleportsConnecting, new Comparator<Teleport>() {
 				@Override
 				public int compare(Teleport o1, Teleport o2) {
-					return Integer.compare(o1.getDistanceToFloor(other), o2.getDistanceToFloor(other));
+					return Integer.compare(o1.getDistanceToFloor(other),
+							o2.getDistanceToFloor(other));
 				}
 			});
-			this.teleportConnectingFloors.put(other, Collections.unmodifiableList(teleportsConnecting));
+			this.teleportConnectingFloors.put(other,
+					Collections.unmodifiableList(teleportsConnecting));
 		}
 		return this.teleportConnectingFloors.get(other);
 	}
@@ -549,7 +579,8 @@ public class Floor implements Indexable {
 	}
 
 	public KPoint getNearestPointOutsideOfObstacles(double x, double y) {
-		return this.pathFinder.getNearestPointOutsideOfObstacles(new KPoint(x, y));
+		return this.pathFinder
+				.getNearestPointOutsideOfObstacles(new KPoint(x, y));
 	}
 
 	public KPoint getNearestPointOutsideOfObstacles(KPoint p) {
@@ -573,7 +604,8 @@ public class Floor implements Indexable {
 	 * @param ymax
 	 * @return The agents inside the rectangle defined by xmin,ymin,xmax,ymax
 	 */
-	public Iterable<DefaultAgent> getAgentsInRange(int xmin, int ymin, int xmax, int ymax) {
+	public Iterable<DefaultAgent> getAgentsInRange(int xmin, int ymin, int xmax,
+			int ymax) {
 
 		SearchRangeCallback rangeCallback = new SearchRangeCallback();
 		this.quadPilu.searchInRange(xmin, ymin, xmax, ymax, rangeCallback);
@@ -582,14 +614,15 @@ public class Floor implements Indexable {
 	}
 
 	@SuppressWarnings("unchecked")
-	private HighLevelController createHLController(LowLevelAgent agent, Map<String, String> metadata,
-			String resourcesFolder) {
+	private HighLevelController createHLController(LowLevelAgent agent,
+			Map<String, String> metadata, String resourcesFolder) {
 
 		/*
 		 * Avoid relative paths issues
 		 */
 		final String absResFolder = new File(resourcesFolder).getAbsolutePath();
-		final String className = metadata.get(SimObjectProperty.CLASSNAME.toString());
+		final String className = metadata
+				.get(SimObjectProperty.CLASSNAME.toString());
 
 		HighLevelController hlc = HighLevelController.getDummyController();
 		if (className != null) {
@@ -597,10 +630,12 @@ public class Floor implements Indexable {
 				@SuppressWarnings("rawtypes")
 				Class agentClass = Class.forName(className);
 
-				hlc = HighLevelController.newInstance(agentClass, agent, metadata, absResFolder);
+				hlc = HighLevelController.newInstance(agentClass, agent,
+						metadata, absResFolder);
 
 			} catch (ClassNotFoundException ex) {
-				Logger.getLogger(Floor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+				Logger.getLogger(Floor.class.getName())
+						.log(java.util.logging.Level.SEVERE, null, ex);
 			}
 
 		}
@@ -614,7 +649,8 @@ public class Floor implements Indexable {
 	 * @author rpax
 	 *
 	 */
-	private static class SearchRangeCallback implements ArrayQuadTreeCallback<DefaultAgent> {
+	private static class SearchRangeCallback
+			implements ArrayQuadTreeCallback<DefaultAgent> {
 
 		private final ArrayList<DefaultAgent> agents = new ArrayList<>();
 
@@ -631,6 +667,7 @@ public class Floor implements Indexable {
 
 	private static void logInfo(String str, Object[] data) {
 
-		Logger.getLogger(Floor.class.getName()).log(java.util.logging.Level.INFO, str, data);
+		Logger.getLogger(Floor.class.getName())
+				.log(java.util.logging.Level.INFO, str, data);
 	}
 }

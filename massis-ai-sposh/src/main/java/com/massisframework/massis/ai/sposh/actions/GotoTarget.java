@@ -6,15 +6,20 @@ package com.massisframework.massis.ai.sposh.actions;
 
 import com.massisframework.massis.ai.sposh.SimulationContext;
 import com.massisframework.massis.model.location.Location;
+import com.massisframework.massis.model.managers.movement.ApproachCallback;
+import com.massisframework.massis.pathfinding.straightedge.FindPathResult.PathFinderErrorReason;
+
 import cz.cuni.amis.pogamut.sposh.executor.ActionResult;
 import cz.cuni.amis.pogamut.sposh.executor.PrimitiveInfo;
 import com.massisframework.massis.model.agents.LowLevelAgent;
 
 /**
  * Goes to assigned target
+ * 
  * @author rpax
  */
-@PrimitiveInfo(name = "Go to target", description = "Goes to assigned target", tags = { "parallel" })
+@PrimitiveInfo(name = "Go to target", description = "Goes to assigned target", tags = {
+		"parallel" })
 public class GotoTarget extends SimulationAction {
 
 	public GotoTarget(SimulationContext ctx) {
@@ -26,17 +31,33 @@ public class GotoTarget extends SimulationAction {
 	}
 
 	public ActionResult run() {
+
 		Location target = this.ctx.getTarget();
-                LowLevelAgent agent=this.ctx.getBot();
-		boolean isInLoc = agent.approachTo(target);
-		if (isInLoc)
-		{
-			return ActionResult.RUNNING_ONCE;
-		}
-		else
-		{
-			return ActionResult.FINISHED;
-		}
+		final ActionResult[] res = new ActionResult[1];
+		ApproachCallback approachCallBack = new ApproachCallback() {
+
+			@Override
+			public void onTargetReached(LowLevelAgent agent) {
+				res[0] = ActionResult.FINISHED;
+			}
+
+			@Override
+			public void onSucess(LowLevelAgent agent) {
+				res[0] = ActionResult.RUNNING_ONCE;
+			}
+
+			@Override
+			public void onPathFinderError(PathFinderErrorReason reason) {
+				res[0] = ActionResult.FAILED;
+				ctx.setTarget(null);
+			}
+
+		};
+
+		this.ctx.getBot().approachTo(target, approachCallBack);
+
+		return res[0];
+
 	}
 
 	@Override
