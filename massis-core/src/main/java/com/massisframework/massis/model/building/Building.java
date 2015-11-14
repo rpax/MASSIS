@@ -20,6 +20,7 @@ import com.eteks.sweethome3d.model.Wall;
 import com.massisframework.massis.displays.SimulationDisplay;
 import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.model.agents.HighLevelController;
+import com.massisframework.massis.model.building.Building.BuildingProgressMonitor;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.managers.AnimationManager;
 import com.massisframework.massis.model.managers.EnvironmentManager;

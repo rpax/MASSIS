@@ -1,12 +1,8 @@
 package com.massisframework.massis.sim;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import javax.swing.JFrame;
 
 import com.massisframework.gui.DrawableLayer;
-import com.massisframework.gui.DrawableTabbedFrame;
 import com.massisframework.massis.displays.HomeDisplay;
 import com.massisframework.massis.displays.buildingmap.BuildingMap;
 import com.massisframework.massis.displays.displays3d.HomeDisplay3D;
@@ -25,7 +21,6 @@ import com.massisframework.massis.displays.floormap.layers.RoomsLayer;
 import com.massisframework.massis.displays.floormap.layers.VisibleAgentsLines;
 import com.massisframework.massis.displays.floormap.layers.VisionRadioLayer;
 import com.massisframework.massis.displays.floormap.layers.WallLayer;
-import com.massisframework.massis.model.building.Floor;
 
 import sim.display.Controller;
 import sim.display.GUIState;

@@ -1,17 +1,12 @@
 package com.massisframework.massis.model.managers.pathfinding;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 
 import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.model.building.Floor;
-import com.massisframework.massis.model.building.SimulationObject;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.managers.movement.Path;
 import com.massisframework.massis.pathfinding.straightedge.FindPathResult;
-
-import straightedge.geom.KPoint;
 
 public class PathFindingManager {
 	/**

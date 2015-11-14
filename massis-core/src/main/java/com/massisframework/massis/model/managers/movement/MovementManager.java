@@ -1,22 +1,11 @@
 package com.massisframework.massis.model.managers.movement;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.massisframework.massis.model.agents.DefaultAgent;
-import com.massisframework.massis.model.building.Floor;
-import com.massisframework.massis.model.building.SimRoom;
-import com.massisframework.massis.model.building.Teleport;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.managers.movement.steering.SteeringBehavior;
-import com.massisframework.massis.pathfinding.straightedge.FindPathResult;
-import com.massisframework.massis.pathfinding.straightedge.FindPathResult.PathFinderErrorReason;
 import com.massisframework.massis.util.geom.KVector;
-
-import straightedge.geom.KPoint;
 
 /**
  * Manager in charge of controlling the movements of the agents.

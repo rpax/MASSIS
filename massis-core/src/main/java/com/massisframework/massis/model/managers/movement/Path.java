@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.massisframework.massis.model.agents.DefaultAgent;
-import com.massisframework.massis.model.building.SimulationObject;
 import com.massisframework.massis.model.building.Teleport;
 import com.massisframework.massis.model.building.WayPoint;
 import com.massisframework.massis.model.managers.pathfinding.PathFollower;

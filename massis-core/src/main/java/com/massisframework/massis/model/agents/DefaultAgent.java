@@ -1,22 +1,18 @@
 package com.massisframework.massis.model.agents;
 
 import java.awt.Shape;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Random;
 import java.util.ResourceBundle;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.commons.lang.StringUtils;
 
 import com.massisframework.massis.model.building.Building;
-import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.building.RoomConnector;
 import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.SimulationObject;
@@ -35,7 +31,6 @@ import com.massisframework.massis.model.managers.movement.steering.SteeringBehav
 import com.massisframework.massis.model.managers.movement.steering.SteeringCombinationBehavior;
 import com.massisframework.massis.model.managers.pathfinding.PathFindingManager;
 import com.massisframework.massis.pathfinding.straightedge.FindPathResult;
-import com.massisframework.massis.pathfinding.straightedge.FindPathResult.PathFinderErrorReason;
 import com.massisframework.massis.util.SimObjectProperty;
 import com.massisframework.massis.util.geom.KPolygonUtils;
 import com.massisframework.massis.util.geom.KVector;

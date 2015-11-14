@@ -10,8 +10,6 @@ import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.building.WayPoint;
 
-import straightedge.geom.KPoint;
-
 /**
  * Draws the path of each agent. (if they have any)
  *
