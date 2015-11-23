@@ -246,4 +246,5 @@ public interface LowLevelAgent extends  PathFollower,Indexable,SteeringCapable {
      * @param highLevelData the High-Level data of this agent
      */
     public void setHighLevelData(Object highLevelData);
+    public SimRoom getRandomRoom() ;
 }

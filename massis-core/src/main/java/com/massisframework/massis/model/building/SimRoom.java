@@ -154,7 +154,7 @@ public class SimRoom extends SimulationObject
 	@Deprecated
 	public Iterator<DefaultAgent> getPeopleInIterator() {
 		return new FilterIterator<DefaultAgent>(
-				this.getLocation().getFloor().getPeople().iterator(),
+				this.getLocation().getFloor().getAgents().iterator(),
 				new PeopleInThisRoomPredicate());
 	}
 

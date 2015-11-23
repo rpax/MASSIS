@@ -263,7 +263,8 @@ public class Floor implements Indexable {
 
 						HighLevelController hlc = createHLController(person,
 								metadata, resourcesFolder);
-
+						//What if it is only a chair?
+						//Should be treated differently?
 						this.building.addToSchedule(hlc);
 						/*
 						 * If the furniture parameters were right, add the agent
@@ -430,7 +431,7 @@ public class Floor implements Indexable {
 		return rooms;
 	}
 
-	public Iterable<DefaultAgent> getPeople() {
+	public Iterable<DefaultAgent> getAgents() {
 		return this.quadPilu.getElementsIn();
 	}
 

@@ -92,7 +92,7 @@ public class CrowdDensityLayer extends DrawableLayer<DrawableFloor> {
          */
         int max = Integer.MIN_VALUE;
 
-        for (LowLevelAgent a : f.getPeople())
+        for (LowLevelAgent a : f.getAgents())
         {
             /*
              * Furniture should not be counted in the occupation.

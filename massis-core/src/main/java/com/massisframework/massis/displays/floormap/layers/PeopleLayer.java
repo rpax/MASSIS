@@ -24,7 +24,7 @@ public class PeopleLayer extends DrawableLayer<DrawableFloor> {
     	final Floor f = dfloor.getFloor();
         g.setColor(Color.red);
 
-        for (DefaultAgent p : f.getPeople())
+        for (DefaultAgent p : f.getAgents())
         {
             if (!p.isDynamic())
             {
@@ -32,7 +32,7 @@ public class PeopleLayer extends DrawableLayer<DrawableFloor> {
                 g.fill(p.getPolygon());
             }
         }
-        for (DefaultAgent p : f.getPeople())
+        for (DefaultAgent p : f.getAgents())
         {
             if (p.isDynamic())
             {

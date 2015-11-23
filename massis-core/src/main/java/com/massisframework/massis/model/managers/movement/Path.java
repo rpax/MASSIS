@@ -63,11 +63,7 @@ public class Path {
 		this(points, null);
 	}
 
-	public boolean isInTargetTeleport(DefaultAgent v) {
-
-		return this.target != null
-				&& this.target.getPolygon().intersects(v.getPolygon());
-	}
+	
 
 	public List<WayPoint> getPoints() {
 		return wayPoints;

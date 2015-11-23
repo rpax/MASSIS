@@ -26,7 +26,7 @@ public class VisibleAgentsLines extends DrawableLayer<DrawableFloor> {
     {
     	final Floor f = dfloor.getFloor();
         g.setColor(Color.WHITE);
-        for (DefaultAgent v : f.getPeople())
+        for (DefaultAgent v : f.getAgents())
         {
             if (!v.isDynamic())
             {

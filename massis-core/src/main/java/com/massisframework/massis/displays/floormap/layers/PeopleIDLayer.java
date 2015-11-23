@@ -31,7 +31,7 @@ public class PeopleIDLayer extends DrawableLayer<DrawableFloor> {
         Font originalF = g.getFont();
 
         g.setFont(ID_FONT);
-        for (DefaultAgent p : f.getPeople())
+        for (DefaultAgent p : f.getAgents())
         {
             g.drawChars(String.valueOf(p.getID()).toCharArray(), 0, String
                     .valueOf(p.getID()).toCharArray().length,

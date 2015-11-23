@@ -25,7 +25,7 @@ public class VisionRadioLayer extends DrawableLayer<DrawableFloor> {
     public void draw(DrawableFloor dfloor, Graphics2D g)
     {
     	final Floor f = dfloor.getFloor();
-        for (DefaultAgent p : f.getPeople())
+        for (DefaultAgent p : f.getAgents())
         {
             if (!p.isDynamic())
             {

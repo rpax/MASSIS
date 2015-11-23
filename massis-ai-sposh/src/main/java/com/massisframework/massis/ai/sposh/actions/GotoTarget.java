@@ -48,7 +48,7 @@ public class GotoTarget extends SimulationAction {
 
 			@Override
 			public void onPathFinderError(PathFinderErrorReason reason) {
-				res[0] = ActionResult.FAILED;
+				res[0] = ActionResult.FINISHED;
 				ctx.setTarget(null);
 			}
 

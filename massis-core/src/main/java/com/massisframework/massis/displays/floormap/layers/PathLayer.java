@@ -18,37 +18,39 @@ import com.massisframework.massis.model.building.WayPoint;
  */
 public class PathLayer extends DrawableLayer<DrawableFloor> {
 
-    public PathLayer(boolean enabled)
-    {
-        super(enabled);
-    }
+	public PathLayer(boolean enabled) {
+		super(enabled);
+	}
 
-    @Override
-    public void draw(DrawableFloor dfloor, Graphics2D g)
-    {
-    	final Floor f = dfloor.getFloor();
-        g.setColor(Color.magenta);
+	@Override
+	public void draw(DrawableFloor dfloor, Graphics2D g) {
+		final Floor f = dfloor.getFloor();
+		g.setColor(Color.magenta);
 
-        for (DefaultAgent p : f.getPeople())
-        {
+		for (DefaultAgent p : f.getAgents())
+		{
+			if (p.hasPath())
+			{
+				List<WayPoint> path = new ArrayList<>(p.getPath().getPoints());
+				for (int i = 0; i < path.size() - 1; i++)
+				{
+					FloorMapLayersUtils.drawLine(g, path.get(i),
+							path.get(i + 1));
+					g.drawLine((int) path.get(i).getX(),
+							(int) path.get(i).getY(),
+							(int) path.get(i + 1).getX(),
+							(int) path.get(i + 1).getY());
+					g.fillOval((int) path.get(i + 1).getX(),
+							(int) path.get(i + 1).getY(), 10, 10);
+				}
 
-            List<WayPoint> path = new ArrayList<>(p.getPath().getPoints());
-            for (int i = 0; i < path.size() - 1; i++)
-            {
-            	FloorMapLayersUtils.drawLine(g, path.get(i), path.get(i + 1));
-                g.drawLine((int) path.get(i).getX(), (int) path.get(i).getY(),
-                        (int) path.get(i + 1).getX(), (int) path.get(i + 1).getY());
-                g.fillOval((int) path.get(i + 1).getX(), (int) path.get(i + 1).getY(),
-                        10, 10);
-            }
+			}
+		}
 
-        }
+	}
 
-    }
-
-    @Override
-    public String getName()
-    {
-        return "Paths";
-    }
+	@Override
+	public String getName() {
+		return "Paths";
+	}
 }

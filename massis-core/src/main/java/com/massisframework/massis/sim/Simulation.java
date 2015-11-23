@@ -70,7 +70,7 @@ public class Simulation extends AbstractSimulation {
         {
             for (Floor f : this.building.getFloors())
             {
-                for (SimulationObject agent : f.getPeople())
+                for (SimulationObject agent : f.getAgents())
                 {
                     agent.addRestorableObserver(simulationSaver);
                 }

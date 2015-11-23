@@ -45,8 +45,6 @@ import straightedge.geom.KPolygon;
  * @author rpax
  *
  */
-// Path path =
-// Paths.get(this.resourcesFolder,metadata.get(PLAN_FILE_PATH)).toString();
 public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 
 	/**
@@ -601,5 +599,10 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 		Location newLocation = new Location(position,
 				this.getLocation().getFloor());
 		this.moveTo(newLocation);
+	}
+
+	@Override
+	public SimRoom getRandomRoom() {
+		return this.getEnvironment().getRandomRoom();
 	}
 }

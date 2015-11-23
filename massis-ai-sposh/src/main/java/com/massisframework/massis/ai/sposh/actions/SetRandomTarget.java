@@ -24,7 +24,7 @@ public class SetRandomTarget extends SimulationAction {
 
     public ActionResult run()
     {
-        Location rndTarget = this.ctx.getBot().getLocation().getFloor().getRandomRoom().getRandomLoc();
+        Location rndTarget = this.ctx.getBot().getRandomRoom().getRandomLoc();
         this.ctx.setTarget(rndTarget);
         return ActionResult.RUNNING_ONCE;
     }

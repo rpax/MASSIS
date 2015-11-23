@@ -25,7 +25,7 @@ public class RadioLayer extends DrawableLayer<DrawableFloor> {
 	public void draw(DrawableFloor dfloor, Graphics2D g) {
 		final Floor f = dfloor.getFloor();
 		g.setColor(RADIO_COLOR);
-		for (DefaultAgent p : f.getPeople()) {
+		for (DefaultAgent p : f.getAgents()) {
 			if (p.isDynamic()) {
 				FloorMapLayersUtils.drawCircle(g, p.getXY(), p.getPolygon().getRadius());
 			}
