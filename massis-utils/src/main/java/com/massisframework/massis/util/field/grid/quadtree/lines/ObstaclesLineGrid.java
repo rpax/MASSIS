@@ -34,18 +34,18 @@ public class ObstaclesLineGrid {
     public void fill(Iterable<? extends PathBlockingObstacle> obstacles)
     {
 
-        for (PathBlockingObstacle obst : obstacles)
+        for (final PathBlockingObstacle obst : obstacles)
         {
 
-            ArrayList<KPoint> points = obst.getInnerPolygon().getPoints();
+            final ArrayList<KPoint> points = obst.getInnerPolygon().getPoints();
             for (int i = 0; i < points.size() - 1; i++)
             {
-                KLineIndexable line = new KLineIndexable(points.get(i),
+                final KLineIndexable line = new KLineIndexable(points.get(i),
                         points.get(i + 1));
                 this.tree.insert(line);
 
             }
-            KLineIndexable line = new KLineIndexable(
+            final KLineIndexable line = new KLineIndexable(
                     points.get(points.size() - 1), points.get(0));
             this.tree.insert(line);
 
@@ -65,24 +65,18 @@ public class ObstaclesLineGrid {
         @Override
         public double getX()
         {
-            return node.getPoint().getX();
+            return this.node.getPoint().getX();
         }
 
         @Override
         public double getY()
         {
-            return node.getPoint().getY();
-        }
-
-        @Override
-        public KPoint getXY()
-        {
-            return node.getPoint();
+            return this.node.getPoint().getY();
         }
 
         public KNodeOfObstacle getNode()
         {
-            return node;
+            return this.node;
         }
     }
 
@@ -109,13 +103,13 @@ public class ObstaclesLineGrid {
         public KLineIndexable(KPoint from, KPoint to)
         {
             super(from, to);
-            this.id = KLINE_MAX_INDEX++;
+            this.id = ObstaclesLineGrid.this.KLINE_MAX_INDEX++;
         }
 
         @Override
         public String toString()
         {
-            return "line#" + id;
+            return "line#" + this.id;
         }
 
         @Override
@@ -124,7 +118,7 @@ public class ObstaclesLineGrid {
             final int prime = 31;
             int result = super.hashCode();
             result = prime * result + getOuterType().hashCode();
-            result = prime * result + id;
+            result = prime * result + this.id;
             return result;
         }
 
@@ -143,12 +137,12 @@ public class ObstaclesLineGrid {
             {
                 return false;
             }
-            KLineIndexable other = (KLineIndexable) obj;
+            final KLineIndexable other = (KLineIndexable) obj;
             if (!getOuterType().equals(other.getOuterType()))
             {
                 return false;
             }
-            if (id != other.id)
+            if (this.id != other.id)
             {
                 return false;
             }

@@ -111,17 +111,17 @@ public class Location implements CoordinateHolder {
 
     public Floor getFloor()
     {
-        return floor;
+        return this.floor;
     }
 
     @Override
     public String toString()
     {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("Location [position=");
-        builder.append(center);
+        builder.append(this.center);
         builder.append(", floor=");
-        builder.append(floor.getName());
+        builder.append(this.floor.getName());
         builder.append("]");
         return builder.toString();
     }
@@ -132,8 +132,8 @@ public class Location implements CoordinateHolder {
         final int prime = 31;
         int result = 1;
         result = prime * result
-                + ((center == null) ? 0 : KVector.hashCode(center));
-        result = prime * result + ((floor == null) ? 0 : floor.hashCode());
+                + ((this.center == null) ? 0 : KVector.hashCode(this.center));
+        result = prime * result + ((this.floor == null) ? 0 : this.floor.hashCode());
         return result;
     }
 
@@ -152,31 +152,31 @@ public class Location implements CoordinateHolder {
         {
             return false;
         }
-        Location other = (Location) obj;
-        if (center == null)
+        final Location other = (Location) obj;
+        if (this.center == null)
         {
             if (other.center != null)
             {
                 return false;
             }
-        } else if (center.x != other.center.x || center.y != other.center.y)
+        } else if (this.center.x != other.center.x || this.center.y != other.center.y)
         {
             return false;
         }
-        if (floor == null)
+        if (this.floor == null)
         {
             if (other.floor != null)
             {
                 return false;
             }
-        } else if (!floor.equals(other.floor))
+        } else if (!this.floor.equals(other.floor))
         {
             return false;
         }
         return true;
     }
 
-    @Override
+//    @Override
     public KPoint getXY()
     {
         return this.center;

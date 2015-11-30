@@ -54,7 +54,7 @@ public abstract class SimulationObject implements PolygonHolder, Indexable,
 	 */
 	private final SimLocation location;
 
-	private ArrayList<RestorableObserver> restorableObservers = new ArrayList<>();
+	private final ArrayList<RestorableObserver> restorableObservers = new ArrayList<>();
 
 	/**
 	 * Main constructor
@@ -122,7 +122,7 @@ public abstract class SimulationObject implements PolygonHolder, Indexable,
 	}
 
 	protected final void notifyChanged() {
-		for (RestorableObserver restorableObserver : restorableObservers) {
+		for (final RestorableObserver restorableObserver : this.restorableObservers) {
 			restorableObserver.notifyChange(this, this.getState());
 		}
 	}
@@ -141,7 +141,7 @@ public abstract class SimulationObject implements PolygonHolder, Indexable,
 		return this.location.getY();
 	}
 
-	@Override
+//	@Override
 	public final KPoint getXY() {
 
 		return this.getPolygon().center;
@@ -235,8 +235,8 @@ public abstract class SimulationObject implements PolygonHolder, Indexable,
 			return false;
 		}
 
-		SimulationObject other = (SimulationObject) obj;
-		if (id != other.id) {
+		final SimulationObject other = (SimulationObject) obj;
+		if (this.id != other.id) {
 			return false;
 		}
 		return true;
@@ -256,22 +256,22 @@ public abstract class SimulationObject implements PolygonHolder, Indexable,
 
 		@Override
 		public SimulationObject restore(Building building) {
-			SimulationObject simObj = building.getSimulationObject(id);
-			for (Entry<String, Object> entry : this.properties.entrySet()) {
+			final SimulationObject simObj = building.getSimulationObject(this.id);
+			for (final Entry<String, Object> entry : this.properties.entrySet()) {
 				simObj.setProperty(entry.getKey(), entry.getValue());
 			}
-			locationState.restore(building);
+			this.locationState.restore(building);
 			simObj.animate();
 			return simObj;
 		}
 	}
 
 	public MovementManager getMovementManager() {
-		return movement;
+		return this.movement;
 	}
 
 	public EnvironmentManager getEnvironment() {
-		return environment;
+		return this.environment;
 	}
 
 	public PathFindingManager getPathManager() {

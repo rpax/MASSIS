@@ -35,7 +35,7 @@ public class BuildingMap extends DrawableTabbedFrame implements SimulationDispla
 
 	private static Collection<DrawableFloor> getDrawableZones(Building building) {
 		final Collection<DrawableFloor> drawableZones = new ArrayList<>();
-		for (Floor f : building.getFloors()) {
+		for (final Floor f : building.getFloors()) {
 			drawableZones.add(new DrawableFloor(f));
 		}
 		return drawableZones;

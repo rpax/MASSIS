@@ -4,14 +4,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ThreadLocalRandom;
 
-import com.massisframework.massis.util.Indexable;
 import com.massisframework.massis.util.field.Field2D;
 import com.massisframework.massis.util.geom.CoordinateHolder;
-import com.massisframework.massis.util.geom.KVector;
-import straightedge.geom.AABB;
-import straightedge.geom.KPoint;
+
 import straightedge.geom.KPolygon;
 
 public class ArrayQuadTree<E extends CoordinateHolder> extends Field2D<E> {
@@ -66,10 +62,10 @@ public class ArrayQuadTree<E extends CoordinateHolder> extends Field2D<E> {
 		int arraySize = 1;
 		int nrows = 1;
 		int ncols = 1;
-		for (int i = 0; i < parentNodes.length; i++)
+		for (int i = 0; i < this.parentNodes.length; i++)
 		{
 			// ;
-			parentNodes[i] = new short[arraySize];
+			this.parentNodes[i] = new short[arraySize];
 			arraySize <<= 2;
 			nrows <<= 1;
 			ncols <<= 1;
@@ -82,18 +78,18 @@ public class ArrayQuadTree<E extends CoordinateHolder> extends Field2D<E> {
 		this.noLevels = noLevels;
 		this.bucketNodes = new ConcurrentHashMap<>();
 
-		inv_cellSizeX = 1 / (x_length * 1D / childNodes.length);
-		inv_cellSizeY = 1 / (y_length * 1D / childNodes[0].length);
+		this.inv_cellSizeX = 1 / (this.x_length * 1D / this.childNodes.length);
+		this.inv_cellSizeY = 1 / (this.y_length * 1D / this.childNodes[0].length);
 
-		inv_cellSizeX_minX = inv_cellSizeX * minX;
-		inv_cellSizeY_minY = inv_cellSizeY * minY;
+		this.inv_cellSizeX_minX = this.inv_cellSizeX * minX;
+		this.inv_cellSizeY_minY = this.inv_cellSizeY * minY;
 		this.link();
 	}
 
 	public void insert(E e) {
 
-		final int x = (int) (e.getX() * inv_cellSizeX - inv_cellSizeX_minX);
-		final int y = (int) (e.getY() * inv_cellSizeY - inv_cellSizeY_minY);
+		final int x = (int) (e.getX() * this.inv_cellSizeX - this.inv_cellSizeX_minX);
+		final int y = (int) (e.getY() * this.inv_cellSizeY - this.inv_cellSizeY_minY);
 		QTBucketNode node = this.bucketNodes.get(e);
 		if (node == null)
 		{
@@ -107,7 +103,7 @@ public class ArrayQuadTree<E extends CoordinateHolder> extends Field2D<E> {
 	}
 
 	public void remove(Object e) {
-		QTBucketNode node = this.bucketNodes.remove(e);
+		final QTBucketNode node = this.bucketNodes.remove(e);
 		if (node == null)
 		{
 			return;
@@ -143,71 +139,86 @@ public class ArrayQuadTree<E extends CoordinateHolder> extends Field2D<E> {
 			double x1, double y1, double rx0, double ry0, double rx1,
 			double ry1, ArrayQuadTreeCallback<E> callback) {
 		if (callback.shouldStop())
+		{
 			return;
+		}
 		if (level == this.noLevels-1)
 		{
-			int x = (int) ((x0 - minX) * inv_cellSizeX);
-			int y = (int) ((y0 - minY) * inv_cellSizeY);
-			for (E elem : this.childNodes[x][y])
+			final int x = (int) ((x0 - this.minX) * this.inv_cellSizeX);
+			final int y = (int) ((y0 - this.minY) * this.inv_cellSizeY);
+			for (final E elem : this.childNodes[x][y])
 			{
-				if (elem==null) break;
+				if (elem==null)
+				{
+					break;
+				}
 				if (contains(rx0, ry0, rx1, ry1, elem.getX(), elem.getY()))
+				{
 					callback.query(elem);
+				}
 			}
 		}
 
 		else
 		{
 
-			double parent_csx = Math.abs(x1 - x0);
-			double child_csx = parent_csx / 2;
-			double left_x = x0;
-			double mid_x = x0 + child_csx;
-			double right_x = x0 + parent_csx;
+			final double parent_csx = Math.abs(x1 - x0);
+			final double child_csx = parent_csx / 2;
+			final double left_x = x0;
+			final double mid_x = x0 + child_csx;
+			final double right_x = x0 + parent_csx;
 
-			double parent_csy = Math.abs(y1 - y0);
-			double child_csy = parent_csy / 2;
+			final double parent_csy = Math.abs(y1 - y0);
+			final double child_csy = parent_csy / 2;
 
-			double top_y = y0;
-			double mid_y = y0 + child_csy;
-			double bottom_y = y0 + parent_csy;
-			int first_index = index << 2;
+			final double top_y = y0;
+			final double mid_y = y0 + child_csy;
+			final double bottom_y = y0 + parent_csy;
+			final int first_index = index << 2;
 
 			// NW
 			if(this.parentNodes[level+1][first_index] > 0)
-			if (overlaps(left_x, top_y, mid_x, mid_y, rx0, ry0, rx1, ry1))
 			{
-				
-				searchInRange(level + 1, first_index, left_x, top_y, mid_x,
-						mid_y, rx0, ry0, rx1, ry1, callback);
+				if (overlaps(left_x, top_y, mid_x, mid_y, rx0, ry0, rx1, ry1))
+				{
+					
+					searchInRange(level + 1, first_index, left_x, top_y, mid_x,
+							mid_y, rx0, ry0, rx1, ry1, callback);
+				}
 			}
 			// NE
 			if(this.parentNodes[level+1][first_index+1] > 0)
-			if (overlaps(mid_x, top_y, right_x, mid_y, rx0, ry0, rx1, ry1))
 			{
-				searchInRange(level + 1, first_index + 1, mid_x, top_y,
-						right_x, mid_y, rx0, ry0, rx1, ry1, callback);
+				if (overlaps(mid_x, top_y, right_x, mid_y, rx0, ry0, rx1, ry1))
+				{
+					searchInRange(level + 1, first_index + 1, mid_x, top_y,
+							right_x, mid_y, rx0, ry0, rx1, ry1, callback);
+				}
 			}
 			// SW
 			if(this.parentNodes[level+1][first_index+2] > 0)
-			if (overlaps(left_x, mid_y, mid_x, bottom_y, rx0, ry0, rx1, ry1))
 			{
-				searchInRange(level + 1, first_index + 2, left_x, mid_y, mid_x,
-						bottom_y, rx0, ry0, rx1, ry1, callback);
+				if (overlaps(left_x, mid_y, mid_x, bottom_y, rx0, ry0, rx1, ry1))
+				{
+					searchInRange(level + 1, first_index + 2, left_x, mid_y, mid_x,
+							bottom_y, rx0, ry0, rx1, ry1, callback);
+				}
 			}
 			// SE
 			if(this.parentNodes[level+1][first_index+3] > 0)
-			if (overlaps(mid_x, mid_y, right_x, bottom_y, rx0, ry0, rx1, ry1))
 			{
-				searchInRange(level + 1, first_index + 3, mid_x, mid_y,
-						right_x, bottom_y, rx0, ry0, rx1, ry1, callback);
+				if (overlaps(mid_x, mid_y, right_x, bottom_y, rx0, ry0, rx1, ry1))
+				{
+					searchInRange(level + 1, first_index + 3, mid_x, mid_y,
+							right_x, bottom_y, rx0, ry0, rx1, ry1, callback);
+				}
 			}
 		}
 
 	}
 
 	public Iterable<KPolygon> getRectangles() {
-		ArrayList<KPolygon> rects = new ArrayList<>();
+		final ArrayList<KPolygon> rects = new ArrayList<>();
 		this.addRectangles(0, 0, this.minX, this.minY, this.maxX, this.maxY,
 				rects);
 		return rects;
@@ -216,7 +227,9 @@ public class ArrayQuadTree<E extends CoordinateHolder> extends Field2D<E> {
 	private void addRectangles(int level, int index, double x0, double y0,
 			double x1, double y1, ArrayList<KPolygon> rectangles) {
 		if (level >= this.noLevels)
+		{
 			return;
+		}
 		if (this.parentNodes[level][index] <= 0)
 		{
 			rectangles.add(KPolygon.createRect(x0, y0, x1, y1));
@@ -224,19 +237,19 @@ public class ArrayQuadTree<E extends CoordinateHolder> extends Field2D<E> {
 		else
 		{
 
-			double parent_csx = Math.abs(x1 - x0);
-			double child_csx = parent_csx / 2;
-			double left_x = x0;
-			double mid_x = x0 + child_csx;
-			double right_x = x0 + parent_csx;
+			final double parent_csx = Math.abs(x1 - x0);
+			final double child_csx = parent_csx / 2;
+			final double left_x = x0;
+			final double mid_x = x0 + child_csx;
+			final double right_x = x0 + parent_csx;
 
-			double parent_csy = Math.abs(y1 - y0);
-			double child_csy = parent_csy / 2;
+			final double parent_csy = Math.abs(y1 - y0);
+			final double child_csy = parent_csy / 2;
 
-			double top_y = y0;
-			double mid_y = y0 + child_csy;
-			double bottom_y = y0 + parent_csy;
-			int first_index = index << 2;
+			final double top_y = y0;
+			final double mid_y = y0 + child_csy;
+			final double bottom_y = y0 + parent_csy;
+			final int first_index = index << 2;
 
 			// NW
 			// if (overlaps(left_x, top_y, mid_x, mid_y, rx0, ry0, rx1, ry1))
@@ -277,8 +290,8 @@ public class ArrayQuadTree<E extends CoordinateHolder> extends Field2D<E> {
 		if (level >= this.noLevels - 1)
 		{
 
-			int x = (int) (((x0 + (Math.abs(x0 - x1)) / 2 - minX)) * inv_cellSizeX);
-			int y = (int) (((y0 + (Math.abs(y0 - y1)) / 2 - minY)) * inv_cellSizeY);
+			final int x = (int) (((x0 + (Math.abs(x0 - x1)) / 2 - this.minX)) * this.inv_cellSizeX);
+			final int y = (int) (((y0 + (Math.abs(y0 - y1)) / 2 - this.minY)) * this.inv_cellSizeY);
 			if (this.childNodes[x][y] == null)
 			{
 				this.childNodes[x][y] = new QTBucketA(index);
@@ -289,19 +302,19 @@ public class ArrayQuadTree<E extends CoordinateHolder> extends Field2D<E> {
 		{
 
 			// NW
-			double parent_csx = Math.abs(x1 - x0);
-			double child_csx = parent_csx / 2;
-			double left_x = x0;
-			double mid_x = x0 + child_csx;
-			double right_x = x0 + parent_csx;
+			final double parent_csx = Math.abs(x1 - x0);
+			final double child_csx = parent_csx / 2;
+			final double left_x = x0;
+			final double mid_x = x0 + child_csx;
+			final double right_x = x0 + parent_csx;
 
-			double parent_csy = Math.abs(y1 - y0);
-			double child_csy = parent_csy / 2;
+			final double parent_csy = Math.abs(y1 - y0);
+			final double child_csy = parent_csy / 2;
 
-			double top_y = y0;
-			double mid_y = y0 + child_csy;
-			double bottom_y = y0 + parent_csy;
-			int first_index = index << 2;
+			final double top_y = y0;
+			final double mid_y = y0 + child_csy;
+			final double bottom_y = y0 + parent_csy;
+			final int first_index = index << 2;
 
 			// NW
 			link(level + 1, first_index, left_x, top_y, mid_x, mid_y);
@@ -322,96 +335,7 @@ public class ArrayQuadTree<E extends CoordinateHolder> extends Field2D<E> {
 		return (x0 < rx1 && x1 > rx0 && y0 < ry1 && y1 > ry0);
 	}
 
-	public static void main(String[] args) {
-		testInsert(8);
-
-	}
-
-	private static void testInsert(int maxLevels) {
-		ArrayQuadTree<TestTreeElement> quadPilu = new ArrayQuadTree<>(
-				maxLevels, -2310, 100, -8210, 100);
-		quadPilu.link();
-		for (int i = 0; i < 10; i++)
-		{
-			quadPilu.insert(new TestTreeElement(ThreadLocalRandom.current()
-					.nextInt(-2310, 100), ThreadLocalRandom.current().nextInt(
-					-8210, 100)));
-		}
-
-		for (int i = 0; i < quadPilu.childNodes.length; i++)
-		{
-			for (int j = 0; j < quadPilu.childNodes[i].length; j++)
-			{
-				double x0 = i
-						* (quadPilu.x_length * 1D / quadPilu.childNodes.length)
-						+ quadPilu.minX;
-				double y0 = j
-						* (quadPilu.y_length * 1D / quadPilu.childNodes[0].length)
-						+ quadPilu.minY;
-
-				double x1 = (i + 1)
-						* (quadPilu.x_length * 1D / quadPilu.childNodes.length)
-						+ quadPilu.minX;
-				double y1 = (j + 1)
-						* (quadPilu.y_length * 1D / quadPilu.childNodes[0].length)
-						+ quadPilu.minY;
-
-				for (TestTreeElement node : quadPilu.childNodes[i][j])
-				{
-					if (!contains(x0, y0, x1, y1, node.getX(), node.getY()))
-					{
-						System.out.println("NOK : ");
-						System.out.println(node.getXY() + "|=> "
-								+ new AABB(x0, y0, x1, y1));
-					}
-				}
-			}
-		}
-
-		System.out.println("===============");
-	}
-
-	public static class TestTreeElement implements CoordinateHolder, Indexable {
-		private final KVector v = new KVector();
-
-		public TestTreeElement(int x, int y) {
-			this.v.x = x;
-			this.v.y = y;
-		}
-
-		public void setY(int y) {
-			this.v.y = y;
-		}
-
-		public void setX(int x) {
-			this.v.x = x;
-		}
-
-		@Override
-		public double getX() {
-			return this.v.x;
-		}
-
-		@Override
-		public double getY() {
-			return this.v.y;
-		}
-
-		@Override
-		public KPoint getXY() {
-			return this.v.getXY();
-		}
-
-		private static int ID = 0;
-		int id = ID++;
-
-		@Override
-		public int getID() {
-			return id;
-		}
-
-	}
-
+	
 	@SuppressWarnings("unused")
 	private final void decrementAtIndex(final int referenceIndex) {
 		for (int k = referenceIndex, i = this.noLevels - 1; i >= 0; i--, k >>= 2)
@@ -453,15 +377,15 @@ public class ArrayQuadTree<E extends CoordinateHolder> extends Field2D<E> {
 			{
 
 				decrementAndIncrementAtIndexes(node.getReferenceIndex(),
-						head.getReferenceIndex());
+						this.head.getReferenceIndex());
 			}
 			else
 			{
-				incrementAtIndex(head.getReferenceIndex());
+				incrementAtIndex(this.head.getReferenceIndex());
 			}
 			node.setReferenceIndex(this.head.getReferenceIndex());
 			// link
-			node.link(head);
+			node.link(this.head);
 
 		}
 
@@ -475,18 +399,18 @@ public class ArrayQuadTree<E extends CoordinateHolder> extends Field2D<E> {
 			private QTBucketNode current;
 			
 			public QTBucketIterator() {
-				this.current = head;
+				this.current = QTBucketA.this.head;
 			}
 
 			@Override
 			public boolean hasNext() {
-				return current.getNext() != null;
+				return this.current.getNext() != null;
 			}
 
 			@Override
 			public E next() {
-				this.current = current.getNext();
-				return current.getItem();
+				this.current = this.current.getNext();
+				return this.current.getItem();
 			}
 
 			@Override
@@ -544,7 +468,7 @@ public class ArrayQuadTree<E extends CoordinateHolder> extends Field2D<E> {
 		}
 
 		public int getReferenceIndex() {
-			return referenceIndex;
+			return this.referenceIndex;
 		}
 
 		public void setReferenceIndex(int referenceIndex) {
@@ -552,7 +476,7 @@ public class ArrayQuadTree<E extends CoordinateHolder> extends Field2D<E> {
 		}
 
 		public QTBucketNode getNext() {
-			return next;
+			return this.next;
 		}
 
 		public void setNext(QTBucketNode next) {
@@ -560,7 +484,7 @@ public class ArrayQuadTree<E extends CoordinateHolder> extends Field2D<E> {
 		}
 
 		public E getItem() {
-			return item;
+			return this.item;
 		}
 
 		public void setItem(E item) {

@@ -56,7 +56,9 @@ public class Path {
 		}
 		// this.target = teleport;
 		if (this.target != null)
-			this.wayPoints.add(target);
+		{
+			this.wayPoints.add(this.target);
+		}
 	}
 
 	public Path(List<KPoint> points) {
@@ -66,7 +68,7 @@ public class Path {
 	
 
 	public List<WayPoint> getPoints() {
-		return wayPoints;
+		return this.wayPoints;
 	}
 
 	public void setPoints(List<WayPoint> points) {
@@ -74,7 +76,7 @@ public class Path {
 	}
 
 	public Teleport getTargetTeleport() {
-		return target;
+		return this.target;
 	}
 
 	public boolean isEmpty() {
@@ -83,11 +85,11 @@ public class Path {
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		builder.append("Path [lastPoint=");
-		builder.append(wayPoints.get(wayPoints.size() - 1));
+		builder.append(this.wayPoints.get(this.wayPoints.size() - 1));
 		builder.append(", targetTeleport=");
-		builder.append(target);
+		builder.append(this.target);
 		builder.append("]");
 		return builder.toString();
 	}

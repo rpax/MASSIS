@@ -34,13 +34,13 @@ public class KVector extends KPoint implements CoordinateHolder {
 	}
 
 	public KVector sub(KPoint v2) {
-		x -= v2.x;
-		y -= v2.y;
+		this.x -= v2.x;
+		this.y -= v2.y;
 		return this;
 	}
 
 	public KVector normalize() {
-		double m = magnitude();
+		final double m = magnitude();
 		if (m != 0 && m != 1)
 		{
 			div(m);
@@ -49,7 +49,7 @@ public class KVector extends KPoint implements CoordinateHolder {
 	}
 
 	public static KVector normalize(KVector k) {
-		double m = k.magnitude();
+		final double m = k.magnitude();
 		if (m != 0 && m != 1)
 		{
 			return div(k, m);
@@ -58,8 +58,8 @@ public class KVector extends KPoint implements CoordinateHolder {
 	}
 
 	public KVector div(double n) {
-		x /= n;
-		y /= n;
+		this.x /= n;
+		this.y /= n;
 		return this;
 	}
 
@@ -73,8 +73,8 @@ public class KVector extends KPoint implements CoordinateHolder {
 	}
 
 	public KVector mult(double n) {
-		x *= n;
-		y *= n;
+		this.x *= n;
+		this.y *= n;
 		return this;
 	}
 
@@ -101,18 +101,19 @@ public class KVector extends KPoint implements CoordinateHolder {
 		v.limit(d);
 		return v;
 	}
+	@Override
 	public KVector copy() {
-		return new KVector(x, y);
+		return new KVector(this.x, this.y);
 	}
 
 	public KVector add(KPoint v) {
-		x += v.x;
-		y += v.y;
+		this.x += v.x;
+		this.y += v.y;
 		return this;
 	}
 	public static  KVector add(KPoint... vectors) {
-		KVector res=new KVector();
-		for (KPoint v : vectors)
+		final KVector res=new KVector();
+		for (final KPoint v : vectors)
 		{
 			res.add(v);
 		}
@@ -125,7 +126,7 @@ public class KVector extends KPoint implements CoordinateHolder {
 	 * @return the angle of rotation
 	 */
 	public double heading2D() {
-		double angle = Math.atan2(-y, x);
+		final double angle = Math.atan2(-this.y, this.x);
 		return -1 * angle;
 	}
 
@@ -134,9 +135,9 @@ public class KVector extends KPoint implements CoordinateHolder {
 	public static double map(double value, double leftMin, double leftMax,
 			double rightMin, double rightMax) {
 
-		double leftSpan = leftMax - leftMin;
-		double rightSpan = rightMax - rightMin;
-		double valueScaled = (value - leftMin) / (leftSpan);
+		final double leftSpan = leftMax - leftMin;
+		final double rightSpan = rightMax - rightMin;
+		final double valueScaled = (value - leftMin) / (leftSpan);
 		return rightMin + (valueScaled * rightSpan);
 	}
 
@@ -156,7 +157,7 @@ public class KVector extends KPoint implements CoordinateHolder {
 	 * @return the dot product
 	 */
 	public double dot(KVector v) {
-		return x * v.x + y * v.y;
+		return this.x * v.x + this.y * v.y;
 	}
 
 	public double dot(double x, double y, double z) {
@@ -190,7 +191,7 @@ public class KVector extends KPoint implements CoordinateHolder {
 		}
 		else
 		{
-			double f = (y2 - y1) / (x2 - x1);
+			final double f = (y2 - y1) / (x2 - x1);
 			nx = f * Math.signum(x2 - x1) / Math.sqrt(1 + f * f);
 			ny = -1 * Math.signum(x2 - x1) / Math.sqrt(1 + f * f);
 		}
@@ -212,9 +213,9 @@ public class KVector extends KPoint implements CoordinateHolder {
 		final int prime = 31;
 		int result = 1;
 		long temp;
-		temp = Double.doubleToLongBits(x);
+		temp = Double.doubleToLongBits(this.x);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(y);
+		temp = Double.doubleToLongBits(this.y);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
@@ -231,32 +232,39 @@ public class KVector extends KPoint implements CoordinateHolder {
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
+		{
 			return true;
+		}
 		if (obj == null)
+		{
 			return false;
+		}
 		if (!(obj instanceof KPoint))
+		{
 			return false;
-		KPoint other = (KPoint) obj;
-		if (Double.doubleToLongBits(x) != Double.doubleToLongBits(other.x))
+		}
+		final KPoint other = (KPoint) obj;
+		if (Double.doubleToLongBits(this.x) != Double.doubleToLongBits(other.x))
+		{
 			return false;
-		if (Double.doubleToLongBits(y) != Double.doubleToLongBits(other.y))
+		}
+		if (Double.doubleToLongBits(this.y) != Double.doubleToLongBits(other.y))
+		{
 			return false;
+		}
 		return true;
 	}
 
-	@Override
-	public KPoint getXY() {
-		return this;
-	}
+	
 	public static KVector getNormalPoint(KPoint p, KPoint a, KPoint b) {
 		// Vector from a to p
-		KVector ap = KVector.sub(p, a);
+		final KVector ap = KVector.sub(p, a);
 		// Vector from a to b
-		KVector ab = KVector.sub(b, a);
+		final KVector ab = KVector.sub(b, a);
 		ab.normalize(); // Normalize the line
 		// Project vector "diff" onto line by using the dot product
 		ab.mult(ap.dot(ab));
-		KVector normalPoint = KVector.add(a, ab);
+		final KVector normalPoint = KVector.add(a, ab);
 		return normalPoint;
 	}
 

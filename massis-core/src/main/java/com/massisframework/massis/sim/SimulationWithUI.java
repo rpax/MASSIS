@@ -83,7 +83,7 @@ public class SimulationWithUI extends GUIState {
 					+ "\r\n" + "</pre></p>\r\n"
 					+ "Rafael Pax, 2015. <span style=\"font-family: 'courier new', courier;\">pax.rafael#gmail#com</span>\r\n"
 					+ "</body>\r\n" + "</html>\r\n";
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 		return "";
@@ -93,10 +93,10 @@ public class SimulationWithUI extends GUIState {
 	@Override
 	public void start() {
 		super.start();
-		AbstractSimulation simulation = (AbstractSimulation) state;
-		HomeDisplay displayFrame = new HomeDisplay(simulation.building.getHome());
+		final AbstractSimulation simulation = (AbstractSimulation) this.state;
+		final HomeDisplay displayFrame = new HomeDisplay(simulation.building.getHome());
 		displayFrame.setTitle("Building 2D");
-		HomeDisplay3D displayFrame3D = new HomeDisplay3D(simulation.building);
+		final HomeDisplay3D displayFrame3D = new HomeDisplay3D(simulation.building);
 		displayFrame3D.setTitle("Building 3D");
 		if (this.layers == null) {
 			/**
@@ -125,9 +125,9 @@ public class SimulationWithUI extends GUIState {
 		}
 
 		
-		String welcomeText = "MASSIS";
+		final String welcomeText = "MASSIS";
 
-		BuildingMap buildingMap = new BuildingMap(simulation.building, layers);
+		final BuildingMap buildingMap = new BuildingMap(simulation.building, this.layers);
 		buildingMap.setTitle("Building Map");
 
 		this.controller.registerFrame(buildingMap);
@@ -141,7 +141,7 @@ public class SimulationWithUI extends GUIState {
 	public void quit() {
 		super.quit();
 
-		for (Object f : this.controller.getAllFrames()) {
+		for (final Object f : this.controller.getAllFrames()) {
 			((JFrame) f).dispose();
 		}
 

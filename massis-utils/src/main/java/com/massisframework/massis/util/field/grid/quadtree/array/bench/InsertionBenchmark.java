@@ -45,23 +45,23 @@ public class InsertionBenchmark {
 	@Setup(Level.Iteration)
 	public void fillElements() {
 
-		quadPilu = new ArrayQuadTree<>(maxLevels, minX, maxX, minY, maxY);
-		elements = new TestTreeElement[nElements];
-		for (int i = 0; i < elements.length; i++) {
-			elements[i] = new TestTreeElement(minX, maxX, minY, maxY);
+		this.quadPilu = new ArrayQuadTree<>(this.maxLevels, this.minX, this.maxX, this.minY, this.maxY);
+		this.elements = new TestTreeElement[this.nElements];
+		for (int i = 0; i < this.elements.length; i++) {
+			this.elements[i] = new TestTreeElement(this.minX, this.maxX, this.minY, this.maxY);
 		}
 
 	}
 
 	@Benchmark
 	public void moveOrInsert() {
-		for (int i = 0; i < elements.length; i++) {
-			this.quadPilu.insert(elements[i]);
+		for (int i = 0; i < this.elements.length; i++) {
+			this.quadPilu.insert(this.elements[i]);
 		}
 	}
 
 	public static void main(String[] args) throws RunnerException {
-		Options opt = new OptionsBuilder().include(
+		final Options opt = new OptionsBuilder().include(
 				InsertionBenchmark.class.getSimpleName()).build();
 
 		new Runner(opt).run();
@@ -93,34 +93,40 @@ public class InsertionBenchmark {
 			return this.v.y;
 		}
 
-		@Override
-		public KPoint getXY() {
-			return this.v.getXY();
-		}
 
 		@Override
 		public int getID() {
-			return id;
+			return this.id;
 		}
 
 		@Override
 		public int hashCode() {
-			return id;
+			return this.id;
 		}
 
 		@Override
 		public boolean equals(Object obj) {
 			if (this == obj)
+			{
 				return true;
+			}
 			if (obj == null)
+			{
 				return false;
+			}
 			if (getClass() != obj.getClass())
+			{
 				return false;
-			TestTreeElement other = (TestTreeElement) obj;
+			}
+			final TestTreeElement other = (TestTreeElement) obj;
 			if (!getOuterType().equals(other.getOuterType()))
+			{
 				return false;
-			if (id != other.id)
+			}
+			if (this.id != other.id)
+			{
 				return false;
+			}
 			return true;
 		}
 

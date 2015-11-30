@@ -13,7 +13,6 @@ import com.eteks.sweethome3d.model.HomePieceOfFurniture;
 import com.eteks.sweethome3d.model.UserPreferences;
 import com.eteks.sweethome3d.swing.FileContentManager;
 import com.eteks.sweethome3d.swing.SwingViewFactory;
-//import rpax.massis.util.building.VisualOps;
 import com.massisframework.massis.displays.SimulationDisplay;
 import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.SimulationObject;
@@ -39,11 +38,11 @@ public class HomeDisplay3D extends JFrame implements SimulationDisplay {
     @Override
     public void animate(SimulationObject obj)
     {
-        if (!initiated)
+        if (!this.initiated)
         {
             return;
         }
-        HomePieceOfFurniture hpof = building.getSH3DRepresentation(obj);
+        final HomePieceOfFurniture hpof = this.building.getSH3DRepresentation(obj);
 
         if (hpof == null)
         {
@@ -57,7 +56,7 @@ public class HomeDisplay3D extends JFrame implements SimulationDisplay {
         hpof.setAngle((float) (obj.getAngle() - Math.PI / 2));
         hpof.setY((float) obj.getLocation().getY());
         hpof.setX((float) obj.getLocation().getX());
-        HomePieceOfFurniture3D hpof3D = ((HomePieceOfFurniture3D) homeComponent3D.homeObjects
+        final HomePieceOfFurniture3D hpof3D = ((HomePieceOfFurniture3D) this.homeComponent3D.homeObjects
                 .get(hpof));
         // si todavia no se ha cargado, fuera
         if (hpof3D == null)
@@ -65,7 +64,7 @@ public class HomeDisplay3D extends JFrame implements SimulationDisplay {
             return;
         }
         // animateFurniture3D(hpof3D);
-        Transform3D pieceTransform = getPieceOFFurnitureNormalizedModelTransformation(
+        final Transform3D pieceTransform = getPieceOFFurnitureNormalizedModelTransformation(
                 hpof);
         // Change model transformation
         ((TransformGroup) hpof3D.getChild(0)).setTransform(pieceTransform);
@@ -76,7 +75,7 @@ public class HomeDisplay3D extends JFrame implements SimulationDisplay {
             HomePieceOfFurniture piece)
     {
         // Set piece size
-        Transform3D scale = new Transform3D();
+        final Transform3D scale = new Transform3D();
         float pieceWidth = piece.getWidth();
         // If piece model is mirrored, inverse its width
         if (piece.isModelMirrored())
@@ -86,11 +85,11 @@ public class HomeDisplay3D extends JFrame implements SimulationDisplay {
         scale.setScale(new Vector3d(pieceWidth, piece.getHeight(), piece
                 .getDepth()));
         // Change its angle around y axis
-        Transform3D orientation = new Transform3D();
+        final Transform3D orientation = new Transform3D();
         orientation.rotY(-piece.getAngle());
         orientation.mul(scale);
         // Translate it to its location
-        Transform3D pieceTransform = new Transform3D();
+        final Transform3D pieceTransform = new Transform3D();
         float z = piece.getElevation() + piece.getHeight() / 2;
         if (piece.getLevel() != null)
         {
@@ -105,23 +104,23 @@ public class HomeDisplay3D extends JFrame implements SimulationDisplay {
     private void init()
     {
 
-        UserPreferences fileUserPreferences = new FileUserPreferences();
+        final UserPreferences fileUserPreferences = new FileUserPreferences();
 
-        planController = new HomeControllerDisplay3D(home, fileUserPreferences,
+        this.planController = new HomeControllerDisplay3D(this.home, fileUserPreferences,
                 new SwingViewFactory(), new FileContentManager(
                 fileUserPreferences), null);
-        homeComponent3D = new HomeComponentDisplay3D(home, fileUserPreferences,
-                planController);
+        this.homeComponent3D = new HomeComponentDisplay3D(this.home, fileUserPreferences,
+                this.planController);
 
-        getContentPane().add(homeComponent3D);
+        getContentPane().add(this.homeComponent3D);
         System.err.println("Making outer walls invisible...");
-        VisualOps.makeOuterWallsInvisible(home);
+        VisualOps.makeOuterWallsInvisible(this.home);
         System.err.println("done.");
         this.home.setCamera(this.home.getTopCamera());
         pack();
         setSize(600, 500);
         registerListeners();
-        homeComponent3D.removeHomeListeners();
+        this.homeComponent3D.removeHomeListeners();
         this.initiated = true;
     }
 
@@ -140,7 +139,7 @@ public class HomeDisplay3D extends JFrame implements SimulationDisplay {
     {
         if (visible)
         {
-            if (!initiated)
+            if (!this.initiated)
             {
                 init();
             } else
