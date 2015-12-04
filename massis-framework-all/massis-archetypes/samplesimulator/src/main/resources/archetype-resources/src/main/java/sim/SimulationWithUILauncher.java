@@ -1,9 +1,10 @@
 package $package .sim;
 
+import com.massisframework.gui.DrawableLayer;
 import com.massisframework.massis.displays.floormap.layers.ConnectionsLayer;
 import com.massisframework.massis.displays.floormap.layers.CrowdDensityLayer;
 import com.massisframework.massis.displays.floormap.layers.DoorLayer;
-import com.massisframework.massis.displays.floormap.layers.FloorMapLayer;
+import com.massisframework.massis.displays.floormap.layers.DrawableFloor;
 import com.massisframework.massis.displays.floormap.layers.PathFinderLayer;
 import com.massisframework.massis.displays.floormap.layers.PathLayer;
 import com.massisframework.massis.displays.floormap.layers.PeopleIDLayer;
@@ -39,8 +40,9 @@ public class SimulationWithUILauncher {
 		/**
 		 * Basic Layers. Can be added more, or removed.
 		 */
-		FloorMapLayer[] floorMapLayers=
-				new FloorMapLayer[] {
+		@SuppressWarnings("unchecked")
+		DrawableLayer<DrawableFloor>[] floorMapLayers=
+				new DrawableLayer[] {
 					new RoomsLayer(true),
 					new RoomsLabelLayer(false),
 					new VisionRadioLayer(false),
