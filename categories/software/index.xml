@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Software on MASSIS Framework</title>
+    <link>http://massisframework.com/categories/software/</link>
+    <description>Recent content in Software on MASSIS Framework</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 05 Nov 2015 09:56:34 +0100</lastBuildDate>
+    <atom:link href="http://massisframework.com/categories/software/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Downloading MASSIS</title>
+      <link>http://massisframework.com/page/getting-started/</link>
+      <pubDate>Thu, 05 Nov 2015 09:56:34 +0100</pubDate>
+      
+      <guid>http://massisframework.com/page/getting-started/</guid>
+      <description>
+
+&lt;p&gt;The following requirements are needed for running MASSIS:&lt;/p&gt;
+
+&lt;h2 id=&#34;software:b6885e1f85551f51a4707c402f8200a3&#34;&gt;Software&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Java 1.7 or later&lt;/strong&gt; (Can be downloaded from the &lt;a href=&#34;http://www.oracle.com/technetwork/java/javase/downloads/index.html&#34;&gt;oracle web page&lt;/a&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;Note&lt;/em&gt;: Remember to add the &lt;code&gt;JAVA_HOME&lt;/code&gt; environment variable in your OS.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Maven 3.1.1+&lt;/strong&gt; (Can be downloaded from the &lt;a href=&#34;https://maven.apache.org/download.cgi&#34;&gt;Maven download site&lt;/a&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;Note&lt;/em&gt;: Remember to add the &lt;code&gt;M2_HOME&lt;/code&gt; environment variable in your OS.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Ant:&lt;/strong&gt; (Can be downloaded from the &lt;a href=&#34;https://ant.apache.org/bindownload.cgi&#34;&gt;Apache Ant download page&lt;/a&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;Note&lt;/em&gt;: Remember to add the &lt;code&gt;ANT_HOME&lt;/code&gt; environment variable in your OS.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&#34;ide:b6885e1f85551f51a4707c402f8200a3&#34;&gt;IDE&lt;/h2&gt;
+
+&lt;p&gt;Although MASSIS can be used without any kind of IDE, it is recommended to do so. Two good IDE&amp;rsquo;s are &lt;a href=&#34;https://eclipse.org/downloads/&#34;&gt;Eclipse&lt;/a&gt; and &lt;a href=&#34;https://netbeans.org/downloads/&#34;&gt;Netbeans&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;using-massis:b6885e1f85551f51a4707c402f8200a3&#34;&gt;Using MASSIS&lt;/h2&gt;
+
+&lt;p&gt;There are two ways for using MASSIS. Downloading the source code from Github, or developing custom applications, and referencing MASSIS&amp;rsquo; maven artifacts.&lt;/p&gt;
+
+&lt;h3 id=&#34;option-1-downloading-the-source-code:b6885e1f85551f51a4707c402f8200a3&#34;&gt;Option 1: Downloading the source code&lt;/h3&gt;
+
+&lt;p&gt;This is the recommended option for changing core features of MASSIS. The necessary MASSIS&amp;rsquo; modules are hosted at Github, in the following repositories:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/rpax/MASSIS&#34;&gt;Main MASSIS Repository&lt;/a&gt; : Contains the basic MASSIS&amp;rsquo; features.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/rpax/straightedge&#34;&gt;StraightEdge Repository&lt;/a&gt;: Contains the same source code of the original &lt;a href=&#34;https://code.google.com/p/straightedge/&#34;&gt;StraightEdge&amp;rsquo;s Google Code page&lt;/a&gt;, but it has been &lt;em&gt;mavenized&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/rpax/sweethome3d&#34;&gt;SweetHome3D repository&lt;/a&gt;: Contains the source code of the original &lt;a href=&#34;http://www.sweethome3d.com/download.jsp&#34;&gt;SweetHome3D&lt;/a&gt; page, but its external libraries are referenced as maven dependencies.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/rpax/massis-sh3d-plugins&#34;&gt;SweetHome3D plugins repository&lt;/a&gt;. Contains extensions for the environment design with SweetHome3D for MASSIS.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;option-2-using-massis-artifacts-as-maven-dependency-of-another-project:b6885e1f85551f51a4707c402f8200a3&#34;&gt;Option 2: Using MASSIS&amp;rsquo; artifacts as maven dependency of another project&lt;/h3&gt;
+
+&lt;p&gt;This is the preferred option if the objective of your project is developing an application using MASSIS&amp;rsquo; features, without changing MASSIS&amp;rsquo; source code.&lt;/p&gt;
+
+&lt;p&gt;The &lt;a href=&#34;http://massisframework.com/categories/tutorials/&#34;&gt;tutorials section&lt;/a&gt; contains examples about creating an application based on MASSIS&amp;rsquo; framework.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

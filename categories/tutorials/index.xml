@@ -1,0 +1,687 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tutorials on MASSIS Framework</title>
+    <link>http://massisframework.com/categories/tutorials/</link>
+    <description>Recent content in Tutorials on MASSIS Framework</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 05 Nov 2056 10:21:39 +0100</lastBuildDate>
+    <atom:link href="http://massisframework.com/categories/tutorials/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Creating a MASSIS Application</title>
+      <link>http://massisframework.com/post/tutorials/sample-massis-application/</link>
+      <pubDate>Thu, 05 Nov 2015 13:19:52 +0100</pubDate>
+      
+      <guid>http://massisframework.com/post/tutorials/sample-massis-application/</guid>
+      <description>
+
+&lt;p&gt;This tutorial covers the basic topics about creating a simple agent behavior for MASSIS. It is assumed that the sections about
+&lt;a href=&#34;http://massisframework.com/page/getting-started/&#34;&gt;downloading&lt;/a&gt; , and
+&lt;a href=&#34;http://massisframework.com/post/tutorials/environment-design/&#34;&gt;environment design&lt;/a&gt; sections have been already been read.&lt;/p&gt;
+
+&lt;p&gt;Although an experienced programmer can do all of this steps without any kind of IDE, for illustrating purposes, the &lt;a href=&#34;http://www.eclipse.org/downloads/&#34;&gt;Eclipse platform&lt;/a&gt; will be used here. The recommended version is the &lt;em&gt;Eclipse for Java EE Developers&lt;/em&gt;.
+&lt;img src=&#34;http://i.imgur.com/jteNXzH.png&#34; alt=&#34;&#34; /&gt;
+&lt;/p&gt;
+
+&lt;h2 id=&#34;creating-a-maven-project-based-on-a-massis-archetype:e06228b655e61d4d03702e703f2b69d5&#34;&gt;Creating a maven project based on a massis archetype&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Right click on the projects sidebar, and select &amp;ldquo;New Project&amp;rdquo;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/jHjluiC.png&#34; alt=&#34;&#34; /&gt;
+&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;In the project type window, select new Maven Project and press &lt;em&gt;Next&lt;/em&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/nekxikS.png&#34; alt=&#34;&#34; /&gt;
+&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Ensure that the checkbox &lt;em&gt;Skip Archetype Selection&lt;/em&gt; is &lt;strong&gt;unchecked&lt;/strong&gt;.
+&lt;img src=&#34;http://i.imgur.com/uNrk3nQ.png&#34; alt=&#34;&#34; /&gt;
+&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Now, we need to add the massis archetype catalog. This can be done through &lt;em&gt;Configure&amp;hellip; -&amp;gt; Add Remote Catalog&lt;/em&gt;, and selecting the massis archetype catalog,which is located at &lt;a href=&#34;http://mvn.massisframework.com/nexus/content/groups/public/archetype-catalog.xml&#34;&gt;http://mvn.massisframework.com/nexus/content/groups/public/archetype-catalog.xml&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/NwtY4Wk.png&#34; alt=&#34;&#34; /&gt;
+
+&lt;img src=&#34;http://i.imgur.com/0KDUOcB.png&#34; alt=&#34;&#34; /&gt;
+
+&lt;img src=&#34;http://i.imgur.com/hRWww0Z.png&#34; alt=&#34;&#34; /&gt;
+&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Remember to check the option &lt;em&gt;Include snapshot archetypes&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/3lvAJlo.png&#34; alt=&#34;&#34; /&gt;
+&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Select the artifact id, the package and the version. In this tutorial, it will be.&lt;/li&gt;
+&lt;li&gt;In this example, it will be:
+
+&lt;ul&gt;
+&lt;li&gt;GroupId : &lt;code&gt;com.myawesomesimulator&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;artifactId : &lt;code&gt;myawesomesimulator&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;version : &lt;code&gt;0.0.1-SNAPSHOT&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;package : &lt;code&gt;com.myawesomesimulator&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/IrXGbgv.png&#34; alt=&#34;&#34; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Maven will start downloading the basic dependencies for this project. It should take a few minutes, depending on your internet connection. Take a coffee break.&lt;/p&gt;
+
+&lt;p&gt;Once the process is finished, the project should look something like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/95aEmU2.png&#34; alt=&#34;&#34; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Now we have our own simulator!. Lets explain what&amp;rsquo;s in it.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;pom.xml&lt;/code&gt;. Contains the information about this project, and its dependencies. The &lt;code&gt;repositories&lt;/code&gt; tag contains where are the massis dependencies stored, and the &lt;code&gt;dependencies&lt;/code&gt; tag, the dependencies of our project. If you want to know more about maven dependencies, please take a look at the &lt;a href=&#34;https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html&#34;&gt;Introduction to the Dependency Mechanism&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;project xmlns=&amp;quot;http://maven.apache.org/POM/4.0.0&amp;quot; xmlns:xsi=&amp;quot;http://www.w3.org/2001/XMLSchema-instance&amp;quot;
+	xsi:schemaLocation=&amp;quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd&amp;quot;&amp;gt;
+	&amp;lt;modelVersion&amp;gt;4.0.0&amp;lt;/modelVersion&amp;gt;
+	&amp;lt;groupId&amp;gt;com.myawesomesimulator&amp;lt;/groupId&amp;gt;
+	&amp;lt;artifactId&amp;gt;myawesomesimulator&amp;lt;/artifactId&amp;gt;
+	&amp;lt;version&amp;gt;0.0.1-SNAPSHOT&amp;lt;/version&amp;gt;
+    &amp;lt;repositories&amp;gt;
+        &amp;lt;repository&amp;gt;
+            &amp;lt;id&amp;gt;nexus-massisframework&amp;lt;/id&amp;gt;
+            &amp;lt;name&amp;gt;nexus-massisframework repository&amp;lt;/name&amp;gt;
+            &amp;lt;url&amp;gt;http://mvn.massisframework.com/nexus/content/groups/public&amp;lt;/url&amp;gt;
+        &amp;lt;/repository&amp;gt;
+    &amp;lt;/repositories&amp;gt;
+
+	&amp;lt;dependencies&amp;gt;
+		&amp;lt;dependency&amp;gt;
+			&amp;lt;groupId&amp;gt;junit&amp;lt;/groupId&amp;gt;
+			&amp;lt;artifactId&amp;gt;junit&amp;lt;/artifactId&amp;gt;
+			&amp;lt;version&amp;gt;3.8.1&amp;lt;/version&amp;gt;
+			&amp;lt;scope&amp;gt;test&amp;lt;/scope&amp;gt;
+		&amp;lt;/dependency&amp;gt;
+		&amp;lt;dependency&amp;gt;
+			&amp;lt;groupId&amp;gt;com.massisframework.massis&amp;lt;/groupId&amp;gt;
+			&amp;lt;artifactId&amp;gt;massis-core&amp;lt;/artifactId&amp;gt;
+			&amp;lt;version&amp;gt;1.0-SNAPSHOT&amp;lt;/version&amp;gt;
+		&amp;lt;/dependency&amp;gt;
+	&amp;lt;/dependencies&amp;gt;
+	&amp;lt;properties&amp;gt;
+		&amp;lt;project.build.sourceEncoding&amp;gt;UTF-8&amp;lt;/project.build.sourceEncoding&amp;gt;
+		&amp;lt;maven.compiler.source&amp;gt;1.7&amp;lt;/maven.compiler.source&amp;gt;
+		&amp;lt;maven.compiler.target&amp;gt;1.7&amp;lt;/maven.compiler.target&amp;gt;
+	&amp;lt;/properties&amp;gt;
+	&amp;lt;build&amp;gt;
+		&amp;lt;resources&amp;gt;
+			&amp;lt;resource&amp;gt;
+				&amp;lt;directory&amp;gt;src/main/java&amp;lt;/directory&amp;gt;
+				&amp;lt;excludes&amp;gt;
+					&amp;lt;exclude&amp;gt;**/*.java&amp;lt;/exclude&amp;gt;
+				&amp;lt;/excludes&amp;gt;
+			&amp;lt;/resource&amp;gt;
+			&amp;lt;resource&amp;gt;
+				&amp;lt;directory&amp;gt;src/main/resources&amp;lt;/directory&amp;gt;
+			&amp;lt;/resource&amp;gt;
+		&amp;lt;/resources&amp;gt;
+	&amp;lt;/build&amp;gt;
+&amp;lt;/project&amp;gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;HelloHighLevelController.java&lt;/code&gt; : Represents a simple AI that prints &amp;ldquo;Hello!&amp;rdquo; at every simulation step&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;public class HelloHighLevelController extends HighLevelController {
+
+	private static final long serialVersionUID = 1L;
+	
+	public HelloHighLevelController
+    (LowLevelAgent agent, Map&amp;lt;String, String&amp;gt; metadata, String resourcesFolder) {
+		super(agent, metadata, resourcesFolder);
+		this.agent.setHighLevelData(this);
+	}
+
+	@Override
+	public void stop() {
+		/*
+		 * Clean resources, threads...etc
+		 */
+	}
+
+	@Override
+	public void step() {
+		System.out.println(&amp;quot;Hello!&amp;quot;);
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;EnvironmentEditor.java&lt;/code&gt;. A simple launcher for the sweethome3D editor, with the default &lt;a href=&#34;#TODO&#34;&gt;dynamic plugins&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;public class EnvironmentEditor {
+
+	public static void main(String[] args) {
+		HomeMetadataLoader metadataLoader = new HomeMetadataLoader();
+		List&amp;lt;? extends AdditionalDataWriter&amp;gt; writers = Arrays.asList(metadataLoader);
+		List&amp;lt;? extends AdditionalDataReader&amp;gt; loaders = Arrays.asList(metadataLoader);
+
+		List&amp;lt;Class&amp;lt;? extends Plugin&amp;gt;&amp;gt; plugins = new ArrayList&amp;lt;&amp;gt;();
+		plugins.add(BuildingMetadataPlugin.class);
+		SweetHome3DAdditionalDataApplication.run(new String[] {}, loaders, writers, plugins);
+	}
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;SimulationWithUILauncher.java&lt;/code&gt; : An example of a simulation launcher with different types of 2D layers.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;public class SimulationWithUILauncher {
+
+/**
+ * @param args the building file path
+ */
+public static void main(String[] args) {
+
+    final String buildingFilePath = args[0];
+    /*
+     * Not needed, really. We are not going to load any kind of resources
+     * during the simulation.
+     */
+    final String resourceFolderPath = &amp;quot;&amp;quot;;
+
+    Simulation simState = new Simulation(System.currentTimeMillis(), buildingFilePath, resourceFolderPath, null);
+    /**
+     * Basic Layers. Can be added more, or removed.
+     */
+    @SuppressWarnings(&amp;quot;unchecked&amp;quot;)
+    DrawableLayer&amp;lt;DrawableFloor&amp;gt;[] floorMapLayers=
+            new DrawableLayer[] {
+                new RoomsLayer(true),
+                new RoomsLabelLayer(false),
+                new VisionRadioLayer(false),
+                new CrowdDensityLayer(false),
+                new WallLayer(true),
+                new DoorLayer(true),
+                new ConnectionsLayer(false),
+                new PathLayer(false),
+                new PeopleLayer(true),
+                new RadioLayer(true),
+                new PathFinderLayer(false),
+                new PeopleIDLayer(false),
+                new VisibleAgentsLines(false),
+                new QTLayer(false)
+            };
+
+    GUIState vid = new SimulationWithUI(simState,floorMapLayers);
+
+    Console c = new Console(vid);
+
+    c.setIncrementSeedOnStop(false);
+    //
+    c.pressPlay();
+    c.pressPause();
+    c.setVisible(true);
+
+}
+
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And that&amp;rsquo;s all!. A complete example of a massis application can be found in the tutorial &lt;em&gt;&lt;a href=&#34;http://massisframework.com/post/tutorials/operation-rescue-the-robots/&#34;&gt;Operation: Rescue the robots&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Operation: Rescue the robots. Part 1</title>
+      <link>http://massisframework.com/post/tutorials/operation-rescue-the-robots/</link>
+      <pubDate>Mon, 23 Nov 2015 10:21:39 +0100</pubDate>
+      
+      <guid>http://massisframework.com/post/tutorials/operation-rescue-the-robots/</guid>
+      <description>
+
+&lt;p&gt;It is assumed in this tutorial that the reader has already gone through the basic tutorials, such as &lt;a href=&#34;http://massisframework.com/page/getting-started/&#34;&gt;the getting started guide&lt;/a&gt; and &lt;a href=&#34;http://massisframework.com/post/tutorials/sample-massis-application/&#34;&gt;Creating a MASSIS Application&lt;/a&gt; sections have been already been read.&lt;/p&gt;
+
+&lt;p&gt;For designing the scenario, it is recommended to read the &lt;a href=&#34;http://massisframework.com/post/tutorials/environment-design/&#34;&gt;environment design&lt;/a&gt; section.&lt;/p&gt;
+
+&lt;h2 id=&#34;scenario-description:6b32bd56400fe0844b5789f3d73d3322&#34;&gt;Scenario description&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/tRexsTw.png&#34; alt=&#34;Scenario&#34; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;The scenario to be simulated is the following:&lt;/p&gt;
+
+&lt;p&gt;he impact of a meteorite has caused irreparable damage to an extraterrestrial station. Luckily, there were no humans on the station, only robots.&lt;/p&gt;
+
+&lt;p&gt;But these robots were controlled remotely, and the meteorite impact has broken one antenna. In order to solve this issue, a new kind of robots are sent to this station. Their mission will consist on rescuing the robots that are in the incommunicated station.&lt;/p&gt;
+
+&lt;p&gt;The scenario used in this tutorial can be downloaded &lt;a href=&#34;https://drive.google.com/open?id=0B3-oRpDTDan3Z3dRQmVXalBYYkU&#34;&gt;from here&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;First, we will start modelling the behavior of the robot in the station (the one incommunicated).
+In case of lost of communication, these robots behave as follows:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&amp;ldquo;Worker&amp;rdquo; robot behavior
+
+&lt;ol&gt;
+&lt;li&gt;Waits until someone tells him what target should be following.&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&amp;ldquo;Rescuer&amp;rdquo; robot behavior
+
+&lt;ol&gt;
+&lt;li&gt;Tries to visit all the rooms in the building. Whenever this robot sees a worker robot in the room, makes that worker robot to follow him.&lt;/li&gt;
+&lt;li&gt;When two (or more) &lt;em&gt;rescuer&lt;/em&gt; robots are in the same room, they share information about the rooms visited.&lt;/li&gt;
+&lt;li&gt;When all the rooms have been explored, this robot goes back to the &lt;em&gt;landing zone&lt;/em&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;implementation-from-the-idea-to-the-code:6b32bd56400fe0844b5789f3d73d3322&#34;&gt;Implementation - From the idea to the code&lt;/h2&gt;
+
+&lt;p&gt;This project will be based on the  &lt;a href=&#34;http://massisframework.com/post/tutorials/sample-massis-application/&#34;&gt;basic MASSIS archetype explained previously&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;two-behaviors-imply-two-classes:6b32bd56400fe0844b5789f3d73d3322&#34;&gt;Two behaviors imply two classes.&lt;/h3&gt;
+
+&lt;p&gt;Each behavior should be modeled as a Java class. In this scenario, we have two different behaviors, the &lt;em&gt;Worker&lt;/em&gt; behavior and the &lt;em&gt;Rescuer&lt;/em&gt; behavior.&lt;/p&gt;
+
+&lt;p&gt;The &lt;em&gt;Worker&lt;/em&gt; behavior is fairly simple: Just a translation of the behavior definition:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.myawesomesimulator.ai;
+
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import com.massisframework.massis.model.agents.HighLevelController;
+import com.massisframework.massis.model.agents.LowLevelAgent;
+import com.massisframework.massis.model.managers.movement.ApproachCallback;
+import com.massisframework.massis.pathfinding.straightedge.FindPathResult.PathFinderErrorReason;
+
+public class WorkerController extends HighLevelController {
+
+  private static final long serialVersionUID = 1L;
+
+  private LowLevelAgent followTarget;
+
+  public WorkerController(LowLevelAgent agent, Map&amp;lt;String, String&amp;gt; metadata,
+      String resourcesFolder) {
+    super(agent, metadata, resourcesFolder);
+    this.agent.setHighLevelData(this);
+  }
+
+  @Override
+  public void stop() {
+
+  }
+
+  @Override
+  public void step() {
+    if (this.followTarget != null) {
+      this.agent.approachTo(this.followTarget.getLocation(),
+        new ApproachCallback() {
+
+          @Override
+          public void onTargetReached(LowLevelAgent agent) {
+            // Nothing. We are going to follow the target forever.
+
+          }
+
+          @Override
+          public void onSucess(LowLevelAgent agent) {
+            // Continue following the target.
+          }
+
+          @Override
+          public void onPathFinderError(PathFinderErrorReason reason) {
+            Logger.getLogger(WorkerController.class.getName()).log(
+                Level.SEVERE,
+                &amp;quot;An error occurred when approaching to {0}. Reason: {1}&amp;quot;,
+                new Object[] { followTarget.getLocation(), reason });
+
+          }
+        });
+    }
+  }
+
+  public void setFollowTarget(LowLevelAgent agent) {
+    this.followTarget = agent;
+  }
+
+  public boolean isFollowingSomeone() {
+    return this.followTarget != null;
+  }
+}
+
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;That is! Simple, huh?&lt;/p&gt;
+
+&lt;p&gt;The &lt;em&gt;Rescuer&lt;/em&gt; behavior is a little more tricky. Let&amp;rsquo;s split it into parts:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Tries to visit all the rooms in the building.&lt;/em&gt;
+
+&lt;ul&gt;
+&lt;li&gt;This imply that the robot should track the rooms that it has visited.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Whenever this robot sees a worker robot in the room, makes that worker robot to follow him.&lt;/em&gt;
+
+&lt;ul&gt;
+&lt;li&gt;We need some type of gathering information about the current room.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;When two (or more) rescuer robots are in the same room, they share information about the rooms visited.&lt;/em&gt;
+
+&lt;ul&gt;
+&lt;li&gt;This can be accomplished interchanging the visited rooms of each robot.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;When all the rooms have been explored, this robot goes back to the landing zone&lt;/em&gt;
+
+&lt;ul&gt;
+&lt;li&gt;This is just a basic operation.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;With this facts identified, the only thing left is to code them in a &lt;code&gt;HighLevelController&lt;/code&gt;.
+As we have created the project using the archetype, designing the behavior becomes a &lt;em&gt;fill in the gaps&lt;/em&gt; exercise.
+The attributes needed should be the unexplored rooms, the next room to visit and (optional, but useful in this case) if the work has finished or not.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;private Collection&amp;lt;SimRoom&amp;gt; roomsUnexplored;
+private SimRoom assignedRoom;
+private boolean workFinished;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In the constructor we should initialize the unexplored rooms, and setting the &lt;code&gt;workFinished&lt;/code&gt; attribute to false.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public RescuerController(LowLevelAgent agent, Map&amp;lt;String, String&amp;gt; metadata,
+        String resourcesFolder) {
+    super(agent, metadata, resourcesFolder);
+    this.agent.setHighLevelData(this);
+    this.workFinished = false;
+    this.roomsUnexplored = new HashSet&amp;lt;&amp;gt;();
+    for (SimRoom r : this.agent.getLocation().getFloor().getRooms()) {
+        this.roomsUnexplored.add(r);
+    }
+    this.logger = Logger.getLogger(&amp;quot;Rescuer_&amp;quot; + agent.getID());
+    this.assignNewRoomToExplore();
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This robot should interchange the information about the rooms with other robots:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;private void shareRoomsWith(RescuerController rescuer) {
+    // remove every item that is not present in the other map
+    final boolean changed = this.roomsUnexplored
+            .retainAll(rescuer.roomsUnexplored);
+    if (changed) {
+        logger.log(Level.INFO,
+                &amp;quot;Updated information about rooms to explore: {0}&amp;quot;,
+                this.roomsUnexplored);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This robot should be capable of auto-assigning rooms to explore:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;private void assignNewRoomToExplore() {
+    if (!this.roomsUnexplored.isEmpty()) {
+        SimRoom[] rem = this.roomsUnexplored.toArray(new SimRoom[] {});
+        this.assignedRoom = rem[ThreadLocalRandom.current()
+                .nextInt(rem.length)];
+        this.roomsUnexplored.remove(this.assignedRoom);
+    }
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Also, for approaching to its current target, this method can be written for clarity:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;private void approachToAssignedRoom() {
+  this.agent.approachTo(this.assignedRoom.getLocation(),
+    new ApproachCallback() {
+
+        @Override
+        public void onTargetReached(LowLevelAgent agent) {
+            assignNewRoomToExplore();
+        }
+
+        @Override
+        public void onSucess(LowLevelAgent agent) {
+        }
+
+        @Override
+        public void onPathFinderError(
+                PathFinderErrorReason reason) {
+            logger.log(Level.SEVERE,
+                    &amp;quot;An error occurred when approaching to room {0} Reason: {1}&amp;quot;,
+                    new Object[] { reason, assignedRoom.getID() });
+
+        }
+    });
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Finally, for approaching to the &lt;em&gt;landing zone&lt;/em&gt;,&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;private void approachToLandingZone() {
+    if (!this.workFinished) {
+        this.agent.approachToNamedLocation(&amp;quot;LANDING_ZONE&amp;quot;,
+            new ApproachCallback() {
+                @Override
+                public void onTargetReached(LowLevelAgent agent) {
+                    // Work finished.
+                    RescuerController.this.workFinished = true;
+                }
+                @Override
+                public void onSucess(LowLevelAgent agent) {
+                }
+                @Override
+                public void onPathFinderError(
+                        PathFinderErrorReason reason) {
+                    logger.log(Level.SEVERE,
+                            &amp;quot;An error occurred when approaching &amp;quot;
+                                    + &amp;quot;to landing zone. Reason: {0}&amp;quot;,
+                            reason);
+
+                }
+            });
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This utility methods are intended for using them in the &lt;code&gt;step()&lt;/code&gt; method:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@Override
+public void step() {
+    /*
+     * Is anybody in the room?
+     */
+    if (!this.roomsUnexplored.isEmpty()) {
+        /*
+         * For each agent found in the room, do the corresponding task
+         */
+        for (LowLevelAgent otherAgent : this.agent.getAgentsInRoom()) {
+            // avoid self
+            if (this.agent == otherAgent)
+                continue;
+            /*
+             * Is a rescuer?
+             */
+            if (otherAgent
+                    .getHighLevelData() instanceof RescuerController) {
+                /*
+                 * Affirmative. Share room information
+                 */
+                shareRoomsWith(
+                        (RescuerController) otherAgent.getHighLevelData());
+                /*
+                 * Is a worker? follow me.
+                 */
+            } else if (otherAgent
+                    .getHighLevelData() instanceof WorkerController) {
+
+                final WorkerController follower = (WorkerController) otherAgent
+                        .getHighLevelData();
+                /*
+                 * Check if the robot is already following someone
+                 */
+                if (!follower.isFollowingSomeone()) {
+                    follower.setFollowTarget(this.agent);
+                }
+            }
+
+        }
+        this.approachToAssignedRoom();
+
+    } else {
+        // Go to landing zone.
+        this.approachToLandingZone();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;That&amp;rsquo;s everything! If you prefer to download the entire project, with the building included, &lt;a href=&#34;https://drive.google.com/open?id=0B3-oRpDTDan3Nl9pdUdDRUY0cDQ&#34;&gt;you can do it from here&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Designing the simulation environment</title>
+      <link>http://massisframework.com/post/tutorials/environment-design/</link>
+      <pubDate>Sun, 05 Nov 2056 10:21:39 +0100</pubDate>
+      
+      <guid>http://massisframework.com/post/tutorials/environment-design/</guid>
+      <description>
+
+&lt;h2 id=&#34;environment-editor:503de2820c07a9b745c7e4008aa66e0e&#34;&gt;Environment editor&lt;/h2&gt;
+
+&lt;p&gt;The environment editor of MASSIS is  &lt;a href=&#34;http://www.sweethome3d.com&#34;&gt;SweetHome3D&lt;/a&gt;, which has been extended with plugins, for connecting the editor with the simulation.
+More information about extending SweetHome3D via plugins can be found in the &lt;a href=&#34;http://www.sweethome3d.com/pluginDeveloperGuide.jsp&#34;&gt;Plugins&amp;rsquo; developer guide&lt;/a&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;More information:&lt;/strong&gt;
+The code for SweetHome3D is also &lt;a href=&#34;https://github.com/rpax/sweethome3d&#34;&gt;available at github&lt;/a&gt;, and configured as maven dependency.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;More information:&lt;/strong&gt;
+ Note that the editor launched &lt;em&gt;is not exactly&lt;/em&gt; the SweetHome3D editor. The main class of the editor extends &lt;code&gt;SweetHome3D&lt;/code&gt; class, with support for loading plugins at runtime. This can be used for other applications. The source code can be found at&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/rpax/massis-sh3d-plugins/tree/master/sh3d-additionaldata-app&#34;&gt;https://github.com/rpax/massis-sh3d-plugins/tree/master/sh3d-additionaldata-app&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;More information about how to load custom plugins dynamically can be found
+&lt;a href=&#34;http://massisframework.com/post/loading-custom-plugins-dynamically&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&#34;designing-the-environment:503de2820c07a9b745c7e4008aa66e0e&#34;&gt;Designing the environment&lt;/h2&gt;
+
+&lt;h3 id=&#34;creating-editing-walls:503de2820c07a9b745c7e4008aa66e0e&#34;&gt;Creating &amp;amp; Editing walls&lt;/h3&gt;
+
+&lt;p&gt;The creation of walls can be done in two ways:
+* Selecting Plan → Create walls&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/dkkDSaR.png&#34; alt=&#34;&#34; /&gt;
+&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Pressing the &lt;img src=&#34;http://i.imgur.com/i4qzaDX.png&#34; alt=&#34;&#34; /&gt;
+ icon.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;After that, every left click in the map will create a wall. For finishing the wall creation mode, just click the arrow icon or press the Esc key.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/DAiFfI5.png&#34; alt=&#34;&#34; /&gt;
+&lt;/p&gt;
+
+&lt;h3 id=&#34;adding-doors-windows-furniture:503de2820c07a9b745c7e4008aa66e0e&#34;&gt;Adding doors, windows &amp;amp; furniture&lt;/h3&gt;
+
+&lt;p&gt;The furniture, doors and windows can be selected from the left pane, and can be placed into the building by dragging and dropping them. &lt;strong&gt;Note&lt;/strong&gt;: it is important to place the doors and windows in the walls. Otherwise, the simulation may not work correctly.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/bdr0Vvp.png&#34; alt=&#34;&#34; /&gt;
+&lt;/p&gt;
+
+&lt;h3 id=&#34;importing-3d-objects:503de2820c07a9b745c7e4008aa66e0e&#34;&gt;Importing 3D objects&lt;/h3&gt;
+
+&lt;p&gt;Extra 3D objects can be imported, and configured as window/door/furniture, from Furniture → Import Furniture.&lt;/p&gt;
+
+&lt;h3 id=&#34;drawing-rooms:503de2820c07a9b745c7e4008aa66e0e&#34;&gt;Drawing rooms&lt;/h3&gt;
+
+&lt;p&gt;Rooms can be added the same way as walls, using the  button or selecting the option in Plan → Create Rooms.
+&lt;em&gt;&lt;strong&gt;Very important note&lt;/strong&gt;&lt;/em&gt;: This way is highly discouraged for creating environments for MASSIS. As MASSIS uses the rooms in its preprocessing algorithms, a bad placement of them can make the simulation behave incorrectly, or even failing. The preferred way is double clicking a closed area, surrounded by walls. In this way, the new room will occupy the entire space.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/1SjFlDv.png&#34; alt=&#34;&#34; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Levels can be added by clicking the + icon in the Levels tab&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/csxX8hB.png&#34; alt=&#34;&#34; /&gt;
+&lt;/p&gt;
+
+&lt;h2 id=&#34;metadata-editor:503de2820c07a9b745c7e4008aa66e0e&#34;&gt;Metadata Editor&lt;/h2&gt;
+
+&lt;p&gt;MASSIS needs extra, user-provided information about the elements of the building. This information is stored as metadata inside each element of the building. Every element in the building has metadata, can be viewed and edited directly from Tools → Add Metadata. This popups a simple modal dialog, with input fields in the form of  key – value pairs. These values are read and processed later by MASSIS.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/sq3FNZE.png&#34; alt=&#34;&#34; /&gt;
+&lt;/p&gt;
+
+&lt;h2 id=&#34;teleport-linking:503de2820c07a9b745c7e4008aa66e0e&#34;&gt;Teleport Linking&lt;/h2&gt;
+
+&lt;p&gt;In a building of multiple floors, the agents must be capable of moving through the different floors of the building. This is done via &lt;em&gt;Teleports&lt;/em&gt; : Special elements in the building that, as the name suggests, they teleport the agent from one location to another, and they are unidirectional.&lt;/p&gt;
+
+&lt;p&gt;A correctly configured teleport consists on two elements, representing the origin area and the destination area. Any furniture object can be configured as teleport. However, MASSIS release comes with a group of 3D objects designed with this purpose, in order to make easier the design and recognition of them.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/79suUPY.png&#34; alt=&#34;&#34; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;A Teleport object must have the following parameters,
+&lt;code&gt;type&lt;/code&gt; : &lt;code&gt;START&lt;/code&gt; or &lt;code&gt;END&lt;/code&gt;
+&lt;code&gt;teleport&lt;/code&gt;: the teleport name
+So, in the building, there would be two elements with the same teleport attribute, one with &lt;code&gt;START&lt;/code&gt; as value of type, and the other one with &lt;code&gt;END&lt;/code&gt; as value. The meradata of an element conforming the Teleport &lt;code&gt;SB1_B_LEFT&lt;/code&gt; would be like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/jwtsqoT.png&#34; alt=&#34;&#34; /&gt;
+&lt;/p&gt;
+
+&lt;h2 id=&#34;other-massis-design-utilities:503de2820c07a9b745c7e4008aa66e0e&#34;&gt;Other MASSIS&amp;rsquo; Design Utilities&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Important Note&lt;/strong&gt;: Due to some important changes in the MASSIS&amp;rsquo; framework during November 2015, this feature has been temporarily disabled. Although The code can be found in the &lt;a href=&#34;https://github.com/rpax/MASSIS/tree/master/massis-sh3d-plugins&#34;&gt;main MASSIS repository&lt;/a&gt;, it is not integrated in the application. These plugins will be moved to the &lt;a href=&#34;https://github.com/rpax/massis-sh3d-plugins/&#34;&gt;plugins repository&lt;/a&gt; as soon as possible. The information shown below it is not longer valid.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;MASSIS comes with some other design utilities, that can be found at Tools → Designer tools or Name Generation.&lt;/p&gt;
+
+&lt;h3 id=&#34;designer-tools:503de2820c07a9b745c7e4008aa66e0e&#34;&gt;Designer tools&lt;/h3&gt;
+
+&lt;p&gt;This plugin can make the external walls invisible(not every wall, so the interior of the building can be viewed from the outside, without making all the walls invisible).
+One of the most boring things when designing a building is doing repetitive tasks one by one. For example, the color of the floor. This must be done clicking and modifying each room, in the SweetHome3D&amp;rsquo;s way. With the Rooms Color plugin, this task can be done automatically.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/gDWh2vBm.png&#34; alt=&#34;&#34; /&gt;
+&lt;/p&gt;
+
+&lt;h3 id=&#34;name-generation:503de2820c07a9b745c7e4008aa66e0e&#34;&gt;Name Generation&lt;/h3&gt;
+
+&lt;p&gt;This plugin gives a name with the specified prefix to every room, or door in the building.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/rKIMX5W.png&#34; alt=&#34;&#34; /&gt;
+&lt;/p&gt;
+
+&lt;h2 id=&#34;final-notes:503de2820c07a9b745c7e4008aa66e0e&#34;&gt;Final notes&lt;/h2&gt;
+
+&lt;p&gt;This section is not intended to replace SweetHome3D&amp;rsquo;s manual, only as a getting started guide. For more information, refer to the &lt;a href=&#34;http://www.sweethome3d.com/userGuide.jsp&#34;&gt;SweetHome3D manual&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
