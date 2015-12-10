@@ -1,0 +1,64 @@
+baseurl = "http://massisframework.com/"
+languageCode = "en-us"
+title = "MASSIS Framework"
+nodate = true
+[author]
+name = "Rafael Pax"
+# email will use for gravatar
+email = ""
+
+[[menu.main]]
+    name = "Tutorials"
+    identifier = "Tutorials"
+    url = "/categories/tutorials/"
+[[menu.main]]
+    name = "Getting started"
+	identifier = "GettingStarted"
+    url = "/page/getting-started/"
+[[menu.main]]
+    name = "Authors"
+	identifier = "Authors"
+    url = "/page/authors/"
+
+
+[taxonomies]
+category = "categories"
+
+
+[params]
+# site description, will show under navigation
+description = ""
+logo="http://i.imgur.com/SyxoguRl.png"
+# RSS / Email (optional) subscription links (change if using something like Feedburner)
+#subscribe_rss = "http://massisframework.com/index.xml"
+subscribe_email = ""
+
+# social links
+facebook_user = ""
+googleplus_user = ""
+twitter_user = ""
+github_user = ""
+coderwall_user = ""
+stackoverflow_user = ""
+stackoverflow_user_id = ""
+linkedin_user = ""
+pinterest_user = ""
+delicious_user = ""
+pinboard_user = ""
+quora_user = ""
+instagram_user = ""
+behance_user = ""
+douban_user = ""
+
+# share links
+facebook_like = true
+twitter_tweet_button = true
+google_plus_one = "true"
+addthis_profile_id = ""
+
+# Disqus Comments
+disqus_short_name = ""
+disqus_show_comment_count = false
+
+# google analytics
+google_analytics_tracking_id = ""
