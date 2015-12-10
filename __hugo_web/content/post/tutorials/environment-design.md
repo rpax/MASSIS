@@ -14,7 +14,7 @@ More information about extending SweetHome3D via plugins can be found in the [Pl
 The code for SweetHome3D is also [available at github](https://github.com/rpax/sweethome3d), and configured as maven dependency.
 
 >**More information:**
- Note that the editor launched *is not exactly* the SweetHome3D editor. The main class of the editor extends `SweetHome3D` class, with support for loading plugins at runtime. This can be used for other applications. The source code can be found at
+Note that the editor launched *is not exactly* the SweetHome3D editor. The main class of the editor extends `SweetHome3D` class, with support for loading plugins at runtime. This can be used for other applications. The source code can be found at
 >
 >https://github.com/rpax/massis-sh3d-plugins/tree/master/sh3d-additionaldata-app
 >
