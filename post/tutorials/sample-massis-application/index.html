@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html xmlns="//www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+    <head>
+        
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+
+        <title>Creating a MASSIS Application &middot; MASSIS Framework</title>
+        <link rel='stylesheet' href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600' type='text/css'>
+        <link rel="stylesheet" href="http://www.massisframework.com//libraries/normalize.3.0.1.css" />
+        <link rel="stylesheet" href="http://www.massisframework.com//css/liquorice.css" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon-144-precomposed.png" sizes="144x144" />
+        <link rel="alternate" href="" type="application/rss+xml" title="MASSIS Framework" />
+    </head>
+    <body class="li-body">
+
+<header class="li-page-header">
+    <div class="container">
+        <div class="row">
+            <div class="sixteen columns">
+                <div class="li-brand li-left">
+                <a href="http://www.massisframework.com/">MASSIS Framework</a></div>
+                <div class="li-menu li-right">
+                    <span class="li-menu-icon" onclick="javascript:toggle('menu');">&#9776;</span>
+                    <ul id="menu2" class="li-menu-items">
+                        
+                            <li><a href="/page/authors/"> Authors </a></li>
+                        
+                            <li><a href="/page/getting-started/"> Getting started </a></li>
+                        
+                            <li><a href="/categories/tutorials/"> Tutorials </a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="sixteen columns">
+                <ul id="menu" class="li-menu-items li-menu-mobile">
+                    
+                        <li><a href="/page/authors/"> Authors </a></li>
+                    
+                        <li><a href="/page/getting-started/"> Getting started </a></li>
+                    
+                        <li><a href="/categories/tutorials/"> Tutorials </a></li>
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+
+
+    <div class="container">
+        <div class="row">
+            <div class="sixteen columns">
+                <article class="li-article">
+                    <header class="li-article-header">
+                        <h1 class="li-article-title">Creating a MASSIS Application</h1>
+                        <span class="li-article-taxonomies">
+                           
+                        </span>
+                      
+                    </header>
+                    <section>
+                        
+
+<p>This tutorial covers the basic topics about creating a simple agent behavior for MASSIS. It is assumed that the sections about
+<a href="/page/getting-started/">downloading</a> , and
+<a href="/post/tutorials/environment-design/">environment design</a> sections have been already been read.</p>
+
+<p>Although an experienced programmer can do all of this steps without any kind of IDE, for illustrating purposes, the <a href="http://www.eclipse.org/downloads/">Eclipse platform</a> will be used here. The recommended version is the <em>Eclipse for Java EE Developers</em>.
+<img src="http://i.imgur.com/jteNXzH.png" alt="" />
+</p>
+
+<h2 id="creating-a-maven-project-based-on-a-massis-archetype:e06228b655e61d4d03702e703f2b69d5">Creating a maven project based on a massis archetype</h2>
+
+<ul>
+<li>Right click on the projects sidebar, and select &ldquo;New Project&rdquo;.</li>
+</ul>
+
+<p><img src="http://i.imgur.com/jHjluiC.png" alt="" />
+</p>
+
+<ul>
+<li>In the project type window, select new Maven Project and press <em>Next</em>.</li>
+</ul>
+
+<p><img src="http://i.imgur.com/nekxikS.png" alt="" />
+</p>
+
+<ul>
+<li><p>Ensure that the checkbox <em>Skip Archetype Selection</em> is <strong>unchecked</strong>.
+<img src="http://i.imgur.com/uNrk3nQ.png" alt="" />
+</p></li>
+
+<li><p>Now, we need to add the massis archetype catalog. This can be done through <em>Configure&hellip; -&gt; Add Remote Catalog</em>, and selecting the massis archetype catalog,which is located at <a href="http://mvn.massisframework.com/nexus/content/groups/public/archetype-catalog.xml">http://mvn.massisframework.com/nexus/content/groups/public/archetype-catalog.xml</a></p></li>
+</ul>
+
+<p><img src="http://i.imgur.com/NwtY4Wk.png" alt="" />
+
+<img src="http://i.imgur.com/0KDUOcB.png" alt="" />
+
+<img src="http://i.imgur.com/hRWww0Z.png" alt="" />
+</p>
+
+<ul>
+<li>Remember to check the option <em>Include snapshot archetypes</em></li>
+</ul>
+
+<p><img src="http://i.imgur.com/3lvAJlo.png" alt="" />
+</p>
+
+<ul>
+<li>Select the artifact id, the package and the version. In this tutorial, it will be.</li>
+<li>In this example, it will be:
+
+<ul>
+<li>GroupId : <code>com.myawesomesimulator</code></li>
+<li>artifactId : <code>myawesomesimulator</code></li>
+<li>version : <code>0.0.1-SNAPSHOT</code></li>
+<li>package : <code>com.myawesomesimulator</code></li>
+</ul></li>
+</ul>
+
+<p><img src="http://i.imgur.com/IrXGbgv.png" alt="" />
+</p>
+
+<p>Maven will start downloading the basic dependencies for this project. It should take a few minutes, depending on your internet connection. Take a coffee break.</p>
+
+<p>Once the process is finished, the project should look something like this:</p>
+
+<p><img src="http://i.imgur.com/95aEmU2.png" alt="" />
+</p>
+
+<p>Now we have our own simulator!. Lets explain what&rsquo;s in it.</p>
+
+<ul>
+<li><code>pom.xml</code>. Contains the information about this project, and its dependencies. The <code>repositories</code> tag contains where are the massis dependencies stored, and the <code>dependencies</code> tag, the dependencies of our project. If you want to know more about maven dependencies, please take a look at the <a href="https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html">Introduction to the Dependency Mechanism</a></li>
+</ul>
+
+<pre><code>&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+	xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd&quot;&gt;
+	&lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+	&lt;groupId&gt;com.myawesomesimulator&lt;/groupId&gt;
+	&lt;artifactId&gt;myawesomesimulator&lt;/artifactId&gt;
+	&lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+    &lt;repositories&gt;
+        &lt;repository&gt;
+            &lt;id&gt;nexus-massisframework&lt;/id&gt;
+            &lt;name&gt;nexus-massisframework repository&lt;/name&gt;
+            &lt;url&gt;http://mvn.massisframework.com/nexus/content/groups/public&lt;/url&gt;
+        &lt;/repository&gt;
+    &lt;/repositories&gt;
+
+	&lt;dependencies&gt;
+		&lt;dependency&gt;
+			&lt;groupId&gt;junit&lt;/groupId&gt;
+			&lt;artifactId&gt;junit&lt;/artifactId&gt;
+			&lt;version&gt;3.8.1&lt;/version&gt;
+			&lt;scope&gt;test&lt;/scope&gt;
+		&lt;/dependency&gt;
+		&lt;dependency&gt;
+			&lt;groupId&gt;com.massisframework.massis&lt;/groupId&gt;
+			&lt;artifactId&gt;massis-core&lt;/artifactId&gt;
+			&lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+		&lt;/dependency&gt;
+	&lt;/dependencies&gt;
+	&lt;properties&gt;
+		&lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+		&lt;maven.compiler.source&gt;1.7&lt;/maven.compiler.source&gt;
+		&lt;maven.compiler.target&gt;1.7&lt;/maven.compiler.target&gt;
+	&lt;/properties&gt;
+	&lt;build&gt;
+		&lt;resources&gt;
+			&lt;resource&gt;
+				&lt;directory&gt;src/main/java&lt;/directory&gt;
+				&lt;excludes&gt;
+					&lt;exclude&gt;**/*.java&lt;/exclude&gt;
+				&lt;/excludes&gt;
+			&lt;/resource&gt;
+			&lt;resource&gt;
+				&lt;directory&gt;src/main/resources&lt;/directory&gt;
+			&lt;/resource&gt;
+		&lt;/resources&gt;
+	&lt;/build&gt;
+&lt;/project&gt;
+
+</code></pre>
+
+<ul>
+<li><code>HelloHighLevelController.java</code> : Represents a simple AI that prints &ldquo;Hello!&rdquo; at every simulation step</li>
+</ul>
+
+<pre><code>public class HelloHighLevelController extends HighLevelController {
+
+	private static final long serialVersionUID = 1L;
+	
+	public HelloHighLevelController
+    (LowLevelAgent agent, Map&lt;String, String&gt; metadata, String resourcesFolder) {
+		super(agent, metadata, resourcesFolder);
+		this.agent.setHighLevelData(this);
+	}
+
+	@Override
+	public void stop() {
+		/*
+		 * Clean resources, threads...etc
+		 */
+	}
+
+	@Override
+	public void step() {
+		System.out.println(&quot;Hello!&quot;);
+	}
+}
+</code></pre>
+
+<ul>
+<li><code>EnvironmentEditor.java</code>. A simple launcher for the sweethome3D editor, with the default <a href="#TODO">dynamic plugins</a>.</li>
+</ul>
+
+<pre><code>public class EnvironmentEditor {
+
+	public static void main(String[] args) {
+		HomeMetadataLoader metadataLoader = new HomeMetadataLoader();
+		List&lt;? extends AdditionalDataWriter&gt; writers = Arrays.asList(metadataLoader);
+		List&lt;? extends AdditionalDataReader&gt; loaders = Arrays.asList(metadataLoader);
+
+		List&lt;Class&lt;? extends Plugin&gt;&gt; plugins = new ArrayList&lt;&gt;();
+		plugins.add(BuildingMetadataPlugin.class);
+		SweetHome3DAdditionalDataApplication.run(new String[] {}, loaders, writers, plugins);
+	}
+
+}
+</code></pre>
+
+<ul>
+<li><code>SimulationWithUILauncher.java</code> : An example of a simulation launcher with different types of 2D layers.</li>
+</ul>
+
+<pre><code>public class SimulationWithUILauncher {
+
+/**
+ * @param args the building file path
+ */
+public static void main(String[] args) {
+
+    final String buildingFilePath = args[0];
+    /*
+     * Not needed, really. We are not going to load any kind of resources
+     * during the simulation.
+     */
+    final String resourceFolderPath = &quot;&quot;;
+
+    Simulation simState = new Simulation(System.currentTimeMillis(), buildingFilePath, resourceFolderPath, null);
+    /**
+     * Basic Layers. Can be added more, or removed.
+     */
+    @SuppressWarnings(&quot;unchecked&quot;)
+    DrawableLayer&lt;DrawableFloor&gt;[] floorMapLayers=
+            new DrawableLayer[] {
+                new RoomsLayer(true),
+                new RoomsLabelLayer(false),
+                new VisionRadioLayer(false),
+                new CrowdDensityLayer(false),
+                new WallLayer(true),
+                new DoorLayer(true),
+                new ConnectionsLayer(false),
+                new PathLayer(false),
+                new PeopleLayer(true),
+                new RadioLayer(true),
+                new PathFinderLayer(false),
+                new PeopleIDLayer(false),
+                new VisibleAgentsLines(false),
+                new QTLayer(false)
+            };
+
+    GUIState vid = new SimulationWithUI(simState,floorMapLayers);
+
+    Console c = new Console(vid);
+
+    c.setIncrementSeedOnStop(false);
+    //
+    c.pressPlay();
+    c.pressPause();
+    c.setVisible(true);
+
+}
+
+}
+
+</code></pre>
+
+<p>And that&rsquo;s all!. A complete example of a massis application can be found in the tutorial <em><a href="/post/tutorials/operation-rescue-the-robots/">Operation: Rescue the robots</a></em></p>
+
+                    </section>
+                </article>
+            </div>
+        </div>
+
+       
+
+       <br />
+    </div>
+
+<footer class="li-page-footer">
+    <div class="container">
+        <div class="row">
+            <div class="sixteen columns">
+                <div class="li-page-footer-legal">
+                    &copy; 2015. All rights reserved. 
+                </div>
+                <div class="li-page-footer-theme">
+                    <span class=""><a href="https://github.com/eliasson/liquorice/">liquorice</a> is a theme for <a href="http://hugo.spf13.com">hugo</a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <script type="text/javascript">
+    <!--
+    function toggle(id) {
+        var e = document.getElementById(id);
+        e.style.display == 'block' ? e.style.display = 'none' : e.style.display = 'block';
+    }
+    
+    </script>
+    <script type="text/javascript">
+    <!--
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', ""]);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    -->
+    </script>
+    </body>
+</html>
+

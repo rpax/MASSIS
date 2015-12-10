@@ -9,6 +9,6 @@ rm -rf hugo_tmp
 rm -rf public
 cd ..
 git add -A .
-git commit --amend -C HEAD --no-verify
+#git commit --amend -C HEAD --no-verify
 
 
