@@ -6,9 +6,7 @@ cd $HUGO_DIR
 hugo -d hugo_tmp --theme="liquorice"
 mv hugo_tmp/* ../
 rm -rf hugo_tmp
-if [ -d public ]; then
 rm -rf public
-fi
 cd ..
 git add -A .
 git commit --amend -C HEAD --no-verify
