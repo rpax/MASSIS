@@ -6,7 +6,7 @@
     <description>Recent content in Posts on MASSIS Framework</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 05 Nov 2056 10:21:39 +0100</lastBuildDate>
+    <lastBuildDate>Sun, 05 Nov 2056 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://www.massisframework.com/post/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -563,7 +563,7 @@ public void step() {
     <item>
       <title>Designing the simulation environment</title>
       <link>http://www.massisframework.com/post/tutorials/environment-design/</link>
-      <pubDate>Sun, 05 Nov 2056 10:21:39 +0100</pubDate>
+      <pubDate>Sun, 05 Nov 2056 00:00:00 +0000</pubDate>
       
       <guid>http://www.massisframework.com/post/tutorials/environment-design/</guid>
       <description>

@@ -1,5 +1,5 @@
 +++
-date = "2056-11-05T10:21:39+01:00"
+date = "2056-11-05"
 draft = false
 title = "Designing the simulation environment"
 categories = ["tutorials"]
