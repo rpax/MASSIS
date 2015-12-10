@@ -14,7 +14,41 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.7</maven.compiler.source>
 		<maven.compiler.target>1.7</maven.compiler.target>
+		<github.global.server>github</github.global.server>
+		<massis.altrepo>file://${user.dir}/../../maven-repo/snapshots</massis.altrepo>
 	</properties>
+	<!-- http://stackoverflow.com/a/14013645/3315914 -->
+	<distributionManagement>
+		<snapshotRepository>
+			<id>internal.repo</id>
+			<name>Temporary Staging Repository</name>
+			<url>file://${massis.altrepo}</url>
+		</snapshotRepository>
+	</distributionManagement>
+	<scm>
+		<connection>scm:git:git@github.com:rpax/MASSIS</connection>
+		<url>scm:git:git@github.com:rpax/MASSIS</url>
+		<developerConnection>scm:git:git@github.com:rpax/MASSIS</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+	<developers>
+		<developer>
+			<email>rpax@ucm.es</email>
+			<name>Rafael Pax</name>
+			<url>http://www.massisframework.com</url>
+			<id>rpax</id>
+			<roles>
+				<role>architect</role>
+			</roles>
+		</developer>
+	</developers>
+	<licenses>
+		<license>
+			<name>GPL3.0 License</name>
+			<url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
 	<build>
 		<resources>
 			<resource>
@@ -38,6 +72,26 @@
 				</executions>
 			</plugin>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5.3</version>
+			</plugin>
+			<plugin>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.4</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>deploy</phase>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<!-- explicitly define maven-deploy-plugin after other to force exec 
+					order http://stackoverflow.com/a/4725728/3315914 -->
 				<artifactId>maven-deploy-plugin</artifactId>
 				<version>2.8.2</version>
 				<executions>
@@ -49,7 +103,11 @@
 						</goals>
 					</execution>
 				</executions>
+				<configuration>
+					<altDeploymentRepository>internal.repo::default::${massis.altrepo}</altDeploymentRepository>
+				</configuration>
 			</plugin>
+
 		</plugins>
 	</build>
 </project>
