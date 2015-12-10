@@ -3,7 +3,7 @@ languageCode = "en-us"
 title = "MASSIS Framework"
 nodate = true
 [author]
-name = "Rafael Pax"
+name = "Rafael Pax and Juan Pavon"
 # email will use for gravatar
 email = ""
 
