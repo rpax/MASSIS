@@ -21,8 +21,9 @@
 &lt;a href=&#34;http://www.massisframework.com/page/getting-started/&#34;&gt;downloading&lt;/a&gt; , and
 &lt;a href=&#34;http://www.massisframework.com/post/tutorials/environment-design/&#34;&gt;environment design&lt;/a&gt; sections have been already been read.&lt;/p&gt;
 
-&lt;p&gt;Although an experienced programmer can do all of this steps without any kind of IDE, for illustrating purposes, the &lt;a href=&#34;http://www.eclipse.org/downloads/&#34;&gt;Eclipse platform&lt;/a&gt; will be used here. The recommended version is the &lt;em&gt;Eclipse for Java EE Developers&lt;/em&gt;.
-&lt;img src=&#34;http://i.imgur.com/jteNXzH.png&#34; alt=&#34;&#34; /&gt;
+&lt;p&gt;Although an experienced programmer can do all of this steps without any kind of IDE, for illustrating purposes, the &lt;a href=&#34;http://www.eclipse.org/downloads/&#34;&gt;Eclipse platform&lt;/a&gt; will be used here. The recommended version is the &lt;em&gt;Eclipse IDE for Java Developers&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/6574ISB.png?1&#34; alt=&#34;&#34; /&gt;
 &lt;/p&gt;
 
 &lt;h2 id=&#34;creating-a-maven-project-based-on-a-massis-archetype:e06228b655e61d4d03702e703f2b69d5&#34;&gt;Creating a maven project based on a massis archetype&lt;/h2&gt;

@@ -8,8 +8,9 @@ This tutorial covers the basic topics about creating a simple agent behavior for
 [downloading]({{< relref "page/getting-started.md" >}}) , and
 [environment design]({{< relref "post/tutorials/environment-design.md" >}}) sections have been already been read.
 
-Although an experienced programmer can do all of this steps without any kind of IDE, for illustrating purposes, the [Eclipse platform](http://www.eclipse.org/downloads/) will be used here. The recommended version is the _Eclipse for Java EE Developers_.
-![](http://i.imgur.com/jteNXzH.png)
+Although an experienced programmer can do all of this steps without any kind of IDE, for illustrating purposes, the [Eclipse platform](http://www.eclipse.org/downloads/) will be used here. The recommended version is the _Eclipse IDE for Java Developers_.
+
+![](http://i.imgur.com/6574ISB.png?1)
 
 ## Creating a maven project based on a massis archetype
 
