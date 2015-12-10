@@ -11,5 +11,6 @@ rm -rf public
 fi
 cd ..
 git add -A .
+git commit --amend -C HEAD --no-verify
 
 
