@@ -7,9 +7,7 @@ hugo -d hugo_tmp --theme="liquorice"
 mv hugo_tmp/* ../
 rm -rf hugo_tmp
 rm -rf public
-
-#ahora se hace un site y se mueven los elementos de site al sitio ppal.
-#./buildsite.sh
-#
+cd ..
+git add -A .
 
 
