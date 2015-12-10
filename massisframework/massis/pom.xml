@@ -11,11 +11,12 @@
 	<packaging>pom</packaging>
 	<name>MASSIS</name>
 	<description>Massis simulator</description>
+	
 	<modules>
 		<module>massis-utils</module>
 		<module>massis-core</module>
 		<module>massis-ai-sposh</module>
 		<module>massis-app</module>
-	    <module>massis-archetypes</module>
+		<module>massis-archetypes</module>
 	</modules>
 </project>

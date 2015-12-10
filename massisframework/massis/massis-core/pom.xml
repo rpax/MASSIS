@@ -23,16 +23,12 @@
             <artifactId>massis-utils</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>com.massisframework.sweethome3d</groupId>
-            <artifactId>sh3d-metadata</artifactId>
-            <version>1.0-SNAPSHOT</version>
+       <dependency>
+        	<groupId>com.massisframework</groupId>
+        	<artifactId>massis-gui</artifactId>
+        	<version>1.0-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>com.massisframework.sweethome3d</groupId>
-            <artifactId>sh3d-metadata-plugin</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
+       
         <!-- -->
         <dependency>
             <groupId>org.xerial</groupId>
@@ -56,11 +52,12 @@
             <artifactId>core-math</artifactId>
             <version>1.3</version>
         </dependency>
+
+
         <dependency>
-        	<groupId>com.massisframework</groupId>
-        	<artifactId>massis-gui</artifactId>
-        	<version>1.0-SNAPSHOT</version>
-        </dependency>
+			<groupId>com.massisframework.sweethome3d</groupId>
+			<artifactId>sh3d-metadata-plugin</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
     </dependencies>
-    
 </project>

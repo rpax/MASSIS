@@ -14,18 +14,38 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.7</maven.compiler.source>
 		<maven.compiler.target>1.7</maven.compiler.target>
-		<github.global.server>github</github.global.server>
-		<massis.altrepo>file://${user.dir}/../../maven-repo/snapshots</massis.altrepo>
 	</properties>
-	<!-- http://stackoverflow.com/a/14013645/3315914 -->
+	<dependencies>
+		<dependency>
+			<groupId>org.jogamp.gluegen</groupId>
+			<artifactId>gluegen-rt-main</artifactId>
+			<version>2.3.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jogamp.jogl</groupId>
+			<artifactId>jogl-all-main</artifactId>
+			<version>2.3.2</version>
+		</dependency>
+	</dependencies>
+	<repositories>
+		<repository>
+			<id>central</id>
+			<url>https://repo1.maven.org/maven2</url>
+		</repository>
+		<repository>
+			<id>nexus-massisframework</id>
+			<name>nexus-massisframework repository</name>
+			<url>http://mvn.massisframework.com/nexus/content/groups/public</url>
+		</repository>
+	</repositories>
 	<distributionManagement>
 		<snapshotRepository>
 			<id>snapshots</id>
 			<url>http://mvn.massisframework.com/nexus/content/repositories/snapshots</url>
 		</snapshotRepository>
 		<repository>
-		<id>releases</id>
-		<url>http://mvn.massisframework.com/nexus/content/repositories/releases</url>
+			<id>releases</id>
+			<url>http://mvn.massisframework.com/nexus/content/repositories/releases</url>
 		</repository>
 	</distributionManagement>
 	<scm>
@@ -59,6 +79,9 @@
 				<excludes>
 					<exclude>**/*.java</exclude>
 				</excludes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
 			</resource>
 		</resources>
 		<plugins>
