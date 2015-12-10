@@ -151,7 +151,7 @@ One of the most boring things when designing a building is doing repetitive task
 
 &lt;p&gt;The scenario to be simulated is the following:&lt;/p&gt;
 
-&lt;p&gt;he impact of a meteorite has caused irreparable damage to an extraterrestrial station. Luckily, there were no humans on the station, only robots.&lt;/p&gt;
+&lt;p&gt;The impact of a meteorite has caused irreparable damage to an extraterrestrial station. Luckily, there were no humans on the station, only robots.&lt;/p&gt;
 
 &lt;p&gt;But these robots were controlled remotely, and the meteorite impact has broken one antenna. In order to solve this issue, a new kind of robots are sent to this station. Their mission will consist on rescuing the robots that are in the incommunicated station.&lt;/p&gt;
 
@@ -684,6 +684,15 @@ public static void main(String[] args) {
     </item>
     
     <item>
+      <title>Authors</title>
+      <link>http://www.massisframework.com/page/authors/</link>
+      <pubDate>Thu, 05 Nov 2015 09:56:34 +0100</pubDate>
+      
+      <guid>http://www.massisframework.com/page/authors/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Downloading MASSIS</title>
       <link>http://www.massisframework.com/page/getting-started/</link>
       <pubDate>Thu, 05 Nov 2015 09:56:34 +0100</pubDate>
@@ -744,15 +753,6 @@ public static void main(String[] args) {
 
 &lt;p&gt;The &lt;a href=&#34;http://www.massisframework.com/categories/tutorials/&#34;&gt;tutorials section&lt;/a&gt; contains examples about creating an application based on MASSIS&amp;rsquo; framework.&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Authors</title>
-      <link>http://www.massisframework.com/page/authors/</link>
-      <pubDate>Thu, 05 Nov 2015 09:56:34 +0100</pubDate>
-      
-      <guid>http://www.massisframework.com/page/authors/</guid>
-      <description></description>
     </item>
     
     <item>
