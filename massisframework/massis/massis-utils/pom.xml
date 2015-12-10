@@ -4,17 +4,12 @@
 
 	<parent>
 		<groupId>com.massisframework.massis</groupId>
-		<artifactId>massis-framework-all</artifactId>
+		<artifactId>massis</artifactId>
 		<version>1.0-SNAPSHOT</version>
-		<relativePath>../massis-framework-all</relativePath>
 	</parent>
-	
-    
     <artifactId>massis-utils</artifactId>
     <packaging>jar</packaging>
     <name>massis-utils</name>
-   
-    
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
