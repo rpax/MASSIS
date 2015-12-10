@@ -20,10 +20,13 @@
 	<!-- http://stackoverflow.com/a/14013645/3315914 -->
 	<distributionManagement>
 		<snapshotRepository>
-			<id>internal.repo</id>
-			<name>Temporary Staging Repository</name>
-			<url>file://${massis.altrepo}</url>
+			<id>snapshots</id>
+			<url>http://mvn.massisframework.com/nexus/content/repositories/snapshots</url>
 		</snapshotRepository>
+		<repository>
+		<id>releases</id>
+		<url>http://mvn.massisframework.com/nexus/content/repositories/releases</url>
+		</repository>
 	</distributionManagement>
 	<scm>
 		<connection>scm:git:git@github.com:rpax/MASSIS</connection>
@@ -60,18 +63,6 @@
 		</resources>
 		<plugins>
 			<plugin>
-				<artifactId>maven-source-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<phase>deploy</phase>
-						<goals>
-							<goal>jar-no-fork</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
 				<version>2.5.3</version>
@@ -103,9 +94,6 @@
 						</goals>
 					</execution>
 				</executions>
-				<configuration>
-					<altDeploymentRepository>internal.repo::default::${massis.altrepo}</altDeploymentRepository>
-				</configuration>
 			</plugin>
 
 		</plugins>
