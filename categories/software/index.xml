@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Software on MASSIS Framework</title>
-    <link>http://massisframework.com/categories/software/</link>
+    <link>http://www.massisframework.com/categories/software/</link>
     <description>Recent content in Software on MASSIS Framework</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 05 Nov 2015 09:56:34 +0100</lastBuildDate>
-    <atom:link href="http://massisframework.com/categories/software/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://www.massisframework.com/categories/software/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Downloading MASSIS</title>
-      <link>http://massisframework.com/page/getting-started/</link>
+      <link>http://www.massisframework.com/page/getting-started/</link>
       <pubDate>Thu, 05 Nov 2015 09:56:34 +0100</pubDate>
       
-      <guid>http://massisframework.com/page/getting-started/</guid>
+      <guid>http://www.massisframework.com/page/getting-started/</guid>
       <description>
 
 &lt;p&gt;The following requirements are needed for running MASSIS:&lt;/p&gt;
@@ -68,7 +68,7 @@
 
 &lt;p&gt;This is the preferred option if the objective of your project is developing an application using MASSIS&amp;rsquo; features, without changing MASSIS&amp;rsquo; source code.&lt;/p&gt;
 
-&lt;p&gt;The &lt;a href=&#34;http://massisframework.com/categories/tutorials/&#34;&gt;tutorials section&lt;/a&gt; contains examples about creating an application based on MASSIS&amp;rsquo; framework.&lt;/p&gt;
+&lt;p&gt;The &lt;a href=&#34;http://www.massisframework.com/categories/tutorials/&#34;&gt;tutorials section&lt;/a&gt; contains examples about creating an application based on MASSIS&amp;rsquo; framework.&lt;/p&gt;
 </description>
     </item>
     

@@ -2,24 +2,24 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on MASSIS Framework</title>
-    <link>http://massisframework.com/post/</link>
+    <link>http://www.massisframework.com/post/</link>
     <description>Recent content in Posts on MASSIS Framework</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 05 Nov 2056 10:21:39 +0100</lastBuildDate>
-    <atom:link href="http://massisframework.com/post/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://www.massisframework.com/post/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Creating a MASSIS Application</title>
-      <link>http://massisframework.com/post/tutorials/sample-massis-application/</link>
+      <link>http://www.massisframework.com/post/tutorials/sample-massis-application/</link>
       <pubDate>Thu, 05 Nov 2015 13:19:52 +0100</pubDate>
       
-      <guid>http://massisframework.com/post/tutorials/sample-massis-application/</guid>
+      <guid>http://www.massisframework.com/post/tutorials/sample-massis-application/</guid>
       <description>
 
 &lt;p&gt;This tutorial covers the basic topics about creating a simple agent behavior for MASSIS. It is assumed that the sections about
-&lt;a href=&#34;http://massisframework.com/page/getting-started/&#34;&gt;downloading&lt;/a&gt; , and
-&lt;a href=&#34;http://massisframework.com/post/tutorials/environment-design/&#34;&gt;environment design&lt;/a&gt; sections have been already been read.&lt;/p&gt;
+&lt;a href=&#34;http://www.massisframework.com/page/getting-started/&#34;&gt;downloading&lt;/a&gt; , and
+&lt;a href=&#34;http://www.massisframework.com/post/tutorials/environment-design/&#34;&gt;environment design&lt;/a&gt; sections have been already been read.&lt;/p&gt;
 
 &lt;p&gt;Although an experienced programmer can do all of this steps without any kind of IDE, for illustrating purposes, the &lt;a href=&#34;http://www.eclipse.org/downloads/&#34;&gt;Eclipse platform&lt;/a&gt; will be used here. The recommended version is the &lt;em&gt;Eclipse for Java EE Developers&lt;/em&gt;.
 &lt;img src=&#34;http://i.imgur.com/jteNXzH.png&#34; alt=&#34;&#34; /&gt;
@@ -244,21 +244,21 @@ public static void main(String[] args) {
 
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;And that&amp;rsquo;s all!. A complete example of a massis application can be found in the tutorial &lt;em&gt;&lt;a href=&#34;http://massisframework.com/post/tutorials/operation-rescue-the-robots/&#34;&gt;Operation: Rescue the robots&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;And that&amp;rsquo;s all!. A complete example of a massis application can be found in the tutorial &lt;em&gt;&lt;a href=&#34;http://www.massisframework.com/post/tutorials/operation-rescue-the-robots/&#34;&gt;Operation: Rescue the robots&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>Operation: Rescue the robots. Part 1</title>
-      <link>http://massisframework.com/post/tutorials/operation-rescue-the-robots/</link>
+      <link>http://www.massisframework.com/post/tutorials/operation-rescue-the-robots/</link>
       <pubDate>Mon, 23 Nov 2015 10:21:39 +0100</pubDate>
       
-      <guid>http://massisframework.com/post/tutorials/operation-rescue-the-robots/</guid>
+      <guid>http://www.massisframework.com/post/tutorials/operation-rescue-the-robots/</guid>
       <description>
 
-&lt;p&gt;It is assumed in this tutorial that the reader has already gone through the basic tutorials, such as &lt;a href=&#34;http://massisframework.com/page/getting-started/&#34;&gt;the getting started guide&lt;/a&gt; and &lt;a href=&#34;http://massisframework.com/post/tutorials/sample-massis-application/&#34;&gt;Creating a MASSIS Application&lt;/a&gt; sections have been already been read.&lt;/p&gt;
+&lt;p&gt;It is assumed in this tutorial that the reader has already gone through the basic tutorials, such as &lt;a href=&#34;http://www.massisframework.com/page/getting-started/&#34;&gt;the getting started guide&lt;/a&gt; and &lt;a href=&#34;http://www.massisframework.com/post/tutorials/sample-massis-application/&#34;&gt;Creating a MASSIS Application&lt;/a&gt; sections have been already been read.&lt;/p&gt;
 
-&lt;p&gt;For designing the scenario, it is recommended to read the &lt;a href=&#34;http://massisframework.com/post/tutorials/environment-design/&#34;&gt;environment design&lt;/a&gt; section.&lt;/p&gt;
+&lt;p&gt;For designing the scenario, it is recommended to read the &lt;a href=&#34;http://www.massisframework.com/post/tutorials/environment-design/&#34;&gt;environment design&lt;/a&gt; section.&lt;/p&gt;
 
 &lt;h2 id=&#34;scenario-description:6b32bd56400fe0844b5789f3d73d3322&#34;&gt;Scenario description&lt;/h2&gt;
 
@@ -293,7 +293,7 @@ In case of lost of communication, these robots behave as follows:&lt;/p&gt;
 
 &lt;h2 id=&#34;implementation-from-the-idea-to-the-code:6b32bd56400fe0844b5789f3d73d3322&#34;&gt;Implementation - From the idea to the code&lt;/h2&gt;
 
-&lt;p&gt;This project will be based on the  &lt;a href=&#34;http://massisframework.com/post/tutorials/sample-massis-application/&#34;&gt;basic MASSIS archetype explained previously&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;This project will be based on the  &lt;a href=&#34;http://www.massisframework.com/post/tutorials/sample-massis-application/&#34;&gt;basic MASSIS archetype explained previously&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h3 id=&#34;two-behaviors-imply-two-classes:6b32bd56400fe0844b5789f3d73d3322&#34;&gt;Two behaviors imply two classes.&lt;/h3&gt;
 
@@ -562,10 +562,10 @@ public void step() {
     
     <item>
       <title>Designing the simulation environment</title>
-      <link>http://massisframework.com/post/tutorials/environment-design/</link>
+      <link>http://www.massisframework.com/post/tutorials/environment-design/</link>
       <pubDate>Sun, 05 Nov 2056 10:21:39 +0100</pubDate>
       
-      <guid>http://massisframework.com/post/tutorials/environment-design/</guid>
+      <guid>http://www.massisframework.com/post/tutorials/environment-design/</guid>
       <description>
 
 &lt;h2 id=&#34;environment-editor:503de2820c07a9b745c7e4008aa66e0e&#34;&gt;Environment editor&lt;/h2&gt;
@@ -583,7 +583,7 @@ The code for SweetHome3D is also &lt;a href=&#34;https://github.com/rpax/sweetho
 &lt;p&gt;&lt;a href=&#34;https://github.com/rpax/massis-sh3d-plugins/tree/master/sh3d-additionaldata-app&#34;&gt;https://github.com/rpax/massis-sh3d-plugins/tree/master/sh3d-additionaldata-app&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;More information about how to load custom plugins dynamically can be found
-&lt;a href=&#34;http://massisframework.com/post/loading-custom-plugins-dynamically&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;a href=&#34;http://www.massisframework.com/post/loading-custom-plugins-dynamically&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;h2 id=&#34;designing-the-environment:503de2820c07a9b745c7e4008aa66e0e&#34;&gt;Designing the environment&lt;/h2&gt;
