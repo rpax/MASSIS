@@ -14,7 +14,7 @@ For designing the scenario, it is recommended to read the [environment design]({
 
 The scenario to be simulated is the following:
 
-The impact of a meteorite has caused irreparable damage to an extraterrestrial station. Luckily, there were no humans on the station, only robots.
+he impact of a meteorite has caused irreparable damage to an extraterrestrial station. Luckily, there were no humans on the station, only robots.
 
 But these robots were controlled remotely, and the meteorite impact has broken one antenna. In order to solve this issue, a new kind of robots are sent to this station. Their mission will consist on rescuing the robots that are in the incommunicated station.
 
