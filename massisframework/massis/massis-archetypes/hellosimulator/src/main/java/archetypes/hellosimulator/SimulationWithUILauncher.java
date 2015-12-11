@@ -1,4 +1,4 @@
-package hellosimulator.sim;
+package archetypes.hellosimulator;
 
 import java.io.IOException;
 import java.net.URL;
@@ -44,7 +44,7 @@ public class SimulationWithUILauncher {
 		try
 		{
 			
-			buildingFilePath = SampleHomesLoader.loadHomeTempFile("hellosimulator_home")
+			buildingFilePath = SampleHomesLoader.loadHomeTempFile("basichouse")
 					.getAbsolutePath();
 		} catch (final IOException  e)
 		{

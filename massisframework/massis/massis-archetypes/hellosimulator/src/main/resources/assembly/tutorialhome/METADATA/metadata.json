@@ -1,1 +1,0 @@
-{"walls":[{"ID":"1"},{"ID":"2"},{"ID":"3"},{"ID":"4"},{"ID":"5"},{"ID":"6"}],"rooms":[{"ID":"7"}],"furniture":[{"ID":"8"},{"ID":"9"},{"":"","IS_OBSTACLE":"true","ID":"11","IS_DYNAMIC":"true","CLASSNAME":"hellosimulator.ai.MyHelloHighLevelController"}]}

@@ -24,7 +24,7 @@ public class HelloHighLevelController extends HighLevelController {
 	@Override
 	public void step()
 	{
-		System.out.println("HELLO!");
+		System.out.println("HELLO! I am the default implementation of a HighLevelController!");
 	}
 
 }
