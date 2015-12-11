@@ -578,7 +578,69 @@ Before/After Reduction : 4/2,[22=&amp;gt;16] took 6 ms
       <pubDate>Fri, 06 Nov 2015 13:19:52 +0100</pubDate>
       
       <guid>http://www.massisframework.com/post/tutorials/defining-a-simple-behavior/</guid>
-      <description>&lt;p&gt;This is the continuation of the &lt;a href=&#34;http://www.massisframework.com/post/tutorials/customizing-the-archetype/&#34;&gt;Second tutorial&lt;/a&gt;.&lt;/p&gt;
+      <description>
+
+&lt;p&gt;This is the continuation of the &lt;a href=&#34;http://www.massisframework.com/post/tutorials/customizing-the-archetype/&#34;&gt;Second tutorial&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;simulation-gui-explained:eefcc561692713ed4045ec5201f4fd82&#34;&gt;Simulation GUI explained.&lt;/h2&gt;
+
+&lt;p&gt;When launching &lt;code&gt;SimulationWithUILauncher&lt;/code&gt;, appears a gui with the following tabs:&lt;/p&gt;
+
+&lt;h4 id=&#34;about:eefcc561692713ed4045ec5201f4fd82&#34;&gt;About&lt;/h4&gt;
+
+&lt;p&gt;Shows the MASSIS&amp;rsquo; logo and copyright information&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/kPN5EI7.png&#34; alt=&#34;&#34; /&gt;
+&lt;/p&gt;
+
+&lt;h4 id=&#34;console:eefcc561692713ed4045ec5201f4fd82&#34;&gt;Console&lt;/h4&gt;
+
+&lt;p&gt;Controls simulation parameters.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Delay (Sec/Step) : Delay between steps in the simulation&lt;/li&gt;
+&lt;li&gt;Steps per Step-button : Number of steps to be executed every time the play-pause button is pressed.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/SI7dSrf.png&#34; alt=&#34;&#34; /&gt;
+&lt;/p&gt;
+
+&lt;h4 id=&#34;displays:eefcc561692713ed4045ec5201f4fd82&#34;&gt;Displays&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/PptfTUD.png&#34; alt=&#34;&#34; /&gt;
+&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Building map : Shows the 2D layer- based map.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/2Ba54YT.png&#34; alt=&#34;&#34; /&gt;
+&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;TODO: explain layers.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/IcRLXtI.png&#34; alt=&#34;&#34; /&gt;
+&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Building 2D&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Shows SweetHome3D default 2D viewer (not optimized,not recommended, may raise errors)&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/2tnx3mF.png&#34; alt=&#34;&#34; /&gt;
+&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Building 3D&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Shows the 3D viewer.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/YZGH1rM.png&#34; alt=&#34;&#34; /&gt;
+&lt;/p&gt;
 </description>
     </item>
     
