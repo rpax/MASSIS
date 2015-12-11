@@ -26,6 +26,7 @@ import com.massisframework.massis.model.managers.EnvironmentManager;
 import com.massisframework.massis.model.managers.movement.MovementManager;
 import com.massisframework.massis.model.managers.pathfinding.PathFindingManager;
 import com.massisframework.massis.sim.AbstractSimulation;
+import com.massisframework.massis.util.SH3DUtils;
 import com.massisframework.sweethome3d.metadata.HomeMetadataLoader;
 
 /**
@@ -71,7 +72,7 @@ public class Building {
     private final MovementManager movement;
     private final AnimationManager animation;
     private final EnvironmentManager environment;
-    private PathFindingManager pathManager;
+    private final PathFindingManager pathManager;
     //
     /**
      * Map of the named locations of the building. POI & more
@@ -82,7 +83,7 @@ public class Building {
      * specific room
      */
     private final Map<String, SimRoom> namedRooms = new HashMap<>();
-    private Collection<HighLevelController> scheduledControllers = new ArrayList<>();
+    private final Collection<HighLevelController> scheduledControllers = new ArrayList<>();
 	
 
     /**
@@ -173,8 +174,8 @@ public class Building {
         {
             teleport.setConnection(this.teleportMap.get(teleport.getName()));
             this.teleportMap.get(teleport.getName()).setConnection(teleport);
-            allTeleports.add(teleport);
-            allTeleports.add(this.teleportMap.get(teleport.getName()));
+            this.allTeleports.add(teleport);
+            this.allTeleports.add(this.teleportMap.get(teleport.getName()));
             System.err.println("Linked " + teleport.getName());
             // Y se quita del mapa
             this.teleportMap.remove(teleport.getName());
@@ -202,20 +203,25 @@ public class Building {
          * Maps linking the sweethome3d level with the rooms, furniture and
          * walls in it
          */
-        HashMap<Level, ArrayList<Room>> levelRooms = getLevelsElevatables(
+        final HashMap<Level, ArrayList<Room>> levelRooms = getLevelsElevatables(
                 this.getHome()
                 .getRooms());
-        HashMap<Level, ArrayList<Wall>> levelWalls = getLevelsElevatables(
+        final HashMap<Level, ArrayList<Wall>> levelWalls = getLevelsElevatables(
                 this.getHome()
                 .getWalls());
-        HashMap<Level, ArrayList<HomePieceOfFurniture>> levelFurniture = getLevelsElevatables(
+        final HashMap<Level, ArrayList<HomePieceOfFurniture>> levelFurniture = getLevelsElevatables(
                 this.getHome()
                 .getFurniture());
         this.levelsFloors = new HashMap<>();
         //
         progressMonitor.onUpdate(2, "Loading building");
         //
-        for (Level level : this.getHome().getLevels())
+        final ArrayList<Level> levels = new ArrayList<>(this.getHome().getLevels());
+        if (levels.isEmpty())
+		{
+			levels.add(null);
+		}
+        for (final Level level : levels)
         {
             if (!levelRooms.containsKey(level))
             {
@@ -230,8 +236,8 @@ public class Building {
                 levelFurniture
                         .put(level, new ArrayList<HomePieceOfFurniture>());
             }
-            System.err.println("Creating level " + level.getName());
-            Floor f = new Floor(level, levelRooms.get(level),
+            System.err.println("Creating level " + SH3DUtils.getLevelName(level));
+            final Floor f = new Floor(level, levelRooms.get(level),
                     levelWalls.get(level), levelFurniture.get(level), this);
             this.floors.add(f);
             this.levelsFloors.put(level, f);
@@ -246,7 +252,7 @@ public class Building {
         progressMonitor.onUpdate(5, "Preprocessing rooms");
         //
         int nrooms = 0;
-        for (Floor f : this.getFloors())
+        for (final Floor f : this.getFloors())
         {
             nrooms += f.getRooms().size();
         }
@@ -258,9 +264,9 @@ public class Building {
          * on a room, and there is not now, it is more probable that it is in
          * the nearest room (BFS order).
          */
-        for (Floor f : this.getFloors())
+        for (final Floor f : this.getFloors())
         {
-            for (SimRoom sr : f.getRooms())
+            for (final SimRoom sr : f.getRooms())
             {
                 progressMonitor.onUpdate(5 + roomNumber * 5.0D / nrooms,
                         "Connecting rooms");
@@ -296,8 +302,8 @@ public class Building {
     private static <T extends Elevatable> HashMap<Level, ArrayList<T>> getLevelsElevatables(
             Collection<T> elements)
     {
-        HashMap<Level, ArrayList<T>> elevatables = new HashMap<>();
-        for (T e : elements)
+        final HashMap<Level, ArrayList<T>> elevatables = new HashMap<>();
+        for (final T e : elements)
         {
             ArrayList<T> lvlElevatables = elevatables.get(e.getLevel());
             if (lvlElevatables == null)
@@ -315,7 +321,7 @@ public class Building {
 
     public List<Floor> getFloors()
     {
-        return Collections.unmodifiableList(floors);
+        return Collections.unmodifiableList(this.floors);
     }
 
     public Home getHome()
@@ -325,7 +331,7 @@ public class Building {
 
     public HashMap<Level, Floor> getLevelsFloors()
     {
-        return levelsFloors;
+        return this.levelsFloors;
     }
 
     public Floor getFloorOf(Level lvl)
@@ -335,7 +341,7 @@ public class Building {
 
     public Floor getFloorById(int floorId)
     {
-        for (Floor f : this.getFloors())
+        for (final Floor f : this.getFloors())
         {
             if (f.getID() == floorId)
             {
@@ -354,9 +360,9 @@ public class Building {
      */
     public SimulationObject getSimulationObject(int simObjId)
     {
-        for (Floor f : this.getFloors())
+        for (final Floor f : this.getFloors())
         {
-            for (DefaultAgent p : f.getAgents())
+            for (final DefaultAgent p : f.getAgents())
             {
                 if (p.getID() == simObjId)
                 {
@@ -370,7 +376,7 @@ public class Building {
 
     public SimRoom getRandomRoom()
     {
-        Floor rndFloor = this.floors.get(ThreadLocalRandom.current().nextInt(
+        final Floor rndFloor = this.floors.get(ThreadLocalRandom.current().nextInt(
                 this.floors.size()));
         return rndFloor.getRandomRoom();
     }
@@ -412,7 +418,7 @@ public class Building {
 
     public String getResourcesFolder()
     {
-        return resourcesFolder;
+        return this.resourcesFolder;
     }
 
     public Map<String, String> getMetadata(Selectable f)

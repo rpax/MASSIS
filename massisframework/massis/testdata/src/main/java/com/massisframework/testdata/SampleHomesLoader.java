@@ -6,25 +6,20 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.ImageIcon;
 import javax.swing.event.ListSelectionEvent;
 
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.LineIterator;
 
-import com.eteks.sweethome3d.model.Home;
 import com.eteks.sweethome3d.model.RecorderException;
 import com.eteks.sweethome3d.tools.OperatingSystem;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.massisframework.sweethome3d.additionaldata.AdditionalDataHomeRecorder;
 import com.massisframework.testdata.gui.SampleHomeGUIControl;
 import com.massisframework.testdata.gui.SampleHomesGUI;
 
@@ -49,34 +44,27 @@ public class SampleHomesLoader {
 	 * @throws IOException
 	 * @throws RecorderException
 	 */
-	public static Home load(String homeName)
-			throws IOException, RecorderException
+	public static File loadHomeTempFile(String homeName) throws IOException
+
 	{
-		if (!listAvailable().contains(homeName))
+
+		final SampleHomeDescription desc = loadDescription(homeName);
+
+		/*
+		 * Copy home file to temporary folder & load it.
+		 */
+		final File destFile = OperatingSystem
+				.createTemporaryFile("MASSIS_", ".sh3d");
+		try (InputStream is = SampleHomesLoader.class.getClassLoader()
+				.getResourceAsStream(SAMPLES_BUILDING_DIR + desc.getFilename()))
 		{
-			Logger.getLogger(SampleHomesLoader.class.getName()).log(
-					Level.WARNING,
-					"Building not present in when listing available buildings. Returning null");
-			return null;
-		} else
-		{
-			/*
-			 * Copy home file to temporary folder & load it.
-			 */
-			final File destFile = OperatingSystem
-					.createTemporaryFile("MASSIS_", ".sh3d");
-			try (InputStream is = SampleHomesLoader.class.getClassLoader()
-					.getResourceAsStream(SAMPLES_BUILDING_DIR + homeName))
+			try (FileOutputStream os = new FileOutputStream(destFile))
 			{
-				try (FileOutputStream os = new FileOutputStream(destFile))
-				{
-					IOUtils.copy(is, os);
-				}
+				IOUtils.copy(is, os);
 			}
-			final Home home = new AdditionalDataHomeRecorder()
-					.readHome(destFile.getAbsolutePath());
-			return home;
 		}
+		destFile.deleteOnExit();
+		return destFile;
 	}
 
 	/**
@@ -122,12 +110,10 @@ public class SampleHomesLoader {
 	{
 		try (InputStream is = SampleHomesLoader.class.getClassLoader()
 				.getResourceAsStream(
-						SAMPLES_BUILDING_DIR
-								+ homeName.replace(".sh3d", ".json")))
+						SAMPLES_BUILDING_DIR + homeName + ".json"))
 		{
 			final String jsonContent = IOUtils.toString(is);
-			return new Gson().fromJson(jsonContent,
-					SampleHomeDescription.class);
+			return gson.fromJson(jsonContent, SampleHomeDescription.class);
 		}
 	}
 
@@ -148,10 +134,11 @@ public class SampleHomesLoader {
 		frame.setVisible(true);
 
 		// Tendria que hacerlo el controlador
-		
 
 	}
-	private static void updateGUI(SampleHomesGUI gui) {
+
+	private static void updateGUI(SampleHomesGUI gui)
+	{
 		final String selectedHomeName = gui.getSelectedHomeName();
 		try
 		{
@@ -165,6 +152,7 @@ public class SampleHomesLoader {
 			e.printStackTrace();
 		}
 	}
+
 	private static SampleHomeGUIControl getSampleGUIControl()
 	{
 		return new SampleHomeGUIControl() {
