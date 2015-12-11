@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.WindowConstants;
 import javax.swing.event.ListSelectionEvent;
 
@@ -39,7 +40,7 @@ public class LoadSampleHomeAction extends PluginAction {
 	@Override
 	public void execute()
 	{
-		SampleHomesLoader.listAvailable();
+		
 		final SampleHomeGUIControl control = new SampleHomeGUIControl() {
 
 			@Override
@@ -101,7 +102,8 @@ public class LoadSampleHomeAction extends PluginAction {
 		{
 			final SampleHomeDescription desc = SampleHomesLoader
 					.loadDescription(selectedHomeName.replace(".sh3d", ""));
-			gui.setImage(desc.getImage());
+			
+			gui.setImage(new ImageIcon(desc.getImageURL()));
 			gui.setDescription(desc.getDescription());
 		} catch (final IOException e)
 		{

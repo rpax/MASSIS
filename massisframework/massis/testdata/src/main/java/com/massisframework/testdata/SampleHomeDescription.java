@@ -2,10 +2,10 @@ package com.massisframework.testdata;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-
 
 public class SampleHomeDescription {
 
@@ -13,8 +13,8 @@ public class SampleHomeDescription {
 	private String filename;
 	private String description;
 	private String image;
+	private URL imageURL;
 
-	
 	public String getShortdescription()
 	{
 		return this.shortdescription;
@@ -24,21 +24,25 @@ public class SampleHomeDescription {
 	{
 		return this.filename;
 	}
-	
+
 	public String getDescription()
 	{
 		return this.description;
 	}
 
-	public ImageIcon getImage() throws IOException
+	public String getImage() throws IOException
 	{
-		try (InputStream is = SampleHomesLoader.class.getClassLoader()
-				.getResourceAsStream(
-						SampleHomesLoader.SAMPLES_BUILDING_DIR
-								+ SampleHomeDescription.this.image))
-		{
-			return new ImageIcon(ImageIO.read(is));
-		}
-		// open stream to image path.
+		return this.image;
 	}
+
+	public URL getImageURL()
+	{
+		return this.imageURL;
+	}
+
+	protected void setImageURL(URL imageURL)
+	{
+		this.imageURL = imageURL;
+	}
+
 }

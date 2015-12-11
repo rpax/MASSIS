@@ -5,6 +5,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -25,6 +28,9 @@ import com.google.gson.GsonBuilder;
 import com.massisframework.testdata.gui.SampleHomeGUIControl;
 import com.massisframework.testdata.gui.SampleHomesGUI;
 
+import net.sf.corn.cps.CPScanner;
+import net.sf.corn.cps.ResourceFilter;
+
 /**
  * Class for loading sample homes, included in com.massisframework.testdata
  * 
@@ -33,7 +39,11 @@ import com.massisframework.testdata.gui.SampleHomesGUI;
  */
 public class SampleHomesLoader {
 
-	public static final String SAMPLES_BUILDING_DIR = "com/massisframework/testdata/";
+	// public static final String SAMPLES_BUILDING_DIR =
+	// "com.massisframework.testdata";
+	private static final String TESTDATA_PACKAGE = "com.massisframework.testdata";
+	// private static final ResourceFilter jsonFilter = new ResourceFilter()
+	// .packageName("com.massisframework.testdata").resourceName("*.json");
 	private static final Gson gson = new GsonBuilder().setPrettyPrinting()
 			.create();
 
@@ -49,8 +59,8 @@ public class SampleHomesLoader {
 	public static File loadHomeTempFile(String homeName) throws IOException
 
 	{
-		//Safer
-		homeName=FilenameUtils.removeExtension(homeName);
+		// Safer
+		homeName = FilenameUtils.removeExtension(homeName);
 		final SampleHomeDescription desc = loadDescription(homeName);
 
 		/*
@@ -58,15 +68,15 @@ public class SampleHomesLoader {
 		 */
 		final File destFile = OperatingSystem
 				.createTemporaryFile("MASSIS_", ".sh3d");
-		try (InputStream is = SampleHomesLoader.class.getClassLoader()
-				.getResourceAsStream(SAMPLES_BUILDING_DIR + desc.getFilename()))
+		try (InputStream is = getURLFor(homeName + ".sh3d")
+				.openStream())
 		{
 			try (FileOutputStream os = new FileOutputStream(destFile))
 			{
 				IOUtils.copy(is, os);
 			}
 		}
-		destFile.deleteOnExit();
+
 		return destFile;
 	}
 
@@ -76,114 +86,66 @@ public class SampleHomesLoader {
 	public static List<SampleHomeDescription> listAvailable()
 	{
 		final List<SampleHomeDescription> available = new ArrayList<>();
-		try (InputStream is = SampleHomesLoader.class.getClassLoader()
-				.getResourceAsStream(SAMPLES_BUILDING_DIR))
+		for (final URL furl : CPScanner.scanResources(new ResourceFilter()
+				.packageName(TESTDATA_PACKAGE).resourceName("*.json")))
 		{
-			if (is != null)
+			try
 			{
-				final LineIterator it = IOUtils.lineIterator(is,
-						Charsets.UTF_8);
-				while (it.hasNext())
-				{
-					final String line = it.nextLine();
-					System.err.println(line);
-					/*
-					 * Filder by extension
-					 */
-					if (line.endsWith(".json"))
-					{
-						available.add(
-								loadDescription(line.replace(".json", "")));
-					}
-				}
-
-			} else
+				available.add(loadDescription(furl));
+			} catch (final IOException e)
 			{
-				Logger.getLogger(SampleHomesLoader.class.getName()).log(
-						Level.WARNING, "Invalid directory");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		} catch (final IOException e)
-		{
-			Logger.getLogger(SampleHomesLoader.class.getName()).log(
-					Level.SEVERE, "Error when listing available buildings", e);
 		}
 		return available;
+	}
+
+	private static SampleHomeDescription loadDescription(URL furl)
+			throws IOException
+	{
+		try (Reader r = new InputStreamReader(furl.openStream()))
+		{
+			return gson.fromJson(r, SampleHomeDescription.class);
+		}
+
 	}
 
 	public static SampleHomeDescription loadDescription(String homeName)
 			throws IOException
 	{
-		//Safer
-				homeName=FilenameUtils.removeExtension(homeName);
-		try (InputStream is = SampleHomesLoader.class.getClassLoader()
-				.getResourceAsStream(
-						SAMPLES_BUILDING_DIR + homeName + ".json"))
+		// Safer
+		// final int upperBound = homeName.length() - simpleName.length();
+		String filterfolder = TESTDATA_PACKAGE + "."
+				+ homeName.replace("/", ".");
+		filterfolder = filterfolder.substring(0, filterfolder.lastIndexOf('.'));
+		try (InputStream is = getURLFor(homeName + ".json").openStream())
 		{
 			final String jsonContent = IOUtils.toString(is);
-			return gson.fromJson(jsonContent, SampleHomeDescription.class);
+			final SampleHomeDescription desc = gson.fromJson(jsonContent,
+					SampleHomeDescription.class);
+			desc.setImageURL(CPScanner.scanResources(new ResourceFilter()
+					.packageName(filterfolder)
+					.resourceName(FilenameUtils.getName(desc.getImage())))
+					.get(0));
+			return desc;
 		}
 	}
 
-	public static void main(String[] args)
+	private static URL getURLFor(String subElementFile)
 	{
+		final String extension = FilenameUtils.getExtension(subElementFile);
+		final String subElementFileNoExtension = subElementFile.substring(0,
+				subElementFile.length() - extension.length()-1);
+		String filterfolder = TESTDATA_PACKAGE + "."
+				+ subElementFileNoExtension.replace("/", ".");
+		filterfolder = filterfolder.substring(0, filterfolder.lastIndexOf('.'));
+		final ResourceFilter filter = new ResourceFilter()
+				.packageName(filterfolder)
+				.resourceName(FilenameUtils.getName(subElementFile));
 
-		final SampleHomesGUI frame = new SampleHomesGUI(getSampleGUIControl());
-
-		final ArrayList<String> listValues = new ArrayList<>();
-		final List<SampleHomeDescription> descriptions = SampleHomesLoader
-				.listAvailable();
-		for (final SampleHomeDescription homeDesc : descriptions)
-		{
-			listValues.add(homeDesc.getFilename());
-
-		}
-		frame.setHomeListValues(listValues);
-		frame.setVisible(true);
-
-		// Tendria que hacerlo el controlador
-
+		final List<URL> res = CPScanner.scanResources(filter);
+		return res.get(0);
 	}
 
-	private static void updateGUI(SampleHomesGUI gui)
-	{
-		final String selectedHomeName = gui.getSelectedHomeName();
-		try
-		{
-			final SampleHomeDescription desc = SampleHomesLoader
-					.loadDescription(selectedHomeName);
-			gui.setImage(desc.getImage());
-			gui.setDescription(desc.getDescription());
-		} catch (final IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	private static SampleHomeGUIControl getSampleGUIControl()
-	{
-		return new SampleHomeGUIControl() {
-
-			@Override
-			public void sampleHomesListValueChanged(
-					SampleHomesGUI gui,
-					ListSelectionEvent evt)
-			{
-				if (evt.getValueIsAdjusting())
-				{
-					return;
-				}
-				updateGUI(gui);
-
-			}
-
-			@Override
-			public void loadHomeButtonActionPerformed(SampleHomesGUI aThis,
-					ActionEvent evt)
-			{
-				System.out.println("Click");
-
-			}
-		};
-	}
 }
