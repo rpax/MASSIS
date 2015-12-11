@@ -22,6 +22,8 @@ import com.massisframework.sweethome3d.additionaldata.AdditionalDataWriter;
 import com.massisframework.sweethome3d.additionaldata.SweetHome3DAdditionalDataApplication;
 import com.massisframework.sweethome3d.metadata.HomeMetadataLoader;
 import com.massisframework.sweethome3d.plugins.BuildingMetadataPlugin;
+import com.massisframework.testdata.TestDataPlugin;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -55,9 +57,9 @@ public class MASSISLauncher {
       
        
 
-        CommandLineParser parser = new PosixParser();
+        final CommandLineParser parser = new PosixParser();
         // create the Options
-        Options options = new Options();
+        final Options options = new Options();
 
         options.addOption(new Option("help", "print this message"));
 
@@ -118,11 +120,11 @@ public class MASSISLauncher {
                 + STEPS + " steps.").hasArg()
                 .withArgName(STEPS).create());
         // ================================================================================
-        HelpFormatter formatter = new HelpFormatter();
+        final HelpFormatter formatter = new HelpFormatter();
         final String helpHeader = "java -jar MASSIS.jar";
         try
         {
-            CommandLine line = parser.parse(options, args);
+            final CommandLine line = parser.parse(options, args);
             if (line.hasOption("help"))
             {
 
@@ -138,7 +140,7 @@ public class MASSISLauncher {
 
             }
             // By launch option
-            String launch_optionValue = line.getOptionValue(launch_opt);
+            final String launch_optionValue = line.getOptionValue(launch_opt);
             if (EDITOR.equals(launch_optionValue))
             {
                 launchEditor();
@@ -153,7 +155,7 @@ public class MASSISLauncher {
                         formatter.printHelp(helpHeader, options);
                         return;
                     }
-                    String buildingFilePath = line.getOptionValue(building_path);
+                    final String buildingFilePath = line.getOptionValue(building_path);
 
                     if (!line.hasOption(resource_folder))
                     {
@@ -161,7 +163,7 @@ public class MASSISLauncher {
                         formatter.printHelp(helpHeader, options);
                         return;
                     }
-                    String resourceFolderPath = line
+                    final String resourceFolderPath = line
                             .getOptionValue(resource_folder);
                     if (!line.hasOption(simulation_mode))
                     {
@@ -169,7 +171,7 @@ public class MASSISLauncher {
                         formatter.printHelp(helpHeader, options);
                         return;
                     }
-                    String simulationMode = line.getOptionValue(simulation_mode);
+                    final String simulationMode = line.getOptionValue(simulation_mode);
                     int runFor = 0;
                     if (!line.hasOption(display)
                             || (!line.getOptionValue(display).equals(GUI) && !line
@@ -181,7 +183,7 @@ public class MASSISLauncher {
 
                     }
 
-                    String displayMode = line.getOptionValue(display);
+                    final String displayMode = line.getOptionValue(display);
 
                     if (displayMode.equals(CONSOLE))
                     {
@@ -248,11 +250,11 @@ public class MASSISLauncher {
                 }
             }
 
-        } catch (ParseException e)
+        } catch (final ParseException e)
         {
             System.err.println("Error when parsing cmd args. ");
             e.printStackTrace();
-        } catch (IOException e)
+        } catch (final IOException e)
         {
             e.printStackTrace();
         }
@@ -264,7 +266,7 @@ public class MASSISLauncher {
         try
         {
             Integer.parseInt(optionValue);
-        } catch (Exception e)
+        } catch (final Exception e)
         {
             return false;
         }
@@ -293,9 +295,9 @@ public class MASSISLauncher {
                         logFileLocation, progressMonitor);
 
             }
-            GUIState vid = new SimulationWithUI(simState);
+            final GUIState vid = new SimulationWithUI(simState);
 
-            Console c = new Console(vid);
+            final Console c = new Console(vid);
 
             c.setIncrementSeedOnStop(false);
             //
@@ -349,20 +351,16 @@ public class MASSISLauncher {
         System.setProperty("j3d.implicitAntialiasing", "true");
         System.setProperty("j3d.optimizeForSpace", "false");
         System.setProperty("sun.java2d.opengl", "false");
-        HomeMetadataLoader metadataLoader = new HomeMetadataLoader();
-        List<? extends AdditionalDataWriter> writers = Arrays.asList(
+        final HomeMetadataLoader metadataLoader = new HomeMetadataLoader();
+        final List<? extends AdditionalDataWriter> writers = Arrays.asList(
                 metadataLoader);
-        List<? extends AdditionalDataReader> loaders = Arrays.asList(
+        final List<? extends AdditionalDataReader> loaders = Arrays.asList(
                 metadataLoader);
 
-        List<Class<? extends Plugin>> plugins = new ArrayList<>();
+        final List<Class<? extends Plugin>> plugins = new ArrayList<>();
         plugins.add(BuildingMetadataPlugin.class);
-        //SweetHome3D.main(new String[] {});
-//        PluginLoader.runSweetHome3DWithPlugins(
-//                BuildingLoaderPlugin.class,
-//                DesignerToolsPlugin.class,
-//                NameGenerationPlugin.class,
-//                MetadataPlugin.class);
+        plugins.add(TestDataPlugin.class);
+        
         SweetHome3DAdditionalDataApplication.run(
                 new String[]
         {
