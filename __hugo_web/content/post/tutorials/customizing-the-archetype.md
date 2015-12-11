@@ -110,4 +110,4 @@ Before/After Reduction : 4/2,[22=>16] took 6 ms
 
 ```
 
-What's next? [Creating a MASSIS Application. Part 3: Defining a simple behavior(TODO)](#)
+What's next? [Creating a MASSIS Application. Part 3: Defining a simple behavior]({{< relref "post/tutorials/defining-a-simple-behavior.md" >}})
