@@ -445,7 +445,16 @@ public void step() {
     </item>
     
     <item>
-      <title>Creating a MASSIS Application</title>
+      <title>Creating a MASSIS Application. Part 2: Customizing the archetype</title>
+      <link>http://www.massisframework.com/post/tutorials/customizing-the-archetype/</link>
+      <pubDate>Fri, 06 Nov 2015 13:19:52 +0100</pubDate>
+      
+      <guid>http://www.massisframework.com/post/tutorials/customizing-the-archetype/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Creating a MASSIS Application. Part 1: Downloading a basic archetype</title>
       <link>http://www.massisframework.com/post/tutorials/sample-massis-application/</link>
       <pubDate>Thu, 05 Nov 2015 13:19:52 +0100</pubDate>
       
@@ -501,17 +510,54 @@ public void step() {
 &lt;li&gt;Remember to check the option &lt;em&gt;Include snapshot archetypes&lt;/em&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;TODO&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/h4hT8Jr.png&#34; alt=&#34;&#34; /&gt;
+&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The next window asks for the information about our groupId and artifactId. In this example, the groupId will be &lt;code&gt;tutorialfollower&lt;/code&gt; and the artifactId &lt;code&gt;myfirstmassisproject&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/KbjsvNR.png&#34; alt=&#34;&#34; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;After pressing &lt;em&gt;Finish&lt;/em&gt;, Eclipse (maven) will start downloading the required dependencies for this project. Depending on your internet connection, this may take a while. The progress can be seen on the &lt;em&gt;Progress&lt;/em&gt; tab. (Or clicking in the bottom right corner of the window).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/YjNf5ai.png&#34; alt=&#34;&#34; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;If you want to see the output of the maven console, this can be done in the &lt;em&gt;Console tab -&amp;gt; Maven Console&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/Bojyyev.png&#34; alt=&#34;&#34; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;The output should be something like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;12/11/15, 6:11:42 PM GMT+1: [INFO] Downloading https://repo1.maven.org/maven2/org/jogamp/jogl/jogl-all/2.3.2/jogl-all-2.3.2-natives-macosx-universal.jar
+12/11/15, 6:11:43 PM GMT+1: [INFO] Downloaded https://repo1.maven.org/maven2/org/jogamp/jogl/jogl-all/2.3.2/jogl-all-2.3.2-natives-macosx-universal.jar
+12/11/15, 6:11:43 PM GMT+1: [INFO] Downloading https://repo1.maven.org/maven2/org/jogamp/jogl/jogl-all/2.3.2/jogl-all-2.3.2-natives-solaris-amd64.jar
+12/11/15, 6:11:44 PM GMT+1: [INFO] Downloaded https://repo1.maven.org/maven2/org/jogamp/jogl/jogl-all/2.3.2/jogl-all-2.3.2-natives-solaris-amd64.jar
+12/11/15, 6:11:44 PM GMT+1: [INFO] Downloading https://repo1.maven.org/maven2/org/jogamp/jogl/jogl-all/2.3.2/jogl-all-2.3.2-natives-solaris-i586.jar
+12/11/15, 6:11:44 PM GMT+1: [INFO] Downloaded https://repo1.maven.org/maven2/org/jogamp/jogl/jogl-all/2.3.2/jogl-all-2.3.2-natives-solaris-i586.jar
+12/11/15, 6:11:44 PM GMT+1: [INFO] Downloading https://repo1.maven.org/maven2/org/jogamp/jogl/jogl-all/2.3.2/jogl-all-2.3.2-natives-windows-amd64.jar
+12/11/15, 6:11:45 PM GMT+1: [INFO] Downloaded https://repo1.maven.org/maven2/org/jogamp/jogl/jogl-all/2.3.2/jogl-all-2.3.2-natives-windows-amd64.jar
+12/11/15, 6:11:45 PM GMT+1: [INFO] Downloading https://repo1.maven.org/maven2/org/jogamp/jogl/jogl-all/2.3.2/jogl-all-2.3.2-natives-windows-i586.jar
+12/11/15, 6:11:45 PM GMT+1: [INFO] Downloaded https://repo1.maven.org/maven2/org/jogamp/jogl/jogl-all/2.3.2/jogl-all-2.3.2-natives-windows-i586.jar
+12/11/15, 6:09:57 PM GMT+1: [INFO] Downloaded https://repo1.maven.org/maven2/xalan/xalan/2.6.0/xalan-2.6.0.jar
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Once all dependencies are downloaded, the project should contain three files:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;EnvironmentEditor.java&lt;/code&gt; : Contains the necessary code for launching the environment editor.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;SimulationWithUILauncher.java&lt;/code&gt; : This class is responsible for launching the simulator&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MyHelloHighLevelController&lt;/code&gt; : A behavior definion sample.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/37HqUP4.png&#34; alt=&#34;&#34; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;What to do next? The tutorial continues on &lt;a href=&#34;http://www.massisframework.com/post/tutorials/customizing-the-archetype/&#34;&gt;Creating a MASSIS Application. Part 2: Customizing the archetype&lt;/a&gt;&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Authors</title>
-      <link>http://www.massisframework.com/page/authors/</link>
-      <pubDate>Thu, 05 Nov 2015 09:56:34 +0100</pubDate>
-      
-      <guid>http://www.massisframework.com/page/authors/</guid>
-      <description></description>
     </item>
     
     <item>
@@ -575,6 +621,15 @@ public void step() {
 
 &lt;p&gt;The &lt;a href=&#34;http://www.massisframework.com/categories/tutorials/&#34;&gt;tutorials section&lt;/a&gt; contains examples about creating an application based on MASSIS&amp;rsquo; framework.&lt;/p&gt;
 </description>
+    </item>
+    
+    <item>
+      <title>Authors</title>
+      <link>http://www.massisframework.com/page/authors/</link>
+      <pubDate>Thu, 05 Nov 2015 09:56:34 +0100</pubDate>
+      
+      <guid>http://www.massisframework.com/page/authors/</guid>
+      <description></description>
     </item>
     
     <item>

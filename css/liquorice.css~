@@ -24,9 +24,9 @@
 }
 /*Fix for mobile*/
 img {
-	
-	max-width:100%;
+	max-width:75%;
 }
+
 /** Base ********************************************************************/
 body {
     font-family: "Open Sans", "Helvetica Neue", "Helvetica", sans-serif;

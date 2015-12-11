@@ -5,7 +5,7 @@
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
 
-        <title>Creating a MASSIS Application &middot; MASSIS Framework</title>
+        <title>Creating a MASSIS Application. Part 1: Downloading a basic archetype &middot; MASSIS Framework</title>
         <link rel='stylesheet' href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600' type='text/css'>
         <link rel="stylesheet" href="http://www.massisframework.com//libraries/normalize.3.0.1.css" />
         <link rel="stylesheet" href="http://www.massisframework.com//css/liquorice.css" />
@@ -61,7 +61,7 @@
             <div class="sixteen columns">
                 <article class="li-article">
                     <header class="li-article-header">
-                        <h1 class="li-article-title">Creating a MASSIS Application</h1>
+                        <h1 class="li-article-title">Creating a MASSIS Application. Part 1: Downloading a basic archetype</h1>
                         <span class="li-article-taxonomies">
                            
                         </span>
@@ -119,7 +119,53 @@
 <li>Remember to check the option <em>Include snapshot archetypes</em></li>
 </ul>
 
-<p>TODO</p>
+<p><img src="http://i.imgur.com/h4hT8Jr.png" alt="" />
+</p>
+
+<ul>
+<li>The next window asks for the information about our groupId and artifactId. In this example, the groupId will be <code>tutorialfollower</code> and the artifactId <code>myfirstmassisproject</code>.</li>
+</ul>
+
+<p><img src="http://i.imgur.com/KbjsvNR.png" alt="" />
+</p>
+
+<p>After pressing <em>Finish</em>, Eclipse (maven) will start downloading the required dependencies for this project. Depending on your internet connection, this may take a while. The progress can be seen on the <em>Progress</em> tab. (Or clicking in the bottom right corner of the window).</p>
+
+<p><img src="http://i.imgur.com/YjNf5ai.png" alt="" />
+</p>
+
+<p>If you want to see the output of the maven console, this can be done in the <em>Console tab -&gt; Maven Console</em></p>
+
+<p><img src="http://i.imgur.com/Bojyyev.png" alt="" />
+</p>
+
+<p>The output should be something like this:</p>
+
+<pre><code>12/11/15, 6:11:42 PM GMT+1: [INFO] Downloading https://repo1.maven.org/maven2/org/jogamp/jogl/jogl-all/2.3.2/jogl-all-2.3.2-natives-macosx-universal.jar
+12/11/15, 6:11:43 PM GMT+1: [INFO] Downloaded https://repo1.maven.org/maven2/org/jogamp/jogl/jogl-all/2.3.2/jogl-all-2.3.2-natives-macosx-universal.jar
+12/11/15, 6:11:43 PM GMT+1: [INFO] Downloading https://repo1.maven.org/maven2/org/jogamp/jogl/jogl-all/2.3.2/jogl-all-2.3.2-natives-solaris-amd64.jar
+12/11/15, 6:11:44 PM GMT+1: [INFO] Downloaded https://repo1.maven.org/maven2/org/jogamp/jogl/jogl-all/2.3.2/jogl-all-2.3.2-natives-solaris-amd64.jar
+12/11/15, 6:11:44 PM GMT+1: [INFO] Downloading https://repo1.maven.org/maven2/org/jogamp/jogl/jogl-all/2.3.2/jogl-all-2.3.2-natives-solaris-i586.jar
+12/11/15, 6:11:44 PM GMT+1: [INFO] Downloaded https://repo1.maven.org/maven2/org/jogamp/jogl/jogl-all/2.3.2/jogl-all-2.3.2-natives-solaris-i586.jar
+12/11/15, 6:11:44 PM GMT+1: [INFO] Downloading https://repo1.maven.org/maven2/org/jogamp/jogl/jogl-all/2.3.2/jogl-all-2.3.2-natives-windows-amd64.jar
+12/11/15, 6:11:45 PM GMT+1: [INFO] Downloaded https://repo1.maven.org/maven2/org/jogamp/jogl/jogl-all/2.3.2/jogl-all-2.3.2-natives-windows-amd64.jar
+12/11/15, 6:11:45 PM GMT+1: [INFO] Downloading https://repo1.maven.org/maven2/org/jogamp/jogl/jogl-all/2.3.2/jogl-all-2.3.2-natives-windows-i586.jar
+12/11/15, 6:11:45 PM GMT+1: [INFO] Downloaded https://repo1.maven.org/maven2/org/jogamp/jogl/jogl-all/2.3.2/jogl-all-2.3.2-natives-windows-i586.jar
+12/11/15, 6:09:57 PM GMT+1: [INFO] Downloaded https://repo1.maven.org/maven2/xalan/xalan/2.6.0/xalan-2.6.0.jar
+</code></pre>
+
+<p>Once all dependencies are downloaded, the project should contain three files:</p>
+
+<ul>
+<li><code>EnvironmentEditor.java</code> : Contains the necessary code for launching the environment editor.</li>
+<li><code>SimulationWithUILauncher.java</code> : This class is responsible for launching the simulator</li>
+<li><code>MyHelloHighLevelController</code> : A behavior definion sample.</li>
+</ul>
+
+<p><img src="http://i.imgur.com/37HqUP4.png" alt="" />
+</p>
+
+<p>What to do next? The tutorial continues on <a href="/post/tutorials/customizing-the-archetype/">Creating a MASSIS Application. Part 2: Customizing the archetype</a></p>
 
                     </section>
                 </article>
