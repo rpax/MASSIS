@@ -1,8 +1,10 @@
 package com.massisframework.massis.app;
 
 
-import com.eteks.sweethome3d.plugin.Plugin;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -13,6 +15,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 
+import com.eteks.sweethome3d.plugin.Plugin;
 import com.massisframework.massis.sim.AbstractSimulation;
 import com.massisframework.massis.sim.RecordedSimulation;
 import com.massisframework.massis.sim.Simulation;
@@ -24,9 +27,6 @@ import com.massisframework.sweethome3d.metadata.HomeMetadataLoader;
 import com.massisframework.sweethome3d.plugins.BuildingMetadataPlugin;
 import com.massisframework.testdata.TestDataPlugin;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import sim.display.Console;
 import sim.display.GUIState;
 import sim.engine.SimState;

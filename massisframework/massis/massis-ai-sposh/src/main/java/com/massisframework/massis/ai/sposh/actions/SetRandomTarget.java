@@ -2,6 +2,7 @@ package com.massisframework.massis.ai.sposh.actions;
 
 import com.massisframework.massis.ai.sposh.SimulationContext;
 import com.massisframework.massis.model.location.Location;
+
 import cz.cuni.amis.pogamut.sposh.executor.ActionResult;
 import cz.cuni.amis.pogamut.sposh.executor.PrimitiveInfo;
 

@@ -5,13 +5,13 @@
 package com.massisframework.massis.ai.sposh.actions;
 
 import com.massisframework.massis.ai.sposh.SimulationContext;
+import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.managers.movement.ApproachCallback;
 import com.massisframework.massis.pathfinding.straightedge.FindPathResult.PathFinderErrorReason;
 
 import cz.cuni.amis.pogamut.sposh.executor.ActionResult;
 import cz.cuni.amis.pogamut.sposh.executor.PrimitiveInfo;
-import com.massisframework.massis.model.agents.LowLevelAgent;
 
 /**
  * Goes to assigned target

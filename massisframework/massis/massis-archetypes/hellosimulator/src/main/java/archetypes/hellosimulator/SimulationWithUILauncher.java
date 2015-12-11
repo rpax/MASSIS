@@ -1,8 +1,6 @@
 package archetypes.hellosimulator;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,7 +24,6 @@ import com.massisframework.massis.sim.Simulation;
 import com.massisframework.massis.sim.SimulationWithUI;
 import com.massisframework.testdata.SampleHomesLoader;
 
-import net.sf.corn.cps.CPScanner;
 import sim.display.Console;
 import sim.display.GUIState;
 

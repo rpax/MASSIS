@@ -7,13 +7,13 @@ package com.massisframework.massis.ai.sposh.actions;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.massisframework.massis.ai.sposh.SPOSHLogicProperty;
 import com.massisframework.massis.ai.sposh.SimulationContext;
+import com.massisframework.massis.model.agents.LowLevelAgent;
+
 import cz.cuni.amis.pogamut.sposh.executor.ActionResult;
 import cz.cuni.amis.pogamut.sposh.executor.Param;
 import cz.cuni.amis.pogamut.sposh.executor.PrimitiveInfo;
-import com.massisframework.massis.ai.sposh.SPOSHLogicController;
-import com.massisframework.massis.ai.sposh.SPOSHLogicProperty;
-import com.massisframework.massis.model.agents.LowLevelAgent;
 
 /**
  * Sends a message to every agent in the vision area

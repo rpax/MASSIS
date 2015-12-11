@@ -69,21 +69,22 @@ public class RecordedSimulation extends AbstractSimulation {
         public SimulationPlayer(String zipFilePath)
                 throws ClassNotFoundException, IOException
         {
-            lr = new AsyncLogFileReader(zipFilePath);
+            this.lr = new AsyncLogFileReader(zipFilePath);
         }
 
-        @Override
+        @SuppressWarnings("unchecked")
+		@Override
         public void step(SimState state)
         {
             try
             {
 
-                for (JsonState<Building> ks : lr.nextStep())
+                for (final JsonState<Building> ks : this.lr.nextStep())
                 {
-                    ks.restore(building);
+                    ks.restore(RecordedSimulation.this.building);
                 }
 
-            } catch (Exception e)
+            } catch (final Exception e)
             {
                 throw new RuntimeException(e);
             }
@@ -95,7 +96,7 @@ public class RecordedSimulation extends AbstractSimulation {
             try
             {
                 this.lr.close();
-            } catch (Exception e)
+            } catch (final Exception e)
             {
                 e.printStackTrace();
             }

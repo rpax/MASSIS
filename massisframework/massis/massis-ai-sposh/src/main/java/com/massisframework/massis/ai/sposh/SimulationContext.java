@@ -2,9 +2,10 @@ package com.massisframework.massis.ai.sposh;
 
 import java.util.HashMap;
 
-import com.massisframework.massis.model.location.Location;
-import cz.cuni.amis.pogamut.sposh.context.Context;
 import com.massisframework.massis.model.agents.LowLevelAgent;
+import com.massisframework.massis.model.location.Location;
+
+import cz.cuni.amis.pogamut.sposh.context.Context;
 
 /**
  * Agent context in MASSIS Engine

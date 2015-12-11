@@ -6,14 +6,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.massisframework.massis.model.agents.HighLevelController;
 import com.massisframework.massis.ai.sposh.actions.SimulationAction;
 import com.massisframework.massis.ai.sposh.senses.SimulationSense;
+import com.massisframework.massis.model.agents.HighLevelController;
+import com.massisframework.massis.model.agents.LowLevelAgent;
+import com.massisframework.massis.util.SimObjectProperty;
+
 import cz.cuni.amis.pogamut.sposh.elements.ParseException;
 import cz.cuni.amis.pogamut.sposh.elements.PoshParser;
 import cz.cuni.amis.pogamut.sposh.elements.PoshPlan;
@@ -22,9 +26,6 @@ import cz.cuni.amis.pogamut.sposh.engine.PoshEngine;
 import cz.cuni.amis.pogamut.sposh.engine.PoshEngine.EvaluationResultInfo;
 import cz.cuni.amis.pogamut.sposh.engine.timer.SystemClockTimer;
 import cz.cuni.amis.pogamut.sposh.executor.StateWorkExecutor;
-import java.nio.file.Paths;
-import com.massisframework.massis.model.agents.LowLevelAgent;
-import com.massisframework.massis.util.SimObjectProperty;
 
 /**
  * SPOSH Logic controller in MASSIS. Based in Pogamut's Logic Controller
@@ -33,11 +34,12 @@ import com.massisframework.massis.util.SimObjectProperty;
  *
  * @param <SO>
  */
-@SuppressWarnings("rawtypes")
+@SuppressWarnings({ "rawtypes", "serial" })
 public class SPOSHLogicController extends HighLevelController  {
 
     private final Logger logger;
-    private static final Map<String, PoshPlan> cachedPlans = new HashMap<>();
+    @SuppressWarnings("unused")
+	private static final Map<String, PoshPlan> cachedPlans = new HashMap<>();
     /**
      * Posh engine that is evaluating the plan.
      */
@@ -61,49 +63,49 @@ public class SPOSHLogicController extends HighLevelController  {
     {
         super(agent, metadata, resourcesFolder);
         
-        logger = Logger.getLogger(
+        this.logger = Logger.getLogger(
                 agent.getClass().getName() + "#" + agent.getID());
-        logger.setLevel(Level.WARNING);
+        this.logger.setLevel(Level.WARNING);
         final String planPathRelative = metadata.get(SimObjectProperty.PLANFILE.toString());
         final String planPathAbsolute = Paths.get(resourcesFolder,
                 planPathRelative).toString();
-        PoshPlan poshPlan = loadPoshPlanFromFile(planPathAbsolute);
+        final PoshPlan poshPlan = loadPoshPlanFromFile(planPathAbsolute);
         // Creation of the context
-        context = new SimulationContext(agent);
+        this.context = new SimulationContext(agent);
         
-        agent.setHighLevelData(context);
+        agent.setHighLevelData(this.context);
         
-        this.workExecutor = new StateWorkExecutor(logger);
+        this.workExecutor = new StateWorkExecutor(this.logger);
         // Creation of the actions of the plan, done by reflection
-        for (String actionClassName : poshPlan.getActionsNames())
+        for (final String actionClassName : poshPlan.getActionsNames())
         {
             try
             {
 
-                SimulationAction action = (SimulationAction) Class
+                final SimulationAction action = (SimulationAction) Class
                         .forName(actionClassName)
                         .getConstructor(SimulationContext.class)
-                        .newInstance(context);
+                        .newInstance(this.context);
                 this.workExecutor
                         .addAction(action.getClass().getName(), action);
-            } catch (Exception ex)
+            } catch (final Exception ex)
             {
-                logger.log(Level.SEVERE, null, ex);
+                this.logger.log(Level.SEVERE, null, ex);
             }
         }
         // the same its done with the senses
-        for (String actionClassName : poshPlan.getSensesNames())
+        for (final String actionClassName : poshPlan.getSensesNames())
         {
             try
             {
-                SimulationSense sense = (SimulationSense) Class
+                final SimulationSense sense = (SimulationSense) Class
                         .forName(actionClassName)
                         .getConstructor(SimulationContext.class)
-                        .newInstance(context);
+                        .newInstance(this.context);
                 this.workExecutor.addSense(sense.getClass().getName(), sense);
-            } catch (Exception ex)
+            } catch (final Exception ex)
             {
-                logger.log(Level.SEVERE, null, ex);
+                this.logger.log(Level.SEVERE, null, ex);
             }
         }
         
@@ -132,8 +134,8 @@ public class SPOSHLogicController extends HighLevelController  {
         {
             // EvaluationResultInfo result = getEngine().evaluatePlan(
             // loggableWorkExecutor);
-            EvaluationResultInfo result = getEngine()
-                    .evaluatePlan(workExecutor);
+            final EvaluationResultInfo result = getEngine()
+                    .evaluatePlan(this.workExecutor);
             // String lastPrimitive =
             // loggableWorkExecutor.getLastExecutedPrimitive();
             if (result.type != null
@@ -188,8 +190,8 @@ public class SPOSHLogicController extends HighLevelController  {
      */
     public static PoshPlan parsePlan(String planSource) throws ParseException
     {
-        StringReader planReader = new StringReader(planSource);
-        PoshParser parser = new PoshParser(planReader);
+        final StringReader planReader = new StringReader(planSource);
+        final PoshParser parser = new PoshParser(planReader);
         return parser.parsePlan();
     }
 
@@ -202,7 +204,7 @@ public class SPOSHLogicController extends HighLevelController  {
      */
     protected final PoshEngine getEngine()
     {
-        return engine;
+        return this.engine;
     }
 
     /**
@@ -214,9 +216,9 @@ public class SPOSHLogicController extends HighLevelController  {
      */
     public static String getPlanFromStream(InputStream in) throws IOException
     {
-        BufferedReader br = new BufferedReader(new InputStreamReader(in));
+        final BufferedReader br = new BufferedReader(new InputStreamReader(in));
 
-        StringBuilder plan = new StringBuilder();
+        final StringBuilder plan = new StringBuilder();
         String line;
         try
         {
@@ -241,7 +243,7 @@ public class SPOSHLogicController extends HighLevelController  {
      */
     public static String getPlanFromFile(String filename) throws IOException
     {
-        FileInputStream f = new FileInputStream(filename);
+        final FileInputStream f = new FileInputStream(filename);
         return getPlanFromStream(f);
     }
 
@@ -264,7 +266,7 @@ public class SPOSHLogicController extends HighLevelController  {
     protected final String getPlanFromResource(String resourcePath)
             throws IOException
     {
-        ClassLoader cl = this.getClass().getClassLoader();
+        final ClassLoader cl = this.getClass().getClassLoader();
         return getPlanFromStream(cl.getResourceAsStream(resourcePath));
     }
 

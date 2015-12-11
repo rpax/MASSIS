@@ -9,6 +9,7 @@ package com.massisframework.massis.ai.sposh.actions;
  * @author rpax
  */
 import com.massisframework.massis.ai.sposh.SimulationContext;
+
 import cz.cuni.amis.pogamut.sposh.executor.ActionResult;
 import cz.cuni.amis.pogamut.sposh.executor.PrimitiveInfo;
 

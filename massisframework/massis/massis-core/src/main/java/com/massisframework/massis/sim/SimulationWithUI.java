@@ -40,6 +40,7 @@ public class SimulationWithUI extends GUIState {
 		super(state);
 	}
 
+	@SafeVarargs
 	public SimulationWithUI(SimState state, DrawableLayer<DrawableFloor>... layers) {
 		super(state);
 		this.layers = layers;
@@ -125,7 +126,7 @@ public class SimulationWithUI extends GUIState {
 		}
 
 		
-		final String welcomeText = "MASSIS";
+		
 
 		final BuildingMap buildingMap = new BuildingMap(simulation.building, this.layers);
 		buildingMap.setTitle("Building Map");

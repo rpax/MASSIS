@@ -15,6 +15,7 @@ import com.massisframework.massis.util.geom.KVector;
  */
 public class MovementManager {
 
+	@SuppressWarnings("unused")
 	private static Logger logger = Logger
 			.getLogger(MovementManager.class.getName());
 
@@ -41,11 +42,11 @@ public class MovementManager {
 		/*
 		 * Retrieval of the agent's steering behavior
 		 */
-		SteeringBehavior steeringBeh = vehicle.getSteeringBehavior();
+		final SteeringBehavior steeringBeh = vehicle.getSteeringBehavior();
 		/*
 		 * Get forces
 		 */
-		KVector force = steeringBeh.steer();
+		final KVector force = steeringBeh.steer();
 		/*
 		 * Apply them and proceed to move
 		 */
@@ -97,16 +98,16 @@ public class MovementManager {
 			KVector forces) {
 
 		forces.mult(vehicle.getMaxForce());
-		KVector steering = KVector.limit(forces, vehicle.getMaxForce());
+		final KVector steering = KVector.limit(forces, vehicle.getMaxForce());
 		// steering = steering / mass
 		vehicle.setAcceleration(steering);
-		KVector velocity = KVector.limit(
+		final KVector velocity = KVector.limit(
 				KVector.add(steering, vehicle.getVelocity()),
 				vehicle.getMaxSpeed());
 		vehicle.setVelocity(velocity);
-		KVector position = KVector.add(vehicle.getXY(), vehicle.getVelocity());
+		final KVector position = KVector.add(vehicle.getXY(), vehicle.getVelocity());
 
-		Location newLocation = new Location(position,
+		final Location newLocation = new Location(position,
 				vehicle.getLocation().getFloor());
 
 		vehicle.moveTo(newLocation);
