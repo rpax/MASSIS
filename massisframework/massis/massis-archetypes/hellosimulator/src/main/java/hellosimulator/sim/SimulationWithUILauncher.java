@@ -40,7 +40,8 @@ public class SimulationWithUILauncher {
 		String buildingFilePath = null;
 		try
 		{
-			buildingFilePath = SampleHomesLoader.loadHomeTempFile("emptyhouse")
+			
+			buildingFilePath = SampleHomesLoader.loadHomeTempFile("hellosimulator_home")
 					.getAbsolutePath();
 		} catch (final IOException  e)
 		{

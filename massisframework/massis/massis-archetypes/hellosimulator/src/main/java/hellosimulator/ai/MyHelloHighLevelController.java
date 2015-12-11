@@ -5,11 +5,11 @@ import java.util.Map;
 import com.massisframework.massis.model.agents.HighLevelController;
 import com.massisframework.massis.model.agents.LowLevelAgent;
 
-public class HelloHighLevelController extends HighLevelController {
+public class MyHelloHighLevelController extends HighLevelController {
 
 	private static final long serialVersionUID = 1L;
 	
-	public HelloHighLevelController(LowLevelAgent agent, Map<String, String> metadata, String resourcesFolder) {
+	public MyHelloHighLevelController(LowLevelAgent agent, Map<String, String> metadata, String resourcesFolder) {
 		super(agent, metadata, resourcesFolder);
 		this.agent.setHighLevelData(this);
 	}
@@ -23,6 +23,6 @@ public class HelloHighLevelController extends HighLevelController {
 
 	@Override
 	public void step() {
-		System.out.println("Hello!");
+		System.out.println("Hey! I am an agent!");
 	}
 }

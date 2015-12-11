@@ -13,6 +13,8 @@ import java.util.logging.Logger;
 import javax.swing.event.ListSelectionEvent;
 
 import org.apache.commons.io.Charsets;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.LineIterator;
 
@@ -47,7 +49,8 @@ public class SampleHomesLoader {
 	public static File loadHomeTempFile(String homeName) throws IOException
 
 	{
-
+		//Safer
+		homeName=FilenameUtils.removeExtension(homeName);
 		final SampleHomeDescription desc = loadDescription(homeName);
 
 		/*
@@ -83,12 +86,14 @@ public class SampleHomesLoader {
 				while (it.hasNext())
 				{
 					final String line = it.nextLine();
+					System.err.println(line);
 					/*
 					 * Filder by extension
 					 */
 					if (line.endsWith(".json"))
 					{
-						available.add(loadDescription(line));
+						available.add(
+								loadDescription(line.replace(".json", "")));
 					}
 				}
 
@@ -105,9 +110,11 @@ public class SampleHomesLoader {
 		return available;
 	}
 
-	private static SampleHomeDescription loadDescription(String homeName)
+	public static SampleHomeDescription loadDescription(String homeName)
 			throws IOException
 	{
+		//Safer
+				homeName=FilenameUtils.removeExtension(homeName);
 		try (InputStream is = SampleHomesLoader.class.getClassLoader()
 				.getResourceAsStream(
 						SAMPLES_BUILDING_DIR + homeName + ".json"))
