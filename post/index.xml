@@ -122,7 +122,126 @@
       <pubDate>Fri, 06 Nov 2015 13:19:52 +0100</pubDate>
       
       <guid>http://www.massisframework.com/post/tutorials/customizing-the-archetype/</guid>
-      <description></description>
+      <description>
+
+&lt;p&gt;This is the continuation of the &lt;a href=&#34;http://www.massisframework.com/post/tutorials/sample-massis-application/&#34;&gt;First tutorial&lt;/a&gt;, which explains how to create a MASSIS project based on an archetype.&lt;/p&gt;
+
+&lt;h2 id=&#34;remembering-things-what-is-in-the-project:ef4bf10577d09165b17453e8a9e1b79e&#34;&gt;Remembering things: What is in the project?&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;EnvironmentEditor.java&lt;/code&gt; : Contains the necessary code for launching the environment editor.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;SimulationWithUILauncher.java&lt;/code&gt; : This class is responsible for launching the simulator&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MyHelloHighLevelController&lt;/code&gt; : A behavior definion sample.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;configuring-the-environment:ef4bf10577d09165b17453e8a9e1b79e&#34;&gt;Configuring the environment.&lt;/h2&gt;
+
+&lt;p&gt;MASSIS simulator uses sweethome3d as environment definition. The behavior of the elements should be specified in the building file, and implemented as a class.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/z3aw4bl.png&#34; alt=&#34;&#34; /&gt;
+&lt;/p&gt;
+
+&lt;h3 id=&#34;opening-the-editor-and-loading-a-default-building:ef4bf10577d09165b17453e8a9e1b79e&#34;&gt;Opening the editor and loading a default building&lt;/h3&gt;
+
+&lt;p&gt;Running the &lt;code&gt;EnvironmentEditor&lt;/code&gt; class (Run As&amp;hellip;-&amp;gt; Java Application) should open SweetHome3D&amp;rsquo;s editor with some of the MASSIS&amp;rsquo; plugins.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/pW8lgjG.png&#34; alt=&#34;&#34; /&gt;
+&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;3D [dev] 1.6.0-scijava-1-pre11-daily-experimental daily
+
+loading class com.massisframework.sweethome3d.plugins.BuildingMetadataPlugin
+loading class com.massisframework.testdata.TestDataPlugin
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This is the main window of the SweetHome3D editor. During the tutorials, some of the most important features of MASSIS and Sweethome3D editor will be explained. For loading a sample building, click on &lt;em&gt;Help -&amp;gt; Load Sample Home&amp;hellip;&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/l9umHvv.png&#34; alt=&#34;&#34; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;In the popup, select &amp;ldquo;basichouse.sh3d&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/7AnSp7i.png&#34; alt=&#34;&#34; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;A new home will be opened. This basic home contains a basic agent, four walls and a room.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/mqORvHr.png&#34; alt=&#34;&#34; /&gt;
+&lt;/p&gt;
+
+&lt;h3 id=&#34;referencing-the-behavior-of-the-agent:ef4bf10577d09165b17453e8a9e1b79e&#34;&gt;Referencing the behavior of the agent.&lt;/h3&gt;
+
+&lt;p&gt;Every element in the SweetHome3D editor (with massis plugins) has metadata attached.
+For modifing the metadata of an element, the element &lt;strong&gt;should be selected first&lt;/strong&gt; and clicking on &lt;em&gt;Tools -&amp;gt; Add Metadata&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/mQZIAAp.png&#34; alt=&#34;&#34; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s see what kind of metadata attached has the agent in the room.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/UF4NV2m.png&#34; alt=&#34;&#34; /&gt;
+&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;IS_OBSTACLE&lt;/code&gt; : Tells if this element is an obstacle or not. &lt;strong&gt;This topic will be covered later&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ID&lt;/code&gt; : The unique id of the element in the building. &lt;strong&gt;It is not recomended to change the value&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;IS_DYNAMIC&lt;/code&gt; : If the element is going to move during the simulation. Acts as a hint for the pathfinder and the visualization toolkit. &lt;strong&gt;This topic will be covered later&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;CLASSNAME&lt;/code&gt; : The reference to the class implementing the agent behavior. By default, its value is &lt;code&gt;com.massisframework.testdata.ai.HelloHighLevelController&lt;/code&gt;. We want to change this to our custom implementation. So, the value, in this case should be&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;tutorialfollower.myfirstmassisproject.MyHelloHighLevelController
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;saving-the-sample-home-in-another-location:ef4bf10577d09165b17453e8a9e1b79e&#34;&gt;Saving the sample home in another location.&lt;/h3&gt;
+
+&lt;p&gt;Maybe you have noticed that the name of the home is kind of strange. Something like &lt;em&gt;MASSIS_278234761.sh3d&lt;/em&gt;. This name is like this because the location of this home is &lt;strong&gt;temporary&lt;/strong&gt;. In order to preserve the changes, must be saved in a &lt;strong&gt;non temporary&lt;/strong&gt; location.&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s save the home in the project root folder for making easier the access from the simulator, in this tutorial.
+Cliking &lt;em&gt;Save As&amp;hellip;&lt;/em&gt; -&amp;gt; Tutorial1.sh3d on the project&amp;rsquo;s root folder.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/775jxVI.png&#34; alt=&#34;&#34; /&gt;
+&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Note: remember to refresh the eclipse project, in order to see if the file it is actually there.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&#34;running-the-simulation:ef4bf10577d09165b17453e8a9e1b79e&#34;&gt;Running the simulation&lt;/h2&gt;
+
+&lt;p&gt;Once saved, let&amp;rsquo;s run our first simulation. First, we need to change the path of the building file.
+In &lt;code&gt;SimulationWithUILauncher&lt;/code&gt;, change&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;buildingFilePath = SampleHomesLoader.loadHomeTempFile(&amp;quot;basichouse&amp;quot;).getAbsolutePath();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;with&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;buildingFilePath = &amp;quot;Tutorial1.sh3d&amp;quot;;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And remove the try-catch, it is not necessary anymore.&lt;/p&gt;
+
+&lt;p&gt;It should appear the MASSIS default gui,&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/kPN5EI7.png&#34; alt=&#34;&#34; /&gt;
+,&lt;/p&gt;
+
+&lt;p&gt;and some console logs&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;current-max-id: 17
+Creating level NONAME
+======================================================
+Creating floor from level [NONAME]
+Initializing simulation objects..
+# of SimulationObjects: 1
+# of rooms: 1
+======================================================
+Before/After Reduction : 4/2,[22=&amp;gt;16] took 6 ms
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;What&amp;rsquo;s next? &lt;a href=&#34;#&#34;&gt;Creating a MASSIS Application. Part 3: Defining a simple behavior(TODO)&lt;/a&gt;&lt;/p&gt;
+</description>
     </item>
     
     <item>
