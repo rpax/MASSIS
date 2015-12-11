@@ -8,7 +8,7 @@ public class TestDataPlugin extends Plugin {
 	@Override
 	public PluginAction[] getActions()
 	{
-		return new PluginAction[] { new TestDataPluginAction(this) };
+		return new PluginAction[] { new LoadSampleHomeAction(this) };
 	}
 
 }
