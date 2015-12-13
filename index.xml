@@ -660,7 +660,185 @@ Hey! I am an agent!
 &lt;li&gt;&lt;p&gt;Nothing moves.&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;Why? because the behavior of the agent is exactly that. If we take a look into &lt;code&gt;MyHelloHighLevelController.java&lt;/code&gt;, the &lt;code&gt;step()&lt;/code&gt; method looks like this:&lt;/p&gt;
+&lt;p&gt;Why? because the behavior of the agent, defined by its &lt;em&gt;High Level Controller&lt;/em&gt; is exactly that.&lt;/p&gt;
+
+&lt;h1 id=&#34;what-is-a-highlevelcontroller:eefcc561692713ed4045ec5201f4fd82&#34;&gt;What is a &lt;em&gt;HighLevelController&lt;/em&gt; ?&lt;/h1&gt;
+
+&lt;p&gt;In MASSIS, the &lt;em&gt;High Level Controllers&lt;/em&gt; manage the agent&amp;rsquo;s behavior. In our case, the &lt;code&gt;MyHelloHighLevelController.java&lt;/code&gt; file contains the following code.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public class MyHelloHighLevelController extends HighLevelController {
+
+    public MyHelloHighLevelController(
+        /*1*/ LowLevelAgent agent,
+        /*2*/ Map&amp;lt;String, String&amp;gt; metadata,
+        /*3*/ String resourcesFolder) {
+
+        super(agent, metadata, resourcesFolder);
+        this.agent.setHighLevelData(this);
+    }
+
+    @Override
+    public void stop() {
+        /*4*/
+        /*  Clean resources, threads...etc */
+    }
+
+    @Override
+    public void step() {
+        /*5*/
+        System.out.println(&amp;quot;Hey! I am an agent!&amp;quot;);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Let&amp;rsquo;s explain it by parts (marked in the code between &lt;code&gt;/**/&lt;/code&gt;)&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;What is a &lt;em&gt;LowLevelAgent&lt;/em&gt; ?&lt;/p&gt;
+
+&lt;p&gt;A &lt;em&gt;LowLevelAgent&lt;/em&gt; is the element that provides the &lt;em&gt;HighLevelController&lt;/em&gt; the necessary information for taking decisions. Also, the HighLevelController changes the state of the LowLevelAgent. (Making it move, changing its properties, other agent&amp;rsquo;s properties, interaction, etc.).&lt;/p&gt;
+
+&lt;p&gt;The following diagram may help to understand how MASSIS is structured:
+&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/SBuHKz7.png&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;What is the &lt;em&gt;metadata&lt;/em&gt; parameter?&lt;/p&gt;
+
+&lt;p&gt;The &lt;code&gt;metadata&lt;/code&gt; map is the map containing all the key-value entries that are introduced in the agent through the environment editor. Depending on the complexity of the behavior, the agent may need additional parameters.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&amp;hellip;And the resources folder?&lt;/p&gt;
+
+&lt;p&gt;The agent may need external resources (like a plan definition), or maybe the function of that agent is to write something. The &lt;code&gt;resourcesfolder&lt;/code&gt; parameter is the folder in where the I/O of the agent should be done.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;What is the &lt;code&gt;stop()&lt;/code&gt; method for?&lt;/p&gt;
+
+&lt;p&gt;Before the simulation finishes (or the agent is shut down), the &lt;code&gt;stop()&lt;/code&gt; method is called. Can be seen as the last call to the &lt;code&gt;step()&lt;/code&gt; method.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;And the &lt;code&gt;step()&lt;/code&gt; method?&lt;/p&gt;
+
+&lt;p&gt;The &lt;code&gt;step()&lt;/code&gt; method is where the agent&amp;rsquo;s logic occurs. Every simulation step provokes a call to the agent&amp;rsquo;s step method. Changing the content of this method changes the behavior of the agent.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h1 id=&#34;bringing-the-agent-the-ability-to-move-randomly:eefcc561692713ed4045ec5201f4fd82&#34;&gt;Bringing the agent the ability to move (randomly)&lt;/h1&gt;
+
+&lt;p&gt;Let&amp;rsquo;s make our agent move. For accomplishing that, the highlevel controller needs the knowledge of the environment that is provided by the LowLevelAgent (such as the room where the agent is), and needs to &lt;em&gt;command&lt;/em&gt; things to it&amp;rsquo;s low-level representation. The &lt;em&gt;LowLevelAgent&lt;/em&gt; interface provides the necessary methods for accomplishing that. Remember that the code is &lt;a href=&#34;https://github.com/rpax/MASSIS&#34;&gt;hosted on github&lt;/a&gt;, so you can check what are &lt;a href=&#34;https://github.com/rpax/MASSIS/blob/master/massisframework/massis/massis-core/src/main/java/com/massisframework/massis/model/agents/LowLevelAgent.java&#34;&gt;the methods offered by a LowLevelAgent&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;What we are going to do is the following:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;Obtain in which room is the agent.
+Rooms are represented by the  &lt;a href=&#34;https://github.com/rpax/MASSIS/blob/master/massisframework/massis/massis-core/src/main/java/com/massisframework/massis/model/building/SimRoom.java&#34;&gt;&lt;code&gt;SimRoom&lt;/code&gt;&lt;/a&gt; class. Obtaining the room of the agent can be done by calling the &lt;code&gt;getRoom()&lt;/code&gt; method:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/*1*/ SimRoom currentRoom=this.agent.getRoom();
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Select a random location in that room. Locations in the environment are represented by the &lt;a href=&#34;https://github.com/rpax/MASSIS/blob/master/massisframework/massis/massis-core/src/main/java/com/massisframework/massis/model/location/Location.java&#34;&gt;&lt;code&gt;Location&lt;/code&gt;&lt;/a&gt; class.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/*2*/ Location randomLocation = currentRoom.getRandomLoc();
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Make the agent move to that point.&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;The agent needs a target to follow. We will model that as an attribute of the High-Level controller.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/*3*/ private Location currentTarget;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;The easiest way for approaching to one location is calling to the method &lt;code&gt;approachTo&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/**
+* Tries to approach to an specific {@link Location} in the building.
+* &amp;lt;p&amp;gt;This method &amp;lt;b&amp;gt;does not&amp;lt;/b&amp;gt; &amp;quot;Move&amp;quot; the agent to one location to
+* another instantly. Instead, the agent tries to be closer to the location
+* given, avoiding obstacles.&amp;lt;/p&amp;gt;
+* &amp;lt;p&amp;gt;
+* For moving the agent to one location &amp;lt;i&amp;gt;instantly&amp;lt;/i&amp;gt; the method
+* {@link #moveTo(rpax.massis.model.location.Location)} should be used
+* instead
+*
+* @param location the target {@link Location}
+* @return if the agent has reached the location or not
+*/
+public void approachTo(Location location,ApproachCallback callback);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This method requires an &lt;code&gt;ApproachCallback&lt;/code&gt;. The &lt;code&gt;ÀpproachCallback&lt;/code&gt; methods will be called when the pathfinding process has been finished in the current step. In our case,&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ApproachCallback callback = new ApproachCallback() {
+
+
+    @Override
+    public void onTargetReached(LowLevelAgent agent) {
+        // Target has been reached.
+    }
+
+
+    @Override
+    public void onSucess(LowLevelAgent agent) {
+        // Ok, there was no problem. The agent has moved a little bit.
+    }
+
+
+    @Override
+    public void onPathFinderError(PathFinderErrorReason reason) {
+        //Error!
+        Logger.getLogger(MyHelloHighLevelController.class.getName())
+        .log(Level.SEVERE,
+        &amp;quot;Error when approaching to {0} Reason: {1}&amp;quot;,
+        new Object[] { currentTarget, reason });
+    }
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Putting all together in the &lt;code&gt;step()&lt;/code&gt; method,&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@Override
+public void step() {
+
+
+    if (this.currentTarget == null) {
+        /* 1 */ SimRoom currentRoom = this.agent.getRoom();
+        /* 2 */ Location randomLocation = currentRoom.getRandomLoc();
+        this.currentTarget = randomLocation;
+    }
+    ApproachCallback callback = new ApproachCallback() {
+
+
+    @Override
+        public void onTargetReached(LowLevelAgent agent) {
+        // Target has been reached.
+        }
+
+
+        @Override
+        public void onSucess(LowLevelAgent agent) {
+            // Ok, there was no problem.
+            //The agent has moved a little bit.
+        }
+
+
+        @Override
+        public void onPathFinderError(PathFinderErrorReason reason) {
+            // Error!
+            Logger.getLogger(MyHelloHighLevelController.class.getName())
+            .log(Level.SEVERE,
+            &amp;quot;Error when approaching to {0} Reason: {1}&amp;quot;,
+            new Object[] { currentTarget, reason });
+        }
+    };
+
+
+    this.agent.approachTo(this.currentTarget, callback);
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;You can try launching the simulation again. The agent is moving! But it only has a target, and when that target is reached, it starts going forward and backwards, trying again and again to reach the target. We can do a little better.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#39;#&#39; class=&#34;top-tip&#34; data-tips=&#39;Not written yet :(&#39;&gt;The next tutorial&lt;/a&gt;
+ explains how to control better the state of the Low level agent.&lt;/p&gt;
 </description>
     </item>
     
@@ -772,6 +950,15 @@ Hey! I am an agent!
     </item>
     
     <item>
+      <title>Authors</title>
+      <link>http://www.massisframework.com/page/authors/</link>
+      <pubDate>Thu, 05 Nov 2015 09:56:34 +0100</pubDate>
+      
+      <guid>http://www.massisframework.com/page/authors/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Downloading MASSIS</title>
       <link>http://www.massisframework.com/page/getting-started/</link>
       <pubDate>Thu, 05 Nov 2015 09:56:34 +0100</pubDate>
@@ -832,15 +1019,6 @@ Hey! I am an agent!
 
 &lt;p&gt;The &lt;a href=&#34;http://www.massisframework.com/categories/tutorials/&#34;&gt;tutorials section&lt;/a&gt; contains examples about creating an application based on MASSIS&amp;rsquo; framework.&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Authors</title>
-      <link>http://www.massisframework.com/page/authors/</link>
-      <pubDate>Thu, 05 Nov 2015 09:56:34 +0100</pubDate>
-      
-      <guid>http://www.massisframework.com/page/authors/</guid>
-      <description></description>
     </item>
     
     <item>

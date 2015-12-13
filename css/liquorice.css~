@@ -36,7 +36,7 @@ blockquote{
  color:#777
 }
 .todoitem {
-	color:#ffcc00;
+	
 	border-left:4px solid #669900;
 	background-color:#cfe1ab;
 }
@@ -121,7 +121,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .li-article pre {
-    background-color: #fafafa;
+   /* background-color: #fafafa;*/
     border: 1px solid #ccc;
     border-radius: 4px;
     padding: 32px;
