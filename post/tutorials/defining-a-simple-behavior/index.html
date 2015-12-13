@@ -9,6 +9,7 @@
         <link rel='stylesheet' href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600' type='text/css'>
         <link rel="stylesheet" href="http://www.massisframework.com//libraries/normalize.3.0.1.css" />
         <link rel="stylesheet" href="http://www.massisframework.com//css/liquorice.css" />
+        <link rel="stylesheet" href="http://www.massisframework.com//libraries/tooltip.css" />
         <link rel="shortcut icon" href="/favicon.ico" />
         <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon-144-precomposed.png" sizes="144x144" />
         <link rel="alternate" href="" type="application/rss+xml" title="MASSIS Framework" />
@@ -70,67 +71,87 @@
                     <section>
                         
 
-<p>This is the continuation of the <a href="/post/tutorials/customizing-the-archetype/">Second tutorial</a>.</p>
+<p>This is the continuation of the <a href="/post/tutorials/customizing-the-archetype/">Second tutorial</a>.
+In the previous tutorial, we learnt how to change properties of the elements of the environment and launching the simulation. In this tutorial, we will learn the basics of the simulation gui, and a simple example about how to manage the behavior of the agent in the environment.</p>
 
-<h2 id="simulation-gui-explained:eefcc561692713ed4045ec5201f4fd82">Simulation GUI explained.</h2>
+<h1 id="the-simulation-gui:eefcc561692713ed4045ec5201f4fd82">The simulation GUI.</h1>
 
-<p>When launching <code>SimulationWithUILauncher</code>, appears a gui with the following tabs:</p>
+<p>In the previous tutorial, we executed <code>SimulationWithUILauncher</code>, and the following window appeared.Let&rsquo;s explain briefly the contents of this window.</p>
 
-<h4 id="about:eefcc561692713ed4045ec5201f4fd82">About</h4>
+<ul>
+<li><p>About : Shows some a welcome screen, and copyright imformation. The three buttons on the bottom-left side control the most basic functionalities of the simulator:</p>
 
-<p>Shows the MASSIS&rsquo; logo and copyright information</p>
+<ul>
+<li>Advance one step</li>
+<li>Run continuously</li>
+<li>Stop
+<figure class="img-responsive center-block"><img src="http://i.imgur.com/kPN5EI7.png"/></figure>
+</li>
+</ul></li>
 
-<p><img src="http://i.imgur.com/kPN5EI7.png" alt="" />
-</p>
-
-<h4 id="console:eefcc561692713ed4045ec5201f4fd82">Console</h4>
-
-<p>Controls simulation parameters.</p>
+<li><p>Console : Controls simulation parameters.</p>
 
 <ul>
 <li>Delay (Sec/Step) : Delay between steps in the simulation</li>
-<li>Steps per Step-button : Number of steps to be executed every time the play-pause button is pressed.</li>
-</ul>
+<li>Steps per Step-button : Number of steps to be executed every time the play-pause button is pressed.
+<figure class="img-responsive center-block"><img src="http://i.imgur.com/SI7dSrf.png"/></figure>
+</li>
+</ul></li>
 
-<p><img src="http://i.imgur.com/SI7dSrf.png" alt="" />
-</p>
-
-<h4 id="displays:eefcc561692713ed4045ec5201f4fd82">Displays</h4>
-
-<p><img src="http://i.imgur.com/PptfTUD.png" alt="" />
-</p>
+<li><p>Displays: This tab offers different ways for visualizing the state of the simulation. They can be shown or hidden anytime, with the simulation running also.  <figure class="img-responsive center-block"><img src="http://i.imgur.com/PptfTUD.png"/></figure>
+  There are three different types of visualization:</p>
 
 <ul>
-<li>Building map : Shows the 2D layer- based map.</li>
-</ul>
-
-<p><img src="http://i.imgur.com/2Ba54YT.png" alt="" />
-</p>
-
-<blockquote>
-<p>TODO: explain layers.</p>
-</blockquote>
-
-<p><img src="http://i.imgur.com/IcRLXtI.png" alt="" />
-</p>
+<li>Building map : Shows the 2D layer- based map. This is the most powerful, flexible and customizable visualization tool of MASSIS. This type of display is deeply explained in  <a href='#' class="top-tip" data-tips='Not written yet :('>this tutorial</a>
+. <figure class="img-responsive center-block"><img src="http://i.imgur.com/IcRLXtI.png"/></figure>
+</li>
+<li>Building 2D :  Shows SweetHome3D default 2D viewer. It is included because maybe it is useful in the future. Although it is not recommended: Is not optimized for the simulation, and has thread-safety issues.<figure class="img-responsive center-block"><img src="http://i.imgur.com/2tnx3mF.png"/></figure>
+</li>
+<li>Building 3D: Shows the 3D viewer. The camera can be controlled with the mouse or keyboard</li>
+<li>Keyboard:
 
 <ul>
-<li>Building 2D</li>
-</ul>
-
-<p>Shows SweetHome3D default 2D viewer (not optimized,not recommended, may raise errors)</p>
-
-<p><img src="http://i.imgur.com/2tnx3mF.png" alt="" />
-</p>
+<li><code>W</code> moves the camera backwards</li>
+<li><code>S</code> moves the camera forward.</li>
+<li><code>Caps lock</code> (&#8682;) makes the movement of the camera faster.</li>
+</ul></li>
+<li>Mouse:
 
 <ul>
-<li>Building 3D</li>
+<li>The mouse wheel moves the camera backwards/forward</li>
+<li>The mouse movement changes the view direction</li>
+</ul></li>
+</ul></li>
 </ul>
 
-<p>Shows the 3D viewer.</p>
+<h1 id="first-run:eefcc561692713ed4045ec5201f4fd82">First Run</h1>
 
-<p><img src="http://i.imgur.com/YZGH1rM.png" alt="" />
-</p>
+<p>Ok, so let&rsquo;s press the <em>Play</em> (<img src="http://i.imgur.com/D6C9dta.png?1" alt="" />
+) button. What happens?</p>
+
+<ol>
+<li>The <em>step counter</em> increases its value very fast</li>
+
+<li><p>The output of the console is always the same:</p>
+
+<pre><code>Hey! I am an agent!
+Hey! I am an agent!
+Hey! I am an agent!
+Hey! I am an agent!
+Hey! I am an agent!
+Hey! I am an agent!
+Hey! I am an agent!
+Hey! I am an agent!
+Hey! I am an agent!
+Hey! I am an agent!
+Hey! I am an agent!
+... etc
+</code></pre></li>
+
+<li><p>Nothing moves.</p></li>
+</ol>
+
+<p>Why? because the behavior of the agent is exactly that. If we take a look into <code>MyHelloHighLevelController.java</code>, the <code>step()</code> method looks like this:</p>
 
                     </section>
                 </article>
@@ -147,7 +168,7 @@
         <div class="row">
             <div class="sixteen columns">
                 <div class="li-page-footer-legal">
-                    &copy; 2015. All rights reserved. 
+                    © 2015 Rafael Pax &amp; Juan Pavón.
                 </div>
                 <div class="li-page-footer-theme">
                     <span class=""><a href="https://github.com/eliasson/liquorice/">liquorice</a> is a theme for <a href="http://hugo.spf13.com">hugo</a></span>

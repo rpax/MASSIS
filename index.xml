@@ -580,67 +580,87 @@ Before/After Reduction : 4/2,[22=&amp;gt;16] took 6 ms
       <guid>http://www.massisframework.com/post/tutorials/defining-a-simple-behavior/</guid>
       <description>
 
-&lt;p&gt;This is the continuation of the &lt;a href=&#34;http://www.massisframework.com/post/tutorials/customizing-the-archetype/&#34;&gt;Second tutorial&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;This is the continuation of the &lt;a href=&#34;http://www.massisframework.com/post/tutorials/customizing-the-archetype/&#34;&gt;Second tutorial&lt;/a&gt;.
+In the previous tutorial, we learnt how to change properties of the elements of the environment and launching the simulation. In this tutorial, we will learn the basics of the simulation gui, and a simple example about how to manage the behavior of the agent in the environment.&lt;/p&gt;
 
-&lt;h2 id=&#34;simulation-gui-explained:eefcc561692713ed4045ec5201f4fd82&#34;&gt;Simulation GUI explained.&lt;/h2&gt;
+&lt;h1 id=&#34;the-simulation-gui:eefcc561692713ed4045ec5201f4fd82&#34;&gt;The simulation GUI.&lt;/h1&gt;
 
-&lt;p&gt;When launching &lt;code&gt;SimulationWithUILauncher&lt;/code&gt;, appears a gui with the following tabs:&lt;/p&gt;
+&lt;p&gt;In the previous tutorial, we executed &lt;code&gt;SimulationWithUILauncher&lt;/code&gt;, and the following window appeared.Let&amp;rsquo;s explain briefly the contents of this window.&lt;/p&gt;
 
-&lt;h4 id=&#34;about:eefcc561692713ed4045ec5201f4fd82&#34;&gt;About&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;About : Shows some a welcome screen, and copyright imformation. The three buttons on the bottom-left side control the most basic functionalities of the simulator:&lt;/p&gt;
 
-&lt;p&gt;Shows the MASSIS&amp;rsquo; logo and copyright information&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Advance one step&lt;/li&gt;
+&lt;li&gt;Run continuously&lt;/li&gt;
+&lt;li&gt;Stop
+&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/kPN5EI7.png&#34;/&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/kPN5EI7.png&#34; alt=&#34;&#34; /&gt;
-&lt;/p&gt;
-
-&lt;h4 id=&#34;console:eefcc561692713ed4045ec5201f4fd82&#34;&gt;Console&lt;/h4&gt;
-
-&lt;p&gt;Controls simulation parameters.&lt;/p&gt;
+&lt;li&gt;&lt;p&gt;Console : Controls simulation parameters.&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Delay (Sec/Step) : Delay between steps in the simulation&lt;/li&gt;
-&lt;li&gt;Steps per Step-button : Number of steps to be executed every time the play-pause button is pressed.&lt;/li&gt;
-&lt;/ul&gt;
+&lt;li&gt;Steps per Step-button : Number of steps to be executed every time the play-pause button is pressed.
+&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/SI7dSrf.png&#34;/&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/SI7dSrf.png&#34; alt=&#34;&#34; /&gt;
-&lt;/p&gt;
-
-&lt;h4 id=&#34;displays:eefcc561692713ed4045ec5201f4fd82&#34;&gt;Displays&lt;/h4&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/PptfTUD.png&#34; alt=&#34;&#34; /&gt;
-&lt;/p&gt;
+&lt;li&gt;&lt;p&gt;Displays: This tab offers different ways for visualizing the state of the simulation. They can be shown or hidden anytime, with the simulation running also.  &lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/PptfTUD.png&#34;/&gt;&lt;/figure&gt;
+  There are three different types of visualization:&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;Building map : Shows the 2D layer- based map.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/2Ba54YT.png&#34; alt=&#34;&#34; /&gt;
-&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;TODO: explain layers.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/IcRLXtI.png&#34; alt=&#34;&#34; /&gt;
-&lt;/p&gt;
+&lt;li&gt;Building map : Shows the 2D layer- based map. This is the most powerful, flexible and customizable visualization tool of MASSIS. This type of display is deeply explained in  &lt;a href=&#39;#&#39; class=&#34;top-tip&#34; data-tips=&#39;Not written yet :(&#39;&gt;this tutorial&lt;/a&gt;
+. &lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/IcRLXtI.png&#34;/&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;li&gt;Building 2D :  Shows SweetHome3D default 2D viewer. It is included because maybe it is useful in the future. Although it is not recommended: Is not optimized for the simulation, and has thread-safety issues.&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/2tnx3mF.png&#34;/&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;li&gt;Building 3D: Shows the 3D viewer. The camera can be controlled with the mouse or keyboard&lt;/li&gt;
+&lt;li&gt;Keyboard:
 
 &lt;ul&gt;
-&lt;li&gt;Building 2D&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Shows SweetHome3D default 2D viewer (not optimized,not recommended, may raise errors)&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/2tnx3mF.png&#34; alt=&#34;&#34; /&gt;
-&lt;/p&gt;
+&lt;li&gt;&lt;code&gt;W&lt;/code&gt; moves the camera backwards&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;S&lt;/code&gt; moves the camera forward.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Caps lock&lt;/code&gt; (&amp;#8682;) makes the movement of the camera faster.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Mouse:
 
 &lt;ul&gt;
-&lt;li&gt;Building 3D&lt;/li&gt;
+&lt;li&gt;The mouse wheel moves the camera backwards/forward&lt;/li&gt;
+&lt;li&gt;The mouse movement changes the view direction&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;Shows the 3D viewer.&lt;/p&gt;
+&lt;h1 id=&#34;first-run:eefcc561692713ed4045ec5201f4fd82&#34;&gt;First Run&lt;/h1&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/YZGH1rM.png&#34; alt=&#34;&#34; /&gt;
-&lt;/p&gt;
+&lt;p&gt;Ok, so let&amp;rsquo;s press the &lt;em&gt;Play&lt;/em&gt; (&lt;img src=&#34;http://i.imgur.com/D6C9dta.png?1&#34; alt=&#34;&#34; /&gt;
+) button. What happens?&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;The &lt;em&gt;step counter&lt;/em&gt; increases its value very fast&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;The output of the console is always the same:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Hey! I am an agent!
+Hey! I am an agent!
+Hey! I am an agent!
+Hey! I am an agent!
+Hey! I am an agent!
+Hey! I am an agent!
+Hey! I am an agent!
+Hey! I am an agent!
+Hey! I am an agent!
+Hey! I am an agent!
+Hey! I am an agent!
+... etc
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Nothing moves.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Why? because the behavior of the agent is exactly that. If we take a look into &lt;code&gt;MyHelloHighLevelController.java&lt;/code&gt;, the &lt;code&gt;step()&lt;/code&gt; method looks like this:&lt;/p&gt;
 </description>
     </item>
     
@@ -752,15 +772,6 @@ Before/After Reduction : 4/2,[22=&amp;gt;16] took 6 ms
     </item>
     
     <item>
-      <title>Authors</title>
-      <link>http://www.massisframework.com/page/authors/</link>
-      <pubDate>Thu, 05 Nov 2015 09:56:34 +0100</pubDate>
-      
-      <guid>http://www.massisframework.com/page/authors/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Downloading MASSIS</title>
       <link>http://www.massisframework.com/page/getting-started/</link>
       <pubDate>Thu, 05 Nov 2015 09:56:34 +0100</pubDate>
@@ -821,6 +832,15 @@ Before/After Reduction : 4/2,[22=&amp;gt;16] took 6 ms
 
 &lt;p&gt;The &lt;a href=&#34;http://www.massisframework.com/categories/tutorials/&#34;&gt;tutorials section&lt;/a&gt; contains examples about creating an application based on MASSIS&amp;rsquo; framework.&lt;/p&gt;
 </description>
+    </item>
+    
+    <item>
+      <title>Authors</title>
+      <link>http://www.massisframework.com/page/authors/</link>
+      <pubDate>Thu, 05 Nov 2015 09:56:34 +0100</pubDate>
+      
+      <guid>http://www.massisframework.com/page/authors/</guid>
+      <description></description>
     </item>
     
     <item>

@@ -22,11 +22,27 @@
 .li-left {
     float: left;
 }
-/*Fix for mobile*/
-img {
-	max-width:55%;
-}
+/**
 
+CUSTOM
+
+*/
+img {
+max-width:90%;
+}
+blockquote{
+ border-left:4px solid #e6e6e6;
+ padding:0 15px;
+ color:#777
+}
+.todoitem {
+	
+	border-left:4px solid #669900;
+	background-color:#cfe1ab;
+}
+/**
+END CUSTOM
+**/
 /** Base ********************************************************************/
 body {
     font-family: "Open Sans", "Helvetica Neue", "Helvetica", sans-serif;
