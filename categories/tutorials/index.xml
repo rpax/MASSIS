@@ -23,7 +23,7 @@
 
 &lt;p&gt;Although an experienced programmer can do all of this steps without any kind of IDE, for illustrating purposes, the &lt;a href=&#34;http://www.eclipse.org/downloads/&#34;&gt;Eclipse platform&lt;/a&gt; will be used here. The recommended version is the &lt;em&gt;Eclipse IDE for Java Developers&lt;/em&gt;.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/6574ISB.png&#34; alt=&#34;&#34; /&gt;
+&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/6574ISB.png&#34;/&gt;&lt;/figure&gt;
 &lt;/p&gt;
 
 &lt;h2 id=&#34;creating-a-maven-project-based-on-a-massis-archetype:e06228b655e61d4d03702e703f2b69d5&#34;&gt;Creating a maven project based on a massis archetype&lt;/h2&gt;
@@ -32,58 +32,58 @@
 &lt;li&gt;Right click on the projects sidebar, and select &amp;ldquo;New Project&amp;rdquo;.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/jHjluiC.png&#34; alt=&#34;&#34; /&gt;
+&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/jHjluiC.png&#34;/&gt;&lt;/figure&gt;
 &lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;In the project type window, select new Maven Project and press &lt;em&gt;Next&lt;/em&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/nekxikS.png&#34; alt=&#34;&#34; /&gt;
+&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/nekxikS.png&#34;/&gt;&lt;/figure&gt;
 &lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Ensure that the checkbox &lt;em&gt;Skip Archetype Selection&lt;/em&gt; is &lt;strong&gt;unchecked&lt;/strong&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/uNrk3nQ.png&#34; alt=&#34;&#34; /&gt;
+&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/uNrk3nQ.png&#34;/&gt;&lt;/figure&gt;
 &lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Now, we need to add the massis archetype catalog. This can be done through &lt;em&gt;Configure&amp;hellip; -&amp;gt; Add Remote Catalog&lt;/em&gt;, and selecting the massis archetype catalog,which is located at &lt;a href=&#34;http://mvn.massisframework.com/nexus/content/groups/public/archetype-catalog.xml&#34;&gt;http://mvn.massisframework.com/nexus/content/groups/public/archetype-catalog.xml&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/NwtY4Wk.png&#34; alt=&#34;&#34; /&gt;
+&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/NwtY4Wk.png&#34;/&gt;&lt;/figure&gt;
 &lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/0KDUOcB.png&#34; alt=&#34;&#34; /&gt;
+&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/0KDUOcB.png&#34;/&gt;&lt;/figure&gt;
 &lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/hRWww0Z.png&#34; alt=&#34;&#34; /&gt;
+&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/hRWww0Z.png&#34;/&gt;&lt;/figure&gt;
 &lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Remember to check the option &lt;em&gt;Include snapshot archetypes&lt;/em&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/h4hT8Jr.png&#34; alt=&#34;&#34; /&gt;
+&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/h4hT8Jr.png&#34;/&gt;&lt;/figure&gt;
 &lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;The next window asks for the information about our groupId and artifactId. In this example, the groupId will be &lt;code&gt;tutorialfollower&lt;/code&gt; and the artifactId &lt;code&gt;myfirstmassisproject&lt;/code&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/KbjsvNR.png&#34; alt=&#34;&#34; /&gt;
+&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/KbjsvNR.png&#34;/&gt;&lt;/figure&gt;
 &lt;/p&gt;
 
 &lt;p&gt;After pressing &lt;em&gt;Finish&lt;/em&gt;, Eclipse (maven) will start downloading the required dependencies for this project. Depending on your internet connection, this may take a while. The progress can be seen on the &lt;em&gt;Progress&lt;/em&gt; tab. (Or clicking in the bottom right corner of the window).&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/YjNf5ai.png&#34; alt=&#34;&#34; /&gt;
+&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/YjNf5ai.png&#34;/&gt;&lt;/figure&gt;
 &lt;/p&gt;
 
 &lt;p&gt;If you want to see the output of the maven console, this can be done in the &lt;em&gt;Console tab -&amp;gt; Maven Console&lt;/em&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/Bojyyev.png&#34; alt=&#34;&#34; /&gt;
+&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/Bojyyev.png&#34;/&gt;&lt;/figure&gt;
 &lt;/p&gt;
 
 &lt;p&gt;The output should be something like this:&lt;/p&gt;
@@ -109,7 +109,7 @@
 &lt;li&gt;&lt;code&gt;MyHelloHighLevelController&lt;/code&gt; : A behavior definion sample.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/37HqUP4.png&#34; alt=&#34;&#34; /&gt;
+&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/37HqUP4.png&#34;/&gt;&lt;/figure&gt;
 &lt;/p&gt;
 
 &lt;p&gt;What to do next? The tutorial continues on &lt;a href=&#34;http://www.massisframework.com/post/tutorials/customizing-the-archetype/&#34;&gt;Creating a MASSIS Application. Part 2: Customizing the archetype&lt;/a&gt;&lt;/p&gt;
