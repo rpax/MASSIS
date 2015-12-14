@@ -574,14 +574,189 @@ Sweethome3D saves the recent buildings edited, so clicking on &lt;em&gt;File -&a
 &lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/42HAACQ.gif&#34;/&gt;&lt;/figure&gt;
 &lt;/p&gt;
 
-&lt;p&gt;The editor supports panning and zooming. Zooming can be done pressing &lt;code&gt;Ctrl&lt;/code&gt; while moving the mouse wheel. Also, it helps with connecting one wall with another. When the mouse is near the wall corners, a bigger point is shown, in order to make easier this task.
-&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/ig7DusU.gif&#34;/&gt;&lt;/figure&gt;
+&lt;p&gt;The editor supports panning and zooming. Zooming can be done pressing &lt;code&gt;Ctrl&lt;/code&gt; while moving the mouse wheel. Also, it helps with connecting one wall with another. When the mouse is near the wall corners, a bigger point is shown, in order to make easier this task.&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/ig7DusU.gif&#34;/&gt;&lt;/figure&gt;
 &lt;/p&gt;
 
-&lt;p&gt;Adding rooms to the scene can be accomplished clicking in &lt;em&gt;Plan-&amp;gt; Create Rooms&lt;/em&gt;, or in the shorcut button &lt;img src=&#34;http://i.imgur.com/vOnfWjk.png&#34; alt=&#34;&#34; /&gt;
-. Can be added &lt;em&gt;point-per-point&lt;/em&gt;, but the recommended way is making double click in an area enclosed by walls. It is &lt;strong&gt;very recommended&lt;/strong&gt; to do it that way, because makes easier the environment recognition by the simulator.
-&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/busq3sc.gif&#34;/&gt;&lt;/figure&gt;
+&lt;p&gt;Adding rooms to the scene can be accomplished clicking in &lt;em&gt;Plan-&amp;gt; Create Rooms&lt;/em&gt;, or in the shorcut button
+&lt;img src=&#34;http://i.imgur.com/vOnfWjk.png&#34; alt=&#34;&#34; /&gt;
+. Can be added &lt;em&gt;point-per-point&lt;/em&gt;, but the recommended way is making double click in an area enclosed by walls. It is &lt;strong&gt;very recommended&lt;/strong&gt; to do it that way, because makes easier the environment recognition by the simulator.&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/busq3sch.gif&#34;/&gt;&lt;/figure&gt;
 &lt;/p&gt;
+
+&lt;h2 id=&#34;adding-doors:16f756c730c6f04258547ab4f61a9781&#34;&gt;Adding doors&lt;/h2&gt;
+
+&lt;p&gt;Doors play an important role in the simulation. Besides allowing agents to move through them, they made a logical separation between spaces that enhance the performance of the simulation.&lt;/p&gt;
+
+&lt;p&gt;Doors are under the section &lt;em&gt;Doors and Windows&lt;/em&gt;. It is important to snap the doors to the walls, otherwise the simulation pathfinder might fail.&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/dzvD847.gif&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
+
+&lt;h2 id=&#34;adding-more-agents:16f756c730c6f04258547ab4f61a9781&#34;&gt;Adding more agents&lt;/h2&gt;
+
+&lt;p&gt;Let&amp;rsquo;s are more agents to the environment. We need to &lt;strong&gt;copy and paste&lt;/strong&gt; the original agent that we have modified in the previous tutorial. Otherwise, the metadata values will be the default ones, and the behavior class will be the default one.&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/vriBsoA.gif&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
+
+&lt;h2 id=&#34;running-the-simulation-again:16f756c730c6f04258547ab4f61a9781&#34;&gt;Running the simulation again&lt;/h2&gt;
+
+&lt;p&gt;If we run the simulation again, the agents will start moving randomly. But, they are not using the doors!. That&amp;rsquo;s because in the behavior, we have limited the movement &lt;em&gt;in the current room&lt;/em&gt;, not in the whole environment.&lt;/p&gt;
+
+&lt;p&gt;Changing a little bit the behavior will allow agents to move through doors:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@Override
+public void step() {
+
+    if (this.currentTarget == null) {
+    /* 1 */
+
+        Random rnd = ThreadLocalRandom.current();
+        Location agentLocation = agent.getLocation();
+        Floor agentFloor = agentLocation.getFloor();
+        List&amp;lt;SimRoom&amp;gt; roomsInFloor = agentFloor.getRooms();
+        int numberOfRooms = roomsInFloor.size();
+        int rndRoomIndex = rnd.nextInt(numberOfRooms);
+        final SimRoom rndRoom = roomsInFloor.get(rndRoomIndex);
+
+        /* 2 */ Location randomLocation = rndRoom.getRandomLoc();
+        this.currentTarget = randomLocation;
+    }
+//...etc
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;¿What are we doing here?&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;First, we get the agent&amp;rsquo;s location.&lt;/li&gt;
+&lt;li&gt;Then, we access the &lt;strong&gt;Floor&lt;/strong&gt; of that location. (What a floor is will be explained in the next section)&lt;/li&gt;
+&lt;li&gt;We pick a random room of the current floor.&lt;/li&gt;
+&lt;li&gt;And finally, a random point in that room.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/w5GfLJT.gif&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
+
+&lt;h2 id=&#34;what-is-a-floor:16f756c730c6f04258547ab4f61a9781&#34;&gt;What is a Floor?&lt;/h2&gt;
+
+&lt;p&gt;The building model inside the MASSIS simulator is the following:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;A building is composed by different floors, at different heights each one.&lt;/li&gt;
+&lt;li&gt;Each floor is divided into &lt;em&gt;rooms&lt;/em&gt;, which are separated by &lt;em&gt;walls&lt;/em&gt; and connected by &lt;em&gt;doors&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Teleports&lt;/em&gt; can connect everything in the building. But that &lt;a href=&#39;#&#39; class=&#34;top-tip&#34; data-tips=&#39;Not written yet :(&#39;&gt;is another tutorial&lt;/a&gt;
+.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/HRzd8cD.png&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
+
+&lt;h2 id=&#34;creating-obstacles:16f756c730c6f04258547ab4f61a9781&#34;&gt;Creating obstacles&lt;/h2&gt;
+
+&lt;p&gt;At this moment, the environment has no obstacles. Let&amp;rsquo;s add a some. In the environment editor, go to &lt;em&gt;Miscillaneous -&amp;gt; Box&lt;/em&gt;, and drag it to the scene.&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/oIAeeED.gif&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Save the building and run the simulation again.&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/SCqpt8D.gif&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
+
+&lt;p&gt;What happens? The elements added are recognized by the simulator as &lt;strong&gt;static&lt;/strong&gt; obstacles by default, like walls. (Walls are &lt;em&gt;always&lt;/em&gt; an obstacle).&lt;/p&gt;
+
+&lt;p&gt;In this context, the elements can be playing different roles, depending on their metadata. The two tables below explain this keys more formally.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;code&gt;IS_OBSTACLE&lt;/code&gt;&lt;/th&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Meaning&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Tells if the element represents an obstacle in the environment.&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Default&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;true&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Allowed values&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;true,false&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Keys required&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;none&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;hr /&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;code&gt;IS_DYNAMIC&lt;/code&gt;&lt;/th&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Meaning&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Tells if the element has the ability to move. Depending on this value, will be treated as an static obstacle or not&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Default&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;false&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Allowed values&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;true,false&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Keys required&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;IS_OBSTACLE&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Let&amp;rsquo;s add the entry &lt;code&gt;IS_OBSTACLE = false&lt;/code&gt; in the boxes&amp;rsquo; metadata, and see what happens.&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/mvnnlmv.gif&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
+
+&lt;p&gt;The agents now don&amp;rsquo;t try to avoid the boxes, because they are marked as &lt;em&gt;not an obstacle&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/OjLZ6QT.gif&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
+
+&lt;p&gt;And, what if we set a box with the entry &lt;code&gt;IS_DYNAMIC = true&lt;/code&gt; ?&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/1nLgQ66.gif&#34;/&gt;&lt;/figure&gt;
+
+The visualization treats the element in a different way, because it is marked as dynamic. Also, the pathfinder does not include this element in the pathfinding process, and the responsability for not &lt;em&gt;bumbing into things&lt;/em&gt; is taken by other method, with &lt;a href=&#34;http://www.red3d.com/cwr/steer/&#34;&gt;steering behaviors&lt;/a&gt;, that are explained in  &lt;a href=&#39;#&#39; class=&#34;top-tip&#34; data-tips=&#39;Not written yet :(&#39;&gt;another tutorial&lt;/a&gt;
+.&lt;/p&gt;
+
+&lt;h1 id=&#34;what-to-do-next:16f756c730c6f04258547ab4f61a9781&#34;&gt;What to do next?&lt;/h1&gt;
+
+&lt;p&gt;Our agents can move from/to different locations in the environment, but, what about their &lt;em&gt;perception&lt;/em&gt;? This is explained in the &lt;a href=&#34;#&#34;&gt;Next tutorial&lt;/a&gt;.&lt;/p&gt;
 </description>
     </item>
     

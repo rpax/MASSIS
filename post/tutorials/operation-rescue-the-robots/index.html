@@ -423,7 +423,25 @@ public void step() {
     -->
     </script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/highlight.min.js"></script>
+	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 	<script>hljs.initHighlightingOnLoad();</script>
+	<script>
+	$(function() {
+		var swapimgs = function($a,$b) {
+			tmp=$a.attr("src");
+			$a.attr("src",$b.attr("src"));
+			$b.attr("src",tmp);
+		};
+		$('.althover-img-0').mouseenter(function() {
+  				swapimgs($(this),$(this).siblings().first());
+				
+		});
+		$('.althover-img-0').mouseleave(function() {
+  				swapimgs($(this),$(this).siblings().first());
+		});
+		
+	});
+	</script>
     </body>
 </html>
 
