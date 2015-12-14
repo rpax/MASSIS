@@ -125,6 +125,89 @@ Agent #12 has in the range of 200.0 cm:
 ...etc
 </code></pre>
 
+<p>So, agent&rsquo;s can move, and see each other. Let&rsquo;s make them to play a game.</p>
+
+<h1 id="game-rules:d7c5f655ae342b94fbf082b33a7e6e52">Game Rules</h1>
+
+<p><a href="https://en.wikipedia.org/wiki/Tag_(game)">Tag Game rules from Wikipedia</a>:</p>
+
+<blockquote>
+<p>A group of players (two or more) decide who is going to be &ldquo;it&rdquo;, often using a counting-out game such as eeny, meeny, miny, moe.</p>
+
+<p>The player selected to be &ldquo;it&rdquo; then chases the others, attempting to get close enough to &ldquo;tag&rdquo; one of them (touching them with a hand) while the others try to escape.</p>
+
+<p>A tag makes the tagged player &ldquo;it&rdquo; - in some variations[&hellip;]</p>
+</blockquote>
+
+<p>We can model the behavior of the agents following the flowchart below:</p>
+
+<p><figure class="img-responsive center-block"><img src="http://i.imgur.com/2CENpcd.png"/></figure>
+</p>
+
+<ul>
+<li><p>Checking if the agent is tagged.</p>
+
+<p>Adding a new property to <code>MyHelloHighLevelController</code> will serve well for this purpose:</p>
+
+<pre><code>private boolean tagged;
+
+
+public boolean isTagged() {
+    return tagged;
+}
+
+
+public void setTagged(boolean tagged) {
+    this.tagged = tagged;
+}
+</code></pre></li>
+
+<li><p>Check for seeing a tagged / untagged agent</p>
+
+<pre><code>private MyHelloHighLevelController getNearestAgent(double range,
+        boolean tagStatus) {
+    /*
+     * We set a high limit
+     */
+    double minDist = Float.MAX_VALUE;
+    /*
+     * Location of this agent
+     */
+    final Location agentLoc = this.agent.getLocation();
+    /*
+     * Nearest agent found
+     */
+    MyHelloHighLevelController nearest = null;
+    for (LowLevelAgent otherAgent : this.agent.getAgentsInRange(range)) {
+        /*
+         * Retrieve the high-level data of the other agent. It should be of
+         * the type of agent playing this game, MyHelloHighLevelController.
+         */
+        final Object highLevelData = otherAgent.getHighLevelData();
+        if (highLevelData instanceof MyHelloHighLevelController) {
+            MyHelloHighLevelController otherCtrl = (MyHelloHighLevelController) highLevelData;
+            /*
+             * Satisfies the search condition?
+             */
+            if (otherCtrl.isTagged() == tagStatus) {
+                final Location otherLoc = otherAgent.getLocation();
+                final double distance = agentLoc.distance2D(otherLoc);
+                /*
+                 * Store if nearest.
+                 */
+                if (distance &lt; minDist) {
+                    nearest = otherCtrl;
+                }
+            }
+        }
+    }
+    return nearest;
+}
+</code></pre></li>
+</ul>
+
+<p>With those two methods, we can design the rest of the behavior.</p>
+
                     </section>
                 </article>
             </div>
