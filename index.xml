@@ -445,20 +445,6 @@ public void step() {
     </item>
     
     <item>
-      <title>Creating a MASSIS Application. Part 4: Bigger environment and multiple agents</title>
-      <link>http://www.massisframework.com/post/tutorials/bigger-environment-and-multiple-agents/</link>
-      <pubDate>Fri, 06 Nov 2015 13:19:52 +0100</pubDate>
-      
-      <guid>http://www.massisframework.com/post/tutorials/bigger-environment-and-multiple-agents/</guid>
-      <description>
-
-&lt;p&gt;This is the continuation of the &lt;a href=&#34;http://www.massisframework.com/post/tutorials/defining-a-simple-behavior/&#34;&gt;Third tutorial&lt;/a&gt;. In this tutorial, we will improve the environment and we will add more agents to the simulation.&lt;/p&gt;
-
-&lt;h1 id=&#34;editing-the-environment:16f756c730c6f04258547ab4f61a9781&#34;&gt;Editing the environment&lt;/h1&gt;
-</description>
-    </item>
-    
-    <item>
       <title>Creating a MASSIS Application. Part 3: Defining a simple behavior</title>
       <link>http://www.massisframework.com/post/tutorials/defining-a-simple-behavior/</link>
       <pubDate>Fri, 06 Nov 2015 13:19:52 +0100</pubDate>
@@ -759,6 +745,42 @@ public void step() {
 &lt;/p&gt;
 
 &lt;p&gt;There&amp;rsquo;s a lot of things to improve! Take a look at the &lt;a href=&#34;http://www.massisframework.com/post/tutorials/bigger-environment-and-multiple-agents/&#34;&gt;Next tutorial&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Creating a MASSIS Application. Part 4: Bigger environment and multiple agents</title>
+      <link>http://www.massisframework.com/post/tutorials/bigger-environment-and-multiple-agents/</link>
+      <pubDate>Fri, 06 Nov 2015 13:19:52 +0100</pubDate>
+      
+      <guid>http://www.massisframework.com/post/tutorials/bigger-environment-and-multiple-agents/</guid>
+      <description>
+
+&lt;p&gt;This is the continuation of the &lt;a href=&#34;http://www.massisframework.com/post/tutorials/defining-a-simple-behavior/&#34;&gt;Third tutorial&lt;/a&gt;. In this tutorial, we will improve the environment and we will add more agents to the simulation.&lt;/p&gt;
+
+&lt;h1 id=&#34;editing-the-environment:16f756c730c6f04258547ab4f61a9781&#34;&gt;Editing the environment&lt;/h1&gt;
+
+&lt;p&gt;Let&amp;rsquo;s add more elements to the environment. For that, we need to launch the editor (&lt;code&gt;EnvironmentEditor.java&lt;/code&gt;).
+Sweethome3D saves the recent buildings edited, so clicking on &lt;em&gt;File -&amp;gt; Open Recent -&amp;gt; Tutorial1.sh3d&lt;/em&gt; will open the our simulation environment.&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/5JPhrUn.gif&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
+
+&lt;h2 id=&#34;adding-walls-rooms:16f756c730c6f04258547ab4f61a9781&#34;&gt;Adding walls &amp;amp; rooms&lt;/h2&gt;
+
+&lt;p&gt;Walls can be added clicking on &lt;em&gt;Plan -&amp;gt; Create Walls&lt;/em&gt;, with the shortcut &lt;code&gt;Ctrl + Shift + W&lt;/code&gt; or pressing the &lt;img src=&#34;http://i.imgur.com/bc5HLBQ.png&#34; alt=&#34;&#34; /&gt;
+ button.&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/42HAACQ.gif&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
+
+&lt;p&gt;The editor supports panning and zooming. Zooming can be done pressing &lt;code&gt;Ctrl&lt;/code&gt; while moving the mouse wheel. Also, it helps with connecting one wall with another. When the mouse is near the wall corners, a bigger point is shown, in order to make easier this task.&lt;/p&gt;
+
+&lt;p&gt;Adding rooms to the scene can be accomplished clicking in &lt;em&gt;Plan-&amp;gt; Create Rooms&lt;/em&gt;, or in the shorcut button &lt;img src=&#34;http://i.imgur.com/vOnfWjk.png&#34; alt=&#34;&#34; /&gt;
+. Can be added &lt;em&gt;point-per-point&lt;/em&gt;, but the recommended way is making double click in an area enclosed by walls. It is &lt;strong&gt;very recommended&lt;/strong&gt; to do it that way, because makes easier the environment recognition by the simulator.&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/ig7DusU.gif&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 </description>
     </item>
     
