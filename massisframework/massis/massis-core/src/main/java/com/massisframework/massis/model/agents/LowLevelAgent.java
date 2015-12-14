@@ -124,7 +124,8 @@ public interface LowLevelAgent extends  PathFollower,Indexable,SteeringCapable {
      *
      * @param other the location where the agent should be moved.
      */
-    public void moveTo(Location other);
+    @Override
+	public void moveTo(Location other);
 
     /**
      * Returns if this agent it is an obstacle or not.
@@ -247,4 +248,7 @@ public interface LowLevelAgent extends  PathFollower,Indexable,SteeringCapable {
      */
     public void setHighLevelData(Object highLevelData);
     public SimRoom getRandomRoom() ;
+    
+	public void setMaxSpeed(double maxspeed);
+	public void setMaxForce(double maxforce);
 }

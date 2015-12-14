@@ -88,7 +88,7 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 
 	static
 	{
-		ResourceBundle bundle = ResourceBundle
+		final ResourceBundle bundle = ResourceBundle
 				.getBundle(DefaultAgent.class.getName());
 		DEFAULT_VISION_RADIO = Double
 				.parseDouble(bundle.getString("visionRadio"));
@@ -130,9 +130,9 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 	 * Creates the vision polygon
 	 */
 	protected final void createVisionRadioPolygon() {
-		boundaryPolygon = KPolygon
-				.createRegularPolygon(visionRadioPolygonNumPoints, visionRadio);
-		boundaryPolygon.translateTo(this.getXY());
+		this.boundaryPolygon = KPolygon
+				.createRegularPolygon(this.visionRadioPolygonNumPoints, this.visionRadio);
+		this.boundaryPolygon.translateTo(this.getXY());
 
 	}
 
@@ -148,7 +148,7 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 		/*
 		 * rotates the current angle
 		 */
-		boundaryPolygon.rotate(this.getAngle() - lastAngleOfVision);
+		this.boundaryPolygon.rotate(this.getAngle() - this.lastAngleOfVision);
 		/*
 		 * Set last angle of vision
 		 */
@@ -156,18 +156,18 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 		/*
 		 * Move the polygon accordingly
 		 */
-		boundaryPolygon.translateTo(this.getXY());
+		this.boundaryPolygon.translateTo(this.getXY());
 		/*
 		 * Intersect the polygon with the room boundaries
 		 */
-		visionPolygon = KPolygonUtils.intersection(boundaryPolygon,
+		this.visionPolygon = KPolygonUtils.intersection(this.boundaryPolygon,
 				this.getRoom().getPolygon());
 		/*
 		 * If the operation was done successfully
 		 */
-		if (visionPolygon == null)
+		if (this.visionPolygon == null)
 		{
-			visionPolygon = this.getPolygon();
+			this.visionPolygon = this.getPolygon();
 		}
 		/*
 		 * set the flag to 1
@@ -224,9 +224,9 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 		if (!this.peopleInVisionRadioUpdated)
 		{
 			this.peopleInVisionRadioUpdated = true;
-			ArrayList<DefaultAgent> peopleInVisionArea_tmp = new ArrayList<>();
+			final ArrayList<DefaultAgent> peopleInVisionArea_tmp = new ArrayList<>();
 
-			for (DefaultAgent agent : this
+			for (final DefaultAgent agent : this
 					.getAgentsInRange(this.getVisionRadio()))
 			{
 				{
@@ -263,7 +263,7 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 
 	@Override
 	public boolean isInDoorArea() {
-		for (RoomConnector sd : this.getRoom().getConnectedRoomConnectors())
+		for (final RoomConnector sd : this.getRoom().getConnectedRoomConnectors())
 		{
 			if (sd.getPolygon().getAABB()
 					.intersects(this.getPolygon().getAABB()))
@@ -287,19 +287,19 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 		{
 			return;
 		}
-		if (lastKnowRoom != null)
+		if (this.lastKnowRoom != null)
 		{
 			findRoomByLastKnownRoom();
 		} else
 		{
-			for (SimRoom sr : this.getLocation().getFloor().getRooms())
+			for (final SimRoom sr : this.getLocation().getFloor().getRooms())
 			{
 				if (sr.getPolygon().getRadius() > KPoint.distance(
 						sr.getPolygon().center, this.getPolygon().center))
 				{
 					if (sr.getPolygon().contains(this.getPolygon().center))
 					{
-						lastKnowRoom = sr;
+						this.lastKnowRoom = sr;
 						break;
 					}
 				}
@@ -324,25 +324,33 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 		final double x = this.getX();
 		final double y = this.getY();
 		final SimRoom lastKnown = this.lastKnowRoom;
-		for (SimRoom sr : lastKnown.getRoomsOrderedByDistance())
+		for (final SimRoom sr : lastKnown.getRoomsOrderedByDistance())
 		{
 			if (sr.getPolygon().contains(x, y))
 			{
-				lastKnowRoom = sr;
-				return lastKnowRoom;
+				this.lastKnowRoom = sr;
+				return this.lastKnowRoom;
 			}
 		}
 		return this.lastKnowRoom;
 	}
 
 	public int getVisionRadioPolygonNumPoints() {
-		return visionRadioPolygonNumPoints;
+		return this.visionRadioPolygonNumPoints;
 	}
 
+	@Override
 	public double getMaxSpeed() {
 		return this.maxspeed;
 	}
-
+	@Override
+	public void setMaxSpeed(double maxspeed) {
+		this.maxspeed=maxspeed;
+	}
+	@Override
+	public void setMaxForce(double maxforce) {
+		this.maxforce=maxforce;
+	}
 	@Override
 	public KVector getVelocity() {
 		return this.velocity;
@@ -355,7 +363,7 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 
 	@Override
 	public KVector getAcceleration() {
-		return acceleration;
+		return this.acceleration;
 	}
 
 	@Override
@@ -389,14 +397,14 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 	@Override
 	public void approachToNamedLocation(String name,
 			ApproachCallback approachCallback) {
-		Location namedLocation = this.getEnvironment().getNamedLocation(name);
+		final Location namedLocation = this.getEnvironment().getNamedLocation(name);
 		Objects.requireNonNull(namedLocation);
 		this.approachTo(namedLocation, approachCallback);
 	}
 
 	@Override
 	public boolean isInNamedLocation(String name, int radiusWithin) {
-		Location namedLocation = this.getEnvironment().getNamedLocation(name);
+		final Location namedLocation = this.getEnvironment().getNamedLocation(name);
 		Objects.requireNonNull(namedLocation);
 		return namedLocation.isInSameFloor(namedLocation)
 				&& namedLocation.distance2D(this.getLocation()) < radiusWithin;
@@ -473,7 +481,7 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 
 		@Override
 		public Object restore(Building building) {
-			DefaultAgent v = (DefaultAgent) this.data.restore(building);
+			final DefaultAgent v = (DefaultAgent) this.data.restore(building);
 			v.velocity = this.velocity;
 			v.visionRadio = this.visionRadio;
 			v.maxforce = this.maxforce;
@@ -507,7 +515,7 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 				// Now we have a path.
 				// lets follow it!
 				// 1. Check for special teleports
-				for (WayPoint wayPoint : path.getPoints())
+				for (final WayPoint wayPoint : path.getPoints())
 				{
 
 					if (wayPoint.canExecuteWayPointAction(DefaultAgent.this))
@@ -522,7 +530,7 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 				}
 
 				// Steering
-				DefaultAgent v = DefaultAgent.this;
+				final DefaultAgent v = DefaultAgent.this;
 				v.applySteeringForcesAndMove(v.getSteeringBehavior().steer());
 				if (DefaultAgent.this.getLocation().distance2D(
 						// UF
@@ -555,13 +563,15 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 	}
 
 	public SteeringBehavior getSteeringBehavior() {
-		return steeringBehavior;
+		return this.steeringBehavior;
 	}
 
+	@Override
 	public Object getHighLevelData() {
-		return highLevelData;
+		return this.highLevelData;
 	}
 
+	@Override
 	public void setHighLevelData(Object highLevelData) {
 		this.highLevelData = highLevelData;
 	}
@@ -586,17 +596,18 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 	 * @param forces
 	 *            the forces applied to that agent
 	 */
+	@Override
 	public void applySteeringForcesAndMove(KVector forces) {
 		forces.mult(this.getMaxForce());
-		KVector steering = KVector.limit(forces, this.getMaxForce());
+		final KVector steering = KVector.limit(forces, this.getMaxForce());
 		// steering = steering / mass
 		this.setAcceleration(steering);
-		KVector velocity = KVector.limit(
+		final KVector velocity = KVector.limit(
 				KVector.add(steering, this.getVelocity()), this.getMaxSpeed());
 		this.setVelocity(velocity);
-		KVector position = KVector.add(this.getXY(), this.getVelocity());
+		final KVector position = KVector.add(this.getXY(), this.getVelocity());
 
-		Location newLocation = new Location(position,
+		final Location newLocation = new Location(position,
 				this.getLocation().getFloor());
 		this.moveTo(newLocation);
 	}
