@@ -574,12 +574,13 @@ Sweethome3D saves the recent buildings edited, so clicking on &lt;em&gt;File -&a
 &lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/42HAACQ.gif&#34;/&gt;&lt;/figure&gt;
 &lt;/p&gt;
 
-&lt;p&gt;The editor supports panning and zooming. Zooming can be done pressing &lt;code&gt;Ctrl&lt;/code&gt; while moving the mouse wheel. Also, it helps with connecting one wall with another. When the mouse is near the wall corners, a bigger point is shown, in order to make easier this task.&lt;/p&gt;
+&lt;p&gt;The editor supports panning and zooming. Zooming can be done pressing &lt;code&gt;Ctrl&lt;/code&gt; while moving the mouse wheel. Also, it helps with connecting one wall with another. When the mouse is near the wall corners, a bigger point is shown, in order to make easier this task.
+&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/ig7DusU.gif&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 
 &lt;p&gt;Adding rooms to the scene can be accomplished clicking in &lt;em&gt;Plan-&amp;gt; Create Rooms&lt;/em&gt;, or in the shorcut button &lt;img src=&#34;http://i.imgur.com/vOnfWjk.png&#34; alt=&#34;&#34; /&gt;
-. Can be added &lt;em&gt;point-per-point&lt;/em&gt;, but the recommended way is making double click in an area enclosed by walls. It is &lt;strong&gt;very recommended&lt;/strong&gt; to do it that way, because makes easier the environment recognition by the simulator.&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/ig7DusU.gif&#34;/&gt;&lt;/figure&gt;
+. Can be added &lt;em&gt;point-per-point&lt;/em&gt;, but the recommended way is making double click in an area enclosed by walls. It is &lt;strong&gt;very recommended&lt;/strong&gt; to do it that way, because makes easier the environment recognition by the simulator.
+&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/busq3sc.gif&#34;/&gt;&lt;/figure&gt;
 &lt;/p&gt;
 </description>
     </item>

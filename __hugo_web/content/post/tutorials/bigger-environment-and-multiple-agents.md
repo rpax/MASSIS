@@ -21,10 +21,12 @@ Walls can be added clicking on _Plan -> Create Walls_, with the shortcut `Ctrl +
 {{< fig "http://i.imgur.com/42HAACQ.gif" >}}
 
 The editor supports panning and zooming. Zooming can be done pressing `Ctrl` while moving the mouse wheel. Also, it helps with connecting one wall with another. When the mouse is near the wall corners, a bigger point is shown, in order to make easier this task.
+{{<fig "http://i.imgur.com/ig7DusU.gif" >}}
 
 Adding rooms to the scene can be accomplished clicking in _Plan-> Create Rooms_, or in the shorcut button ![](http://i.imgur.com/vOnfWjk.png). Can be added _point-per-point_, but the recommended way is making double click in an area enclosed by walls. It is **very recommended** to do it that way, because makes easier the environment recognition by the simulator.
+{{<fig "http://i.imgur.com/busq3sc.gif" >}}
 
-{{<fig "http://i.imgur.com/ig7DusU.gif" >}}
+
 
 
 [tutorial_3]: {{< relref "post/tutorials/defining-a-simple-behavior.md" >}}
