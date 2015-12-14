@@ -127,7 +127,9 @@ Agent #12 has in the range of 200.0 cm:
 
 <p>So, agent&rsquo;s can move, and see each other. Let&rsquo;s make them to play a game.</p>
 
-<h1 id="game-rules:d7c5f655ae342b94fbf082b33a7e6e52">Game Rules</h1>
+<h1 id="the-game:d7c5f655ae342b94fbf082b33a7e6e52">The Game</h1>
+
+<h2 id="game-rules:d7c5f655ae342b94fbf082b33a7e6e52">Game Rules</h2>
 
 <p><a href="https://en.wikipedia.org/wiki/Tag_(game)">Tag Game rules from Wikipedia</a>:</p>
 
@@ -139,15 +141,22 @@ Agent #12 has in the range of 200.0 cm:
 <p>A tag makes the tagged player &ldquo;it&rdquo; - in some variations[&hellip;]</p>
 </blockquote>
 
+<h2 id="implementation:d7c5f655ae342b94fbf082b33a7e6e52">Implementation</h2>
+
 <p>We can model the behavior of the agents following the flowchart below:</p>
 
-<p><figure class="img-responsive center-block"><img src="http://i.imgur.com/2CENpcd.png"/></figure>
+<p><figure class="img-responsive center-block"><img src="http://i.imgur.com/UNrajuM.png"/></figure>
 </p>
 
-<ul>
-<li><p>Checking if the agent is tagged.</p>
+<h3 id="conditionals:d7c5f655ae342b94fbf082b33a7e6e52">Conditionals</h3>
 
-<p>Adding a new property to <code>MyHelloHighLevelController</code> will serve well for this purpose:</p>
+<p>For modeling the conditionals of the flowchart, we need to:</p>
+
+<ul>
+<li><p>Check if the agent is tagged. This can be done in two ways.</p>
+
+<ol>
+<li><p>Adding a new property to <code>MyHelloHighLevelController</code>.</p>
 
 <pre><code>private boolean tagged;
 
@@ -161,6 +170,37 @@ public void setTagged(boolean tagged) {
     this.tagged = tagged;
 }
 </code></pre></li>
+
+<li><p>Using the LowLevelAgent&rsquo;s <code>getProperty()</code> and <code>setProperty()</code> methods. These methods provide a simple way for storing information into the low-level agents. However, it becomes quickly unmaintanable. The way for doing this should be the following:</p>
+
+<pre><code>public boolean isTagged() {
+    return &quot;true&quot;.equals(this.agent.getProperty(&quot;TAGGED&quot;));
+}
+
+
+public void setTagged(boolean tagged) {
+    this.agent.setProperty(&quot;TAGGED&quot;, String.valueOf(tagged));
+}
+</code></pre>
+
+<p>The initial value of <code>&quot;TAGGED&quot;</code> should be introduced first in any agent of the environment.
+<figure class="img-responsive center-block"><img src="http://i.imgur.com/ITGP0JP.gif"/></figure>
+
+And then, in the constructor of the behavior, we need to recover the metadata of provided from the environment and setting it into the agent&rsquo;s attributes:</p>
+
+<pre><code>public MyHelloHighLevelController(LowLevelAgent agent,
+        Map&lt;String, String&gt; metadata, String resourcesFolder) {
+    super(agent, metadata, resourcesFolder);
+    this.agent.setHighLevelData(this);
+    String taggedStr = metadata.get(&quot;TAGGED&quot;);
+    if (taggedStr == null || !&quot;true&quot;.equals(metadata.get(&quot;TAGGED&quot;))) {
+        this.setTagged(false);
+    } else {
+        this.setTagged(true);
+    }
+}
+</code></pre></li>
+</ol></li>
 
 <li><p>Check for seeing a tagged / untagged agent</p>
 
@@ -205,9 +245,230 @@ public void setTagged(boolean tagged) {
     return nearest;
 }
 </code></pre></li>
+
+<li><p>Check for detecting if the distance to the tagged agent is less than the maximum allowed: (<em>sees tagged agent</em>, in the flowchart)</p>
+
+<pre><code>private boolean seesTaggedAgent() {
+        // true, because is tagged
+        return getNearestAgent(search_range, true) != null;
+}
+</code></pre></li>
+
+<li><p>Check for the distance being less than 0.5 m (For the sake of completeness):</p>
+
+<pre><code>private boolean isDistanceLessThan50cm(LowLevelAgent a1,LowLevelAgent a2) {
+    return a1.getLocation().distance2D(a2.getLocation())&lt;50;
+}
+</code></pre></li>
 </ul>
 
-<p>With those two methods, we can design the rest of the behavior.</p>
+<h3 id="coding-the-flow:d7c5f655ae342b94fbf082b33a7e6e52">Coding the flow</h3>
+
+<p>We have written the conditional checks of the flowchart. Let&rsquo;s put the pieces together.
+The <code>START</code> section of the flowchart corresponds to:</p>
+
+<pre><code>@Override
+public void step() {
+    // START
+    if (this.isTagged()) {
+        runAsTagged();
+    } else {
+        runAsNotTagged();
+    }
+}
+</code></pre>
+
+<p>Now, going to the <em>not tagged</em> branch,</p>
+
+<p><figure class="img-responsive center-block"><img src="http://i.imgur.com/nidqPY6.png"/></figure>
+</p>
+
+<pre><code>private void runAsNotTagged() {
+    // sees tagged agent?
+    if (seesTaggedAgent()) {
+        /*
+         * Retrieve the polygon associated with the current room
+         */
+        KPolygon polygon = this.agent.getRoom().getPolygon();
+        /*
+         * If the agent's target is in the same room of the agent (and in
+         * the same room as the &quot;tagged&quot; one), select a new target in a
+         * different room.
+         */
+        while (this.randomTarget == null
+                || polygon.contains(this.randomTarget.getXY())) {
+            this.randomTarget = this.agent.getRandomRoom().getRandomLoc();
+        }
+    }
+    this.moveRandomly();
+}
+</code></pre>
+
+<p>The new part here is the <code>getPolygon()</code> method. In MASSIS, every simulation object has a polygonal representation. Here, we take advantage of that possibility to detect if a point is contained in a the room&rsquo;s shape.</p>
+
+<p>For the  <em>tagged</em> branch,</p>
+
+<p><figure class="img-responsive center-block"><img src="http://i.imgur.com/AyOQSGJ.png"/></figure>
+</p>
+
+<p>This is a little bit more complex than the other branch.</p>
+
+<ul>
+<li><p>First, we need to check if there is any <em>not tagged</em> agent in range. Remember that the <code>false</code> parameter was because we want to obtain the agents that are not tagged.</p>
+
+<pre><code>MyHelloHighLevelController nearest = getNearestAgent(search_range, false);
+</code></pre></li>
+
+<li><p>After that, if there is any agent in range (that is, <code>nearest!=null</code>), we check the distance to it</p>
+
+<ul>
+<li><p>If the distance &lt; 0.5 meters (50 cm),</p>
+
+<ul>
+<li>The agent <em>tags</em> it</li>
+
+<li><p>The agent <em>untags</em> itself</p>
+
+<pre><code>final Location nearestLoc = nearest.agent.getLocation();
+// Yes, and is the closest one.
+// if distance &lt; 0.5 m, (50 cm), tag it
+final double distance = agentLoc.distance2D(nearestLoc);
+if (distance &lt; tag_max_distance) {
+    // tag it
+    nearest.setTagged(true);
+    // un-tag itself
+    this.setTagged(false);
+    // end
+}
+</code></pre></li>
+</ul></li>
+
+<li><p>If not, the tagged agent just chase its nearest target.</p>
+
+<pre><code>this.agent.approachTo(nearestLoc, new ApproachCallback() {
+
+
+    @Override
+    public void onTargetReached(LowLevelAgent agent) {
+        // Nothing this time. We are handling the logic
+        // elsewhere.
+    }
+
+
+    @Override
+    public void onSucess(LowLevelAgent agent) {}
+
+
+    @Override
+    public void onPathFinderError(
+            PathFinderErrorReason reason) {
+        // Error!
+        Logger.getLogger(
+                MyHelloHighLevelController.class.getName())
+                .log(Level.SEVERE,
+                        &quot;Error when approaching to {0} Reason: {1}&quot;,
+                        new Object[] { nearestLoc, reason });
+    }
+});
+</code></pre></li>
+</ul></li>
+
+<li><p>If there wasn&rsquo;t any agent in range, just move randomly</p>
+
+<pre><code>this.moveRandomly();
+</code></pre></li>
+</ul>
+
+<p>Putting all together,</p>
+
+<pre><code>private void runAsTagged() {
+    final Location agentLoc = this.agent.getLocation();
+    // Sees un-tagged agent?
+    MyHelloHighLevelController nearest = getNearestAgent(search_range,
+            false);
+    if (nearest != null) {
+        final Location nearestLoc = nearest.agent.getLocation();
+        // Yes, and is the closest one.
+        // if distance &lt; 0.5 m, (50 cm), tag it
+        final double distance = agentLoc.distance2D(nearestLoc);
+        if (distance &lt; tag_max_distance) {
+            // tag it
+            nearest.setTagged(true);
+            // un-tag itself
+            this.setTagged(false);
+            // end
+        } else {
+            // chase him
+            this.agent.approachTo(nearestLoc, new ApproachCallback() {
+
+                @Override
+                public void onTargetReached(LowLevelAgent agent) {
+                    // Nothing this time. We are handling the logic
+                    // elsewhere.
+                }
+
+                @Override
+                public void onSucess(LowLevelAgent agent) {
+                }
+
+                @Override
+                public void onPathFinderError(
+                        PathFinderErrorReason reason) {
+                    // Error!
+                    Logger.getLogger(
+                            MyHelloHighLevelController.class.getName())
+                            .log(Level.SEVERE,
+                                    &quot;Error when approaching to {0} Reason: {1}&quot;,
+                                    new Object[] { nearestLoc, reason });
+                }
+            });
+        }
+    } else {
+        // no target found:
+        this.moveRandomly();
+    }
+
+}
+</code></pre>
+
+<p>The <code>moveRandomly()</code> method is an adaptation of the previous code that made the agent move to random targets.</p>
+
+<pre><code>private Location randomTarget = null;
+
+private void moveRandomly() {
+    if (this.randomTarget == null) {
+        Location randomLocation = this.agent.getRandomRoom().getRandomLoc();
+        this.randomTarget = randomLocation;
+    }
+    this.agent.approachTo(this.randomTarget, new ApproachCallback() {
+
+        @Override
+        public void onTargetReached(LowLevelAgent agent) {
+            randomTarget = null;
+        }
+
+        @Override
+        public void onSucess(LowLevelAgent agent) {
+        }
+
+        @Override
+        public void onPathFinderError(PathFinderErrorReason reason) {
+            // Error!
+            Logger.getLogger(MyHelloHighLevelController.class.getName())
+                    .log(Level.SEVERE,
+                            &quot;Error when finding path Reason: {0}&quot;, reason);
+        }
+    });
+}
+</code></pre>
+
+<p>If everything went ok, the result should be something like this:</p>
+
+<p><figure class="img-responsive center-block"><img src="http://i.imgur.com/Jva4HPG.gif"/></figure>
+
+The problem is&hellip; <strong><em>Who is the tagged one</em> ? All the agents are identical!</strong>.</p>
+
+<p>The <a href="#">Next Tutorial</a> solves that problem, explaining how to develop visualization utilities. We will make the &ldquo;tagged agent&rdquo; look different.</p>
 
                     </section>
                 </article>

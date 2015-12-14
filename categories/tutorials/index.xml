@@ -821,7 +821,9 @@ Agent #12 has in the range of 200.0 cm:
 
 &lt;p&gt;So, agent&amp;rsquo;s can move, and see each other. Let&amp;rsquo;s make them to play a game.&lt;/p&gt;
 
-&lt;h1 id=&#34;game-rules:d7c5f655ae342b94fbf082b33a7e6e52&#34;&gt;Game Rules&lt;/h1&gt;
+&lt;h1 id=&#34;the-game:d7c5f655ae342b94fbf082b33a7e6e52&#34;&gt;The Game&lt;/h1&gt;
+
+&lt;h2 id=&#34;game-rules:d7c5f655ae342b94fbf082b33a7e6e52&#34;&gt;Game Rules&lt;/h2&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Tag_(game)&#34;&gt;Tag Game rules from Wikipedia&lt;/a&gt;:&lt;/p&gt;
 
@@ -833,15 +835,22 @@ Agent #12 has in the range of 200.0 cm:
 &lt;p&gt;A tag makes the tagged player &amp;ldquo;it&amp;rdquo; - in some variations[&amp;hellip;]&lt;/p&gt;
 &lt;/blockquote&gt;
 
+&lt;h2 id=&#34;implementation:d7c5f655ae342b94fbf082b33a7e6e52&#34;&gt;Implementation&lt;/h2&gt;
+
 &lt;p&gt;We can model the behavior of the agents following the flowchart below:&lt;/p&gt;
 
-&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/2CENpcd.png&#34;/&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/UNrajuM.png&#34;/&gt;&lt;/figure&gt;
 &lt;/p&gt;
 
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Checking if the agent is tagged.&lt;/p&gt;
+&lt;h3 id=&#34;conditionals:d7c5f655ae342b94fbf082b33a7e6e52&#34;&gt;Conditionals&lt;/h3&gt;
 
-&lt;p&gt;Adding a new property to &lt;code&gt;MyHelloHighLevelController&lt;/code&gt; will serve well for this purpose:&lt;/p&gt;
+&lt;p&gt;For modeling the conditionals of the flowchart, we need to:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Check if the agent is tagged. This can be done in two ways.&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;Adding a new property to &lt;code&gt;MyHelloHighLevelController&lt;/code&gt;.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;private boolean tagged;
 
@@ -855,6 +864,37 @@ public void setTagged(boolean tagged) {
     this.tagged = tagged;
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Using the LowLevelAgent&amp;rsquo;s &lt;code&gt;getProperty()&lt;/code&gt; and &lt;code&gt;setProperty()&lt;/code&gt; methods. These methods provide a simple way for storing information into the low-level agents. However, it becomes quickly unmaintanable. The way for doing this should be the following:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public boolean isTagged() {
+    return &amp;quot;true&amp;quot;.equals(this.agent.getProperty(&amp;quot;TAGGED&amp;quot;));
+}
+
+
+public void setTagged(boolean tagged) {
+    this.agent.setProperty(&amp;quot;TAGGED&amp;quot;, String.valueOf(tagged));
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The initial value of &lt;code&gt;&amp;quot;TAGGED&amp;quot;&lt;/code&gt; should be introduced first in any agent of the environment.
+&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/ITGP0JP.gif&#34;/&gt;&lt;/figure&gt;
+
+And then, in the constructor of the behavior, we need to recover the metadata of provided from the environment and setting it into the agent&amp;rsquo;s attributes:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public MyHelloHighLevelController(LowLevelAgent agent,
+        Map&amp;lt;String, String&amp;gt; metadata, String resourcesFolder) {
+    super(agent, metadata, resourcesFolder);
+    this.agent.setHighLevelData(this);
+    String taggedStr = metadata.get(&amp;quot;TAGGED&amp;quot;);
+    if (taggedStr == null || !&amp;quot;true&amp;quot;.equals(metadata.get(&amp;quot;TAGGED&amp;quot;))) {
+        this.setTagged(false);
+    } else {
+        this.setTagged(true);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;Check for seeing a tagged / untagged agent&lt;/p&gt;
 
@@ -899,9 +939,230 @@ public void setTagged(boolean tagged) {
     return nearest;
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Check for detecting if the distance to the tagged agent is less than the maximum allowed: (&lt;em&gt;sees tagged agent&lt;/em&gt;, in the flowchart)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;private boolean seesTaggedAgent() {
+        // true, because is tagged
+        return getNearestAgent(search_range, true) != null;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Check for the distance being less than 0.5 m (For the sake of completeness):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;private boolean isDistanceLessThan50cm(LowLevelAgent a1,LowLevelAgent a2) {
+    return a1.getLocation().distance2D(a2.getLocation())&amp;lt;50;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;With those two methods, we can design the rest of the behavior.&lt;/p&gt;
+&lt;h3 id=&#34;coding-the-flow:d7c5f655ae342b94fbf082b33a7e6e52&#34;&gt;Coding the flow&lt;/h3&gt;
+
+&lt;p&gt;We have written the conditional checks of the flowchart. Let&amp;rsquo;s put the pieces together.
+The &lt;code&gt;START&lt;/code&gt; section of the flowchart corresponds to:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@Override
+public void step() {
+    // START
+    if (this.isTagged()) {
+        runAsTagged();
+    } else {
+        runAsNotTagged();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now, going to the &lt;em&gt;not tagged&lt;/em&gt; branch,&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/nidqPY6.png&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;private void runAsNotTagged() {
+    // sees tagged agent?
+    if (seesTaggedAgent()) {
+        /*
+         * Retrieve the polygon associated with the current room
+         */
+        KPolygon polygon = this.agent.getRoom().getPolygon();
+        /*
+         * If the agent&#39;s target is in the same room of the agent (and in
+         * the same room as the &amp;quot;tagged&amp;quot; one), select a new target in a
+         * different room.
+         */
+        while (this.randomTarget == null
+                || polygon.contains(this.randomTarget.getXY())) {
+            this.randomTarget = this.agent.getRandomRoom().getRandomLoc();
+        }
+    }
+    this.moveRandomly();
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The new part here is the &lt;code&gt;getPolygon()&lt;/code&gt; method. In MASSIS, every simulation object has a polygonal representation. Here, we take advantage of that possibility to detect if a point is contained in a the room&amp;rsquo;s shape.&lt;/p&gt;
+
+&lt;p&gt;For the  &lt;em&gt;tagged&lt;/em&gt; branch,&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/AyOQSGJ.png&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
+
+&lt;p&gt;This is a little bit more complex than the other branch.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;First, we need to check if there is any &lt;em&gt;not tagged&lt;/em&gt; agent in range. Remember that the &lt;code&gt;false&lt;/code&gt; parameter was because we want to obtain the agents that are not tagged.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;MyHelloHighLevelController nearest = getNearestAgent(search_range, false);
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;After that, if there is any agent in range (that is, &lt;code&gt;nearest!=null&lt;/code&gt;), we check the distance to it&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;If the distance &amp;lt; 0.5 meters (50 cm),&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The agent &lt;em&gt;tags&lt;/em&gt; it&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;The agent &lt;em&gt;untags&lt;/em&gt; itself&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;final Location nearestLoc = nearest.agent.getLocation();
+// Yes, and is the closest one.
+// if distance &amp;lt; 0.5 m, (50 cm), tag it
+final double distance = agentLoc.distance2D(nearestLoc);
+if (distance &amp;lt; tag_max_distance) {
+    // tag it
+    nearest.setTagged(true);
+    // un-tag itself
+    this.setTagged(false);
+    // end
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;If not, the tagged agent just chase its nearest target.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;this.agent.approachTo(nearestLoc, new ApproachCallback() {
+
+
+    @Override
+    public void onTargetReached(LowLevelAgent agent) {
+        // Nothing this time. We are handling the logic
+        // elsewhere.
+    }
+
+
+    @Override
+    public void onSucess(LowLevelAgent agent) {}
+
+
+    @Override
+    public void onPathFinderError(
+            PathFinderErrorReason reason) {
+        // Error!
+        Logger.getLogger(
+                MyHelloHighLevelController.class.getName())
+                .log(Level.SEVERE,
+                        &amp;quot;Error when approaching to {0} Reason: {1}&amp;quot;,
+                        new Object[] { nearestLoc, reason });
+    }
+});
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;If there wasn&amp;rsquo;t any agent in range, just move randomly&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;this.moveRandomly();
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Putting all together,&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;private void runAsTagged() {
+    final Location agentLoc = this.agent.getLocation();
+    // Sees un-tagged agent?
+    MyHelloHighLevelController nearest = getNearestAgent(search_range,
+            false);
+    if (nearest != null) {
+        final Location nearestLoc = nearest.agent.getLocation();
+        // Yes, and is the closest one.
+        // if distance &amp;lt; 0.5 m, (50 cm), tag it
+        final double distance = agentLoc.distance2D(nearestLoc);
+        if (distance &amp;lt; tag_max_distance) {
+            // tag it
+            nearest.setTagged(true);
+            // un-tag itself
+            this.setTagged(false);
+            // end
+        } else {
+            // chase him
+            this.agent.approachTo(nearestLoc, new ApproachCallback() {
+
+                @Override
+                public void onTargetReached(LowLevelAgent agent) {
+                    // Nothing this time. We are handling the logic
+                    // elsewhere.
+                }
+
+                @Override
+                public void onSucess(LowLevelAgent agent) {
+                }
+
+                @Override
+                public void onPathFinderError(
+                        PathFinderErrorReason reason) {
+                    // Error!
+                    Logger.getLogger(
+                            MyHelloHighLevelController.class.getName())
+                            .log(Level.SEVERE,
+                                    &amp;quot;Error when approaching to {0} Reason: {1}&amp;quot;,
+                                    new Object[] { nearestLoc, reason });
+                }
+            });
+        }
+    } else {
+        // no target found:
+        this.moveRandomly();
+    }
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The &lt;code&gt;moveRandomly()&lt;/code&gt; method is an adaptation of the previous code that made the agent move to random targets.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;private Location randomTarget = null;
+
+private void moveRandomly() {
+    if (this.randomTarget == null) {
+        Location randomLocation = this.agent.getRandomRoom().getRandomLoc();
+        this.randomTarget = randomLocation;
+    }
+    this.agent.approachTo(this.randomTarget, new ApproachCallback() {
+
+        @Override
+        public void onTargetReached(LowLevelAgent agent) {
+            randomTarget = null;
+        }
+
+        @Override
+        public void onSucess(LowLevelAgent agent) {
+        }
+
+        @Override
+        public void onPathFinderError(PathFinderErrorReason reason) {
+            // Error!
+            Logger.getLogger(MyHelloHighLevelController.class.getName())
+                    .log(Level.SEVERE,
+                            &amp;quot;Error when finding path Reason: {0}&amp;quot;, reason);
+        }
+    });
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If everything went ok, the result should be something like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/Jva4HPG.gif&#34;/&gt;&lt;/figure&gt;
+
+The problem is&amp;hellip; &lt;strong&gt;&lt;em&gt;Who is the tagged one&lt;/em&gt; ? All the agents are identical!&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;The &lt;a href=&#34;#&#34;&gt;Next Tutorial&lt;/a&gt; solves that problem, explaining how to develop visualization utilities. We will make the &amp;ldquo;tagged agent&amp;rdquo; look different.&lt;/p&gt;
 </description>
     </item>
     
