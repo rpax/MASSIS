@@ -891,6 +891,7 @@ public void setTagged(boolean tagged) {
                  */
                 if (distance &amp;lt; minDist) {
                     nearest = otherCtrl;
+                    minDist=distance;
                 }
             }
         }

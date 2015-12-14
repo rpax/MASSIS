@@ -117,6 +117,7 @@ We can model the behavior of the agents following the flowchart below:
                          */
                         if (distance < minDist) {
                             nearest = otherCtrl;
+                            minDist=distance;
                         }
                     }
                 }
