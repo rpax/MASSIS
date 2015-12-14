@@ -1089,6 +1089,17 @@ public void step() {
     </item>
     
     <item>
+      <title>Creating a MASSIS Application. Part 6: Extending the GUI</title>
+      <link>http://www.massisframework.com/post/tutorials/extending-the-gui/</link>
+      <pubDate>Fri, 06 Nov 2015 13:19:52 +0100</pubDate>
+      
+      <guid>http://www.massisframework.com/post/tutorials/extending-the-gui/</guid>
+      <description>&lt;p&gt;This is the continuation of the &lt;a href=&#34;http://www.massisframework.com/post/tutorials/perception/&#34;&gt;Tutorial 5&lt;/a&gt;.
+The problem we faced in the previous tutorial was that we couldn&amp;rsquo;t visualize the &lt;em&gt;state&lt;/em&gt; of the agents (if they were tagged or not).&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Creating a MASSIS Application. Part 5: Perception</title>
       <link>http://www.massisframework.com/post/tutorials/perception/</link>
       <pubDate>Fri, 06 Nov 2015 13:19:52 +0100</pubDate>
@@ -1495,7 +1506,7 @@ private void moveRandomly() {
 
 &lt;p&gt;The problem is&amp;hellip; &lt;strong&gt;&lt;em&gt;Who is the tagged one&lt;/em&gt; ? All the agents are identical!&lt;/strong&gt;.&lt;/p&gt;
 
-&lt;p&gt;The &lt;a href=&#34;#&#34;&gt;Next Tutorial&lt;/a&gt; solves that problem, explaining how to develop visualization utilities. We will make the &amp;ldquo;tagged agent&amp;rdquo; look different.&lt;/p&gt;
+&lt;p&gt;The &lt;a href=&#34;http://www.massisframework.com/post/tutorials/extending-the-gui/&#34;&gt;Next Tutorial&lt;/a&gt; solves that problem, explaining how to develop visualization utilities.&lt;/p&gt;
 </description>
     </item>
     
@@ -1607,6 +1618,15 @@ private void moveRandomly() {
     </item>
     
     <item>
+      <title>Authors</title>
+      <link>http://www.massisframework.com/page/authors/</link>
+      <pubDate>Thu, 05 Nov 2015 09:56:34 +0100</pubDate>
+      
+      <guid>http://www.massisframework.com/page/authors/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Downloading MASSIS</title>
       <link>http://www.massisframework.com/page/getting-started/</link>
       <pubDate>Thu, 05 Nov 2015 09:56:34 +0100</pubDate>
@@ -1667,15 +1687,6 @@ private void moveRandomly() {
 
 &lt;p&gt;The &lt;a href=&#34;http://www.massisframework.com/categories/tutorials/&#34;&gt;tutorials section&lt;/a&gt; contains examples about creating an application based on MASSIS&amp;rsquo; framework.&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Authors</title>
-      <link>http://www.massisframework.com/page/authors/</link>
-      <pubDate>Thu, 05 Nov 2015 09:56:34 +0100</pubDate>
-      
-      <guid>http://www.massisframework.com/page/authors/</guid>
-      <description></description>
     </item>
     
     <item>

@@ -360,11 +360,12 @@ If everything went ok, the result should be something like this:
 
 The problem is... **_Who is the tagged one_ ? All the agents are identical!**.
 
-The [Next Tutorial](#) solves that problem, explaining how to develop visualization utilities. We will make the "tagged agent" look different.
+The [Next Tutorial][tutorial_6] solves that problem, explaining how to develop visualization utilities.
 
 
 
 
 
 [tutorial_4]: {{< relref "post/tutorials/bigger-environment-and-multiple-agents.md" >}}
+[tutorial_6]: {{< relref "post/tutorials/extending-the-gui.md" >}}
 [tag_game]: https://en.wikipedia.org/wiki/Tag_(game)
