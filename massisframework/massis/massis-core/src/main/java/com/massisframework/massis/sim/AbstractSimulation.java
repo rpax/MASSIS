@@ -71,13 +71,13 @@ public abstract class AbstractSimulation extends SimState {
 							 * saveLocation
 							 */
 							String.class).newInstance(seed, buildingFilePath, resourcesPath, saveLocation));
-				} catch (Exception e) {
-					StringBuilder sb = new StringBuilder();
+				} catch (final Exception e) {
+					final StringBuilder sb = new StringBuilder();
 					sb.append("Exception occurred while trying to construct the simulation ");
 					sb.append(c);
 					sb.append("\n");
 					sb.append("Available constructors: \n");
-					for (@SuppressWarnings("rawtypes")
+					for (@SuppressWarnings("rawtypes") final
 					Constructor constructor : c.getDeclaredConstructors()) {
 						sb.append(Arrays.toString(constructor.getParameterTypes()));
 						sb.append("\n");
@@ -101,7 +101,7 @@ public abstract class AbstractSimulation extends SimState {
 	public void start() {
 		try {
 			this.building = this.createBuilding();
-		} catch (RecorderException e) {
+		} catch (final RecorderException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -113,7 +113,7 @@ public abstract class AbstractSimulation extends SimState {
 		final HomeFileRecorder recorder = new AdditionalDataHomeRecorder(
 				(AdditionalDataReader) new HomeMetadataLoader());
 		final Home home = recorder.readHome(this.buildingFile.getAbsolutePath());
-		if (buildingProgress != null) {
+		if (this.buildingProgress != null) {
 			return new Building(home, this.resourcesPath, this.buildingProgress);
 		} else {
 			return new Building(home, this.resourcesPath);
@@ -156,4 +156,9 @@ public abstract class AbstractSimulation extends SimState {
 	}
 
 	protected abstract void endSimulation();
+
+	public Building getBuilding()
+	{
+		return this.building;
+	}
 }
