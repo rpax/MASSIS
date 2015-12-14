@@ -354,9 +354,16 @@ The `moveRandomly()` method is an adaptation of the previous code that made the 
 If everything went ok, the result should be something like this:
 
 {{< fig "http://i.imgur.com/Jva4HPG.gif" >}}
+
+>Note: The code for the complete behavior is [in this gist](https://gist.github.com/rpax/b457fa14d2a9d14779ab)
+
+
 The problem is... **_Who is the tagged one_ ? All the agents are identical!**.
 
 The [Next Tutorial](#) solves that problem, explaining how to develop visualization utilities. We will make the "tagged agent" look different.
+
+
+
 
 
 [tutorial_4]: {{< relref "post/tutorials/bigger-environment-and-multiple-agents.md" >}}

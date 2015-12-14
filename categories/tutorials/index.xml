@@ -1159,8 +1159,13 @@ private void moveRandomly() {
 &lt;p&gt;If everything went ok, the result should be something like this:&lt;/p&gt;
 
 &lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/Jva4HPG.gif&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 
-The problem is&amp;hellip; &lt;strong&gt;&lt;em&gt;Who is the tagged one&lt;/em&gt; ? All the agents are identical!&lt;/strong&gt;.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Note: The code for the complete behavior is &lt;a href=&#34;https://gist.github.com/rpax/b457fa14d2a9d14779ab&#34;&gt;in this gist&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The problem is&amp;hellip; &lt;strong&gt;&lt;em&gt;Who is the tagged one&lt;/em&gt; ? All the agents are identical!&lt;/strong&gt;.&lt;/p&gt;
 
 &lt;p&gt;The &lt;a href=&#34;#&#34;&gt;Next Tutorial&lt;/a&gt; solves that problem, explaining how to develop visualization utilities. We will make the &amp;ldquo;tagged agent&amp;rdquo; look different.&lt;/p&gt;
 </description>
