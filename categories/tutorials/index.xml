@@ -1177,8 +1177,202 @@ private void moveRandomly() {
       <pubDate>Fri, 06 Nov 2015 13:19:52 +0100</pubDate>
       
       <guid>http://www.massisframework.com/post/tutorials/extending-the-gui/</guid>
-      <description>&lt;p&gt;This is the continuation of the &lt;a href=&#34;http://www.massisframework.com/post/tutorials/perception/&#34;&gt;Tutorial 5&lt;/a&gt;.
+      <description>
+
+&lt;p&gt;This is the continuation of the &lt;a href=&#34;http://www.massisframework.com/post/tutorials/perception/&#34;&gt;Tutorial 5&lt;/a&gt;.
 The problem we faced in the previous tutorial was that we couldn&amp;rsquo;t visualize the &lt;em&gt;state&lt;/em&gt; of the agents (if they were tagged or not).&lt;/p&gt;
+
+&lt;p&gt;In a &lt;a href=&#34;http://www.massisframework.com/post/tutorials/defining-a-simple-behavior/&#34;&gt;previous tutorial&lt;/a&gt; was introduced the different types of visualization that MASSIS has. In this tutorial we will go deeper into this topic, and we will learn how to extend the default MASSIS layer system.&lt;/p&gt;
+
+&lt;h1 id=&#34;massis-visualization-displays-revisited:e3159b7eb98b2df94b444a2728f839f9&#34;&gt;MASSIS visualization displays revisited&lt;/h1&gt;
+
+&lt;p&gt;All the changes made in the environment during the simulation are reflected in real time by 3D  and 2D displays.
+Although 3D display is more realistic, the 2D view is useful for analysis and debugging. Also, the 2D layered visualization system allows the creation of user-defined layers.&lt;/p&gt;
+
+&lt;h1 id=&#34;3d-display:e3159b7eb98b2df94b444a2728f839f9&#34;&gt;3D display&lt;/h1&gt;
+
+&lt;p&gt;This type of visualization is an adaptation of the 3D view of SweetHome3D. Although it lacks of flexibility, gives a better view of what&amp;rsquo;s happening in the simulation.&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/e0P2XJ5.gif&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
+
+&lt;h1 id=&#34;sweethome3d-2d-display:e3159b7eb98b2df94b444a2728f839f9&#34;&gt;SweetHome3D 2D display&lt;/h1&gt;
+
+&lt;p&gt;During the first development iteration, this type of display was the one that was used, but it is not maintained anymore. It had thread safety problems, and does not always work. Its usage it is discoraged. It has been left because&amp;hellip;why not?. Maybe it is useful in the future.&lt;/p&gt;
+
+&lt;h1 id=&#34;massis-2d-display:e3159b7eb98b2df94b444a2728f839f9&#34;&gt;MASSIS 2D display&lt;/h1&gt;
+
+&lt;p&gt;This is the most powerful visualization utility of MASSIS. It is not intended for realism, (it is plain 2D), but it provides a great flexibility, and extensibility. It is based on layers, which can be drawn one on top of each other, and multiple things can be viewed at the same time. Also, they can be enabled and disabled.
+It is the recommended visualization for developers and people interested in analizing concrete issues.&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/Q6mbTo8.gif&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
+
+&lt;h2 id=&#34;tabs-levels:e3159b7eb98b2df94b444a2728f839f9&#34;&gt;Tabs &amp;amp; Levels&lt;/h2&gt;
+
+&lt;p&gt;Each floor (level) of the simulation environment has its own tab, that makes the task of switching between floors faster.
+This type of display allows zooming and panning, and each tab maintains its zoom state, so switching between interesting points (such as bottlenecks in different floors), does not imply a headache.&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/DTBu6RA.gif&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
+
+&lt;h2 id=&#34;default-layers:e3159b7eb98b2df94b444a2728f839f9&#34;&gt;Default Layers&lt;/h2&gt;
+
+&lt;p&gt;MASSIS 2D display comes with several general-purpose layers, that might be useful most of the times, and also can serve as an example for creating new ones. They are as follows:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Rooms: Draws the rooms areas&lt;/li&gt;
+&lt;li&gt;Rooms Labels: Draws the name of the rooms&lt;/li&gt;
+&lt;li&gt;Vision Radio : Draws the vision radio of the agents&lt;/li&gt;
+&lt;li&gt;Crowd density: Draws the crowd density represented as a heatmap&lt;/li&gt;
+&lt;li&gt;Walls : Draws the walls of the building&lt;/li&gt;
+&lt;li&gt;Connections : Draws the pathfinder visibility graph connections&lt;/li&gt;
+&lt;li&gt;Doors : Draws the doors of the floor&lt;/li&gt;
+&lt;li&gt;Paths : Draws the paths that the agents are following&lt;/li&gt;
+&lt;li&gt;PathFinder : Draws the obstacles recognized by the pathfinder&lt;/li&gt;
+&lt;li&gt;People : Draws the dynamic obstacles, as arrows&lt;/li&gt;
+&lt;li&gt;Body radios : Draws the proximity radio of the dynamic elements of the environment&lt;/li&gt;
+&lt;li&gt;Visible agent lines: Shows a which nodes are the agents and the edges are the visible connection between them&lt;/li&gt;
+&lt;li&gt;QuadTree : Shows the bottom-up propagation quadtree representation&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;creating-a-custom-layer:e3159b7eb98b2df94b444a2728f839f9&#34;&gt;Creating a custom layer&lt;/h1&gt;
+
+&lt;h2 id=&#34;how-layers-are-structured:e3159b7eb98b2df94b444a2728f839f9&#34;&gt;How layers are structured&lt;/h2&gt;
+
+&lt;p&gt;After this introduction, the obvious question is: &lt;em&gt;How do I implement my own custom layer?&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;The layer system in massis is based on the &lt;a href=&#34;https://github.com/rpax/MASSIS/tree/master/massisframework/massisframework-utils/massis-gui&#34;&gt;massis gui utility package&lt;/a&gt;.
+The building visualization system is composed by a set of layers of &lt;code&gt;DrawableFloor&lt;/code&gt;s.&lt;/p&gt;
+
+&lt;p&gt;One of the most basic layer is the Room layer. It only fills the polygons representing the rooms:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/**
+ * Draws each room of the floor
+ *
+ * @author rpax
+ *
+ */
+public class RoomsLayer extends DrawableLayer&amp;lt;DrawableFloor&amp;gt; {
+
+    public RoomsLayer(boolean enabled)
+    {
+        super(enabled);
+
+    }
+
+    @Override
+    public void draw(DrawableFloor dfloor, Graphics2D g)
+    {
+        final Floor f = dfloor.getFloor();
+        for (SimRoom r : f.getRooms())
+        {
+            g.setColor(Color.gray);
+            g.fill(r.getPolygon());
+        }
+
+    }
+
+    @Override
+    public String getName()
+    {
+        return &amp;quot;Rooms&amp;quot;;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Every time a repaint is needed, the visualization systems makes a call to &lt;code&gt;draw(DrawableFloor dfloor, Graphics2D g)&lt;/code&gt;. That is the place where the drawing should occur. The scaling, offseting and panning issues are already resolved,
+so in this method the only things that should be done are the calls to the &lt;code&gt;Graphics2D&lt;/code&gt; methods.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Tip: you can also take advantage of the utility class &lt;a href=&#34;https://github.com/rpax/MASSIS/blob/master/massisframework/massis/massis-core/src/main/java/com/massisframework/massis/displays/floormap/layers/FloorMapLayersUtils.java&#34;&gt;&lt;code&gt;FloorMapLayersUtils&lt;/code&gt;&lt;/a&gt;, which contains several methods that make less tedious the drawing common tasks. (Casting to ints, drawing points, lines, polygons, etc.)&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Another interesting layer is the &amp;ldquo;People&amp;rdquo; layer. This layer shows the triangles representing the dynamic elements of the simulation.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;private static Color DEFAULT_PERSON_FILL_COLOR = Color.WHITE;
+private static Color DEFAULT_PERSON_DRAW_COLOR = Color.BLUE;
+
+@Override
+public void draw(DrawableFloor dfloor, Graphics2D g)
+{
+    final Floor f = dfloor.getFloor();
+    g.setColor(Color.red);
+
+    for (DefaultAgent p : f.getAgents())
+    {
+        if (!p.isDynamic())
+        {
+            g.setColor(new Color(165, 42, 42));
+            g.fill(p.getPolygon());
+        }
+    }
+    for (DefaultAgent p : f.getAgents())
+    {
+        if (p.isDynamic())
+        {
+            KPolygon poly = KPolygon.createRegularPolygon(3, p.getPolygon()
+                    .getRadius());
+            poly.scale(1, 0.6);
+
+            poly.rotate(p.getAngle());
+            poly.translateTo(p.getX(), p.getY());
+
+            g.setColor(DEFAULT_PERSON_FILL_COLOR);
+
+            g.fill(poly);
+            g.setColor(DEFAULT_PERSON_DRAW_COLOR);
+            g.draw(poly);
+        }
+    }
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;As yu can observe, the idea of this &amp;ldquo;layered&amp;rdquo; way for drawing is modularity. A layer is conceived for a very specific task, and should be small. If it starts to become bigger, think about splitting it into two.&lt;/p&gt;
+
+&lt;h2 id=&#34;the-game-layer:e3159b7eb98b2df94b444a2728f839f9&#34;&gt;The game layer&lt;/h2&gt;
+
+&lt;p&gt;We want to create a layer that shows the difference between the agents status. For example, the tagged agent should be red. Taking &lt;code&gt;PeopleLayer&lt;/code&gt; as an example,&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;private static Color DEFAULT_PERSON_FILL_COLOR = Color.WHITE;
+private static Color DEFAULT_PERSON_DRAW_COLOR = Color.BLUE;
+
+@Override
+public void draw(DrawableFloor dfloor, Graphics2D g)
+{
+    final Floor f = dfloor.getFloor();
+    g.setColor(Color.red);
+
+    for (DefaultAgent p : f.getAgents())
+    {
+        if (!p.isDynamic())
+        {
+            g.setColor(new Color(165, 42, 42));
+            g.fill(p.getPolygon());
+        }
+    }
+    for (DefaultAgent p : f.getAgents())
+    {
+        if (p.isDynamic())
+        {
+            KPolygon poly = KPolygon.createRegularPolygon(3, p.getPolygon()
+                    .getRadius());
+            poly.scale(1, 0.6);
+
+            poly.rotate(p.getAngle());
+            poly.translateTo(p.getX(), p.getY());
+
+            g.setColor(DEFAULT_PERSON_FILL_COLOR);
+
+            g.fill(poly);
+            g.setColor(DEFAULT_PERSON_DRAW_COLOR);
+            g.draw(poly);
+        }
+    }
+
+}
+&lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
     
