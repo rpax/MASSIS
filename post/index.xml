@@ -252,8 +252,9 @@ Before/After Reduction : 4/2,[22=&amp;gt;16] took 6 ms
       <guid>http://www.massisframework.com/post/tutorials/defining-a-simple-behavior/</guid>
       <description>
 
-&lt;p&gt;This is the continuation of the &lt;a href=&#34;http://www.massisframework.com/post/tutorials/customizing-the-archetype/&#34;&gt;Second tutorial&lt;/a&gt;.
-In the previous tutorial, we learnt how to change properties of the elements of the environment and launching the simulation. In this tutorial, we will learn the basics of the simulation gui, and a simple example about how to manage the behavior of the agent in the environment.&lt;/p&gt;
+&lt;p&gt;This is the continuation of the &lt;a href=&#34;http://www.massisframework.com/post/tutorials/customizing-the-archetype/&#34;&gt;Second tutorial&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;In the previous tutorial, we learnt how to change properties of the elements of the environment and launching the simulation. In this tutorial, we will learn the basics of the simulation gui, and a simple example about how to manage the behavior of the agent in the environment.&lt;/p&gt;
 
 &lt;h1 id=&#34;the-simulation-gui:eefcc561692713ed4045ec5201f4fd82&#34;&gt;The simulation GUI.&lt;/h1&gt;
 
@@ -509,8 +510,55 @@ public void step() {
 
 &lt;p&gt;You can try launching the simulation again. The agent is moving! But it only has a target, and when that target is reached, it starts going forward and backwards, trying again and again to reach the target. We can do a little better.&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&#39;#&#39; class=&#34;top-tip&#34; data-tips=&#39;Not written yet :(&#39;&gt;The next tutorial&lt;/a&gt;
- explains how to control better the state of the Low level agent.&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/hHYGFYY.gif&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
+
+&lt;h1 id=&#34;moving-randomly-to-different-locations:eefcc561692713ed4045ec5201f4fd82&#34;&gt;Moving randomly to different locations&lt;/h1&gt;
+
+&lt;p&gt;In the previous code, the &lt;code&gt;onTargetReached()&lt;/code&gt; method was empty. This method is called when the agent is on the target location. For creating new targets every time the agent reaches one, we can do reset &lt;code&gt;currentTarget&lt;/code&gt; to &lt;code&gt;null&lt;/code&gt; every time the agent reaches the &lt;code&gt;currentTarget&lt;/code&gt; location.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    ApproachCallback callback = new ApproachCallback() {
+
+        @Override
+        public void onTargetReached(LowLevelAgent agent) {
+            currentTarget = null;
+        }
+
+        @Override
+        public void onSucess(LowLevelAgent agent) {
+            // Ok, there was no problem. The agent has moved a little bit.
+        }
+
+        @Override
+        public void onPathFinderError(PathFinderErrorReason reason) {
+            // Error!
+            Logger.getLogger(MyHelloHighLevelController.class.getName())
+                    .log(Level.SEVERE,
+                            &amp;quot;Error when approaching to {0} Reason: {1}&amp;quot;,
+                            new Object[] { currentTarget, reason });
+
+        }
+    };
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/KgzcWmv.gif&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
+
+&lt;p&gt;There&amp;rsquo;s a lot of things to improve! Take a look at the &lt;a href=&#34;http://www.massisframework.com/post/tutorials/bigger-environment-and-multiple-agents/&#34;&gt;Next tutorial&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Creating a MASSIS Application. Part 4: Bigger environment and multiple agents</title>
+      <link>http://www.massisframework.com/post/tutorials/bigger-environment-and-multiple-agents/</link>
+      <pubDate>Fri, 06 Nov 2015 13:19:52 +0100</pubDate>
+      
+      <guid>http://www.massisframework.com/post/tutorials/bigger-environment-and-multiple-agents/</guid>
+      <description>
+
+&lt;p&gt;This is the continuation of the &lt;a href=&#34;http://www.massisframework.com/post/tutorials/defining-a-simple-behavior/&#34;&gt;Third tutorial&lt;/a&gt;. In this tutorial, we will improve the environment and we will add more agents to the simulation.&lt;/p&gt;
+
+&lt;h1 id=&#34;editing-the-environment:16f756c730c6f04258547ab4f61a9781&#34;&gt;Editing the environment&lt;/h1&gt;
 </description>
     </item>
     

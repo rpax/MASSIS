@@ -5,7 +5,8 @@ title = "Creating a MASSIS Application. Part 3: Defining a simple behavior"
 categories = ["tutorials"]
 +++
 
-This is the continuation of the [Second tutorial]({{< relref "post/tutorials/customizing-the-archetype.md" >}}).
+This is the continuation of the [Second tutorial][second_tutorial_url].
+
 In the previous tutorial, we learnt how to change properties of the elements of the environment and launching the simulation. In this tutorial, we will learn the basics of the simulation gui, and a simple example about how to manage the behavior of the agent in the environment.
 
 # The simulation GUI.
@@ -215,20 +216,39 @@ What we are going to do is the following:
 
 You can try launching the simulation again. The agent is moving! But it only has a target, and when that target is reached, it starts going forward and backwards, trying again and again to reach the target. We can do a little better.
 
-{{< tooltipurl url="#" linktext="The next tutorial" tooltiptext="Not written yet :(" >}} explains how to control better the state of the Low level agent.
+{{< fig "http://i.imgur.com/hHYGFYY.gif" >}}
 
 
+# Moving randomly to different locations
 
+In the previous code, the `onTargetReached()` method was empty. This method is called when the agent is on the target location. For creating new targets every time the agent reaches one, we can do reset `currentTarget` to `null` every time the agent reaches the `currentTarget` location.
 
+		ApproachCallback callback = new ApproachCallback() {
 
+			@Override
+			public void onTargetReached(LowLevelAgent agent) {
+				currentTarget = null;
+			}
 
+			@Override
+			public void onSucess(LowLevelAgent agent) {
+				// Ok, there was no problem. The agent has moved a little bit.
+			}
 
+			@Override
+			public void onPathFinderError(PathFinderErrorReason reason) {
+				// Error!
+				Logger.getLogger(MyHelloHighLevelController.class.getName())
+						.log(Level.SEVERE,
+								"Error when approaching to {0} Reason: {1}",
+								new Object[] { currentTarget, reason });
 
+			}
+		};
 
+{{< fig "http://i.imgur.com/KgzcWmv.gif" >}}
 
+There's a lot of things to improve! Take a look at the [Next tutorial][tutorial_4]
 
-
-
-
-
-
+[second_tutorial_url]: {{< relref "post/tutorials/customizing-the-archetype.md" >}}
+[tutorial_4]: {{< relref "post/tutorials/bigger-environment-and-multiple-agents.md" >}}

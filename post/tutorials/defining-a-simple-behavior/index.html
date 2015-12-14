@@ -74,8 +74,9 @@
                     <section>
                         
 
-<p>This is the continuation of the <a href="/post/tutorials/customizing-the-archetype/">Second tutorial</a>.
-In the previous tutorial, we learnt how to change properties of the elements of the environment and launching the simulation. In this tutorial, we will learn the basics of the simulation gui, and a simple example about how to manage the behavior of the agent in the environment.</p>
+<p>This is the continuation of the <a href="/post/tutorials/customizing-the-archetype/">Second tutorial</a>.</p>
+
+<p>In the previous tutorial, we learnt how to change properties of the elements of the environment and launching the simulation. In this tutorial, we will learn the basics of the simulation gui, and a simple example about how to manage the behavior of the agent in the environment.</p>
 
 <h1 id="the-simulation-gui:eefcc561692713ed4045ec5201f4fd82">The simulation GUI.</h1>
 
@@ -331,8 +332,41 @@ public void step() {
 
 <p>You can try launching the simulation again. The agent is moving! But it only has a target, and when that target is reached, it starts going forward and backwards, trying again and again to reach the target. We can do a little better.</p>
 
-<p><a href='#' class="top-tip" data-tips='Not written yet :('>The next tutorial</a>
- explains how to control better the state of the Low level agent.</p>
+<p><figure class="img-responsive center-block"><img src="http://i.imgur.com/hHYGFYY.gif"/></figure>
+</p>
+
+<h1 id="moving-randomly-to-different-locations:eefcc561692713ed4045ec5201f4fd82">Moving randomly to different locations</h1>
+
+<p>In the previous code, the <code>onTargetReached()</code> method was empty. This method is called when the agent is on the target location. For creating new targets every time the agent reaches one, we can do reset <code>currentTarget</code> to <code>null</code> every time the agent reaches the <code>currentTarget</code> location.</p>
+
+<pre><code>    ApproachCallback callback = new ApproachCallback() {
+
+        @Override
+        public void onTargetReached(LowLevelAgent agent) {
+            currentTarget = null;
+        }
+
+        @Override
+        public void onSucess(LowLevelAgent agent) {
+            // Ok, there was no problem. The agent has moved a little bit.
+        }
+
+        @Override
+        public void onPathFinderError(PathFinderErrorReason reason) {
+            // Error!
+            Logger.getLogger(MyHelloHighLevelController.class.getName())
+                    .log(Level.SEVERE,
+                            &quot;Error when approaching to {0} Reason: {1}&quot;,
+                            new Object[] { currentTarget, reason });
+
+        }
+    };
+</code></pre>
+
+<p><figure class="img-responsive center-block"><img src="http://i.imgur.com/KgzcWmv.gif"/></figure>
+</p>
+
+<p>There&rsquo;s a lot of things to improve! Take a look at the <a href="/post/tutorials/bigger-environment-and-multiple-agents/">Next tutorial</a></p>
 
                     </section>
                 </article>
