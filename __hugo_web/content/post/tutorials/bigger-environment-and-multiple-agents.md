@@ -139,37 +139,10 @@ The visualization treats the element in a different way, because it is marked as
 
 # What to do next?
 
-Our agents can move from/to different locations in the environment, but, what about their _perception_? This is explained in the [Next tutorial](#).
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Our agents can move from/to different locations in the environment, but, what about their _perception_? This is explained in the [Next tutorial][tutorial_5].
 
 
 
 
 [tutorial_3]: {{< relref "post/tutorials/defining-a-simple-behavior.md" >}}
+[tutorial_5]: {{< relref "post/tutorials/perception.md" >}}

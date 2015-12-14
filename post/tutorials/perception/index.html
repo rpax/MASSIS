@@ -5,7 +5,7 @@
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
 
-        <title>Posts &middot; MASSIS Framework</title>
+        <title>Creating a MASSIS Application. Part 5: Perception &middot; MASSIS Framework</title>
         <link rel='stylesheet' href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600' type='text/css'>
         <link rel="stylesheet" href="http://www.massisframework.com//libraries/normalize.3.0.1.css" />
         <link rel="stylesheet" href="http://www.massisframework.com//css/liquorice.css" />
@@ -15,7 +15,7 @@
 
         <link rel="shortcut icon" href="/favicon.ico" />
         <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon-144-precomposed.png" sizes="144x144" />
-        <link rel="alternate" href="http://www.massisframework.com/post/index.xml" type="application/rss+xml" title="MASSIS Framework" />
+        <link rel="alternate" href="" type="application/rss+xml" title="MASSIS Framework" />
     </head>
     <body class="li-body">
 
@@ -56,50 +56,83 @@
 </header>
 
 
+
+
+
+
     <div class="container">
         <div class="row">
             <div class="sixteen columns">
-                <h1>Posts</h1>
-                <ul class="li-article-list">
-                    
-                        <li>
-                         
-                            <h4><a href="http://www.massisframework.com/post/tutorials/sample-massis-application/">Creating a MASSIS Application. Part 1: Downloading a basic archetype</a></h4>
-                        </li>
-                    
-                        <li>
-                         
-                            <h4><a href="http://www.massisframework.com/post/tutorials/customizing-the-archetype/">Creating a MASSIS Application. Part 2: Customizing the archetype</a></h4>
-                        </li>
-                    
-                        <li>
-                         
-                            <h4><a href="http://www.massisframework.com/post/tutorials/defining-a-simple-behavior/">Creating a MASSIS Application. Part 3: Defining a simple behavior</a></h4>
-                        </li>
-                    
-                        <li>
-                         
-                            <h4><a href="http://www.massisframework.com/post/tutorials/bigger-environment-and-multiple-agents/">Creating a MASSIS Application. Part 4: Bigger environment and multiple agents</a></h4>
-                        </li>
-                    
-                        <li>
-                         
-                            <h4><a href="http://www.massisframework.com/post/tutorials/perception/">Creating a MASSIS Application. Part 5: Perception</a></h4>
-                        </li>
-                    
-                        <li>
-                         
-                            <h4><a href="http://www.massisframework.com/post/tutorials/operation-rescue-the-robots/">Operation: Rescue the robots. Part 1</a></h4>
-                        </li>
-                    
-                        <li>
-                         
-                            <h4><a href="http://www.massisframework.com/post/tutorials/environment-design/">Designing the simulation environment</a></h4>
-                        </li>
-                    
-                </ul>
+                <article class="li-article">
+                    <header class="li-article-header">
+                        <h1 class="li-article-title">Creating a MASSIS Application. Part 5: Perception</h1>
+                        <span class="li-article-taxonomies">
+                           
+                        </span>
+                      
+                    </header>
+                    <section>
+                        
+
+<p>This is the continuation of the <a href="/post/tutorials/bigger-environment-and-multiple-agents/">fourth tutorial</a>. In this tutorial, we will learn how agents can query some of the properties of the environment, and we will make them to play the tag game.</p>
+
+<h1 id="how-agents-can-perceive-the-environment:d7c5f655ae342b94fbf082b33a7e6e52">How agents can perceive the environment.</h1>
+
+<p>The <code>LowLevelAgent</code> can obtain information about its environment, such as the room where it is, its current location, and other agents near him.</p>
+
+<p>Let&rsquo;s add a simple print method for checking this out. The method <a href="https://github.com/rpax/MASSIS/blob/master/massisframework/massis/massis-core/src/main/java/com/massisframework/massis/model/agents/LowLevelAgent.java#L52"><code>getAgentsInRange</code></a> returns the LowLevelAgents within a range of the agent on which the method was performed.</p>
+
+<p>So, in <code>MyHelloHighLevelControllerjava</code> we can write the following method:</p>
+
+<pre><code>private void printAgentsIDsInRange(double range) {
+    StringBuilder sb = new StringBuilder();
+
+    for (LowLevelAgent otherAgent : this.agent.getAgentsInRange(range)) {
+        final int otherId = otherAgent.getID();
+        final Location agentLoc = this.agent.getLocation();
+        final Location otherLoc = otherAgent.getLocation();
+        final double distance = agentLoc.distance2D(otherLoc);
+
+        sb.append(&quot;\tAgent #&quot;).append(otherId).append(&quot;. distance: &quot;)
+                .append(distance).append(&quot;\n&quot;);
+    }
+    if (sb.length() &gt; 0) {
+        System.out.println(&quot;Agent #&quot; + this.agent.getID()+&quot; has in the range of &quot;+range+&quot; cm:&quot;);
+        System.out.println(sb.toString());
+    }
+}
+</code></pre>
+
+<p>and add it at the beginning of the <code>step()</code> method</p>
+
+<pre><code>@Override
+public void step() {
+
+    printAgentsIDsInRange(200);
+    if (this.currentTarget == null) {
+        /* 1 */
+//etc
+</code></pre>
+
+<p>This should print in the console output something like this:</p>
+
+<pre><code>Agent #12 has in the range of 200.0 cm:
+    Agent #42. distance: 233.04966693463686
+
+Agent #12 has in the range of 200.0 cm:
+    Agent #42. distance: 213.96123582412258
+
+...etc
+</code></pre>
+
+                    </section>
+                </article>
             </div>
         </div>
+
+       
+
+       <br />
     </div>
 
 <footer class="li-page-footer">

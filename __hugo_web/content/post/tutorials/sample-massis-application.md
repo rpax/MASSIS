@@ -4,11 +4,9 @@ draft = false
 title = "Creating a MASSIS Application. Part 1: Downloading a basic archetype"
 categories = ["tutorials"]
 +++
-This tutorial covers the basic topics about creating a simple agent behavior for MASSIS. It is assumed that the sections about
-[downloading]({{< relref "page/getting-started.md" >}}) , and
-[environment design]({{< relref "post/tutorials/environment-design.md" >}}) sections have been already been read.
+This tutorial covers the basic topics about creating a simple agent behavior for MASSIS. It is assumed that the section about [downloading][downloading_page] has been read.
 
-Although an experienced programmer can do all of this steps without any kind of IDE, for illustrating purposes, the [Eclipse platform](http://www.eclipse.org/downloads/) will be used here. The recommended version is the _Eclipse IDE for Java Developers_.
+Although an experienced programmer can do all of this steps without any kind of IDE, for illustrating purposes, the [Eclipse platform][eclipse_page] will be used here. The recommended version is the _Eclipse IDE for Java Developers_.
 
 {{< fig "http://i.imgur.com/6574ISB.png" >}}
 
@@ -77,5 +75,11 @@ Once all dependencies are downloaded, the project should contain three files:
 
 {{< fig "http://i.imgur.com/37HqUP4.png" >}}
 
-What to do next? The tutorial continues on [Creating a MASSIS Application. Part 2: Customizing the archetype]({{< relref "post/tutorials/customizing-the-archetype.md" >}})
+# What to do next?
 
+The tutorial continues on [Creating a MASSIS Application. Part 2: Customizing the archetype][tutorial_2]
+
+
+[downloading_page]: {{< relref "page/getting-started.md" >}}
+[eclipse_page]: http://www.eclipse.org/downloads/
+[tutorial_2]: {{< relref "post/tutorials/customizing-the-archetype.md" >}}

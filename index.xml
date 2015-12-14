@@ -652,7 +652,7 @@ The visualization treats the element in a different way, because it is marked as
 
 &lt;h1 id=&#34;what-to-do-next:16f756c730c6f04258547ab4f61a9781&#34;&gt;What to do next?&lt;/h1&gt;
 
-&lt;p&gt;Our agents can move from/to different locations in the environment, but, what about their &lt;em&gt;perception&lt;/em&gt;? This is explained in the &lt;a href=&#34;#&#34;&gt;Next tutorial&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Our agents can move from/to different locations in the environment, but, what about their &lt;em&gt;perception&lt;/em&gt;? This is explained in the &lt;a href=&#34;http://www.massisframework.com/post/tutorials/perception/&#34;&gt;Next tutorial&lt;/a&gt;.&lt;/p&gt;
 </description>
     </item>
     
@@ -1089,6 +1089,67 @@ public void step() {
     </item>
     
     <item>
+      <title>Creating a MASSIS Application. Part 5: Perception</title>
+      <link>http://www.massisframework.com/post/tutorials/perception/</link>
+      <pubDate>Fri, 06 Nov 2015 13:19:52 +0100</pubDate>
+      
+      <guid>http://www.massisframework.com/post/tutorials/perception/</guid>
+      <description>
+
+&lt;p&gt;This is the continuation of the &lt;a href=&#34;http://www.massisframework.com/post/tutorials/bigger-environment-and-multiple-agents/&#34;&gt;fourth tutorial&lt;/a&gt;. In this tutorial, we will learn how agents can query some of the properties of the environment, and we will make them to play the tag game.&lt;/p&gt;
+
+&lt;h1 id=&#34;how-agents-can-perceive-the-environment:d7c5f655ae342b94fbf082b33a7e6e52&#34;&gt;How agents can perceive the environment.&lt;/h1&gt;
+
+&lt;p&gt;The &lt;code&gt;LowLevelAgent&lt;/code&gt; can obtain information about its environment, such as the room where it is, its current location, and other agents near him.&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s add a simple print method for checking this out. The method &lt;a href=&#34;https://github.com/rpax/MASSIS/blob/master/massisframework/massis/massis-core/src/main/java/com/massisframework/massis/model/agents/LowLevelAgent.java#L52&#34;&gt;&lt;code&gt;getAgentsInRange&lt;/code&gt;&lt;/a&gt; returns the LowLevelAgents within a range of the agent on which the method was performed.&lt;/p&gt;
+
+&lt;p&gt;So, in &lt;code&gt;MyHelloHighLevelControllerjava&lt;/code&gt; we can write the following method:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;private void printAgentsIDsInRange(double range) {
+    StringBuilder sb = new StringBuilder();
+
+    for (LowLevelAgent otherAgent : this.agent.getAgentsInRange(range)) {
+        final int otherId = otherAgent.getID();
+        final Location agentLoc = this.agent.getLocation();
+        final Location otherLoc = otherAgent.getLocation();
+        final double distance = agentLoc.distance2D(otherLoc);
+
+        sb.append(&amp;quot;\tAgent #&amp;quot;).append(otherId).append(&amp;quot;. distance: &amp;quot;)
+                .append(distance).append(&amp;quot;\n&amp;quot;);
+    }
+    if (sb.length() &amp;gt; 0) {
+        System.out.println(&amp;quot;Agent #&amp;quot; + this.agent.getID()+&amp;quot; has in the range of &amp;quot;+range+&amp;quot; cm:&amp;quot;);
+        System.out.println(sb.toString());
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;and add it at the beginning of the &lt;code&gt;step()&lt;/code&gt; method&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@Override
+public void step() {
+
+    printAgentsIDsInRange(200);
+    if (this.currentTarget == null) {
+        /* 1 */
+//etc
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This should print in the console output something like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Agent #12 has in the range of 200.0 cm:
+    Agent #42. distance: 233.04966693463686
+
+Agent #12 has in the range of 200.0 cm:
+    Agent #42. distance: 213.96123582412258
+
+...etc
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Creating a MASSIS Application. Part 1: Downloading a basic archetype</title>
       <link>http://www.massisframework.com/post/tutorials/sample-massis-application/</link>
       <pubDate>Thu, 05 Nov 2015 13:19:52 +0100</pubDate>
@@ -1096,9 +1157,7 @@ public void step() {
       <guid>http://www.massisframework.com/post/tutorials/sample-massis-application/</guid>
       <description>
 
-&lt;p&gt;This tutorial covers the basic topics about creating a simple agent behavior for MASSIS. It is assumed that the sections about
-&lt;a href=&#34;http://www.massisframework.com/page/getting-started/&#34;&gt;downloading&lt;/a&gt; , and
-&lt;a href=&#34;http://www.massisframework.com/post/tutorials/environment-design/&#34;&gt;environment design&lt;/a&gt; sections have been already been read.&lt;/p&gt;
+&lt;p&gt;This tutorial covers the basic topics about creating a simple agent behavior for MASSIS. It is assumed that the section about &lt;a href=&#34;http://www.massisframework.com/page/getting-started/&#34;&gt;downloading&lt;/a&gt; has been read.&lt;/p&gt;
 
 &lt;p&gt;Although an experienced programmer can do all of this steps without any kind of IDE, for illustrating purposes, the &lt;a href=&#34;http://www.eclipse.org/downloads/&#34;&gt;Eclipse platform&lt;/a&gt; will be used here. The recommended version is the &lt;em&gt;Eclipse IDE for Java Developers&lt;/em&gt;.&lt;/p&gt;
 
@@ -1191,7 +1250,9 @@ public void step() {
 &lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/37HqUP4.png&#34;/&gt;&lt;/figure&gt;
 &lt;/p&gt;
 
-&lt;p&gt;What to do next? The tutorial continues on &lt;a href=&#34;http://www.massisframework.com/post/tutorials/customizing-the-archetype/&#34;&gt;Creating a MASSIS Application. Part 2: Customizing the archetype&lt;/a&gt;&lt;/p&gt;
+&lt;h1 id=&#34;what-to-do-next:e06228b655e61d4d03702e703f2b69d5&#34;&gt;What to do next?&lt;/h1&gt;
+
+&lt;p&gt;The tutorial continues on &lt;a href=&#34;http://www.massisframework.com/post/tutorials/customizing-the-archetype/&#34;&gt;Creating a MASSIS Application. Part 2: Customizing the archetype&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     
