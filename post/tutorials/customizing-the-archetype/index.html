@@ -88,15 +88,13 @@
 
 <p>MASSIS simulator uses sweethome3d as environment definition. The behavior of the elements should be specified in the building file, and implemented as a class.</p>
 
-<p><img src="http://i.imgur.com/z3aw4bl.png" alt="" />
-</p>
+<p><img src="http://i.imgur.com/z3aw4bl.png" alt="" /></p>
 
 <h3 id="opening-the-editor-and-loading-a-default-building:ef4bf10577d09165b17453e8a9e1b79e">Opening the editor and loading a default building</h3>
 
 <p>Running the <code>EnvironmentEditor</code> class (Run As&hellip;-&gt; Java Application) should open SweetHome3D&rsquo;s editor with some of the MASSIS&rsquo; plugins.</p>
 
-<p><img src="http://i.imgur.com/pW8lgjG.png" alt="" />
-</p>
+<p><img src="http://i.imgur.com/pW8lgjG.png" alt="" /></p>
 
 <pre><code>3D [dev] 1.6.0-scijava-1-pre11-daily-experimental daily
 
@@ -106,51 +104,46 @@ loading class com.massisframework.testdata.TestDataPlugin
 
 <p>This is the main window of the SweetHome3D editor. During the tutorials, some of the most important features of MASSIS and Sweethome3D editor will be explained. For loading a sample building, click on <em>Help -&gt; Load Sample Home&hellip;</em>.</p>
 
-<p><img src="http://i.imgur.com/l9umHvv.png" alt="" />
-</p>
+<p><img src="http://i.imgur.com/l9umHvv.png" alt="" /></p>
 
 <p>In the popup, select &ldquo;basichouse.sh3d&rdquo;.</p>
 
-<p><img src="http://i.imgur.com/7AnSp7i.png" alt="" />
-</p>
+<p><img src="http://i.imgur.com/7AnSp7i.png" alt="" /></p>
 
 <p>A new home will be opened. This basic home contains a basic agent, four walls and a room.</p>
 
-<p><img src="http://i.imgur.com/mqORvHr.png" alt="" />
-</p>
+<p><img src="http://i.imgur.com/mqORvHr.png" alt="" /></p>
 
 <h3 id="referencing-the-behavior-of-the-agent:ef4bf10577d09165b17453e8a9e1b79e">Referencing the behavior of the agent.</h3>
 
 <p>Every element in the SweetHome3D editor (with massis plugins) has metadata attached.
 For modifing the metadata of an element, the element <strong>should be selected first</strong> and clicking on <em>Tools -&gt; Add Metadata</em>.</p>
 
-<p><img src="http://i.imgur.com/mQZIAAp.png" alt="" />
-</p>
+<p><img src="http://i.imgur.com/mQZIAAp.png" alt="" /></p>
 
 <p>Let&rsquo;s see what kind of metadata attached has the agent in the room.</p>
 
-<p><img src="http://i.imgur.com/UF4NV2m.png" alt="" />
-</p>
+<p><img src="http://i.imgur.com/UF4NV2m.png" alt="" /></p>
 
 <ul>
 <li><code>IS_OBSTACLE</code> : Tells if this element is an obstacle or not. <strong>This topic will be covered later</strong>.</li>
 <li><code>ID</code> : The unique id of the element in the building. <strong>It is not recomended to change the value</strong></li>
 <li><code>IS_DYNAMIC</code> : If the element is going to move during the simulation. Acts as a hint for the pathfinder and the visualization toolkit. <strong>This topic will be covered later</strong>.</li>
-<li><code>CLASSNAME</code> : The reference to the class implementing the agent behavior. By default, its value is <code>com.massisframework.testdata.ai.HelloHighLevelController</code>. We want to change this to our custom implementation. So, the value, in this case should be</li>
-</ul>
+
+<li><p><code>CLASSNAME</code> : The reference to the class implementing the agent behavior. By default, its value is <code>com.massisframework.testdata.ai.HelloHighLevelController</code>. We want to change this to our custom implementation. So, the value, in this case should be</p>
 
 <pre><code>tutorialfollower.myfirstmassisproject.MyHelloHighLevelController
 </code></pre>
 
-<h3 id="saving-the-sample-home-in-another-location:ef4bf10577d09165b17453e8a9e1b79e">Saving the sample home in another location.</h3>
+<h3 id="saving-the-sample-home-in-another-location:ef4bf10577d09165b17453e8a9e1b79e">Saving the sample home in another location.</h3></li>
+</ul>
 
-<p>Maybe you have noticed that the name of the home is kind of strange. Something like <em>MASSIS_278234761.sh3d</em>. This name is like this because the location of this home is <strong>temporary</strong>. In order to preserve the changes, must be saved in a <strong>non temporary</strong> location.</p>
+<p>Maybe you have noticed that the name of the home is kind of strange. Something like _MASSIS<em>278234761.sh3d</em>. This name is like this because the location of this home is <strong>temporary</strong>. In order to preserve the changes, must be saved in a <strong>non temporary</strong> location.</p>
 
 <p>Let&rsquo;s save the home in the project root folder for making easier the access from the simulator, in this tutorial.
 Cliking <em>Save As&hellip;</em> -&gt; Tutorial1.sh3d on the project&rsquo;s root folder.</p>
 
-<p><img src="http://i.imgur.com/775jxVI.png" alt="" />
-</p>
+<p><img src="http://i.imgur.com/775jxVI.png" alt="" /></p>
 
 <blockquote>
 <p>Note: remember to refresh the eclipse project, in order to see if the file it is actually there.</p>
@@ -173,8 +166,7 @@ In <code>SimulationWithUILauncher</code>, change</p>
 
 <p>It should appear the MASSIS default gui,</p>
 
-<p><img src="http://i.imgur.com/kPN5EI7.png" alt="" />
-,</p>
+<p><img src="http://i.imgur.com/kPN5EI7.png" alt="" />,</p>
 
 <p>and some console logs</p>
 

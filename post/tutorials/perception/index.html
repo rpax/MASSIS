@@ -131,7 +131,7 @@ Agent #12 has in the range of 200.0 cm:
 
 <h2 id="game-rules:d7c5f655ae342b94fbf082b33a7e6e52">Game Rules</h2>
 
-<p><a href="https://en.wikipedia.org/wiki/Tag_(game)">Tag Game rules from Wikipedia</a>:</p>
+<p>[Tag Game rules from Wikipedia][tag_game]:</p>
 
 <blockquote>
 <p>A group of players (two or more) decide who is going to be &ldquo;it&rdquo;, often using a counting-out game such as eeny, meeny, miny, moe.</p>
@@ -145,8 +145,8 @@ Agent #12 has in the range of 200.0 cm:
 
 <p>We can model the behavior of the agents following the flowchart below:</p>
 
-<p><figure class="img-responsive center-block"><img src="http://i.imgur.com/UNrajuM.png"/></figure>
-</p>
+<figure class="img-responsive center-block"><img src="http://i.imgur.com/UNrajuM.png"/></figure>
+
 
 <h3 id="conditionals:d7c5f655ae342b94fbf082b33a7e6e52">Conditionals</h3>
 
@@ -280,8 +280,8 @@ public void step() {
 
 <p>Now, going to the <em>not tagged</em> branch,</p>
 
-<p><figure class="img-responsive center-block"><img src="http://i.imgur.com/nidqPY6.png"/></figure>
-</p>
+<figure class="img-responsive center-block"><img src="http://i.imgur.com/nidqPY6.png"/></figure>
+
 
 <pre><code>private void runAsNotTagged() {
     // sees tagged agent?
@@ -308,8 +308,8 @@ public void step() {
 
 <p>For the  <em>tagged</em> branch,</p>
 
-<p><figure class="img-responsive center-block"><img src="http://i.imgur.com/AyOQSGJ.png"/></figure>
-</p>
+<figure class="img-responsive center-block"><img src="http://i.imgur.com/AyOQSGJ.png"/></figure>
+
 
 <p>This is a little bit more complex than the other branch.</p>
 
@@ -464,8 +464,8 @@ private void moveRandomly() {
 
 <p>If everything went ok, the result should be something like this:</p>
 
-<p><figure class="img-responsive center-block"><img src="http://i.imgur.com/Jva4HPG.gif"/></figure>
-</p>
+<figure class="img-responsive center-block"><img src="http://i.imgur.com/Jva4HPG.gif"/></figure>
+
 
 <blockquote>
 <p>Note: The code for the complete behavior is <a href="https://gist.github.com/rpax/b457fa14d2a9d14779ab">in this gist</a></p>
@@ -474,6 +474,8 @@ private void moveRandomly() {
 <p>The problem is&hellip; <strong><em>Who is the tagged one</em> ? All the agents are identical!</strong>.</p>
 
 <p>The <a href="/post/tutorials/extending-the-gui/">Next Tutorial</a> solves that problem, explaining how to develop visualization utilities.</p>
+
+<p>[tag<em>game]: <a href="https://en.wikipedia.org/wiki/Tag">https://en.wikipedia.org/wiki/Tag</a></em>(game)</p>
 
                     </section>
                 </article>

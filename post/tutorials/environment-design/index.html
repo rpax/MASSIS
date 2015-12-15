@@ -99,25 +99,21 @@ Note that the editor launched <em>is not exactly</em> the SweetHome3D editor. Th
 <p>The creation of walls can be done in two ways:
 * Selecting Plan → Create walls</p>
 
-<p><img src="http://i.imgur.com/dkkDSaR.png" alt="" />
-</p>
+<p><img src="http://i.imgur.com/dkkDSaR.png" alt="" /></p>
 
 <ul>
-<li>Pressing the <img src="http://i.imgur.com/i4qzaDX.png" alt="" />
- icon.</li>
+<li>Pressing the <img src="http://i.imgur.com/i4qzaDX.png" alt="" /> icon.</li>
 </ul>
 
 <p>After that, every left click in the map will create a wall. For finishing the wall creation mode, just click the arrow icon or press the Esc key.</p>
 
-<p><img src="http://i.imgur.com/DAiFfI5.png" alt="" />
-</p>
+<p><img src="http://i.imgur.com/DAiFfI5.png" alt="" /></p>
 
 <h3 id="adding-doors-windows-furniture:503de2820c07a9b745c7e4008aa66e0e">Adding doors, windows &amp; furniture</h3>
 
 <p>The furniture, doors and windows can be selected from the left pane, and can be placed into the building by dragging and dropping them. <strong>Note</strong>: it is important to place the doors and windows in the walls. Otherwise, the simulation may not work correctly.</p>
 
-<p><img src="http://i.imgur.com/bdr0Vvp.png" alt="" />
-</p>
+<p><img src="http://i.imgur.com/bdr0Vvp.png" alt="" /></p>
 
 <h3 id="importing-3d-objects:503de2820c07a9b745c7e4008aa66e0e">Importing 3D objects</h3>
 
@@ -128,20 +124,17 @@ Note that the editor launched <em>is not exactly</em> the SweetHome3D editor. Th
 <p>Rooms can be added the same way as walls, using the  button or selecting the option in Plan → Create Rooms.
 <em><strong>Very important note</strong></em>: This way is highly discouraged for creating environments for MASSIS. As MASSIS uses the rooms in its preprocessing algorithms, a bad placement of them can make the simulation behave incorrectly, or even failing. The preferred way is double clicking a closed area, surrounded by walls. In this way, the new room will occupy the entire space.</p>
 
-<p><img src="http://i.imgur.com/1SjFlDv.png" alt="" />
-</p>
+<p><img src="http://i.imgur.com/1SjFlDv.png" alt="" /></p>
 
 <p>Levels can be added by clicking the + icon in the Levels tab</p>
 
-<p><img src="http://i.imgur.com/csxX8hB.png" alt="" />
-</p>
+<p><img src="http://i.imgur.com/csxX8hB.png" alt="" /></p>
 
 <h2 id="metadata-editor:503de2820c07a9b745c7e4008aa66e0e">Metadata Editor</h2>
 
 <p>MASSIS needs extra, user-provided information about the elements of the building. This information is stored as metadata inside each element of the building. Every element in the building has metadata, can be viewed and edited directly from Tools → Add Metadata. This popups a simple modal dialog, with input fields in the form of  key – value pairs. These values are read and processed later by MASSIS.</p>
 
-<p><img src="http://i.imgur.com/sq3FNZE.png" alt="" />
-</p>
+<p><img src="http://i.imgur.com/sq3FNZE.png" alt="" /></p>
 
 <h2 id="teleport-linking:503de2820c07a9b745c7e4008aa66e0e">Teleport Linking</h2>
 
@@ -149,16 +142,14 @@ Note that the editor launched <em>is not exactly</em> the SweetHome3D editor. Th
 
 <p>A correctly configured teleport consists on two elements, representing the origin area and the destination area. Any furniture object can be configured as teleport. However, MASSIS release comes with a group of 3D objects designed with this purpose, in order to make easier the design and recognition of them.</p>
 
-<p><img src="http://i.imgur.com/79suUPY.png" alt="" />
-</p>
+<p><img src="http://i.imgur.com/79suUPY.png" alt="" /></p>
 
 <p>A Teleport object must have the following parameters,
 <code>type</code> : <code>START</code> or <code>END</code>
 <code>teleport</code>: the teleport name
 So, in the building, there would be two elements with the same teleport attribute, one with <code>START</code> as value of type, and the other one with <code>END</code> as value. The meradata of an element conforming the Teleport <code>SB1_B_LEFT</code> would be like this:</p>
 
-<p><img src="http://i.imgur.com/jwtsqoT.png" alt="" />
-</p>
+<p><img src="http://i.imgur.com/jwtsqoT.png" alt="" /></p>
 
 <h2 id="other-massis-design-utilities:503de2820c07a9b745c7e4008aa66e0e">Other MASSIS&rsquo; Design Utilities</h2>
 
@@ -173,15 +164,13 @@ So, in the building, there would be two elements with the same teleport attribut
 <p>This plugin can make the external walls invisible(not every wall, so the interior of the building can be viewed from the outside, without making all the walls invisible).
 One of the most boring things when designing a building is doing repetitive tasks one by one. For example, the color of the floor. This must be done clicking and modifying each room, in the SweetHome3D&rsquo;s way. With the Rooms Color plugin, this task can be done automatically.</p>
 
-<p><img src="http://i.imgur.com/gDWh2vBm.png" alt="" />
-</p>
+<p><img src="http://i.imgur.com/gDWh2vBm.png" alt="" /></p>
 
 <h3 id="name-generation:503de2820c07a9b745c7e4008aa66e0e">Name Generation</h3>
 
 <p>This plugin gives a name with the specified prefix to every room, or door in the building.</p>
 
-<p><img src="http://i.imgur.com/rKIMX5W.png" alt="" />
-</p>
+<p><img src="http://i.imgur.com/rKIMX5W.png" alt="" /></p>
 
 <h2 id="final-notes:503de2820c07a9b745c7e4008aa66e0e">Final notes</h2>
 
