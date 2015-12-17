@@ -1697,12 +1697,16 @@ public void draw(DrawableFloor dfloor, Graphics2D g)
 
 &lt;p&gt;This tutorial covers the basic topics about creating a simple agent behavior for MASSIS. It is assumed that the section about &lt;a href=&#34;http://www.massisframework.com/page/getting-started/&#34;&gt;downloading&lt;/a&gt; has been read.&lt;/p&gt;
 
-&lt;p&gt;Although an experienced programmer can do all of this steps without any kind of IDE, for illustrating purposes, the &lt;a href=&#34;http://www.eclipse.org/downloads/&#34;&gt;Eclipse platform&lt;/a&gt; will be used here. The recommended version is the &lt;em&gt;Eclipse IDE for Java Developers&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Although an experienced programmer can do all of these steps without an IDE, it is recommended to use one.
+This tutorial uses the &lt;a href=&#34;http://www.eclipse.org/downloads/&#34;&gt;Eclipse platform&lt;/a&gt;. The recommended version is the &lt;em&gt;Eclipse IDE for Java Developers&lt;/em&gt;.&lt;/p&gt;
 
 &lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/6574ISB.png&#34;/&gt;&lt;/figure&gt;
 
 
 &lt;h2 id=&#34;creating-a-maven-project-based-on-a-massis-archetype:e06228b655e61d4d03702e703f2b69d5&#34;&gt;Creating a maven project based on a massis archetype&lt;/h2&gt;
+
+&lt;p&gt;Eclipse is already distributed with &lt;a href=&#34;http://www.eclipse.org/m2e/&#34;&gt;Maven&lt;/a&gt; and this can greatly facilitate the creation of new projects based on archetypes (project templates).
+The MASSIS framework provides a maven archetype to support the creation of new projects for simulation of multiple agents in indoor scenarios.&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Right click on the projects sidebar, and select &amp;ldquo;New Project&amp;rdquo;.&lt;/li&gt;

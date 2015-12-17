@@ -1697,12 +1697,16 @@ public void draw(DrawableFloor dfloor, Graphics2D g)
 
 &lt;p&gt;This tutorial covers the basic topics about creating a simple agent behavior for MASSIS. It is assumed that the section about &lt;a href=&#34;http://www.massisframework.com/page/getting-started/&#34;&gt;downloading&lt;/a&gt; has been read.&lt;/p&gt;
 
-&lt;p&gt;Although an experienced programmer can do all of this steps without any kind of IDE, for illustrating purposes, the &lt;a href=&#34;http://www.eclipse.org/downloads/&#34;&gt;Eclipse platform&lt;/a&gt; will be used here. The recommended version is the &lt;em&gt;Eclipse IDE for Java Developers&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Although an experienced programmer can do all of these steps without an IDE, it is recommended to use one.
+This tutorial uses the &lt;a href=&#34;http://www.eclipse.org/downloads/&#34;&gt;Eclipse platform&lt;/a&gt;. The recommended version is the &lt;em&gt;Eclipse IDE for Java Developers&lt;/em&gt;.&lt;/p&gt;
 
 &lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/6574ISB.png&#34;/&gt;&lt;/figure&gt;
 
 
 &lt;h2 id=&#34;creating-a-maven-project-based-on-a-massis-archetype:e06228b655e61d4d03702e703f2b69d5&#34;&gt;Creating a maven project based on a massis archetype&lt;/h2&gt;
+
+&lt;p&gt;Eclipse is already distributed with &lt;a href=&#34;http://www.eclipse.org/m2e/&#34;&gt;Maven&lt;/a&gt; and this can greatly facilitate the creation of new projects based on archetypes (project templates).
+The MASSIS framework provides a maven archetype to support the creation of new projects for simulation of multiple agents in indoor scenarios.&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Right click on the projects sidebar, and select &amp;ldquo;New Project&amp;rdquo;.&lt;/li&gt;
@@ -1872,12 +1876,12 @@ public void draw(DrawableFloor dfloor, Graphics2D g)
       <pubDate>Sun, 01 Nov 2015 13:23:29 +0100</pubDate>
       
       <guid>http://www.massisframework.com/about/</guid>
-      <description>&lt;p&gt;MASSIS is a simulation framework for scenarios in indoor environments, allowing to design spaces, and specifying the behavior of the elements and people in them. These behaviors specifications may vary substantially: From a simple presence detector to human behavior. It is capable of supporting thousands of agents, each one with an specific behavior. The behavior specification is done outside the simulation platform, and multiple behavior models can be integrated.&lt;/p&gt;
+      <description>&lt;p&gt;MASSIS is a  framework that facilitates the simulation of scenarios with multiple agents (representing people, robots, sensors, etc.) in indoor environments (i.e., in a building). MASSIS provides support for designing spaces and specifying the behavior of the elements and agents in them. It is possible to define a great diversity of behaviours, from a simple sensor to the decisions of a person. MASSIS has been designed to keep this flexibility withough hindering performance. The framework is capable of supporting thousands of agents, each one with an specific behavior.&lt;/p&gt;
 
 &lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/1AnvPlq.png&#34;/&gt;&lt;/figure&gt;
 
 
-&lt;p&gt;The simulation progress can be visualized in 3D, from different perspectives, or in 2D. The 2D visualization library is based on layers (the elements of each layer are drawn on top of the previous layer), making easier the development of a new type of visualization for specific purposes. Also, it allows to save the simulation changes, recording each agent state in every step of the simulation. These changes are saved in an open and independent format (JSON), allowing the analysis of the results from any other platform and language.&lt;/p&gt;
+&lt;p&gt;The simulation progress can be visualized from different perspectives in 3D or in 2D. The 2D visualization library is based on layers (the elements of each layer are drawn on top of the previous layer). This facilitates the development of a new type of visualization for specific purposes. Also, it is possible to save the simulation changes, recording each agent state in every step of the simulation. These changes are saved in an open and independent format (JSON), which allows further analysis of the results with other tools.&lt;/p&gt;
 
 &lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/PuXmC7F.png&#34;/&gt;&lt;/figure&gt;
 

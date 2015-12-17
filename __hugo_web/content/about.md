@@ -5,11 +5,11 @@ title = "What is MASSIS?"
 
 +++
 
-MASSIS is a simulation framework for scenarios in indoor environments, allowing to design spaces, and specifying the behavior of the elements and people in them. These behaviors specifications may vary substantially: From a simple presence detector to human behavior. It is capable of supporting thousands of agents, each one with an specific behavior. The behavior specification is done outside the simulation platform, and multiple behavior models can be integrated.
+MASSIS is a  framework that facilitates the simulation of scenarios with multiple agents (representing people, robots, sensors, etc.) in indoor environments (i.e., in a building). MASSIS provides support for designing spaces and specifying the behavior of the elements and agents in them. It is possible to define a great diversity of behaviours, from a simple sensor to the decisions of a person. MASSIS has been designed to keep this flexibility withough hindering performance. The framework is capable of supporting thousands of agents, each one with an specific behavior. 
 
 {{< fig "http://i.imgur.com/1AnvPlq.png" >}}
 
-The simulation progress can be visualized in 3D, from different perspectives, or in 2D. The 2D visualization library is based on layers (the elements of each layer are drawn on top of the previous layer), making easier the development of a new type of visualization for specific purposes. Also, it allows to save the simulation changes, recording each agent state in every step of the simulation. These changes are saved in an open and independent format (JSON), allowing the analysis of the results from any other platform and language.
+The simulation progress can be visualized from different perspectives in 3D or in 2D. The 2D visualization library is based on layers (the elements of each layer are drawn on top of the previous layer). This facilitates the development of a new type of visualization for specific purposes. Also, it is possible to save the simulation changes, recording each agent state in every step of the simulation. These changes are saved in an open and independent format (JSON), which allows further analysis of the results with other tools.
 
 {{< fig "http://i.imgur.com/PuXmC7F.png" >}}
 {{< fig "http://i.imgur.com/Uw6JFi3.png" >}}

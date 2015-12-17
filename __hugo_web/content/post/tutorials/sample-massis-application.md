@@ -6,11 +6,15 @@ categories = ["tutorials"]
 +++
 This tutorial covers the basic topics about creating a simple agent behavior for MASSIS. It is assumed that the section about [downloading][downloading_page] has been read.
 
-Although an experienced programmer can do all of this steps without any kind of IDE, for illustrating purposes, the [Eclipse platform][eclipse_page] will be used here. The recommended version is the _Eclipse IDE for Java Developers_.
+Although an experienced programmer can do all of these steps without an IDE, it is recommended to use one. 
+This tutorial uses the [Eclipse platform][eclipse_page]. The recommended version is the _Eclipse IDE for Java Developers_.
 
 {{< fig "http://i.imgur.com/6574ISB.png" >}}
 
 ## Creating a maven project based on a massis archetype
+
+Eclipse is already distributed with [Maven][maven_eclipse] and this can greatly facilitate the creation of new projects based on archetypes (project templates).
+The MASSIS framework provides a maven archetype to support the creation of new projects for simulation of multiple agents in indoor scenarios.
 
 - Right click on the projects sidebar, and select "New Project".
 
@@ -82,4 +86,5 @@ The tutorial continues on [Creating a MASSIS Application. Part 2: Customizing th
 
 [downloading_page]: {{< relref "page/getting-started.md" >}}
 [eclipse_page]: http://www.eclipse.org/downloads/
+[maven_eclipse]: http://www.eclipse.org/m2e/
 [tutorial_2]: {{< relref "post/tutorials/customizing-the-archetype.md" >}}

@@ -32,7 +32,7 @@ logo="http://i.imgur.com/SyxoguRl.png"
 # RSS / Email (optional) subscription links (change if using something like Feedburner)
 #subscribe_rss = "http://massisframework.com/index.xml"
 subscribe_email = ""
-copyright="© 2015 Rafael Pax & Juan Pavón."
+copyright="© 2015 Rafael Pax and Juan Pavón."
 
 # social links
 facebook_user = ""
