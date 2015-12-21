@@ -575,7 +575,10 @@ Before/After Reduction : 4/2,[22=&amp;gt;16] took 6 ms
 &lt;li&gt;Advance one step&lt;/li&gt;
 &lt;li&gt;Run continuously&lt;/li&gt;
 &lt;li&gt;Stop
-&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/kPN5EI7.png&#34;/&gt;&lt;/figure&gt;
+&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/kPN5EI7.png&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 
@@ -584,18 +587,30 @@ Before/After Reduction : 4/2,[22=&amp;gt;16] took 6 ms
 &lt;ul&gt;
 &lt;li&gt;Delay (Sec/Step) : Delay between steps in the simulation&lt;/li&gt;
 &lt;li&gt;Steps per Step-button : Number of steps to be executed every time the play-pause button is pressed.
-&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/SI7dSrf.png&#34;/&gt;&lt;/figure&gt;
+&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/SI7dSrf.png&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;p&gt;Displays: This tab offers different ways for visualizing the state of the simulation. They can be shown or hidden anytime, with the simulation running also.  &lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/PptfTUD.png&#34;/&gt;&lt;/figure&gt;
+&lt;li&gt;&lt;p&gt;Displays: This tab offers different ways for visualizing the state of the simulation. They can be shown or hidden anytime, with the simulation running also.  &lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/PptfTUD.png&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
   There are three different types of visualization:&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Building map : Shows the 2D layer- based map. This is the most powerful, flexible and customizable visualization tool of MASSIS. This type of display is deeply explained in  &lt;a href=&#39;#&#39; class=&#34;top-tip&#34; data-tips=&#39;Not written yet :(&#39;&gt;this tutorial&lt;/a&gt;
-. &lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/IcRLXtI.png&#34;/&gt;&lt;/figure&gt;
+. &lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/IcRLXtI.png&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 &lt;/li&gt;
-&lt;li&gt;Building 2D :  Shows SweetHome3D default 2D viewer. It is included because maybe it is useful in the future. Although it is not recommended: Is not optimized for the simulation, and has thread-safety issues.&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/2tnx3mF.png&#34;/&gt;&lt;/figure&gt;
+&lt;li&gt;Building 2D :  Shows SweetHome3D default 2D viewer. It is included because maybe it is useful in the future. Although it is not recommended: Is not optimized for the simulation, and has thread-safety issues.&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/2tnx3mF.png&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;Building 3D: Shows the 3D viewer. The camera can be controlled with the mouse or keyboard&lt;/li&gt;
 &lt;li&gt;Keyboard:
@@ -679,7 +694,10 @@ Hey! I am an agent!
 &lt;p&gt;A &lt;em&gt;LowLevelAgent&lt;/em&gt; is the element that provides the &lt;em&gt;HighLevelController&lt;/em&gt; the necessary information for taking decisions. Also, the HighLevelController changes the state of the LowLevelAgent. (Making it move, changing its properties, other agent&amp;rsquo;s properties, interaction, etc.).&lt;/p&gt;
 
 &lt;p&gt;The following diagram may help to understand how MASSIS is structured:
-&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/SBuHKz7.png&#34;/&gt;&lt;/figure&gt;
+&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/SBuHKz7.png&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 &lt;/p&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;What is the &lt;em&gt;metadata&lt;/em&gt; parameter?&lt;/p&gt;
@@ -817,7 +835,10 @@ public void step() {
 
 &lt;p&gt;You can try launching the simulation again. The agent is moving! But it only has a target, and when that target is reached, it starts going forward and backwards, trying again and again to reach the target. We can do a little better.&lt;/p&gt;
 
-&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/hHYGFYY.gif&#34;/&gt;&lt;/figure&gt;
+&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/hHYGFYY.gif&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 
 
 &lt;h1 id=&#34;moving-randomly-to-different-locations:eefcc561692713ed4045ec5201f4fd82&#34;&gt;Moving randomly to different locations&lt;/h1&gt;
@@ -848,7 +869,10 @@ public void step() {
     };
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/KgzcWmv.gif&#34;/&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/KgzcWmv.gif&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 &lt;/p&gt;
 
 &lt;p&gt;There&amp;rsquo;s a lot of things to improve! Take a look at the [Next tutorial][tutorial_4]&lt;/p&gt;
@@ -872,25 +896,37 @@ public void step() {
 &lt;p&gt;Let&amp;rsquo;s add more elements to the environment. For that, we need to launch the editor (&lt;code&gt;EnvironmentEditor.java&lt;/code&gt;).
 Sweethome3D saves the recent buildings edited, so clicking on &lt;em&gt;File -&amp;gt; Open Recent -&amp;gt; Tutorial1.sh3d&lt;/em&gt; will open the our simulation environment.&lt;/p&gt;
 
-&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/5JPhrUn.gif&#34;/&gt;&lt;/figure&gt;
+&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/5JPhrUn.gif&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 
 
 &lt;h2 id=&#34;adding-walls-rooms:16f756c730c6f04258547ab4f61a9781&#34;&gt;Adding walls &amp;amp; rooms&lt;/h2&gt;
 
 &lt;p&gt;Walls can be added clicking on &lt;em&gt;Plan -&amp;gt; Create Walls&lt;/em&gt;, with the shortcut &lt;code&gt;Ctrl + Shift + W&lt;/code&gt; or pressing the &lt;img src=&#34;http://i.imgur.com/bc5HLBQ.png&#34; alt=&#34;&#34; /&gt; button.&lt;/p&gt;
 
-&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/42HAACQ.gif&#34;/&gt;&lt;/figure&gt;
+&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/42HAACQ.gif&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 
 
 &lt;p&gt;The editor supports panning and zooming. Zooming can be done pressing &lt;code&gt;Ctrl&lt;/code&gt; while moving the mouse wheel. Also, it helps with connecting one wall with another. When the mouse is near the wall corners, a bigger point is shown, in order to make easier this task.&lt;/p&gt;
 
-&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/ig7DusU.gif&#34;/&gt;&lt;/figure&gt;
+&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/ig7DusU.gif&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 
 
 &lt;p&gt;Adding rooms to the scene can be accomplished clicking in &lt;em&gt;Plan-&amp;gt; Create Rooms&lt;/em&gt;, or in the shorcut button
 &lt;img src=&#34;http://i.imgur.com/vOnfWjk.png&#34; alt=&#34;&#34; /&gt;. Can be added &lt;em&gt;point-per-point&lt;/em&gt;, but the recommended way is making double click in an area enclosed by walls. It is &lt;strong&gt;very recommended&lt;/strong&gt; to do it that way, because makes easier the environment recognition by the simulator.&lt;/p&gt;
 
-&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/busq3sch.gif&#34;/&gt;&lt;/figure&gt;
+&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/busq3sch.gif&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 
 
 &lt;h2 id=&#34;adding-doors:16f756c730c6f04258547ab4f61a9781&#34;&gt;Adding doors&lt;/h2&gt;
@@ -899,14 +935,20 @@ Sweethome3D saves the recent buildings edited, so clicking on &lt;em&gt;File -&a
 
 &lt;p&gt;Doors are under the section &lt;em&gt;Doors and Windows&lt;/em&gt;. It is important to snap the doors to the walls, otherwise the simulation pathfinder might fail.&lt;/p&gt;
 
-&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/dzvD847.gif&#34;/&gt;&lt;/figure&gt;
+&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/dzvD847.gif&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 
 
 &lt;h2 id=&#34;adding-more-agents:16f756c730c6f04258547ab4f61a9781&#34;&gt;Adding more agents&lt;/h2&gt;
 
 &lt;p&gt;Let&amp;rsquo;s are more agents to the environment. We need to &lt;strong&gt;copy and paste&lt;/strong&gt; the original agent that we have modified in the previous tutorial. Otherwise, the metadata values will be the default ones, and the behavior class will be the default one.&lt;/p&gt;
 
-&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/vriBsoA.gif&#34;/&gt;&lt;/figure&gt;
+&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/vriBsoA.gif&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 
 
 &lt;h2 id=&#34;running-the-simulation-again:16f756c730c6f04258547ab4f61a9781&#34;&gt;Running the simulation again&lt;/h2&gt;
@@ -945,7 +987,10 @@ public void step() {
 &lt;li&gt;And finally, a random point in that room.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/w5GfLJT.gif&#34;/&gt;&lt;/figure&gt;
+&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/w5GfLJT.gif&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 
 
 &lt;h2 id=&#34;what-is-a-floor:16f756c730c6f04258547ab4f61a9781&#34;&gt;What is a Floor?&lt;/h2&gt;
@@ -959,19 +1004,28 @@ public void step() {
 .&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/HRzd8cD.png&#34;/&gt;&lt;/figure&gt;
+&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/HRzd8cD.png&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 
 
 &lt;h2 id=&#34;creating-obstacles:16f756c730c6f04258547ab4f61a9781&#34;&gt;Creating obstacles&lt;/h2&gt;
 
 &lt;p&gt;At this moment, the environment has no obstacles. Let&amp;rsquo;s add a some. In the environment editor, go to &lt;em&gt;Miscillaneous -&amp;gt; Box&lt;/em&gt;, and drag it to the scene.&lt;/p&gt;
 
-&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/oIAeeED.gif&#34;/&gt;&lt;/figure&gt;
+&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/oIAeeED.gif&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 
 
 &lt;p&gt;Save the building and run the simulation again.&lt;/p&gt;
 
-&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/SCqpt8D.gif&#34;/&gt;&lt;/figure&gt;
+&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/SCqpt8D.gif&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 
 
 &lt;p&gt;What happens? The elements added are recognized by the simulator as &lt;strong&gt;static&lt;/strong&gt; obstacles by default, like walls. (Walls are &lt;em&gt;always&lt;/em&gt; an obstacle).&lt;/p&gt;
@@ -1046,17 +1100,26 @@ public void step() {
 
 &lt;p&gt;Let&amp;rsquo;s add the entry &lt;code&gt;IS_OBSTACLE = false&lt;/code&gt; in the boxes&amp;rsquo; metadata, and see what happens.&lt;/p&gt;
 
-&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/mvnnlmv.gif&#34;/&gt;&lt;/figure&gt;
-
+&lt;p&gt;&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/mvnnlmv.gif&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;/p&gt;
 
 &lt;p&gt;The agents now don&amp;rsquo;t try to avoid the boxes, because they are marked as &lt;em&gt;not an obstacle&lt;/em&gt;.&lt;/p&gt;
 
-&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/OjLZ6QT.gif&#34;/&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/OjLZ6QT.gif&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 &lt;/p&gt;
 
 &lt;p&gt;And, what if we set a box with the entry &lt;code&gt;IS_DYNAMIC = true&lt;/code&gt; ?&lt;/p&gt;
 
-&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/1nLgQ66.gif&#34;/&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/1nLgQ66.gif&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 
 The visualization treats the element in a different way, because it is marked as dynamic. Also, the pathfinder does not include this element in the pathfinding process, and the responsability for not &lt;em&gt;bumbing into things&lt;/em&gt; is taken by other method, with &lt;a href=&#34;http://www.red3d.com/cwr/steer/&#34;&gt;steering behaviors&lt;/a&gt;, that are explained in  &lt;a href=&#39;#&#39; class=&#34;top-tip&#34; data-tips=&#39;Not written yet :(&#39;&gt;another tutorial&lt;/a&gt;
 .&lt;/p&gt;
@@ -1148,7 +1211,10 @@ Agent #12 has in the range of 200.0 cm:
 
 &lt;p&gt;We can model the behavior of the agents following the flowchart below:&lt;/p&gt;
 
-&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/UNrajuM.png&#34;/&gt;&lt;/figure&gt;
+&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/UNrajuM.png&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 
 
 &lt;h3 id=&#34;conditionals:d7c5f655ae342b94fbf082b33a7e6e52&#34;&gt;Conditionals&lt;/h3&gt;
@@ -1187,7 +1253,10 @@ public void setTagged(boolean tagged) {
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;The initial value of &lt;code&gt;&amp;quot;TAGGED&amp;quot;&lt;/code&gt; should be introduced first in any agent of the environment.
-&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/ITGP0JP.gif&#34;/&gt;&lt;/figure&gt;
+&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/ITGP0JP.gif&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 
 And then, in the constructor of the behavior, we need to recover the metadata of provided from the environment and setting it into the agent&amp;rsquo;s attributes:&lt;/p&gt;
 
@@ -1283,7 +1352,10 @@ public void step() {
 
 &lt;p&gt;Now, going to the &lt;em&gt;not tagged&lt;/em&gt; branch,&lt;/p&gt;
 
-&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/nidqPY6.png&#34;/&gt;&lt;/figure&gt;
+&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/nidqPY6.png&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 
 
 &lt;pre&gt;&lt;code&gt;private void runAsNotTagged() {
@@ -1311,7 +1383,10 @@ public void step() {
 
 &lt;p&gt;For the  &lt;em&gt;tagged&lt;/em&gt; branch,&lt;/p&gt;
 
-&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/AyOQSGJ.png&#34;/&gt;&lt;/figure&gt;
+&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/AyOQSGJ.png&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 
 
 &lt;p&gt;This is a little bit more complex than the other branch.&lt;/p&gt;
@@ -1467,8 +1542,11 @@ private void moveRandomly() {
 
 &lt;p&gt;If everything went ok, the result should be something like this:&lt;/p&gt;
 
-&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/Jva4HPG.gif&#34;/&gt;&lt;/figure&gt;
-
+&lt;p&gt;&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/Jva4HPG.gif&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;Note: The code for the complete behavior is &lt;a href=&#34;https://gist.github.com/rpax/b457fa14d2a9d14779ab&#34;&gt;in this gist&lt;/a&gt;&lt;/p&gt;
@@ -1504,7 +1582,10 @@ Although 3D display is more realistic, the 2D view is useful for analysis and de
 
 &lt;p&gt;This type of visualization is an adaptation of the 3D view of SweetHome3D. Although it lacks of flexibility, gives a better view of what&amp;rsquo;s happening in the simulation.&lt;/p&gt;
 
-&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/e0P2XJ5.gif&#34;/&gt;&lt;/figure&gt;
+&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/e0P2XJ5.gif&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 
 
 &lt;h1 id=&#34;sweethome3d-2d-display:e3159b7eb98b2df94b444a2728f839f9&#34;&gt;SweetHome3D 2D display&lt;/h1&gt;
@@ -1516,7 +1597,10 @@ Although 3D display is more realistic, the 2D view is useful for analysis and de
 &lt;p&gt;This is the most powerful visualization utility of MASSIS. It is not intended for realism, (it is plain 2D), but it provides a great flexibility, and extensibility. It is based on layers, which can be drawn one on top of each other, and multiple things can be viewed at the same time. Also, they can be enabled and disabled.
 It is the recommended visualization for developers and people interested in analizing concrete issues.&lt;/p&gt;
 
-&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/Q6mbTo8.gif&#34;/&gt;&lt;/figure&gt;
+&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/Q6mbTo8.gif&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 
 
 &lt;h2 id=&#34;tabs-levels:e3159b7eb98b2df94b444a2728f839f9&#34;&gt;Tabs &amp;amp; Levels&lt;/h2&gt;
@@ -1524,7 +1608,10 @@ It is the recommended visualization for developers and people interested in anal
 &lt;p&gt;Each floor (level) of the simulation environment has its own tab, that makes the task of switching between floors faster.
 This type of display allows zooming and panning, and each tab maintains its zoom state, so switching between interesting points (such as bottlenecks in different floors), does not imply a headache.&lt;/p&gt;
 
-&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/DTBu6RA.gif&#34;/&gt;&lt;/figure&gt;
+&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/DTBu6RA.gif&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 
 
 &lt;h2 id=&#34;default-layers:e3159b7eb98b2df94b444a2728f839f9&#34;&gt;Default Layers&lt;/h2&gt;
@@ -1700,7 +1787,10 @@ public void draw(DrawableFloor dfloor, Graphics2D g)
 &lt;p&gt;Although an experienced programmer can do all of these steps without an IDE, it is recommended to use one.
 This tutorial uses the &lt;a href=&#34;http://www.eclipse.org/downloads/&#34;&gt;Eclipse platform&lt;/a&gt;. The recommended version is the &lt;em&gt;Eclipse IDE for Java Developers&lt;/em&gt;.&lt;/p&gt;
 
-&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/6574ISB.png&#34;/&gt;&lt;/figure&gt;
+&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/6574ISB.png&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 
 
 &lt;h2 id=&#34;creating-a-maven-project-based-on-a-massis-archetype:e06228b655e61d4d03702e703f2b69d5&#34;&gt;Creating a maven project based on a massis archetype&lt;/h2&gt;
@@ -1712,58 +1802,88 @@ The MASSIS framework provides a maven archetype to support the creation of new p
 &lt;li&gt;Right click on the projects sidebar, and select &amp;ldquo;New Project&amp;rdquo;.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/jHjluiC.png&#34;/&gt;&lt;/figure&gt;
+&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/jHjluiC.png&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 
 
 &lt;ul&gt;
 &lt;li&gt;In the project type window, select new Maven Project and press &lt;em&gt;Next&lt;/em&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/nekxikS.png&#34;/&gt;&lt;/figure&gt;
+&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/nekxikS.png&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 
 
 &lt;ul&gt;
 &lt;li&gt;Ensure that the checkbox &lt;em&gt;Skip Archetype Selection&lt;/em&gt; is &lt;strong&gt;unchecked&lt;/strong&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/uNrk3nQ.png&#34;/&gt;&lt;/figure&gt;
+&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/uNrk3nQ.png&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 
 
 &lt;ul&gt;
 &lt;li&gt;Now, we need to add the massis archetype catalog. This can be done through &lt;em&gt;Configure&amp;hellip; -&amp;gt; Add Remote Catalog&lt;/em&gt;, and selecting the massis archetype catalog,which is located at &lt;a href=&#34;http://mvn.massisframework.com/nexus/content/groups/public/archetype-catalog.xml&#34;&gt;http://mvn.massisframework.com/nexus/content/groups/public/archetype-catalog.xml&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/NwtY4Wk.png&#34;/&gt;&lt;/figure&gt;
+&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/NwtY4Wk.png&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 
 
-&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/0KDUOcB.png&#34;/&gt;&lt;/figure&gt;
+&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/0KDUOcB.png&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 
 
-&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/hRWww0Z.png&#34;/&gt;&lt;/figure&gt;
+&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/hRWww0Z.png&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 
 
 &lt;ul&gt;
 &lt;li&gt;Remember to check the option &lt;em&gt;Include snapshot archetypes&lt;/em&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/h4hT8Jr.png&#34;/&gt;&lt;/figure&gt;
+&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/h4hT8Jr.png&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 
 
 &lt;ul&gt;
 &lt;li&gt;The next window asks for the information about our groupId and artifactId. In this example, the groupId will be &lt;code&gt;tutorialfollower&lt;/code&gt; and the artifactId &lt;code&gt;myfirstmassisproject&lt;/code&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/KbjsvNR.png&#34;/&gt;&lt;/figure&gt;
+&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/KbjsvNR.png&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 
 
 &lt;p&gt;After pressing &lt;em&gt;Finish&lt;/em&gt;, Eclipse (maven) will start downloading the required dependencies for this project. Depending on your internet connection, this may take a while. The progress can be seen on the &lt;em&gt;Progress&lt;/em&gt; tab. (Or clicking in the bottom right corner of the window).&lt;/p&gt;
 
-&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/YjNf5ai.png&#34;/&gt;&lt;/figure&gt;
+&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/YjNf5ai.png&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 
 
 &lt;p&gt;If you want to see the output of the maven console, this can be done in the &lt;em&gt;Console tab -&amp;gt; Maven Console&lt;/em&gt;&lt;/p&gt;
 
-&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/Bojyyev.png&#34;/&gt;&lt;/figure&gt;
+&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/Bojyyev.png&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 
 
 &lt;p&gt;The output should be something like this:&lt;/p&gt;
@@ -1789,7 +1909,10 @@ The MASSIS framework provides a maven archetype to support the creation of new p
 &lt;li&gt;&lt;code&gt;MyHelloHighLevelController&lt;/code&gt; : A behavior definion sample.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/37HqUP4.png&#34;/&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/37HqUP4.png&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 &lt;/p&gt;
 
 &lt;h1 id=&#34;what-to-do-next:e06228b655e61d4d03702e703f2b69d5&#34;&gt;What to do next?&lt;/h1&gt;
@@ -1878,14 +2001,29 @@ The MASSIS framework provides a maven archetype to support the creation of new p
       <guid>http://www.massisframework.com/about/</guid>
       <description>&lt;p&gt;MASSIS is a  framework that facilitates the simulation of scenarios with multiple agents (representing people, robots, sensors, etc.) in indoor environments (i.e., in a building). MASSIS provides support for designing spaces and specifying the behavior of the elements and agents in them. It is possible to define a great diversity of behaviours, from a simple sensor to the decisions of a person. MASSIS has been designed to keep this flexibility withough hindering performance. The framework is capable of supporting thousands of agents, each one with an specific behavior.&lt;/p&gt;
 
-&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/1AnvPlq.png&#34;/&gt;&lt;/figure&gt;
+&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/1AnvPlq.png&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
+
+
+&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;iframe width=&#34;560&#34; height=&#34;315&#34; src=&#34;https://www.youtube.com/embed/CpAeQ13Go9A&#34; frameborder=&#34;0&#34; allowfullscreen=&#34;&#34;&gt;
+    &lt;/iframe&gt;
+&lt;/p&gt;
 
 
 &lt;p&gt;The simulation progress can be visualized from different perspectives in 3D or in 2D. The 2D visualization library is based on layers (the elements of each layer are drawn on top of the previous layer). This facilitates the development of a new type of visualization for specific purposes. Also, it is possible to save the simulation changes, recording each agent state in every step of the simulation. These changes are saved in an open and independent format (JSON), which allows further analysis of the results with other tools.&lt;/p&gt;
 
-&lt;p&gt;&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/PuXmC7F.png&#34;/&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/PuXmC7F.png&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 
-&lt;figure class=&#34;img-responsive center-block&#34;&gt;&lt;img src=&#34;http://i.imgur.com/Uw6JFi3.png&#34;/&gt;&lt;/figure&gt;
+&lt;p style=&#34;text-align:center&#34;&gt;
+    &lt;figure class=&#34;img-responsive center-block&#34; style=&#34;text-align:center&#34;&gt;
+    &lt;img src=&#34;http://i.imgur.com/Uw6JFi3.png&#34;/&gt;&lt;/figure&gt;
+&lt;/p&gt;
 &lt;/p&gt;
 
 &lt;p&gt;Both MASSIS and its components are open source, allowing the extension of its functionality by third parties.&lt;/p&gt;

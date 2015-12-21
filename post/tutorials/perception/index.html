@@ -145,7 +145,10 @@ Agent #12 has in the range of 200.0 cm:
 
 <p>We can model the behavior of the agents following the flowchart below:</p>
 
-<figure class="img-responsive center-block"><img src="http://i.imgur.com/UNrajuM.png"/></figure>
+<p style="text-align:center">
+    <figure class="img-responsive center-block" style="text-align:center">
+    <img src="http://i.imgur.com/UNrajuM.png"/></figure>
+</p>
 
 
 <h3 id="conditionals:d7c5f655ae342b94fbf082b33a7e6e52">Conditionals</h3>
@@ -184,7 +187,10 @@ public void setTagged(boolean tagged) {
 </code></pre>
 
 <p>The initial value of <code>&quot;TAGGED&quot;</code> should be introduced first in any agent of the environment.
-<figure class="img-responsive center-block"><img src="http://i.imgur.com/ITGP0JP.gif"/></figure>
+<p style="text-align:center">
+    <figure class="img-responsive center-block" style="text-align:center">
+    <img src="http://i.imgur.com/ITGP0JP.gif"/></figure>
+</p>
 
 And then, in the constructor of the behavior, we need to recover the metadata of provided from the environment and setting it into the agent&rsquo;s attributes:</p>
 
@@ -280,7 +286,10 @@ public void step() {
 
 <p>Now, going to the <em>not tagged</em> branch,</p>
 
-<figure class="img-responsive center-block"><img src="http://i.imgur.com/nidqPY6.png"/></figure>
+<p style="text-align:center">
+    <figure class="img-responsive center-block" style="text-align:center">
+    <img src="http://i.imgur.com/nidqPY6.png"/></figure>
+</p>
 
 
 <pre><code>private void runAsNotTagged() {
@@ -308,7 +317,10 @@ public void step() {
 
 <p>For the  <em>tagged</em> branch,</p>
 
-<figure class="img-responsive center-block"><img src="http://i.imgur.com/AyOQSGJ.png"/></figure>
+<p style="text-align:center">
+    <figure class="img-responsive center-block" style="text-align:center">
+    <img src="http://i.imgur.com/AyOQSGJ.png"/></figure>
+</p>
 
 
 <p>This is a little bit more complex than the other branch.</p>
@@ -464,8 +476,11 @@ private void moveRandomly() {
 
 <p>If everything went ok, the result should be something like this:</p>
 
-<figure class="img-responsive center-block"><img src="http://i.imgur.com/Jva4HPG.gif"/></figure>
-
+<p><p style="text-align:center">
+    <figure class="img-responsive center-block" style="text-align:center">
+    <img src="http://i.imgur.com/Jva4HPG.gif"/></figure>
+</p>
+</p>
 
 <blockquote>
 <p>Note: The code for the complete behavior is <a href="https://gist.github.com/rpax/b457fa14d2a9d14779ab">in this gist</a></p>

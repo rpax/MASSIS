@@ -81,25 +81,37 @@
 <p>Let&rsquo;s add more elements to the environment. For that, we need to launch the editor (<code>EnvironmentEditor.java</code>).
 Sweethome3D saves the recent buildings edited, so clicking on <em>File -&gt; Open Recent -&gt; Tutorial1.sh3d</em> will open the our simulation environment.</p>
 
-<figure class="img-responsive center-block"><img src="http://i.imgur.com/5JPhrUn.gif"/></figure>
+<p style="text-align:center">
+    <figure class="img-responsive center-block" style="text-align:center">
+    <img src="http://i.imgur.com/5JPhrUn.gif"/></figure>
+</p>
 
 
 <h2 id="adding-walls-rooms:16f756c730c6f04258547ab4f61a9781">Adding walls &amp; rooms</h2>
 
 <p>Walls can be added clicking on <em>Plan -&gt; Create Walls</em>, with the shortcut <code>Ctrl + Shift + W</code> or pressing the <img src="http://i.imgur.com/bc5HLBQ.png" alt="" /> button.</p>
 
-<figure class="img-responsive center-block"><img src="http://i.imgur.com/42HAACQ.gif"/></figure>
+<p style="text-align:center">
+    <figure class="img-responsive center-block" style="text-align:center">
+    <img src="http://i.imgur.com/42HAACQ.gif"/></figure>
+</p>
 
 
 <p>The editor supports panning and zooming. Zooming can be done pressing <code>Ctrl</code> while moving the mouse wheel. Also, it helps with connecting one wall with another. When the mouse is near the wall corners, a bigger point is shown, in order to make easier this task.</p>
 
-<figure class="img-responsive center-block"><img src="http://i.imgur.com/ig7DusU.gif"/></figure>
+<p style="text-align:center">
+    <figure class="img-responsive center-block" style="text-align:center">
+    <img src="http://i.imgur.com/ig7DusU.gif"/></figure>
+</p>
 
 
 <p>Adding rooms to the scene can be accomplished clicking in <em>Plan-&gt; Create Rooms</em>, or in the shorcut button
 <img src="http://i.imgur.com/vOnfWjk.png" alt="" />. Can be added <em>point-per-point</em>, but the recommended way is making double click in an area enclosed by walls. It is <strong>very recommended</strong> to do it that way, because makes easier the environment recognition by the simulator.</p>
 
-<figure class="img-responsive center-block"><img src="http://i.imgur.com/busq3sch.gif"/></figure>
+<p style="text-align:center">
+    <figure class="img-responsive center-block" style="text-align:center">
+    <img src="http://i.imgur.com/busq3sch.gif"/></figure>
+</p>
 
 
 <h2 id="adding-doors:16f756c730c6f04258547ab4f61a9781">Adding doors</h2>
@@ -108,14 +120,20 @@ Sweethome3D saves the recent buildings edited, so clicking on <em>File -&gt; Ope
 
 <p>Doors are under the section <em>Doors and Windows</em>. It is important to snap the doors to the walls, otherwise the simulation pathfinder might fail.</p>
 
-<figure class="img-responsive center-block"><img src="http://i.imgur.com/dzvD847.gif"/></figure>
+<p style="text-align:center">
+    <figure class="img-responsive center-block" style="text-align:center">
+    <img src="http://i.imgur.com/dzvD847.gif"/></figure>
+</p>
 
 
 <h2 id="adding-more-agents:16f756c730c6f04258547ab4f61a9781">Adding more agents</h2>
 
 <p>Let&rsquo;s are more agents to the environment. We need to <strong>copy and paste</strong> the original agent that we have modified in the previous tutorial. Otherwise, the metadata values will be the default ones, and the behavior class will be the default one.</p>
 
-<figure class="img-responsive center-block"><img src="http://i.imgur.com/vriBsoA.gif"/></figure>
+<p style="text-align:center">
+    <figure class="img-responsive center-block" style="text-align:center">
+    <img src="http://i.imgur.com/vriBsoA.gif"/></figure>
+</p>
 
 
 <h2 id="running-the-simulation-again:16f756c730c6f04258547ab4f61a9781">Running the simulation again</h2>
@@ -154,7 +172,10 @@ public void step() {
 <li>And finally, a random point in that room.</li>
 </ul>
 
-<figure class="img-responsive center-block"><img src="http://i.imgur.com/w5GfLJT.gif"/></figure>
+<p style="text-align:center">
+    <figure class="img-responsive center-block" style="text-align:center">
+    <img src="http://i.imgur.com/w5GfLJT.gif"/></figure>
+</p>
 
 
 <h2 id="what-is-a-floor:16f756c730c6f04258547ab4f61a9781">What is a Floor?</h2>
@@ -168,19 +189,28 @@ public void step() {
 .</li>
 </ul>
 
-<figure class="img-responsive center-block"><img src="http://i.imgur.com/HRzd8cD.png"/></figure>
+<p style="text-align:center">
+    <figure class="img-responsive center-block" style="text-align:center">
+    <img src="http://i.imgur.com/HRzd8cD.png"/></figure>
+</p>
 
 
 <h2 id="creating-obstacles:16f756c730c6f04258547ab4f61a9781">Creating obstacles</h2>
 
 <p>At this moment, the environment has no obstacles. Let&rsquo;s add a some. In the environment editor, go to <em>Miscillaneous -&gt; Box</em>, and drag it to the scene.</p>
 
-<figure class="img-responsive center-block"><img src="http://i.imgur.com/oIAeeED.gif"/></figure>
+<p style="text-align:center">
+    <figure class="img-responsive center-block" style="text-align:center">
+    <img src="http://i.imgur.com/oIAeeED.gif"/></figure>
+</p>
 
 
 <p>Save the building and run the simulation again.</p>
 
-<figure class="img-responsive center-block"><img src="http://i.imgur.com/SCqpt8D.gif"/></figure>
+<p style="text-align:center">
+    <figure class="img-responsive center-block" style="text-align:center">
+    <img src="http://i.imgur.com/SCqpt8D.gif"/></figure>
+</p>
 
 
 <p>What happens? The elements added are recognized by the simulator as <strong>static</strong> obstacles by default, like walls. (Walls are <em>always</em> an obstacle).</p>
@@ -255,17 +285,26 @@ public void step() {
 
 <p>Let&rsquo;s add the entry <code>IS_OBSTACLE = false</code> in the boxes&rsquo; metadata, and see what happens.</p>
 
-<figure class="img-responsive center-block"><img src="http://i.imgur.com/mvnnlmv.gif"/></figure>
-
+<p><p style="text-align:center">
+    <figure class="img-responsive center-block" style="text-align:center">
+    <img src="http://i.imgur.com/mvnnlmv.gif"/></figure>
+</p>
+</p>
 
 <p>The agents now don&rsquo;t try to avoid the boxes, because they are marked as <em>not an obstacle</em>.</p>
 
-<p><figure class="img-responsive center-block"><img src="http://i.imgur.com/OjLZ6QT.gif"/></figure>
+<p><p style="text-align:center">
+    <figure class="img-responsive center-block" style="text-align:center">
+    <img src="http://i.imgur.com/OjLZ6QT.gif"/></figure>
+</p>
 </p>
 
 <p>And, what if we set a box with the entry <code>IS_DYNAMIC = true</code> ?</p>
 
-<p><figure class="img-responsive center-block"><img src="http://i.imgur.com/1nLgQ66.gif"/></figure>
+<p><p style="text-align:center">
+    <figure class="img-responsive center-block" style="text-align:center">
+    <img src="http://i.imgur.com/1nLgQ66.gif"/></figure>
+</p>
 
 The visualization treats the element in a different way, because it is marked as dynamic. Also, the pathfinder does not include this element in the pathfinding process, and the responsability for not <em>bumbing into things</em> is taken by other method, with <a href="http://www.red3d.com/cwr/steer/">steering behaviors</a>, that are explained in  <a href='#' class="top-tip" data-tips='Not written yet :('>another tutorial</a>
 .</p>
