@@ -1,4 +1,4 @@
 language: java
 
-install: cd massisframework;mvn clean install
+install: cd massisframework;mvn clean install -Dgpg.skip=true
 script: mvn test
