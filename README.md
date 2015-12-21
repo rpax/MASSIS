@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/rpax/MASSIS.svg?branch=master)](https://travis-ci.org/rpax/MASSIS)
+
 MASSIS is a simulation framework for scenarios in indoor environments, allowing to design spaces, and specifying the behavior of the elements and people in them. These behaviors specifications may vary substantially: From a simple presence detector to human behavior. It is capable of supporting thousands of agents, each one with an specific behavior. The behavior specification is done outside the simulation platform, and multiple behavior models can be integrated.
 
 ![](http://i.imgur.com/SBuHKz7l.png)
