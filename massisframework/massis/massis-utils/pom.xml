@@ -1,7 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
 	<parent>
 		<groupId>com.massisframework.massis</groupId>
 		<artifactId>massis</artifactId>
@@ -10,11 +9,10 @@
 	<artifactId>massis-utils</artifactId>
 	<packaging>jar</packaging>
 	<name>massis-utils</name>
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.7</maven.compiler.source>
-		<maven.compiler.target>1.7</maven.compiler.target>
-	</properties>
+	<url>www.massisframework.com</url>
+	<description>
+		Initial utility package for MASSIS
+	</description>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -35,7 +33,7 @@
 		<dependency>
 			<groupId>com.massisframework</groupId>
 			<artifactId>straightedge</artifactId>
-			<version>0.3-SNAPSHOT</version>
+			<version>0.8</version>
 		</dependency>
 		<dependency>
 			<groupId>math.geom2d</groupId>
@@ -53,9 +51,9 @@
 			<version>1.11</version>
 		</dependency>
 		<dependency>
-			<groupId>com.eteks</groupId>
+			<groupId>com.massisframework</groupId>
 			<artifactId>sweethome3d</artifactId>
-			<version>5.1</version>
+			<version>5.1.7</version>
 		</dependency>
 		<dependency>
 			<groupId>com.badlogicgames.gdx</groupId>

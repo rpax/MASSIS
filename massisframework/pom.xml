@@ -5,49 +5,29 @@
 	<artifactId>massisframework</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
+
 	<name>MASSIS Framework</name>
+	<url>www.massisframework.com</url>
+	<description>
+	MASSIS is a framework that facilitates the simulation of scenarios with multiple agents
+	(representing people, robots, sensors, etc.) in indoor environments (i.e., in a building).
+	MASSIS provides support for designing spaces and specifying the behavior of the elements and agents in them
+	It is possible to define a great diversity of behaviours, from a simple sensor to the decisions of a person.
+	MASSIS has been designed to keep this flexibility withough hindering performance.
+	The framework is capable of supporting thousands of agents, each one with an specific behavior.
+	</description>
+
 	<modules>
 		<module>massisframework-utils</module>
 		<module>massis</module>
 	</modules>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.7</maven.compiler.source>
 		<maven.compiler.target>1.7</maven.compiler.target>
 	</properties>
-	<dependencies>
-		<dependency>
-			<groupId>org.jogamp.gluegen</groupId>
-			<artifactId>gluegen-rt-main</artifactId>
-			<version>2.3.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jogamp.jogl</groupId>
-			<artifactId>jogl-all-main</artifactId>
-			<version>2.3.2</version>
-		</dependency>
-	</dependencies>
-	<repositories>
-		<repository>
-			<id>central</id>
-			<url>https://repo1.maven.org/maven2</url>
-		</repository>
-		<repository>
-			<id>nexus-massisframework</id>
-			<name>nexus-massisframework repository</name>
-			<url>http://mvn.massisframework.com/nexus/content/groups/public</url>
-		</repository>
-	</repositories>
-	<distributionManagement>
-		<snapshotRepository>
-			<id>snapshots</id>
-			<url>http://mvn.massisframework.com/nexus/content/repositories/snapshots</url>
-		</snapshotRepository>
-		<repository>
-			<id>releases</id>
-			<url>http://mvn.massisframework.com/nexus/content/repositories/releases</url>
-		</repository>
-	</distributionManagement>
+
 	<scm>
 		<connection>scm:git:git@github.com:rpax/MASSIS</connection>
 		<url>scm:git:git@github.com:rpax/MASSIS</url>
@@ -62,6 +42,8 @@
 			<id>rpax</id>
 			<roles>
 				<role>architect</role>
+				<role>designer</role>
+				<role>maintainer</role>
 			</roles>
 		</developer>
 	</developers>
@@ -72,6 +54,29 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
+	
+	<dependencies>
+		<dependency>
+			<groupId>org.jogamp.gluegen</groupId>
+			<artifactId>gluegen-rt-main</artifactId>
+			<version>2.3.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jogamp.jogl</groupId>
+			<artifactId>jogl-all-main</artifactId>
+			<version>2.3.2</version>
+		</dependency>
+	</dependencies>
 	<build>
 		<resources>
 			<resource>
@@ -89,39 +94,86 @@
 		</resources>
 		<plugins>
 			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6.3</version>
+				<extensions>true</extensions>
+				<configuration>
+					<serverId>ossrh</serverId>
+					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+					<autoReleaseAfterClose>true</autoReleaseAfterClose>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-				<version>2.5.3</version>
-			</plugin>
-			<plugin>
-				<artifactId>maven-source-plugin</artifactId>
-				<version>2.4</version>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<phase>deploy</phase>
-						<goals>
-							<goal>jar-no-fork</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<!-- explicitly define maven-deploy-plugin after other to force exec 
-					order http://stackoverflow.com/a/4725728/3315914 -->
-				<artifactId>maven-deploy-plugin</artifactId>
-				<version>2.8.2</version>
-				<executions>
-					<execution>
-						<id>deploy</id>
-						<phase>deploy</phase>
-						<goals>
-							<goal>deploy</goal>
-						</goals>
-					</execution>
-				</executions>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+
+					<encoding>ISO-8859-1</encoding>
+				</configuration>
 			</plugin>
 
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.5</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
+	<profiles>
+		<profile>
+			<id>release</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<version>2.2.1</version>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<goals>
+									<goal>jar-no-fork</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>2.9.1</version>
+						<executions>
+							<execution>
+								<id>attach-javadocs</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-release-plugin</artifactId>
+						<version>2.5</version>
+						<configuration>
+							<autoVersionSubmodules>true</autoVersionSubmodules>
+							<useReleaseProfile>false</useReleaseProfile>
+							<releaseProfiles>release</releaseProfiles>
+							<goals>deploy</goals>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
