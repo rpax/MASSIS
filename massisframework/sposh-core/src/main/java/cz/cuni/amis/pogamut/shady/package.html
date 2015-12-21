@@ -1,0 +1,111 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Fuzzy/Shady (name subject to change)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+<body>
+<p>Shady - experimental POSH-like engine.</p>
+
+<p>Shady is a new engine using if-then rules. posh is ugly piece of code that is
+maintaining compatibility with the version written in lisp and later in Python.
+That must stop, it is not pretty (in fact, it is distasteful), it has many
+features that are not used (goals in competences, nested APs) and very few
+people even have an idea they are there (default goals and such) or even why
+they are there.</p>
+
+<p>Our students often complain about posh, so do I. I believe that much simples
+tree engine with simple node structure will be easier to learn and to use. This
+idea was proposed by Jakub Gemrot alongside with my tasks
+for master thesis, but I am beat tonight, so it is time for some fun instead of
+productuive work.</p>
+
+<p>What is difference from posh?</p>
+<ul>
+   <li>Name - sorry, but I can't stand it any longer. That is also why my editor is
+   called Shed, not poSH EDitor.</li>
+   <li>Simpler structure. In posh, we have AP, C, Ds, here, we have unified node.
+   There are slight differences in behavior of Cs and DC, but not even I can
+   remember what they are(another obscure feature). DPEs, CPEs...Headaches
+   with connecting it all together...Be gone.</li>
+   <li>Arguments - I made a big mistake with named variables in posh. My design was
+   more Pyhton like (named variables), not lisp like.</li>
+   <li>Priority - instead of fixed priority numbers in one node, the priority will
+   determined on runtime. This will allow for things like node activating (prio-
+   rity will be increased), when there is a predator close.</li>
+   <li>Multiple plan execution. It will be possible to execute multiple plans
+   at once. You are probably not sure why. It only introduces complexity for
+   our plan; that is not correct at all. We can utilize it using resource 
+   approach. One plan will be responsible for moving player along the route,
+   while other plan turns, shoots or whatnot. If you had only one plan, you
+   would need to somehow handle the other plan in every action. This is
+   by no means compulsory, but it could be useful, so it will be included.</li>
+   <li>trigger will be more complex, if needed. And, not, or.</li>
+   <li>simplified value handling. Then primitive returns value, in posh, it can be
+   (nearly) anything, null, int, string, double, even object. Not here. I only
+   allow to return the number. Zero is false, otherwise it is true. Numbers is 
+   about everything I need in plan. For more complex things, program new sense.</li>
+   <li>I will of course incorporate all lessons learned while programming posh engine.</li>
+</ul>
+
+<h2>Grammar</h2>
+
+<pre>
+fuzzy : '(' node ')'
+
+# NAME is a string in quotes, e.g. "root" or "run on hills"
+node : '(' 'node' NAME DESCR (connection)+ ')'
+
+# priority is a call 
+connection : '(' PRIORITY trigger call ')'
+
+# Trigger is something that returns either 1 or 0 (instead of true/false)
+trigger : '(' 'not' trigger ')'
+           '(' 'and' (trigger)+ ')'
+           '(' 'or' (trigger)+ ')'
+           '(' '&gt;' value value ')'
+           '(' '&gt;=' value value ')'
+           '(' '=' value value ')'
+           '(' '=&lt;' value value ')'
+           '(' '&lt;' value value ')'
+           call
+
+# Something that returns numerical value, either parameter, constant or call
+value : call
+        | parameter
+
+ 
+# call function and return numerical value
+call : '(' NAME (PARAMETER)* ')'
+
+parameter : argument | string | number
+
+ARG: '*' (DIGIT)+ '*'
+STRING: 
+INT: 
+NUMBER:
+
+Example :   
+(
+    (node "root" "Root node for rabbit"
+        ((fix 100)  ((hungry)) ("look for food") )
+        ((fix 50)   ((succeed)) ("run around") )
+        ((scared)   ((succeed)) ("run from closest enemy"))
+    )
+    
+    (node "look for food" "Go around the forrest and look for edible stuff"
+        ((fix 10) ) 
+    )
+)
+</pre>
+
+<p>How is target of call determined:</p>
+<ul>
+  <li>names of nodes in the plan</li>
+  <li>names of classes on classpath</li>
+  <li>append name of call to the packages on classpath and try to use it as FQN name of class.</li>
+  <li>Use target name as FQN of class</li>
+</ul>
+
+</body>
+</html>
