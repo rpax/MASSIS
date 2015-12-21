@@ -17,6 +17,7 @@
 	</description>
 
 	<modules>
+		<module>sposh-core</module>
 		<module>massisframework-utils</module>
 		<module>massis</module>
 	</modules>
