@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.massisframework.massis.archetypes</groupId>
+  <artifactId>hellosimulator-archetype</artifactId>
+  <version>1.2.6</version>
+  <packaging>maven-archetype</packaging>
+
+  <name>hellosimulator-archetype</name>
+
+  <build>
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.archetype</groupId>
+        <artifactId>archetype-packaging</artifactId>
+        <version>2.4</version>
+      </extension>
+    </extensions>
+
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>maven-archetype-plugin</artifactId>
+          <version>2.4</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <description>Simple Hello World simulator</description>
+
+  <url>www.massisframework.com/hellosimulator</url>
+
+  <developers>
+    <developer>
+      <id>rpax</id>
+      <name>Rafael Pax</name>
+      <email>rpax@ucm.es</email>
+      <url>http://www.massisframework.com</url>
+      <roles>
+        <role>architect</role>
+        <role>designer</role>
+        <role>maintainer</role>
+      </roles>
+    </developer>
+  </developers>
+
+  <licenses>
+    <license>
+      <name>GPL3.0 License</name>
+      <url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <connection>scm:git:git@github.com:rpax/MASSIS/massis/massis-archetypes/hellosimulator</connection>
+    <developerConnection>scm:git:git@github.com:rpax/MASSIS/massis/massis-archetypes/hellosimulator</developerConnection>
+    <url>scm:git:git@github.com:rpax/MASSIS/massis/massis-archetypes/hellosimulator</url>
+  </scm>
+
+  <distributionManagement>
+    <repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+  </distributionManagement>
+</project>
