@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>com.massisframework.massis</groupId>
 		<artifactId>massis</artifactId>
-		<version>1.2.6</version>
+		<version>1.2.7-SNAPSHOT</version>
 	</parent>
 	<artifactId>massis-app</artifactId>
 	<packaging>jar</packaging>
@@ -37,17 +37,17 @@
 		<dependency>
 			<groupId>com.massisframework.massis</groupId>
 			<artifactId>massis-core</artifactId>
-			<version>1.2.6</version>
+			<version>1.2.7-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.massisframework.massis</groupId>
 			<artifactId>massis-ai-sposh</artifactId>
-			<version>1.2.6</version>
+			<version>1.2.7-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.massisframework.massis</groupId>
 			<artifactId>testdata</artifactId>
-			<version>1.2.6</version>
+			<version>1.2.7-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 </project>
