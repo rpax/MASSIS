@@ -3,11 +3,11 @@
 	<parent>
 		<groupId>com.massisframework</groupId>
 		<artifactId>massisframework</artifactId>
-		<version>1.2.8-SNAPSHOT</version>
+		<version>1.2.8</version>
 	</parent>
 	<groupId>com.massisframework</groupId>
 	<artifactId>sposh-core</artifactId>
-	<version>3.7.7-SNAPSHOT</version>
+	<version>3.7.7</version>
 	<name>sposh-core</name>
 	<description>sposh-core libraries</description>
 	<properties>
