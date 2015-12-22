@@ -6,6 +6,11 @@
 	<name>HelloSimulator</name>
 	<description>Simple Hello World simulator</description>
 	<version>${version}</version>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.7</maven.compiler.source>
+		<maven.compiler.target>1.7</maven.compiler.target>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>com.massisframework.massis</groupId>
