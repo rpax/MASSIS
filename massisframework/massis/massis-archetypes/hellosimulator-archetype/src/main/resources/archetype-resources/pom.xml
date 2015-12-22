@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
@@ -5,10 +6,11 @@
 		<artifactId>massis-archetypes</artifactId>
 		<version>1.2.6-SNAPSHOT</version>
 	</parent>
-	<groupId>com.massisframework.massis.archetypes</groupId>
-	<artifactId>hellosimulator</artifactId>
+	<groupId>${groupId}</groupId>
+	<artifactId>${artifactId}</artifactId>
 	<name>HelloSimulator</name>
 	<description>Simple Hello World simulator</description>
+	<version>${version}</version>
 	<dependencies>
 		<dependency>
 			<groupId>com.massisframework.massis</groupId>
