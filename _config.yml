@@ -22,6 +22,9 @@ sidebar:
 - url: /tutorials/
   text: Tutorials
 
+- url: /getting-started/
+  text: Getting started
+
 - url: /blog/
   text: Blog
 
