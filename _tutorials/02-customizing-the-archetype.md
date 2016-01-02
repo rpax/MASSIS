@@ -60,6 +60,7 @@ Let's see what kind of metadata attached has the agent in the room.
 ```
 tutorialfollower.myfirstmassisproject.MyHelloHighLevelController
 ```
+
 ### Saving the sample home in another location.
 
 Maybe you have noticed that the name of the home is kind of strange. Something like _MASSIS_278234761.sh3d_. This name is like this because the location of this home is **temporary**. In order to preserve the changes, must be saved in a **non temporary** location.
