@@ -2,7 +2,7 @@
 title : "Defining a simple behavior"
 ---
 
-This is the continuation of the [Second tutorial]({{ site.baseurl }}tutorials/customizing-the-archetype).
+This is the continuation of the [Second tutorial](/tutorials/customizing-the-archetype).
 
 In the previous tutorial, we learnt how to change properties of the elements of the environment and launching the simulation. In this tutorial, we will learn the basics of the simulation gui, and a simple example about how to manage the behavior of the agent in the environment.
 
@@ -245,5 +245,5 @@ In the previous code, the `onTargetReached()` method was empty. This method is c
 
 ![](http://i.imgur.com/KgzcWmv.gif)
 
-There's a lot of things to improve! Take a look at the [Next tutorial]({{ site.baseurl }}tutorials/bigger-environment-and-multiple-agents)
+There's a lot of things to improve! Take a look at the [Next tutorial](/tutorials/bigger-environment-and-multiple-agents)
 
