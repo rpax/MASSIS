@@ -1,5 +1,5 @@
 ---
-title : "Creating a MASSIS Application. Customizing the archetype"
+title : "Customizing the archetype"
 ---
 
 This is the continuation of the [First tutorial](/tutorials/01-sample-massis-application), which explains how to create a MASSIS project based on an archetype.
