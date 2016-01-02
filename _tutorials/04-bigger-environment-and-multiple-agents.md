@@ -2,7 +2,7 @@
 title : "Creating a MASSIS Application. Bigger environment and multiple agents"
 ---
 
-This is the continuation of the [Third tutorial]({{ site.baseurl }}tutorials/03-defining-a-simple-behavior). In this tutorial, we will improve the environment and we will add more agents to the simulation.
+This is the continuation of the [Third tutorial](/tutorials/03-defining-a-simple-behavior). In this tutorial, we will improve the environment and we will add more agents to the simulation.
 
 
 # Editing the environment
@@ -136,7 +136,7 @@ The visualization treats the element in a different way, because it is marked as
 
 # What to do next?
 
-Our agents can move from/to different locations in the environment, but, what about their _perception_? This is explained in the [Next tutorial]({{ site.baseurl }}tutorials/05-perception).
+Our agents can move from/to different locations in the environment, but, what about their _perception_? This is explained in the [Next tutorial](/tutorials/05-perception).
 
 
 
