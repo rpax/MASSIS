@@ -245,5 +245,5 @@ In the previous code, the `onTargetReached()` method was empty. This method is c
 
 ![](http://i.imgur.com/KgzcWmv.gif)
 
-There's a lot of things to improve! Take a look at the [Next tutorial](/tutorials/bigger-environment-and-multiple-agents)
+There's a lot of things to improve! Take a look at the [Next tutorial](/tutorials/04-bigger-environment-and-multiple-agents)
 
