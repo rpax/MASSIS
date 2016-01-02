@@ -1,5 +1,5 @@
 ---
-title : "Creating a MASSIS Application. Bigger environment and multiple agents"
+title : "Bigger environment and multiple agents"
 ---
 
 This is the continuation of the [Third tutorial](/tutorials/03-defining-a-simple-behavior). In this tutorial, we will improve the environment and we will add more agents to the simulation.
