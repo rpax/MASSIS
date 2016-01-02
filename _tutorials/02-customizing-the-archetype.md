@@ -2,7 +2,7 @@
 title : "Creating a MASSIS Application. Customizing the archetype"
 ---
 
-This is the continuation of the [First tutorial]({{ site.baseurl }}/tutorials/01-sample-massis-application), which explains how to create a MASSIS project based on an archetype.
+This is the continuation of the [First tutorial](/tutorials/01-sample-massis-application), which explains how to create a MASSIS project based on an archetype.
 
 ## Remembering things: What is in the project?
 
@@ -107,4 +107,4 @@ Before/After Reduction : 4/2,[22=>16] took 6 ms
 
 ```
 
-What's next? [Creating a MASSIS Application. Part 3: Defining a simple behavior]({{ site.baseurl }}/tutorials/03-defining-a-simple-behavior)
+What's next? [Creating a MASSIS Application. Part 3: Defining a simple behavior](/tutorials/03-defining-a-simple-behavior)
