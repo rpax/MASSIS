@@ -78,7 +78,7 @@ Once all dependencies are downloaded, the project should contain three files:
 
 # What to do next?
 
-The tutorial continues on [Customizing the archetype]({{site.baseurl}}/tutorials/02-customizing-the-archetype)
+The tutorial continues on [Customizing the archetype](/tutorials/02-customizing-the-archetype)
 
 
 [downloading_page]: #
