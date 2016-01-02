@@ -1,6 +1,6 @@
 ---
 layout: page
-title : "Downloading MASSIS"
+title : "Getting started"
 ---
 
 The following requirements are needed for running MASSIS:
