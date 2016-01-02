@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Creating a MASSIS Application. Bigger environment and multiple agents &middot; MASSIS
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/tests_pages/public/css/poole.css">
+  <link rel="stylesheet" href="/tests_pages/public/css/syntax.css">
+  <link rel="stylesheet" href="/tests_pages/public/css/hyde.css">
+  <link rel="stylesheet" href="/tests_pages/public/css/massis.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/tests_pages/public/apple-touch-icon-144-precomposed.png">
+                                 <link rel="shortcut icon" href="/tests_pages/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body class="theme-base-massis">
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>
+        <a href="/tests_pages/"><img src="http://i.imgur.com/SyxoguR.png" alt="MASSIS"></a>
+      </h1>
+      <p class="lead">MultiAgent System Simulation Framework for Indoor Scenarios</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      
+
+      
+
+      
+      
+        <a class="sidebar-nav-item" href="/tests_pages/">Home </a>
+      
+        <a class="sidebar-nav-item" href="/tests_pages/tutorials/">Tutorials </a>
+      
+        <a class="sidebar-nav-item" href="/tests_pages/blog/index.html">Blog </a>
+      
+
+      <a class="sidebar-nav-item" href="https://github.com/rpax/MASSIS/archive/v1.2.10.zip">Download</a>
+      <a class="sidebar-nav-item" href="https://github.com/rpax/MASSIS">GitHub project</a>
+      <span class="sidebar-nav-item">Currently v1.2.10</span>
+    </nav>
+
+    <p>&copy; 2016. All rights reserved.</p>
+  </div>
+</div>
+
+
+    <div class="content container">
+      <div class="post">
+  <h1 class="post-title">Creating a MASSIS Application. Bigger environment and multiple agents</h1>
+  <p>This is the continuation of the <a href="/tests_pages/tutorials/defining-a-simple-behavior">Third tutorial</a>. In this tutorial, we will improve the environment and we will add more agents to the simulation.</p>
+
+<h1 id="editing-the-environment">Editing the environment</h1>
+
+<p>Let&#39;s add more elements to the environment. For that, we need to launch the editor (<code>EnvironmentEditor.java</code>).
+Sweethome3D saves the recent buildings edited, so clicking on <em>File -&gt; Open Recent -&gt; Tutorial1.sh3d</em> will open the our simulation environment.</p>
+
+<p><img src="http://i.imgur.com/5JPhrUn.gif" alt=""></p>
+
+<h2 id="adding-walls-amp-rooms">Adding walls &amp; rooms</h2>
+
+<p>Walls can be added clicking on <em>Plan -&gt; Create Walls</em>, with the shortcut <code>Ctrl + Shift + W</code> or pressing the <img src="http://i.imgur.com/bc5HLBQ.png" alt=""> button.</p>
+
+<p><img src="http://i.imgur.com/42HAACQ.gif" alt=""></p>
+
+<p>The editor supports panning and zooming. Zooming can be done pressing <code>Ctrl</code> while moving the mouse wheel. Also, it helps with connecting one wall with another. When the mouse is near the wall corners, a bigger point is shown, in order to make easier this task.</p>
+
+<p><img src="http://i.imgur.com/ig7DusU.gif" alt=""></p>
+
+<p>Adding rooms to the scene can be accomplished clicking in <em>Plan-&gt; Create Rooms</em>, or in the shorcut button
+<img src="http://i.imgur.com/vOnfWjk.png" alt="">. Can be added <em>point-per-point</em>, but the recommended way is making double click in an area enclosed by walls. It is <strong>very recommended</strong> to do it that way, because makes easier the environment recognition by the simulator.</p>
+
+<p><img src="http://i.imgur.com/busq3sch.gif" alt=""></p>
+
+<h2 id="adding-doors">Adding doors</h2>
+
+<p>Doors play an important role in the simulation. Besides allowing agents to move through them, they made a logical separation between spaces that enhance the performance of the simulation.</p>
+
+<p>Doors are under the section <em>Doors and Windows</em>. It is important to snap the doors to the walls, otherwise the simulation pathfinder might fail.</p>
+
+<p><img src="http://i.imgur.com/dzvD847.gif" alt=""></p>
+
+<h2 id="adding-more-agents">Adding more agents</h2>
+
+<p>Let&#39;s are more agents to the environment. We need to <strong>copy and paste</strong> the original agent that we have modified in the previous tutorial. Otherwise, the metadata values will be the default ones, and the behavior class will be the default one.</p>
+
+<p><img src="http://i.imgur.com/vriBsoA.gif" alt=""></p>
+
+<h2 id="running-the-simulation-again">Running the simulation again</h2>
+
+<p>If we run the simulation again, the agents will start moving randomly. But, they are not using the doors!. That&#39;s because in the behavior, we have limited the movement <em>in the current room</em>, not in the whole environment.</p>
+
+<p>Changing a little bit the behavior will allow agents to move through doors:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">@Override
+public void step() {
+
+    if (this.currentTarget == null) {
+    /* 1 */
+
+        Random rnd = ThreadLocalRandom.current();
+        Location agentLocation = agent.getLocation();
+        Floor agentFloor = agentLocation.getFloor();
+        List&lt;SimRoom&gt; roomsInFloor = agentFloor.getRooms();
+        int numberOfRooms = roomsInFloor.size();
+        int rndRoomIndex = rnd.nextInt(numberOfRooms);
+        final SimRoom rndRoom = roomsInFloor.get(rndRoomIndex);
+
+        /* 2 */ Location randomLocation = rndRoom.getRandomLoc();
+        this.currentTarget = randomLocation;
+    }
+//...etc
+}
+</code></pre></div>
+<p>¿What are we doing here?</p>
+
+<ul>
+<li>First, we get the agent&#39;s location.</li>
+<li>Then, we access the <strong>Floor</strong> of that location. (What a floor is will be explained in the next section)</li>
+<li>We pick a random room of the current floor.</li>
+<li>And finally, a random point in that room.</li>
+</ul>
+
+<p><img src="http://i.imgur.com/w5GfLJT.gif" alt=""></p>
+
+<h2 id="what-is-a-floor">What is a Floor?</h2>
+
+<p>The building model inside the MASSIS simulator is the following:</p>
+
+<ul>
+<li>A building is composed by different floors, at different heights each one.</li>
+<li>Each floor is divided into <em>rooms</em>, which are separated by <em>walls</em> and connected by <em>doors</em>.</li>
+<li><em>Teleports</em> can connect everything in the building. But that .</li>
+</ul>
+
+<p><img src="http://i.imgur.com/HRzd8cD.png" alt=""></p>
+
+<h2 id="creating-obstacles">Creating obstacles</h2>
+
+<p>At this moment, the environment has no obstacles. Let&#39;s add a some. In the environment editor, go to <em>Miscillaneous -&gt; Box</em>, and drag it to the scene.</p>
+
+<p><img src="http://i.imgur.com/oIAeeED.gif" alt=""></p>
+
+<p>Save the building and run the simulation again.</p>
+
+<p><img src="http://i.imgur.com/SCqpt8D.gif" alt=""></p>
+
+<p>What happens? The elements added are recognized by the simulator as <strong>static</strong> obstacles by default, like walls. (Walls are <em>always</em> an obstacle).</p>
+
+<p>In this context, the elements can be playing different roles, depending on their metadata. The two tables below explain this keys more formally.</p>
+
+<hr>
+
+<table><thead>
+<tr>
+<th><code>IS_OBSTACLE</code></th>
+<th>DESCRIPTION</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>Meaning</strong></td>
+<td>Tells if the element represents an obstacle in the environment.</td>
+</tr>
+<tr>
+<td><strong>Default</strong></td>
+<td>true</td>
+</tr>
+<tr>
+<td><strong>Allowed values</strong></td>
+<td>true,false</td>
+</tr>
+<tr>
+<td><strong>Keys required</strong></td>
+<td>none</td>
+</tr>
+</tbody></table>
+
+<hr>
+
+<table><thead>
+<tr>
+<th><code>IS_DYNAMIC</code></th>
+<th></th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>Meaning</strong></td>
+<td>Tells if the element has the ability to move. Depending on this value, will be treated as an static obstacle or not</td>
+</tr>
+<tr>
+<td><strong>Default</strong></td>
+<td>false</td>
+</tr>
+<tr>
+<td><strong>Allowed values</strong></td>
+<td>true,false</td>
+</tr>
+<tr>
+<td><strong>Keys required</strong></td>
+<td><code>IS_OBSTACLE</code></td>
+</tr>
+</tbody></table>
+
+<p>Let&#39;s add the entry <code>IS_OBSTACLE = false</code> in the boxes&#39; metadata, and see what happens.</p>
+
+<p><img src="http://i.imgur.com/mvnnlmv.gif" alt=""></p>
+
+<p>The agents now don&#39;t try to avoid the boxes, because they are marked as <em>not an obstacle</em>.</p>
+
+<p><img src="http://i.imgur.com/OjLZ6QT.gif" alt=""></p>
+
+<p>And, what if we set a box with the entry <code>IS_DYNAMIC = true</code> ?</p>
+
+<p><img src="http://i.imgur.com/1nLgQ66.gif" alt="">
+The visualization treats the element in a different way, because it is marked as dynamic. Also, the pathfinder does not include this element in the pathfinding process, and the responsability for not <em>bumbing into things</em> is taken by other method, with <a href="http://www.red3d.com/cwr/steer/">steering behaviors</a>, that are explained in  .</p>
+
+<h1 id="what-to-do-next">What to do next?</h1>
+
+<p>Our agents can move from/to different locations in the environment, but, what about their <em>perception</em>? This is explained in the <a href="/tests_pages/tutorials/perception">Next tutorial</a>.</p>
+
+</div>
+
+<!--<div class="pagination">
+  
+    <span class="pagination-item newer">Previous</span>
+  
+
+  
+    <span class="pagination-item older">Next</span>
+  
+</div>-->
+
+    </div>
+
+  </body>
+</html>

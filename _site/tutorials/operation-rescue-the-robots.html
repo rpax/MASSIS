@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Operation: Rescue the robots. Part 1 &middot; MASSIS
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/tests_pages/public/css/poole.css">
+  <link rel="stylesheet" href="/tests_pages/public/css/syntax.css">
+  <link rel="stylesheet" href="/tests_pages/public/css/hyde.css">
+  <link rel="stylesheet" href="/tests_pages/public/css/massis.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/tests_pages/public/apple-touch-icon-144-precomposed.png">
+                                 <link rel="shortcut icon" href="/tests_pages/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body class="theme-base-massis">
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>
+        <a href="/tests_pages/"><img src="http://i.imgur.com/SyxoguR.png" alt="MASSIS"></a>
+      </h1>
+      <p class="lead">MultiAgent System Simulation Framework for Indoor Scenarios</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      
+
+      
+
+      
+      
+        <a class="sidebar-nav-item" href="/tests_pages/">Home </a>
+      
+        <a class="sidebar-nav-item" href="/tests_pages/tutorials/">Tutorials </a>
+      
+        <a class="sidebar-nav-item" href="/tests_pages/blog/index.html">Blog </a>
+      
+
+      <a class="sidebar-nav-item" href="https://github.com/rpax/MASSIS/archive/v1.2.10.zip">Download</a>
+      <a class="sidebar-nav-item" href="https://github.com/rpax/MASSIS">GitHub project</a>
+      <span class="sidebar-nav-item">Currently v1.2.10</span>
+    </nav>
+
+    <p>&copy; 2016. All rights reserved.</p>
+  </div>
+</div>
+
+
+    <div class="content container">
+      <div class="post">
+  <h1 class="post-title">Operation: Rescue the robots. Part 1</h1>
+  <p>It is assumed in this tutorial that the reader has already gone through the basic tutorials, such as <a href="">the getting started guide</a> and <a href="">Creating a MASSIS Application</a> sections have been already been read.</p>
+
+<p>For designing the scenario, it is recommended to read the <a href="">environment design</a> section.</p>
+
+<h2 id="scenario-description">Scenario description</h2>
+
+<p><img src="http://i.imgur.com/tRexsTw.png" alt="Scenario"></p>
+
+<p>The scenario to be simulated is the following:</p>
+
+<p>he impact of a meteorite has caused irreparable damage to an extraterrestrial station. Luckily, there were no humans on the station, only robots.</p>
+
+<p>But these robots were controlled remotely, and the meteorite impact has broken one antenna. In order to solve this issue, a new kind of robots are sent to this station. Their mission will consist on rescuing the robots that are in the incommunicated station.</p>
+
+<p>The scenario used in this tutorial can be downloaded <a href="https://drive.google.com/open?id=0B3-oRpDTDan3Z3dRQmVXalBYYkU">from here</a></p>
+
+<p>First, we will start modelling the behavior of the robot in the station (the one incommunicated).
+In case of lost of communication, these robots behave as follows:</p>
+
+<ul>
+<li>&quot;Worker&quot; robot behavior
+
+<ol>
+<li>Waits until someone tells him what target should be following.</li>
+</ol></li>
+<li>&quot;Rescuer&quot; robot behavior
+
+<ol>
+<li>Tries to visit all the rooms in the building. Whenever this robot sees a worker robot in the room, makes that worker robot to follow him.</li>
+<li>When two (or more) <em>rescuer</em> robots are in the same room, they share information about the rooms visited.</li>
+<li>When all the rooms have been explored, this robot goes back to the <em>landing zone</em></li>
+</ol></li>
+</ul>
+
+<h2 id="implementation-from-the-idea-to-the-code">Implementation - From the idea to the code</h2>
+
+<p>This project will be based on the  <a href="">basic MASSIS archetype explained previously</a>.</p>
+
+<h3 id="two-behaviors-imply-two-classes">Two behaviors imply two classes.</h3>
+
+<p>Each behavior should be modeled as a Java class. In this scenario, we have two different behaviors, the <em>Worker</em> behavior and the <em>Rescuer</em> behavior.</p>
+
+<p>The <em>Worker</em> behavior is fairly simple: Just a translation of the behavior definition:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">package com.myawesomesimulator.ai;
+
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import com.massisframework.massis.model.agents.HighLevelController;
+import com.massisframework.massis.model.agents.LowLevelAgent;
+import com.massisframework.massis.model.managers.movement.ApproachCallback;
+import com.massisframework.massis.pathfinding.straightedge.FindPathResult.PathFinderErrorReason;
+
+public class WorkerController extends HighLevelController {
+
+  private static final long serialVersionUID = 1L;
+
+  private LowLevelAgent followTarget;
+
+  public WorkerController(LowLevelAgent agent, Map&lt;String, String&gt; metadata,
+      String resourcesFolder) {
+    super(agent, metadata, resourcesFolder);
+    this.agent.setHighLevelData(this);
+  }
+
+  @Override
+  public void stop() {
+
+  }
+
+  @Override
+  public void step() {
+    if (this.followTarget != null) {
+      this.agent.approachTo(this.followTarget.getLocation(),
+        new ApproachCallback() {
+
+          @Override
+          public void onTargetReached(LowLevelAgent agent) {
+            // Nothing. We are going to follow the target forever.
+
+          }
+
+          @Override
+          public void onSucess(LowLevelAgent agent) {
+            // Continue following the target.
+          }
+
+          @Override
+          public void onPathFinderError(PathFinderErrorReason reason) {
+            Logger.getLogger(WorkerController.class.getName()).log(
+                Level.SEVERE,
+                &quot;An error occurred when approaching to {0}. Reason: {1}&quot;,
+                new Object[] { followTarget.getLocation(), reason });
+
+          }
+        });
+    }
+  }
+
+  public void setFollowTarget(LowLevelAgent agent) {
+    this.followTarget = agent;
+  }
+
+  public boolean isFollowingSomeone() {
+    return this.followTarget != null;
+  }
+}
+</code></pre></div>
+<p>That is! Simple, huh?</p>
+
+<p>The <em>Rescuer</em> behavior is a little more tricky. Let&#39;s split it into parts:</p>
+
+<ul>
+<li><em>Tries to visit all the rooms in the building.</em>
+
+<ul>
+<li>This imply that the robot should track the rooms that it has visited.</li>
+</ul></li>
+<li><em>Whenever this robot sees a worker robot in the room, makes that worker robot to follow him.</em>
+
+<ul>
+<li>We need some type of gathering information about the current room.</li>
+</ul></li>
+<li><em>When two (or more) rescuer robots are in the same room, they share information about the rooms visited.</em>
+
+<ul>
+<li>This can be accomplished interchanging the visited rooms of each robot.</li>
+</ul></li>
+<li><em>When all the rooms have been explored, this robot goes back to the landing zone</em>
+
+<ul>
+<li>This is just a basic operation.</li>
+</ul></li>
+</ul>
+
+<p>With this facts identified, the only thing left is to code them in a <code>HighLevelController</code>.
+As we have created the project using the archetype, designing the behavior becomes a <em>fill in the gaps</em> exercise.
+The attributes needed should be the unexplored rooms, the next room to visit and (optional, but useful in this case) if the work has finished or not.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">private Collection&lt;SimRoom&gt; roomsUnexplored;
+private SimRoom assignedRoom;
+private boolean workFinished;
+</code></pre></div>
+<p>In the constructor we should initialize the unexplored rooms, and setting the <code>workFinished</code> attribute to false.
+<code>
+public RescuerController(LowLevelAgent agent, Map&lt;String, String&gt; metadata,
+        String resourcesFolder) {
+    super(agent, metadata, resourcesFolder);
+    this.agent.setHighLevelData(this);
+    this.workFinished = false;
+    this.roomsUnexplored = new HashSet&lt;&gt;();
+    for (SimRoom r : this.agent.getLocation().getFloor().getRooms()) {
+        this.roomsUnexplored.add(r);
+    }
+    this.logger = Logger.getLogger(&quot;Rescuer_&quot; + agent.getID());
+    this.assignNewRoomToExplore();
+}
+</code>
+This robot should interchange the information about the rooms with other robots:
+<code>
+private void shareRoomsWith(RescuerController rescuer) {
+    // remove every item that is not present in the other map
+    final boolean changed = this.roomsUnexplored
+            .retainAll(rescuer.roomsUnexplored);
+    if (changed) {
+        logger.log(Level.INFO,
+                &quot;Updated information about rooms to explore: {0}&quot;,
+                this.roomsUnexplored);
+    }
+}
+</code>
+This robot should be capable of auto-assigning rooms to explore:
+```
+private void assignNewRoomToExplore() {
+    if (!this.roomsUnexplored.isEmpty()) {
+        SimRoom[] rem = this.roomsUnexplored.toArray(new SimRoom[] {});
+        this.assignedRoom = rem[ThreadLocalRandom.current()
+                .nextInt(rem.length)];
+        this.roomsUnexplored.remove(this.assignedRoom);
+    }</p>
+
+<p>}
+<code>
+Also, for approaching to its current target, this method can be written for clarity:
+</code>
+private void approachToAssignedRoom() {
+  this.agent.approachTo(this.assignedRoom.getLocation(),
+    new ApproachCallback() {</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">    @Override
+    public void onTargetReached(LowLevelAgent agent) {
+        assignNewRoomToExplore();
+    }
+
+    @Override
+    public void onSucess(LowLevelAgent agent) {
+    }
+
+    @Override
+    public void onPathFinderError(
+            PathFinderErrorReason reason) {
+        logger.log(Level.SEVERE,
+                &quot;An error occurred when approaching to room {0} Reason: {1}&quot;,
+                new Object[] { reason, assignedRoom.getID() });
+
+    }
+});
+</code></pre></div>
+<p>}
+<code>
+Finally, for approaching to the _landing zone_,
+</code>
+private void approachToLandingZone() {
+    if (!this.workFinished) {
+        this.agent.approachToNamedLocation(&quot;LANDING_ZONE&quot;,
+            new ApproachCallback() {
+                @Override
+                public void onTargetReached(LowLevelAgent agent) {
+                    // Work finished.
+                    RescuerController.this.workFinished = true;
+                }
+                @Override
+                public void onSucess(LowLevelAgent agent) {
+                }
+                @Override
+                public void onPathFinderError(
+                        PathFinderErrorReason reason) {
+                    logger.log(Level.SEVERE,
+                            &quot;An error occurred when approaching &quot;
+                                    + &quot;to landing zone. Reason: {0}&quot;,
+                            reason);</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">            }
+        });
+}
+</code></pre></div>
+<p>}
+```</p>
+
+<p>This utility methods are intended for using them in the <code>step()</code> method:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">@Override
+public void step() {
+    /*
+     * Is anybody in the room?
+     */
+    if (!this.roomsUnexplored.isEmpty()) {
+        /*
+         * For each agent found in the room, do the corresponding task
+         */
+        for (LowLevelAgent otherAgent : this.agent.getAgentsInRoom()) {
+            // avoid self
+            if (this.agent == otherAgent)
+                continue;
+            /*
+             * Is a rescuer?
+             */
+            if (otherAgent
+                    .getHighLevelData() instanceof RescuerController) {
+                /*
+                 * Affirmative. Share room information
+                 */
+                shareRoomsWith(
+                        (RescuerController) otherAgent.getHighLevelData());
+                /*
+                 * Is a worker? follow me.
+                 */
+            } else if (otherAgent
+                    .getHighLevelData() instanceof WorkerController) {
+
+                final WorkerController follower = (WorkerController) otherAgent
+                        .getHighLevelData();
+                /*
+                 * Check if the robot is already following someone
+                 */
+                if (!follower.isFollowingSomeone()) {
+                    follower.setFollowTarget(this.agent);
+                }
+            }
+
+        }
+        this.approachToAssignedRoom();
+
+    } else {
+        // Go to landing zone.
+        this.approachToLandingZone();
+    }
+}
+</code></pre></div>
+<p>That&#39;s everything! If you prefer to download the entire project, with the building included, <a href="https://drive.google.com/open?id=0B3-oRpDTDan3Nl9pdUdDRUY0cDQ">you can do it from here</a></p>
+
+</div>
+
+<!--<div class="pagination">
+  
+    <span class="pagination-item newer">Previous</span>
+  
+
+  
+    <span class="pagination-item older">Next</span>
+  
+</div>-->
+
+    </div>
+
+  </body>
+</html>
