@@ -2,7 +2,7 @@
 title : "Perception"
 ---
 
-This is the continuation of the [fourth tutorial]({{site.baseurl}}/tutorials/04-bigger-environment-and-multiple-agents). In this tutorial, we will learn how agents can query some of the properties of the environment, and we will make them to play the tag game.
+This is the continuation of the [fourth tutorial](/tutorials/04-bigger-environment-and-multiple-agents). In this tutorial, we will learn how agents can query some of the properties of the environment, and we will make them to play the tag game.
 
 # How agents can perceive the environment.
 
@@ -357,7 +357,7 @@ If everything went ok, the result should be something like this:
 
 The problem is... **_Who is the tagged one_ ? All the agents are identical!**.
 
-The [Next Tutorial]({{site.baseurl}}/tutorials/06-extending-the-gui) solves that problem, explaining how to develop visualization utilities.
+The [Next Tutorial](/tutorials/06-extending-the-gui) solves that problem, explaining how to develop visualization utilities.
 
 
 
