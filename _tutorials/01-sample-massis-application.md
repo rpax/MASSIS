@@ -1,5 +1,5 @@
 ---
-title : "Creating a MASSIS Application. Downloading a basic archetype"
+title : "Downloading a basic archetype"
 ---
 This tutorial covers the basic topics about creating a simple agent behavior for MASSIS. It is assumed that the section about [downloading][downloading_page] has been read.
 
