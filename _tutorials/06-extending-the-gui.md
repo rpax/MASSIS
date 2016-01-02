@@ -2,10 +2,10 @@
 title : "Extending the GUI"
 ---
 
-This is the continuation of the [Tutorial 5]({{ site.baseurl }}tutorials/05-perception).
+This is the continuation of the [Tutorial 5](/tutorials/05-perception).
 The problem we faced in the previous tutorial was that we couldn't visualize the _state_ of the agents (if they were tagged or not).
 
-In a [previous tutorial]({{  site.baseurl  }}tutorials/defining-a-simple-behavior) was introduced the different types of visualization that MASSIS has. In this tutorial we will go deeper into this topic, and we will learn how to extend the default MASSIS layer system.
+In a [previous tutorial](/tutorials/defining-a-simple-behavior) was introduced the different types of visualization that MASSIS has. In this tutorial we will go deeper into this topic, and we will learn how to extend the default MASSIS layer system.
 
 # MASSIS visualization displays revisited
 
