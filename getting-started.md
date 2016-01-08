@@ -26,25 +26,28 @@ Although MASSIS can be used without any kind of IDE, it is recommended to do so.
 
 ## Using MASSIS
 
-There are two ways for using MASSIS. Downloading the source code from Github, or developing custom applications, and referencing MASSIS' maven artifacts.
+There are two ways for using MASSIS. Typical users who want to create their own environment and agents can use  MASSIS maven artifacts to create their application in an easy way. For those who need to modify core features of MASSIS,  the source code is available from Github.
 
-### Option 1: Downloading the source code
+### Option 1: Using MASSIS' maven artifacts
+
+This is the preferred option if the objective of your project is developing an application using MASSIS' features, without changing MASSIS' source code. MASSIS maven artifacts allow to create a prototype of a simulation application, which has to be customized by defining the particular environment and the elements (agents, actuators, sensors) in it.
+
+The [tutorials section](/tutorials/) explains how to create custom applications using the MASSIS maven archetypes, with step by step examples about how to do it. It is recommended to follow these tutorials in order to learn how to work with MASSIS.
+
+
+### Option 2: Downloading the source code
 
 This is the recommended option for changing core features of MASSIS. The necessary MASSIS' modules are hosted at Github, in the following repositories:
 
-- [Main MASSIS Repository](https://github.com/rpax/MASSIS) : Contains the basic MASSIS' features.
-- [StraightEdge Repository](https://github.com/rpax/straightedge): Contains the same source code of the original [StraightEdge's Google Code page](https://code.google.com/p/straightedge/), but it has been _mavenized_.
+- [Main MASSIS Repository](https://github.com/rpax/MASSIS): Contains the basic MASSIS' features.
+- [StraightEdge Repository](https://github.com/rpax/straightedge): Contains the same source code of the original. [StraightEdge's Google Code page](https://code.google.com/p/straightedge/), but it has been _mavenized_.
 - [SweetHome3D repository](https://github.com/rpax/sweethome3d): Contains the source code of the original [SweetHome3D](http://www.sweethome3d.com/download.jsp) page, but its external libraries are referenced as maven dependencies.
 - [SweetHome3D plugins repository](https://github.com/rpax/massis-sh3d-plugins). Contains extensions for the environment design with SweetHome3D for MASSIS.
 
-### Option 2: Using MASSIS' artifacts as maven dependency of another project
 
-This is the preferred option if the objective of your project is developing an application using MASSIS' features, without changing MASSIS' source code.
+## What to do next?
 
-The [tutorials section](/tutorials/) contains examples about creating an application based on MASSIS' framework.
-
-
-
+Go to the  [Tutorials section](/tutorials/) to start working with MASSIS.
 
 
 
