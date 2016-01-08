@@ -12,25 +12,27 @@ permalink: /blog/:year/:month/:day/:title/
 logo:             'http://i.imgur.com/SyxoguR.png'
 title:            MASSIS
 tagline:          'A Jekyll theme'
-description:      'MultiAgent System Simulation Framework for Indoor Scenarios'
+description:      'A Framework for MultiAgent System Simulation of Indoor Scenarios'
 baseurl:          /
 
 sidebar:
 - url: /
   text: Home
 
+- url: /getting-started.html
+  text: Getting started
+  
 - url: /tutorials/
   text: Tutorials
 
-- url: /getting-started.html
-  text: Getting started
 
-- url: /blog/
-  text: Blog
+# Por ahora no tenemos blog
+#- url: /blog/
+#  text: Blog
 
 
 author:
-  name:           'Rafael Pax and Juan Pav&oacute;n'
+  name:           'Rafael Pax and Juan Pav&oacute;n (UCM GRASIA)'
   url:            http://www.massisframework.com/
 
 
