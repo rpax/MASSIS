@@ -73,7 +73,7 @@ Once all dependencies are downloaded, the project should contain three files:
 - `SimulationWithUILauncher.java` : This class is responsible for launching the simulator.
 - `MyHelloHighLevelController` : An example of a very simple behavior for an agent.
 
-![](http://i.imgur.com/37HqUP4.png)
+![View of the project files in Eclipse](http://i.imgur.com/37HqUP4.png)
 
 # What to do next?
 
