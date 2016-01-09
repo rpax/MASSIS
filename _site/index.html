@@ -23,8 +23,8 @@
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
 
   <!-- Icons -->
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
-                                 <link rel="shortcut icon" href="/public/favicon.ico">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="public/apple-touch-icon-144-precomposed.png">
+                                 <link rel="shortcut icon" href="public/favicon.ico">
 
   <!-- RSS -->
   <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
@@ -37,9 +37,9 @@
   <div class="container sidebar-sticky">
     <div class="sidebar-about">
       <h1>
-        <a href="/"><img src="http://i.imgur.com/SyxoguR.png" alt="MASSIS"></a>
+        <a href=""><img src="http://i.imgur.com/SyxoguR.png" alt="MASSIS"></a>
       </h1>
-      <p class="lead">MultiAgent System Simulation Framework for Indoor Scenarios</p>
+      <p class="lead">A Framework for MultiAgent System Simulation of Indoor Scenarios</p>
     </div>
 
     <nav class="sidebar-nav">
@@ -51,17 +51,21 @@
       
         <a class="sidebar-nav-item" href="/">Home </a>
       
+        <a class="sidebar-nav-item" href="/getting-started.html">Getting started </a>
+      
         <a class="sidebar-nav-item" href="/tutorials/">Tutorials </a>
       
-        <a class="sidebar-nav-item" href="/blog/">Blog </a>
-      
 
-      <a class="sidebar-nav-item" href="https://github.com/rpax/MASSIS/archive/v1.2.10.zip">Download</a>
+
       <a class="sidebar-nav-item" href="https://github.com/rpax/MASSIS">GitHub project</a>
-      <span class="sidebar-nav-item">Currently v1.2.10</span>
+      <a class="sidebar-nav-item" href="/Contact.html">Contact</a>
+<!--      <span class="sidebar-nav-item">Currently v1.2.10</span>
+-->
     </nav>
 
-    <p>&copy; 2016. All rights reserved.</p>
+    <p>
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">MASSIS</span> by <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">Rafael Pax & Juan Pavón (UCM GRASIA)</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+ </p>
   </div>
 </div>
 
@@ -69,18 +73,24 @@
     <div class="content container">
       <div class="page">
   <h1 class="page-title">What is MASSIS?</h1>
-  <p>MASSIS is a  framework that facilitates the simulation of scenarios with multiple agents (representing people, robots, sensors, etc.) in indoor environments (i.e., in a building). MASSIS provides support for designing spaces and specifying the behavior of the elements and agents in them. It is possible to define a great diversity of behaviours, from a simple sensor to the decisions of a person. MASSIS has been designed to keep this flexibility withough hindering performance. The framework is capable of supporting thousands of agents, each one with an specific behavior. </p>
+  <p>MASSIS is a software framework that facilitates the simulation of scenarios with multiple agents (representing people, robots, sensors, etc.) in indoor environments (i.e., inside a building). MASSIS provides support for designing the environment and specifying the behavior of the elements and agents. It allows the simulation of a great diversity of behaviours, from a simple sensor to the decisions of a person. MASSIS has been designed to keep this flexibility withough hindering performance. The framework is capable of supporting thousands of agents, each one with a specific behavior. </p>
+
+<p>The next figure shows the main components of the framework. First, MASSIS relies on Sweet Home 3D for the edition of the environment. This has been enhanced with some plugins that allow to include meta-information that is used by the simulator in order to link the elements in the environment with their behaviour. The simulator relies on Mason agent-based simulation tool, which is enriched with a set of components that take care of performance in common operations, support for different visualizations, and tools for exporting simulation data in different formats for further processing.</p>
 
 <p><img src="http://i.imgur.com/1AnvPlq.png" alt=""></p>
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/CpAeQ13Go9A" frameborder="0" allowfullscreen></iframe>
-
-<p>The simulation progress can be visualized from different perspectives in 3D or in 2D. The 2D visualization library is based on layers (the elements of each layer are drawn on top of the previous layer). This facilitates the development of a new type of visualization for specific purposes. Also, it is possible to save the simulation changes, recording each agent state in every step of the simulation. These changes are saved in an open and independent format (JSON), which allows further analysis of the results with other tools.</p>
+<p>The simulation progress can be visualized from different perspectives in 3D or in 2D. The 2D visualization library is based on layers (the elements of each layer are drawn on top of the previous layer). This facilitates the development of a new type of visualization for specific purposes. Also, it is possible to save the simulation changes, recording each agent state in every step of the simulation. These changes are saved in an open and independent format, such as JSON, which allows further analysis of the results with other tools.</p>
 
 <p><img src="http://i.imgur.com/PuXmC7F.png" alt="">
 <img src="http://i.imgur.com/Uw6JFi3.png" alt=""></p>
 
+<p>The  video below shows MASSIS in action with a simulation of the building of our faculty of Computer Science. At the beginning it shows how the building is designed with Sweet Home 3D. This is followed by the execution of a simulation and finally the different views that can be obtained, to focus on different aspects.</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/CpAeQ13Go9A" frameborder="0" allowfullscreen></iframe>
+
 <p>Both MASSIS and its components are open source, allowing the extension of its functionality by third parties.</p>
+
+<p>To start using MASSIS, go the <a href="/getting-started.html">Getting Started section</a>, and then follow the <a href="/tutorials/">Tutorials</a>.</p>
 
 </div>
 
