@@ -2,7 +2,7 @@
   <div class="container sidebar-sticky">
     <div class="sidebar-about">
       <h1>
-        <a href="{{ site.baseurl }}"><img src="{{ site.logo }}" alt="{{ site.title }}"></a>
+        <a href="{{ site.baseurl }}/"><img src="{{ site.logo }}" alt="{{ site.title }}"></a>
       </h1>
       <p class="lead">{{ site.description }}</p>
     </div>
@@ -17,7 +17,7 @@
 
       {% assign pages_list = site.sidebar %}
       {% for item in pages_list %}
-        <a class="sidebar-nav-item{% if page.url == item.url %} active{% endif %}" href="{{ item.url }}">{{ item.text }} </a>
+        <a class="sidebar-nav-item{% if page.url == item.url %} active{% endif %}" href="{{ site.baseurl }}{{ item.url }}">{{ item.text }} </a>
       {% endfor %}
 
 

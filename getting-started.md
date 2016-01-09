@@ -7,7 +7,7 @@ The following requirements are needed for running MASSIS:
 
 ## Software
 
-- **Java 1.7 or later** (Can be downloaded from the [oracle web page](http://www.oracle.com/technetwork/java/javase/downloads/index.html))
+- **Java 1.7 or later** (Can be downloaded from the [Oracle Java downloads web site](http://www.oracle.com/technetwork/java/javase/downloads/index.html))
 
 >_Note_: Remember to add the `JAVA_HOME` environment variable in your OS.
 
@@ -32,7 +32,7 @@ There are two ways for using MASSIS. Typical users who want to create their own 
 
 This is the preferred option if the objective of your project is developing an application using MASSIS' features, without changing MASSIS' source code. MASSIS maven artifacts allow to create a prototype of a simulation application, which has to be customized by defining the particular environment and the elements (agents, actuators, sensors) in it.
 
-The [tutorials section](/tutorials/) explains how to create custom applications using the MASSIS maven archetypes, with step by step examples about how to do it. It is recommended to follow these tutorials in order to learn how to work with MASSIS.
+The [tutorials section]({{ site.baseurl }}/tutorials/) explains how to create custom applications using the MASSIS maven archetypes, with step by step examples about how to do it. It is recommended to follow these tutorials in order to learn how to work with MASSIS.
 
 
 ### Option 2: Downloading the source code
@@ -47,7 +47,7 @@ This is the recommended option for changing core features of MASSIS. The necessa
 
 ## What to do next?
 
-Go to the  [Tutorials section](/tutorials/) to start working with MASSIS.
+Go to the  [Tutorials section]({{ site.baseurl }}/tutorials/) to start working with MASSIS.
 
 
 

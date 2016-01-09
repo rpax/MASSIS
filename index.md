@@ -21,4 +21,4 @@ The  video below shows MASSIS in action with a simulation of the building of our
 
 Both MASSIS and its components are open source, allowing the extension of its functionality by third parties.
 
-To start using MASSIS, go the [Getting Started section](/getting-started.html), and then follow the [Tutorials](/tutorials/).
+To start using MASSIS, go the [Getting Started section]({{ site.baseurl }}/getting-started.html), and then follow the [Tutorials]({{ site.baseurl }}/tutorials/).
