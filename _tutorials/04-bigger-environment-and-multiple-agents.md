@@ -1,105 +1,114 @@
 ---
-title : "Bigger environment and multiple agents"
+title : "Richer environment and multiple agents"
 ---
 
-This is the continuation of the [Third tutorial](/tutorials/03-defining-a-simple-behavior). In this tutorial, we will improve the environment and we will add more agents to the simulation.
+Following the  [previous part of the tutorial][tutorial3], now we will improve the environment with new elements and  will add more agents to the simulation.
 
 
 # Editing the environment
 
-Let's add more elements to the environment. For that, we need to launch the editor (`EnvironmentEditor.java`).
-Sweethome3D saves the recent buildings edited, so clicking on _File -> Open Recent -> Tutorial1.sh3d_ will open the our simulation environment.
+Adding more elements to the environment can be done with the editor, by running the `EnvironmentEditor` class.
+To continue working with the previous house, select in the  _File_ menu the option _Open Recent_ and then the file `Tutorial1.sh3d`.
 
-![](http://i.imgur.com/5JPhrUn.gif)
+![Opening the file Tutorial1.sh3d](http://i.imgur.com/5JPhrUn.gif)
 
 ## Adding walls & rooms
 
-Walls can be added clicking on _Plan -> Create Walls_, with the shortcut `Ctrl + Shift + W` or pressing the ![](http://i.imgur.com/bc5HLBQ.png) button.
+Walls can be added clicking on _Plan -> Create Walls_, with the shortcut `Ctrl + Shift + W` or pressing the button <span style="display: inline-block"><img src="http://i.imgur.com/bc5HLBQ.png alt="Create walls button" style="margin: 0" width="30" height="30"></span>.
 
-![](http://i.imgur.com/42HAACQ.gif)
+![Creating a wall](http://i.imgur.com/42HAACQ.gif)
 
-The editor supports panning and zooming. Zooming can be done pressing `Ctrl` while moving the mouse wheel. Also, it helps with connecting one wall with another. When the mouse is near the wall corners, a bigger point is shown, in order to make easier this task.
+The editor supports panning and zooming. Zooming can be done by pressing `Ctrl` while moving the mouse wheel. 
 
-![](http://i.imgur.com/ig7DusU.gif)
+The editor also helps with connecting one wall with another. When the mouse is near the wall corners, a bigger point is shown, in order to facilitate this task.
 
-Adding rooms to the scene can be accomplished clicking in _Plan-> Create Rooms_, or in the shorcut button
-![](http://i.imgur.com/vOnfWjk.png). Can be added _point-per-point_, but the recommended way is making double click in an area enclosed by walls. It is **very recommended** to do it that way, because makes easier the environment recognition by the simulator.
+![Connecting walls](http://i.imgur.com/ig7DusU.gif)
 
-![](http://i.imgur.com/busq3sch.gif)
+Adding rooms to the scene can be accomplished clicking in _Plan-> Create Rooms_, or with the shorcut button 
+<span style="display: inline-block"><img src="http://i.imgur.com/vOnfWjk.png alt="Create room button" style="margin: 0" width="30" height="30"></span>. 
+A room can be defined by marking its four corners, but it is easier and recommended to do it by making double click in an area enclosed by walls. Indeed, it is **highly recommended** to do like that, because it will make easier the  recognition of the environment by the simulator.
+
+![Create rooms](http://i.imgur.com/busq3sch.gif)
 
 ## Adding doors
 
 Doors play an important role in the simulation. Besides allowing agents to move through them, they made a logical separation between spaces that enhance the performance of the simulation.
 
-Doors are under the section _Doors and Windows_. It is important to snap the doors to the walls, otherwise the simulation pathfinder might fail.
+Doors are under the section _Doors and Windows_. It is important to snap the doors to the walls, otherwise the simulation pathfinder might fail. For the tutorial, start by adding some door frames as in the video:
 
-![](http://i.imgur.com/dzvD847.gif)
+![Adding door frames](http://i.imgur.com/dzvD847.gif)
 
 ## Adding more agents
 
-Let's are more agents to the environment. We need to **copy and paste** the original agent that we have modified in the previous tutorial. Otherwise, the metadata values will be the default ones, and the behavior class will be the default one.
+Add more agents to the environment. The best way now to do it is by doing **copy and paste** the original agent that was modified in the previous tutorial. Otherwise, the metadata values will be the default ones, and the behavior class will be the default one.
 
-![](http://i.imgur.com/vriBsoA.gif)
+![Copy and paste to add more agents](http://i.imgur.com/vriBsoA.gif)
 
 
 ## Running the simulation again
 
-If we run the simulation again, the agents will start moving randomly. But, they are not using the doors!. That's because in the behavior, we have limited the movement _in the current room_, not in the whole environment.
+Run the simulation again. The agents will start moving randomly. But they are not using the doors! This is because in the behavior the movement is limited to _the current room_, not to the whole environment.
+
+## Moving around rooms
 
 Changing a little bit the behavior will allow agents to move through doors:
 
-    @Override
-    public void step() {
+```java
+@Override
+public void step() {
 
-        if (this.currentTarget == null) {
-        /* 1 */
+    if (this.currentTarget == null) {
+    /* 1 */
+        Random rnd = ThreadLocalRandom.current();
+        Location agentLocation = agent.getLocation();
+        Floor agentFloor = agentLocation.getFloor();
+        List<SimRoom> roomsInFloor = agentFloor.getRooms();
+        int numberOfRooms = roomsInFloor.size();
+        int rndRoomIndex = rnd.nextInt(numberOfRooms);
+        final SimRoom rndRoom = roomsInFloor.get(rndRoomIndex);
 
-            Random rnd = ThreadLocalRandom.current();
-            Location agentLocation = agent.getLocation();
-            Floor agentFloor = agentLocation.getFloor();
-            List<SimRoom> roomsInFloor = agentFloor.getRooms();
-            int numberOfRooms = roomsInFloor.size();
-            int rndRoomIndex = rnd.nextInt(numberOfRooms);
-            final SimRoom rndRoom = roomsInFloor.get(rndRoomIndex);
-
-            /* 2 */ Location randomLocation = rndRoom.getRandomLoc();
-            this.currentTarget = randomLocation;
-        }
+     /* 2 */ 
+        Location randomLocation = rndRoom.getRandomLoc();
+        this.currentTarget = randomLocation;
+     }
     //...etc
-    }
+}
+```
 
-¿What are we doing here?
+¿What is being doing here?
 
-- First, we get the agent's location.
-- Then, we access the **Floor** of that location. (What a floor is will be explained in the next section)
-- We pick a random room of the current floor.
-- And finally, a random point in that room.
+- First, get the agent's location.
+- Then,  access the **Floor** of that location. (What a floor is will be explained in the next section)
+- Select a random room of the current floor.
+- Finally, select a random point in that room.
 
-![](http://i.imgur.com/w5GfLJT.gif)
+![Agents wandering around rooms](http://i.imgur.com/w5GfLJT.gif)
 
 ## What is a Floor?
 
 The building model inside the MASSIS simulator is the following:
 
-- A building is composed by different floors, at different heights each one.
+- A building is composed of different floors, at different levels each one.
 - Each floor is divided into _rooms_, which are separated by _walls_ and connected by _doors_.
-- _Teleports_ can connect everything in the building. But that {{< tooltipurl url="#" linktext="is another tutorial" tooltiptext="Not written yet :(" >}}.
+- _Teleports_ can connect everything in the building. They are used to model elements such as elevators. {{< tooltipurl url="#" linktext="is another tutorial" tooltiptext="Not written yet :(" >}}.
 
-![](http://i.imgur.com/HRzd8cD.png)
+![MASSIS building model](http://i.imgur.com/HRzd8cD.png)
 
 ## Creating obstacles
 
-At this moment, the environment has no obstacles. Let's add a some. In the environment editor, go to _Miscillaneous -> Box_, and drag it to the scene.
+There may be other elements in the environment, such as furniture or other objects. These have to be taken into account as obstacles in the way of the agents. 
 
-![](http://i.imgur.com/oIAeeED.gif)
+Adding obstacles in the environment editor can be done by selecting _Miscillaneous -> Box_, and drag it to the scene.
+
+![Adding boxes in the environment](http://i.imgur.com/oIAeeED.gif)
 
 Save the building and run the simulation again.
 
-![](http://i.imgur.com/SCqpt8D.gif)
+![Simulation with obstacles](http://i.imgur.com/SCqpt8D.gif)
 
 What happens? The elements added are recognized by the simulator as **static** obstacles by default, like walls. (Walls are _always_ an obstacle).
 
-In this context, the elements can be playing different roles, depending on their metadata. The two tables below explain this keys more formally.
+In this context, the elements can be playing different roles, depending on their metadata. The two tables below explain these two keys that can be edited as metadata for every element.
 
 - - -
 
@@ -120,24 +129,28 @@ In this context, the elements can be playing different roles, depending on their
 | **Keys required**  | `IS_OBSTACLE`                                                                                                       |
 
 
-Let's add the entry `IS_OBSTACLE = false` in the boxes' metadata, and see what happens.
+Add the entry `IS_OBSTACLE = false` in the boxes' metadata, and see what happens.
 
-![](http://i.imgur.com/mvnnlmv.gif)
+![Change metadata IS_OBSTACLE for boxes](http://i.imgur.com/mvnnlmv.gif)
 
 The agents now don't try to avoid the boxes, because they are marked as _not an obstacle_.
 
-![](http://i.imgur.com/OjLZ6QT.gif)
+![Simulation with boxes that are not obsacles](http://i.imgur.com/OjLZ6QT.gif)
 
 And, what if we set a box with the entry `IS_DYNAMIC = true` ?
 
 ![](http://i.imgur.com/1nLgQ66.gif)
-The visualization treats the element in a different way, because it is marked as dynamic. Also, the pathfinder does not include this element in the pathfinding process, and the responsability for not _bumbing into things_ is taken by other method, with [steering behaviors](http://www.red3d.com/cwr/steer/), that are explained in  {{< tooltipurl url="#" linktext="another tutorial" tooltiptext="Not written yet :(" >}}.
+The visualization treats the element in a different way, because it is marked as dynamic. Also, the pathfinder does not include this element in the pathfinding process, and the responsability for not _bumbing into things_ is taken by other method, with [steering behaviors](http://www.red3d.com/cwr/steer/), that are explained in [the future][tobedone]{{< tooltipurl url="#" linktext="another tutorial" tooltiptext="Not written yet :(" >}}.
 
 
 # What to do next?
 
-Our agents can move from/to different locations in the environment, but, what about their _perception_? This is explained in the [Next tutorial](/tutorials/05-perception).
+The agents now can move from and to different locations in the environment, but, what about their _perception_? This is explained in the [next tutorial][tutorial5].
 
 
+
+[tutorial3]: {{ site.baseurl }}/tutorials/03-defining-a-simple-agent-behavior.html
+[tutorial5]: {{ site.baseurl }}/tutorials/05-perception.html
+[tobedone]:  {{ site.baseurl }}/tobedone.html
 
 

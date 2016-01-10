@@ -43,7 +43,7 @@ Each display can be shown or hidden at anytime, even while the simulation is run
 
 ## Simulation Run
 
-Pressing the _Play_ button (the second from the left <img src="http://i.imgur.com/D6C9dta.png?1">), what happens?
+Pressing the _Play_ button (the second from the left <span style="display: inline-block"><img src="http://i.imgur.com/D6C9dta.png?1 alt="Play button" style="margin: 0" width="30" height="30"></span> ), what happens?
 
 1. The _step counter_ increases its value very fast.
 2. The output of the console is always the same:
