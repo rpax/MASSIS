@@ -2,7 +2,7 @@
   <div class="container sidebar-sticky">
     <div class="sidebar-about">
       <h1>
-        <a href="{{ site.baseurl }}"><img src="{{ site.logo }}" alt="{{ site.title }}"></a>
+        <a href="{{ site.baseurl }}/"><img src="{{ site.logo }}" alt="{{ site.title }}"></a>
       </h1>
       <p class="lead">{{ site.description }}</p>
     </div>
@@ -17,14 +17,18 @@
 
       {% assign pages_list = site.sidebar %}
       {% for item in pages_list %}
-        <a class="sidebar-nav-item{% if page.url == item.url %} active{% endif %}" href="{{ item.url }}">{{ item.text }} </a>
+        <a class="sidebar-nav-item{% if page.url == item.url %} active{% endif %}" href="{{ site.baseurl }}{{ item.url }}">{{ item.text }} </a>
       {% endfor %}
 
-      <a class="sidebar-nav-item" href="{{ site.github.repo }}/archive/v{{ site.version }}.zip">Download</a>
+
       <a class="sidebar-nav-item" href="{{ site.github.repo }}">GitHub project</a>
-      <span class="sidebar-nav-item">Currently v{{ site.version }}</span>
+      <a class="sidebar-nav-item" href="{{ site.baseurl }}/contact.html">Contact</a>
+<!--      <span class="sidebar-nav-item">Currently v{{ site.version }}</span>
+-->
     </nav>
 
-    <p>&copy; {{ site.time | date: '%Y' }}. All rights reserved.</p>
+    <p>
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">MASSIS</span> by <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">Rafael Pax & Juan Pavón (UCM GRASIA)</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+ </p>
   </div>
 </div>

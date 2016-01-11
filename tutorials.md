@@ -9,12 +9,12 @@ permalink: /tutorials/index.html
   {% for post in sorted_pages %}
   <div class="post">
     <h2 class="post-title">
-      <a href="{{ post.url }}">
+      <a href="{{ site.baseurl }}{{ post.url }}">
         {{ post.title }}
       </a>
     </h1>
     {{ post.content | strip_html | truncatewords:30 }}
-    <a href="{{ post.url }}"><b>Read More</b></a>
+    <a href="{{ site.baseurl }}{{ post.url }}"><b>Read More</b></a>
   </div>
   {% endfor %}
 </div>

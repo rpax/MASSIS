@@ -1,55 +1,55 @@
 ---
-title : "Downloading a basic archetype"
+title : "Creating a MASSIS project using a Maven archetype"
 ---
-This tutorial covers the basic topics about creating a simple agent behavior for MASSIS. It is assumed that the section about [downloading][downloading_page] has been read.
+This tutorial covers the basic topics about creating a simple simulation project in MASSIS. It is assumed that the section  [Getting Started][getting-started] has been read.
 
 Although an experienced programmer can do all of these steps without an IDE, it is recommended to use one. 
 This tutorial uses the [Eclipse platform][eclipse_page]. The recommended version is the _Eclipse IDE for Java Developers_.
 
-![](http://i.imgur.com/6574ISB.png)
+![Downloading Eclipse IDE for Java Developers](http://i.imgur.com/6574ISB.png)
 
 ## Creating a maven project based on a massis archetype
 
-Eclipse is already distributed with [Maven][maven_eclipse] and this can greatly facilitate the creation of new projects based on archetypes (project templates).
-The MASSIS framework provides a maven archetype to support the creation of new projects for simulation of multiple agents in indoor scenarios.
+Eclipse is already distributed with [Maven][maven_eclipse], which can greatly facilitate the creation of new projects based on archetypes (project templates).
+The MASSIS framework provides a Maven archetype to support the creation of new projects for simulation of multiple agents in indoor scenarios.
 
-- Right click on the projects sidebar, and select "New Project".
+In order to create a project using the archetype in eclipse, follow these steps:
 
-![](http://i.imgur.com/jHjluiC.png)
+1. Right click on the projects sidebar, and select _New -> Project..._
 
-- In the project type window, select new Maven Project and press _Next_.
+    ![Eclipse new project](http://i.imgur.com/jHjluiC.png)
 
-![](http://i.imgur.com/nekxikS.png)
+2. In the project type window, select _Maven Project_ and press _Next>_.
 
-- Ensure that the checkbox _Skip Archetype Selection_ is **unchecked**.
+    ![Creating a new project as a Maven Project](http://i.imgur.com/nekxikS.png)
 
-![](http://i.imgur.com/uNrk3nQ.png)
+    Ensure that the checkbox _Create a simple project (skip archetype selection)_ is **unchecked**:
 
-- Now, we need to add the massis archetype catalog. This can be done through _Configure... -> Add Remote Catalog_, and selecting the massis archetype catalog,which is located at http://mvn.massisframework.com/nexus/content/groups/public/archetype-catalog.xml
+    ![Create a simple project (skip archetype selection) checkbos is unchecked](http://i.imgur.com/uNrk3nQ.png)
 
-![](http://i.imgur.com/NwtY4Wk.png)
+3. In order to find the MASSIS archetype, the first time it will be necessary to add the MASSIS catalog as a remote archetype catalog. This is done through _Configure... -> Add Remote Catalog_, and selecting the massis archetype catalog, which is located at *http://mvn.massisframework.com/nexus/content/groups/public/archetype-catalog.xml*:
 
+    ![Click the Configure button for Catalog](http://i.imgur.com/NwtY4Wk.png)
 
-![](http://i.imgur.com/0KDUOcB.png)
+    ![Click the Add remote catalog button](http://i.imgur.com/0KDUOcB.png)
 
+    ![Introduce information of the remote catalog](http://i.imgur.com/hRWww0Z.png)
 
-![](http://i.imgur.com/hRWww0Z.png)
+4. Check the option _Include snapshot archetypes_ to see the MASSIS archetype. Select _hellowsimulator-archetype_ and click _Next>_ button.
 
-- Remember to check the option _Include snapshot archetypes_
+    ![Selection of MASSIS hellowsimulator-archetype](http://i.imgur.com/h4hT8Jr.png)
 
-![](http://i.imgur.com/h4hT8Jr.png)
+5. The next window asks for the information about the _group Id_ and _artifact Id_. In this example, the _group Id_ will be `tutorialfollower` and the _artifact Id_ will be `myfirstmassisproject`.
 
-- The next window asks for the information about our groupId and artifactId. In this example, the groupId will be `tutorialfollower` and the artifactId `myfirstmassisproject`.
+    ![Introduction of group and artifica ids](http://i.imgur.com/KbjsvNR.png)
 
-![](http://i.imgur.com/KbjsvNR.png)
+    After pressing _Finish_, Eclipse (Maven) will start downloading the required dependencies for this project. Depending on your internet connection, this may take a while. The progress can be seen on the _Progress_ tab. (Or by clicking in the bottom right corner of the window).
 
-After pressing _Finish_, Eclipse (maven) will start downloading the required dependencies for this project. Depending on your internet connection, this may take a while. The progress can be seen on the _Progress_ tab. (Or clicking in the bottom right corner of the window).
+    ![Progress bar](http://i.imgur.com/YjNf5ai.png)
 
-![](http://i.imgur.com/YjNf5ai.png)
+It is possible to see the output of the Maven console,  in the _Console tab -> Maven Console_ 
 
-If you want to see the output of the maven console, this can be done in the _Console tab -> Maven Console_ 
-
-![](http://i.imgur.com/Bojyyev.png)
+![Maven console selection](http://i.imgur.com/Bojyyev.png)
 
 The output should be something like this:
 
@@ -69,18 +69,18 @@ The output should be something like this:
 
 Once all dependencies are downloaded, the project should contain three files:
 
-- `EnvironmentEditor.java` : Contains the necessary code for launching the environment editor.
-- `SimulationWithUILauncher.java` : This class is responsible for launching the simulator
-- `MyHelloHighLevelController` : A behavior definion sample.
+- `EnvironmentEditor.java` : It contains the necessary code for launching the environment editor.
+- `SimulationWithUILauncher.java` : This class is responsible for launching the simulator.
+- `MyHelloHighLevelController` : An example of a very simple behavior for an agent.
 
-
-![](http://i.imgur.com/37HqUP4.png)
+![View of the project files in Eclipse](http://i.imgur.com/37HqUP4.png)
 
 # What to do next?
 
-The tutorial continues on [Customizing the archetype](/tutorials/02-customizing-the-archetype)
+The next tutorial, [Customizing the archetype][tutorial2], explains how to configure the environment and associating behaviour to one agent in the environment, so a simulation can be run.
 
 
-[downloading_page]: #
+[getting-started]: {{ site.baseurl }}/getting-started.html
+[tutorial2]: {{ site.baseurl }}/tutorials/02-customizing-the-archetype.html
 [eclipse_page]: http://www.eclipse.org/downloads/
 [maven_eclipse]: http://www.eclipse.org/m2e/
