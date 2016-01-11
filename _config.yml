@@ -13,7 +13,7 @@ logo:             'http://i.imgur.com/SyxoguR.png'
 title:            MASSIS
 tagline:          'A Jekyll theme'
 description:      'A Framework for MultiAgent System Simulation of Indoor Scenarios'
-baseurl:          www.massisframework.com
+baseurl:          /
 
 sidebar:
 - url: /
