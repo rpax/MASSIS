@@ -86,11 +86,11 @@ public void step() {
 
 ## What is a Floor?
 
-The building model inside the MASSIS simulator is the following:
+The *building model* inside the MASSIS simulator is the following:
 
 - A building is composed of different floors, at different levels each one.
 - Each floor is divided into _rooms_, which are separated by _walls_ and connected by _doors_.
-- _Teleports_ can connect everything in the building. They are used to model elements such as elevators. {{< tooltipurl url="#" linktext="is another tutorial" tooltiptext="Not written yet :(" >}}.
+- _Teleports_ can connect everything in the building. They are used to model elements such as elevators. {{< tooltipurl url="#" linktext="is another tutorial" tooltiptext="Not written yet :(" >}}
 
 ![MASSIS building model](http://i.imgur.com/HRzd8cD.png)
 
