@@ -10,6 +10,17 @@
     <div class="content container">
       {{ content }}
     </div>
-
+<script>
+//dirty fix for making this work under github domain
+  var fixLinks=function(els) {
+      for(var i =0;i<els.length;i++){
+        if (els[i].href.indexOf("github.io")>0 && els[i].href.indexOf("github.io/MASSIS")<1)
+          els[i].href=els[i].href.replace("github.io","github.io/MASSIS");
+      }
+  };
+  fixLinks(document.getElementsByTagName("a"));
+  fixLinks(document.getElementsByTagName("link"));
+</script>
   </body>
+  
 </html>
