@@ -54,4 +54,4 @@ This is the recommended option for changing core features of MASSIS. The necessa
 
 This is the preferred option if the objective of your project is developing an application using MASSIS' features, without changing MASSIS' source code.
 
-The [tutorials section](http://www.massisframework.com/categories/tutorials/) contains examples about creating an application based on MASSIS' framework.
+The [tutorials section](http://www.massisframework.com/tutorials/) contains examples about creating an application based on MASSIS' framework.
