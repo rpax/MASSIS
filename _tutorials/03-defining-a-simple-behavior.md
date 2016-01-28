@@ -116,7 +116,7 @@ First,  the constructor of the class requires three parameters:
 
 3. The _resources folder_.
 
-	The agent may need external resources (like a plan definition), or using some files or devices to perform some I/O operations. The `resourcesFolder` parameter indicates where the agent should do it.
+	The agent may need external resources (like a plan definition), or some files or devices to perform some I/O operations. The `resourcesFolder` parameter indicates a folder where the agent can find these resources.
 
 There are two methods for controlling agent behaviour:
 
@@ -128,15 +128,17 @@ There are two methods for controlling agent behaviour:
 
 4.  `stop()` method (`/*4*/`)
 
-    Before the simulation finishes (or when the agent is shutdown), the `stop()` method is called. It can be seen as the last call to the `step()` method.
+    Before the simulation finishes (or when the agent is shutdown), the `stop()` method is called. It can be used to do some cleaning and finishing properly.
 
 
 
 ## Bringing the agent the ability to move (randomly)
 
-Let's make the agent move around the room. For achieving this goal, the high level controller needs some knowledge of the environment, such as the room where the agent is. This kind of information is provided by the LowLevelAgent.  It will _command_ tasks to perform on the environment, and this is requested to the LowLevelAgent. The _LowLevelAgent_ interface provides the necessary methods for accomplishing these. This interface is defined in [LowLevelAgent][low-level-agent-interface].
+The agents can move around the building. Here we will see how to make the agent move around the room. 
 
-Moving the agent around the room can be done by adding the following sentences to the `step()` method:
+For moving around, the high level controller needs some knowledge of the environment, such as the room where the agent is. This kind of information is provided by the LowLevelAgent.  When the high level controller needs to perform tasks on the environment, it does by requesting to the LowLevelAgent. The _LowLevelAgent_ interface provides the necessary methods for accomplishing these. This interface is defined in [LowLevelAgent][low-level-agent-interface].
+
+Moving the agent around the room can be done by adding the following sentences to the `step()` method in the `MyHelloHighLevelController` class:
 
 1. Obtain in which room is the agent.
 	Rooms are represented by the  [`SimRoom`](https://github.com/rpax/MASSIS/blob/master/massisframework/massis/massis-core/src/main/java/com/massisframework/massis/model/building/SimRoom.java) class. Obtaining the room of the agent can be done by calling the `getRoom()` method:
@@ -144,21 +146,28 @@ Moving the agent around the room can be done by adding the following sentences t
 	```java
     /*1*/ SimRoom currentRoom=this.agent.getRoom();
     ```
+
+	(It will require to import `com.massisframework.massis.model.building.SimRoom`)
+
 2. Select a destination where the agent will move to, in this case a random location in the current room. Locations in the environment are represented by the [`Location`](https://github.com/rpax/MASSIS/blob/master/massisframework/massis/massis-core/src/main/java/com/massisframework/massis/model/location/Location.java) class.
 
+	The target to follow  can be modeled as an attribute of the High-Level controller, which can be declared for the class:
+
 	```java
-	/*2*/ Location randomLocation = currentRoom.getRandomLoc();
+        private Location currentTarget;
 	```
+
+	And then calculate a random location on the room in the `step()` method:
+
+	```java
+	/*2*/ this.currentTarget = currentRoom.getRandomLoc();
+	```
+
+	(It will require to import `com.massisframework.massis.model.location.Location`)
 
 3. Make the agent move to that point.
 
- * The agent needs a target to follow. This can be modeled as an attribute of the High-Level controller:
-
-	```java
-        /*3*/ private Location currentTarget;
-	```
-
- * The easiest way for approaching to one location is by calling to the method `approachTo`:
+	The easiest way for approaching to one location is by calling to the method `approachTo`:
 
  ```java
  /**
@@ -176,7 +185,7 @@ Moving the agent around the room can be done by adding the following sentences t
  public void approachTo(Location location, ApproachCallback callback);
  ```
 
- This method requires an `ApproachCallback` method as parameter, which will be called when the pathfinding process has been finished in the current step. In this case:
+ This method requires an `ApproachCallback` method as parameter, which will be called when the pathfinding process has been finished in the current step. In this case, the agent just moves and does nothing else:
 
 ```java
  ApproachCallback callback = new ApproachCallback() {
@@ -202,6 +211,12 @@ Moving the agent around the room can be done by adding the following sentences t
  };
 ```
 
+And then it is possible to call the approachTo() method on the low level agent:
+
+```java
+/* 3 */ this.agent.approachTo(this.currentTarget, callback);
+```
+
 Putting all together in the `step()` method:
 
 ```java
@@ -210,8 +225,7 @@ public void step() {
 
     if (this.currentTarget == null) {
         /* 1 */ SimRoom currentRoom = this.agent.getRoom();
-        /* 2 */ Location randomLocation = currentRoom.getRandomLoc();
-                   this.currentTarget = randomLocation;
+        /* 2 */ this.currentTarget = currentRoom.getRandomLoc();
     }
     
     ApproachCallback callback = new ApproachCallback() {
@@ -235,12 +249,12 @@ public void step() {
         }
     };
 
-    this.agent.approachTo(this.currentTarget, callback);
+    /* 3 */ this.agent.approachTo(this.currentTarget, callback);
 }
 ```
 
 
-Some imports are required:
+Note that some imports are required:
 
 ```java
 import java.util.Map;
