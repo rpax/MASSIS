@@ -537,6 +537,8 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 						location) <= DefaultAgent.this.getBodyRadius() * 1.5f)
 				{
 					approachCallback.onTargetReached(DefaultAgent.this);
+					//Avoids inverse path following
+					DefaultAgent.this.pathManager.removeFromCache(this);
 
 				} else
 				{
