@@ -140,7 +140,7 @@
 							<autoVersionSubmodules>true</autoVersionSubmodules>
 							<useReleaseProfile>false</useReleaseProfile>
 							<releaseProfiles>release</releaseProfiles>
-							<goals>deploy nexus-staging:release -f massisframework/pom.xml</goals>
+							<goals>deploy nexus-staging:release</goals>
 						</configuration>
 					</plugin>
 					<plugin>
