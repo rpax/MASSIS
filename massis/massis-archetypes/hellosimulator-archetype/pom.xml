@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.massisframework.massis</groupId>
 		<artifactId>massis-archetypes</artifactId>
-		<version>1.2.20-SNAPSHOT</version>
+		<version>1.2.20</version>
 	</parent>
 	<artifactId>hellosimulator-archetype</artifactId>
 	<packaging>maven-archetype</packaging>
@@ -58,7 +58,7 @@
 		<connection>scm:git:git@github.com:rpax/MASSIS/massis/massis-archetypes/hellosimulator</connection>
 		<developerConnection>scm:git:git@github.com:rpax/MASSIS/massis/massis-archetypes/hellosimulator</developerConnection>
 		<url>scm:git:git@github.com:rpax/MASSIS/massis/massis-archetypes/hellosimulator</url>
-	  <tag>HEAD</tag>
+	  <tag>massisframework-1.2.20</tag>
   </scm>
 
 	<distributionManagement>
