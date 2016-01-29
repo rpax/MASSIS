@@ -538,7 +538,7 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 				{
 					approachCallback.onTargetReached(DefaultAgent.this);
 					//Avoids inverse path following
-					DefaultAgent.this.pathManager.removeFromCache(this);
+					DefaultAgent.this.pathManager.removeFromCache(DefaultAgent.this);
 
 				} else
 				{
