@@ -15,12 +15,12 @@
 		<dependency>
 			<groupId>com.massisframework.massis</groupId>
 			<artifactId>massis-core</artifactId>
-			<version>1.2.18</version>
+			<version>1.2.20</version>
 		</dependency>
 		<dependency>
 			<groupId>com.massisframework.massis</groupId>
 			<artifactId>testdata</artifactId>
-			<version>1.2.18</version>
+			<version>1.2.20</version>
 		</dependency>
 	</dependencies>
 </project>
