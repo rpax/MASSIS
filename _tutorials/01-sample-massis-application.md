@@ -28,7 +28,7 @@ In order to create a project using the archetype in eclipse, follow these steps:
     ![Create a simple project (skip archetype selection) checkbos is unchecked](http://i.imgur.com/uNrk3nQ.png)
 
 
-3. Check the option _Include snapshot archetypes_ to see the MASSIS archetype. Type _hellosimulator_ in the search box and select _hellosimulator-archetype_. Click _Next>_ .
+3. Type _hellosimulator_ in the search box and select _hellosimulator-archetype_. Click _Next>_ .
 
     ![Selection of MASSIS hellosimulator-archetype](http://i.imgur.com/9yN8wIN.png)
 
