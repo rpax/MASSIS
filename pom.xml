@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.massisframework</groupId>
 	<artifactId>massisframework</artifactId>
-	<version>1.2.19-SNAPSHOT</version>
+	<version>1.2.19</version>
 	<packaging>pom</packaging>
 
 	<name>MASSIS Framework</name>
@@ -32,7 +32,7 @@
 		<connection>scm:git:git@github.com:rpax/MASSIS</connection>
 		<url>scm:git:git@github.com:rpax/MASSIS</url>
 		<developerConnection>scm:git:git@github.com:rpax/MASSIS</developerConnection>
-		<tag>HEAD</tag>
+		<tag>massisframework-1.2.19</tag>
 	</scm>
 	<developers>
 		<developer>
