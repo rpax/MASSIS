@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>com.massisframework</groupId>
 		<artifactId>massisframework</artifactId>
-		<version>1.2.16</version>
+		<version>1.2.17-SNAPSHOT</version>
 	</parent>
 	<groupId>com.massisframework.massis</groupId>
 	<artifactId>massis</artifactId>
