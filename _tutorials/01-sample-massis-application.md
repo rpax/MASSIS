@@ -27,19 +27,12 @@ In order to create a project using the archetype in eclipse, follow these steps:
 
     ![Create a simple project (skip archetype selection) checkbos is unchecked](http://i.imgur.com/uNrk3nQ.png)
 
-3. In order to find the MASSIS archetype, the first time it will be necessary to add the MASSIS catalog as a remote archetype catalog. This is done through _Configure... -> Add Remote Catalog_, and selecting the massis archetype catalog, which is located at *http://mvn.massisframework.com/nexus/content/groups/public/archetype-catalog.xml*:
 
-    ![Click the Configure button for Catalog](http://i.imgur.com/NwtY4Wk.png)
+3. Check the option _Include snapshot archetypes_ to see the MASSIS archetype. Type _hellosimulator_ in the search box and select _hellosimulator-archetype_. Click _Next>_ .
 
-    ![Click the Add remote catalog button](http://i.imgur.com/0KDUOcB.png)
+    ![Selection of MASSIS hellosimulator-archetype](http://i.imgur.com/9yN8wIN.png)
 
-    ![Introduce information of the remote catalog](http://i.imgur.com/hRWww0Z.png)
-
-4. Check the option _Include snapshot archetypes_ to see the MASSIS archetype. Select _hellowsimulator-archetype_ and click _Next>_ button.
-
-    ![Selection of MASSIS hellowsimulator-archetype](http://i.imgur.com/h4hT8Jr.png)
-
-5. The next window asks for the information about the _group Id_ and _artifact Id_. In this example, the _group Id_ will be `tutorialfollower` and the _artifact Id_ will be `myfirstmassisproject`.
+4. The next window asks for the information about the _group Id_ and _artifact Id_. In this example, the _group Id_ will be `tutorialfollower` and the _artifact Id_ will be `myfirstmassisproject`.
 
     ![Introduction of group and artifica ids](http://i.imgur.com/KbjsvNR.png)
 
