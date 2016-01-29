@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>com.massisframework.massis</groupId>
 		<artifactId>massis</artifactId>
-		<version>1.2.14-SNAPSHOT</version>
+		<version>1.2.14</version>
 	</parent>
 	<artifactId>testdata</artifactId>
 	<packaging>jar</packaging>
@@ -36,7 +36,7 @@
 		<dependency>
 			<groupId>com.massisframework.massis</groupId>
 			<artifactId>massis-core</artifactId>
-			<version>1.2.14-SNAPSHOT</version>
+			<version>1.2.14</version>
 		</dependency>
 	</dependencies>
 </project>
