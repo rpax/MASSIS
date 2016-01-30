@@ -10,7 +10,7 @@ The `LowLevelAgent` component of each agent can obtain information about its env
 
 For instance, the method [`getAgentsInRange()`](https://github.com/rpax/MASSIS/blob/master/massisframework/massis/massis-core/src/main/java/com/massisframework/massis/model/agents/LowLevelAgent.java#L52) returns which LowLevelAgents are within a range of the agent that calls the method.
 
-For instance, add the following method to the `MyHelloHighLevelController` class, which will print information on the agents that are in a radius of the current agent:
+To practice with this, add the following method to the `MyHelloHighLevelController` class, which will print information on the agents that are in a radius of the current agent:
 
 ```java
 void printAgentsIDsInRange(double range) {
@@ -83,12 +83,12 @@ So, agent's can move, and see each other. Let's make them to play a game.
 
 ## Implementation
 
-We can model the behavior of the agents with the flowchart below:
+The behavior of the agents in this case can be modelled with the flowchart below:
 
 ![Flowchart of the behaviour of an agent](http://i.imgur.com/UNrajuM.png)
 
 ### Conditions
-Conditions of the flowchart can be implemented as follows:
+The conditions of the flowchart can be implemented as follows:
 
 - Checking whether the agent is tagged. This can be done in two ways:
 
@@ -104,7 +104,7 @@ public void setTagged(boolean tagged) {
 }
 	```
 
-  2. Using the LowLevelAgent's `getProperty()` and `setProperty()` methods. These methods provide a simple way for storing information in the low-level agents. However, it becomes quickly unmaintanable. The way for doing this should be the following:
+  2. By defining a  property "TAGGED" for the LowLevelAgent, which can be read with `getProperty()` and modified with `setProperty()`. These methods provide a simple way for storing information in the low-level agents. However, it becomes quickly unmaintanable. The way for doing this should be the following:
 
 	```java
   public boolean isTagged() {
@@ -384,8 +384,9 @@ If everything went ok, the result should be something like this:
 
 >Note: The code for the complete behavior is [in this gist](https://gist.github.com/rpax/b457fa14d2a9d14779ab)
 
+# What to do next?
 
-The problem is... **_Who is the tagged one_ ? All the agents are identical!**.
+When running the game, one question may arrive: **_Who is the tagged agent_ ? Because all the agents seem identical!**.
 
 The [Next Tutorial][tutorial6] solves that problem, explaining how to develop visualization utilities.
 

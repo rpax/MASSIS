@@ -54,6 +54,13 @@ Run the simulation again. The agents will start moving randomly. But they are no
 Changing a little bit the behavior will allow agents to move through doors:
 
 ```java
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+
+//...
+
 @Override
 public void step() {
 
@@ -84,6 +91,8 @@ public void step() {
 
 ![Agents wandering around rooms](http://i.imgur.com/w5GfLJT.gif)
 
+Try to see also with the 3D display. Observe what the agents do when they cross at a door or any other point of the rooms.
+
 ## What is a Floor?
 
 The *building model* inside the MASSIS simulator is the following:
@@ -98,7 +107,7 @@ The *building model* inside the MASSIS simulator is the following:
 
 There may be other elements in the environment, such as furniture or other objects. These have to be taken into account as obstacles in the way of the agents. 
 
-Adding obstacles in the environment editor can be done by selecting _Miscillaneous -> Box_, and drag it to the scene.
+Adding obstacles in the environment editor can be done by selecting _Miscellaneous -> Box_, and drag it to the scene.
 
 ![Adding boxes in the environment](http://i.imgur.com/oIAeeED.gif)
 
@@ -114,7 +123,7 @@ In this context, the elements can be playing different roles, depending on their
 
 | `IS_OBSTACLE`      |  DESCRIPTION                                                    |
 |--------------------|-----------------------------------------------------------------|
-| **Meaning**        | Tells if the element represents an obstacle in the environment. |
+| **Meaning**        | Indicates whether the element represents an obstacle in the environment. |
 | **Default**        | true                                                            |
 | **Allowed values** | true,false                                                      |
 | **Keys required**  | none                                                            |
@@ -123,7 +132,7 @@ In this context, the elements can be playing different roles, depending on their
 
 | `IS_DYNAMIC`       |                                                                                                                     |
 |--------------------|---------------------------------------------------------------------------------------------------------------------|
-| **Meaning**        | Tells if the element has the ability to move. Depending on this value, will be treated as an static obstacle or not |
+| **Meaning**        | Indicates whether the element has the ability to move. Depending on this value, will be treated as an static obstacle or not |
 | **Default**        | false                                                                                                               |
 | **Allowed values** | true,false                                                                                                          |
 | **Keys required**  | `IS_OBSTACLE`                                                                                                       |
@@ -140,7 +149,7 @@ The agents now don't try to avoid the boxes, because they are marked as _not an 
 And, what if we set a box with the entry `IS_DYNAMIC = true` ?
 
 ![](http://i.imgur.com/1nLgQ66.gif)
-The visualization treats the element in a different way, because it is marked as dynamic. Also, the pathfinder does not include this element in the pathfinding process, and the responsability for not _bumbing into things_ is taken by other method, with [steering behaviors](http://www.red3d.com/cwr/steer/), that are explained in [the future][tobedone]{{< tooltipurl url="#" linktext="another tutorial" tooltiptext="Not written yet :(" >}}.
+The visualization treats the element in a different way, because it is marked as dynamic. Also, the pathfinder does not include this element in the pathfinding process, and the responsability for not _bumbing into things_ is taken by other method, with [steering behaviors](http://www.red3d.com/cwr/steer/), that will be explained in [the future][tobedone]{{< tooltipurl url="#" linktext="another tutorial" tooltiptext="Not written yet :(" >}}.
 
 
 # What to do next?
@@ -149,7 +158,7 @@ The agents now can move from and to different locations in the environment, but,
 
 
 
-[tutorial3]: {{ site.baseurl }}/tutorials/03-defining-a-simple-agent-behavior.html
+[tutorial3]: {{ site.baseurl }}/tutorials/03-defining-a-simple-behavior.html
 [tutorial5]: {{ site.baseurl }}/tutorials/05-perception.html
 [tobedone]:  {{ site.baseurl }}/tobedone.html
 
