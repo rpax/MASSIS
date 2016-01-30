@@ -145,47 +145,96 @@ Note that the idea of this "layered" way for drawing is modularity. Each layer i
 
 ### The game layer
 
-Coming back to the Tag game, the issue now is to create a layer that shows the difference between the agents status. For example, the tagged agent should be red. This can be easily done by extending the `PeopleLayer` as follows:
+Coming back to the Tag game, the issue now is to create a layer that shows the difference between the agents status. For example, the tagged agent should be red. This can be easily done by creating a new layer to draw colors for the player agents, depending on whether they are tagged or not. This requires to 
+
+1. Create a new class `TagGameLayer`:
+
+	```java
+	import java.awt.Color;
+	import java.awt.Graphics2D;
+	import com.massisframework.gui.DrawableLayer;
+	import com.massisframework.massis.displays.floormap.layers.DrawableFloor;
+	import com.massisframework.massis.model.agents.DefaultAgent;
+	import com.massisframework.massis.model.building.Floor;
+	import straightedge.geom.KPolygon;
+
+	public class TagGameLayer extends DrawableLayer<DrawableFloor> {
+	    private static Color STATIC_AGENT_COLOR = new Color(165,42,42);
+	    private static Color DEFAULT_PERSON_FILL_COLOR = Color.WHITE;
+	    private static Color DEFAULT_PERSON_DRAW_COLOR = Color.BLUE;
+	    private static Color TAGGED_PERSON_DRAW_COLOR = Color.RED;
+	    private static Color UNTAGGED_PERSON_DRAW_COLOR = Color.GREEN;
+
+	    public TagGameLayer(boolean enabled) {
+			super(enabled);
+	    }
+
+	    @Override
+	    public void draw(DrawableFloor dfloor, Graphics2D g)
+	    {
+	        final Floor f = dfloor.getFloor();
+        	for ( DefaultAgent p : f.getAgents() ) {
+        		if ( p.isDynamic() )
+        		{
+        			KPolygon poly = KPolygon.
+				   createRegularPolygon(3, p.getPolygon().getRadius());
+	        		poly.scale(1, 0.6);	
+	        		poly.rotate(p.getAngle());
+	        		poly.translateTo(p.getX(), p.getY());
+	    			g.setColor(DEFAULT_PERSON_DRAW_COLOR);
+	    			g.draw(poly);
+    				if (p.hasProperty("TAGGED")) {
+    					if ("true".equals(p.getProperty("TAGGED"))) {
+    						g.setColor(TAGGED_PERSON_DRAW_COLOR);
+    					} else { // untagged agents
+    						g.setColor(UNTAGGED_PERSON_DRAW_COLOR);
+    					}
+    				} else {
+    					g.setColor(DEFAULT_PERSON_FILL_COLOR);
+    				}
+    				g.fill(poly);
+    				
+        		}
+        		else
+        		{
+        			g.setColor(STATIC_AGENT_COLOR);
+        			g.fill(p.getPolygon());
+        		}
+        	}
+	    }
+
+	    @Override
+	    public String getName() {
+		return "TAGGED AGENTS";
+	    }
+	}
+	```
+
+2. Add this layer when declaring the layers in the `SimulationWithUILauncher` class:
 
 ```java
-    private static Color DEFAULT_PERSON_FILL_COLOR = Color.WHITE;
-    private static Color DEFAULT_PERSON_DRAW_COLOR = Color.BLUE;
-
-    @Override
-    public void draw(DrawableFloor dfloor, Graphics2D g)
-    {
-        final Floor f = dfloor.getFloor();
-        g.setColor(Color.red);
-
-        for (DefaultAgent p : f.getAgents())
-        {
-            if (!p.isDynamic())
-            {
-                g.setColor(new Color(165, 42, 42));
-                g.fill(p.getPolygon());
-            }
-        }
-        for (DefaultAgent p : f.getAgents())
-        {
-            if (p.isDynamic())
-            {
-                KPolygon poly = KPolygon.createRegularPolygon(3, p.getPolygon()
-                        .getRadius());
-                poly.scale(1, 0.6);
-
-                poly.rotate(p.getAngle());
-                poly.translateTo(p.getX(), p.getY());
-
-                g.setColor(DEFAULT_PERSON_FILL_COLOR);
-
-                g.fill(poly);
-                g.setColor(DEFAULT_PERSON_DRAW_COLOR);
-                g.draw(poly);
-            }
-        }
-
-    }
+	@SuppressWarnings("unchecked")
+	final DrawableLayer<DrawableFloor>[] floorMapLayers = 
+		new DrawableLayer[] {
+			new RoomsLayer(true),
+			new RoomsLabelLayer(false),
+			new VisionRadioLayer(false),
+			new CrowdDensityLayer(false),
+			new WallLayer(true),
+			new DoorLayer(true),
+			new ConnectionsLayer(false),
+			new PathLayer(false),
+			new PeopleLayer(true),
+			new RadioLayer(true),
+			new PathFinderLayer(false),
+			new PeopleIDLayer(false),
+			new VisibleAgentsLines(false),
+			new QTLayer(false),
+			new TagGameLayer(true) // Add the new layer for the game
+	};
 ```
+
+Run the simulation to see how the tagged agent (in red) follows other agents until it tags one of them, and the colors change.
 
 # What to do next?
 With all these elements it is possible to create new environments with different types of agents and more complex behaviours. 

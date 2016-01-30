@@ -124,7 +124,8 @@
 
 <p>Vestibulum id ligula porta felis euismod semper. Nullam quis risus eget urna mollis ornare vel eu leo. Donec sed odio dui.</p>
 
-<p>true<script src="https://gist.github.com/5555251.js?file=gist.md"> </script></p>
+<p><noscript><pre>400: Invalid request
+</pre></noscript><script src="https://gist.github.com/5555251.js?file=gist.md"> </script></p>
 
 <p>Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec sed odio dui. Vestibulum id ligula porta felis euismod semper.</p>
 
@@ -252,6 +253,17 @@
   fixLinks(document.getElementsByTagName("a"));
   fixLinks(document.getElementsByTagName("link"));
 </script>
-  </body>
+<script>
+  // Google analytics
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-73066450-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</body>
   
 </html>
