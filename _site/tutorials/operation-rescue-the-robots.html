@@ -73,43 +73,40 @@
     <div class="content container">
       <div class="post">
   <h1 class="post-title">Operation: Rescue the robots. Part 1</h1>
-  <p>It is assumed in this tutorial that the reader has already gone through the basic tutorials, such as <a href="">the getting started guide</a> and <a href="">Creating a MASSIS Application</a> sections have been already been read.</p>
+  <p>It is assumed in this tutorial that the reader has already gone through the basic tutorials, such as <a href="/getting-started.html">the Getting started</a> and <a href="/tutorials/01-sample-massis-application.html">Creating a MASSIS Project</a> sections have been already been read.</p>
 
-<p>For designing the scenario, it is recommended to read the <a href="">environment design</a> section.</p>
+<p>For designing the scenario, it is also recommended to read the <a href="/tutorials/04-bigger-environment-and-multiple-agents.html">environment design</a> section.</p>
 
 <h2 id="scenario-description">Scenario description</h2>
 
+<p>The impact of a meteorite has caused irreparable damage to an extraterrestrial station. Luckily, there were no humans on the station, only robots.</p>
+
+<p>But these robots were controlled remotely, and the meteorite impact has broken one antenna. In order to solve this issue, a new kind of robots are sent to this station. Their mission will consist on rescuing the robots that are in the incommunicated station, by finding  and taking them to the landing zone of the station.</p>
+
+<p>The file with the description of this extraterrestrial station for this tutorial can be downloaded <a href="https://drive.google.com/open?id=0B3-oRpDTDan3Z3dRQmVXalBYYkU">from here</a>. When opening this should look something like this figure:</p>
+
 <p><img src="http://i.imgur.com/tRexsTw.png" alt="Scenario"></p>
 
-<p>The scenario to be simulated is the following:</p>
-
-<p>he impact of a meteorite has caused irreparable damage to an extraterrestrial station. Luckily, there were no humans on the station, only robots.</p>
-
-<p>But these robots were controlled remotely, and the meteorite impact has broken one antenna. In order to solve this issue, a new kind of robots are sent to this station. Their mission will consist on rescuing the robots that are in the incommunicated station.</p>
-
-<p>The scenario used in this tutorial can be downloaded <a href="https://drive.google.com/open?id=0B3-oRpDTDan3Z3dRQmVXalBYYkU">from here</a></p>
-
-<p>First, we will start modelling the behavior of the robot in the station (the one incommunicated).
-In case of lost of communication, these robots behave as follows:</p>
+<p>There are two kinds of robots, those that  were in the station (workers), and those that have arrived to rescue them (rescuers). Their behaviour, in this case of incommunication of the station, is the following:</p>
 
 <ul>
-<li>&quot;Worker&quot; robot behavior
+<li><strong>Worker</strong> robot behavior
 
 <ol>
-<li>Waits until someone tells him what target should be following.</li>
+<li>Wait  until someone tells it what target should be following.</li>
 </ol></li>
-<li>&quot;Rescuer&quot; robot behavior
+<li><strong>Rescuer</strong> robot behavior
 
 <ol>
-<li>Tries to visit all the rooms in the building. Whenever this robot sees a worker robot in the room, makes that worker robot to follow him.</li>
+<li>Try to visit all the rooms in the building. Whenever this robot sees a worker robot in the room, requests that worker robot to follow it.</li>
 <li>When two (or more) <em>rescuer</em> robots are in the same room, they share information about the rooms visited.</li>
-<li>When all the rooms have been explored, this robot goes back to the <em>landing zone</em></li>
+<li>When all the rooms have been explored, the robot goes back to the <em>landing zone</em></li>
 </ol></li>
 </ul>
 
 <h2 id="implementation-from-the-idea-to-the-code">Implementation - From the idea to the code</h2>
 
-<p>This project will be based on the  <a href="">basic MASSIS archetype explained previously</a>.</p>
+<p>This project will be based on the  <a href="/tutorials/01-sample-massis-application.html">basic MASSIS archetype explained previously</a>.</p>
 
 <h3 id="two-behaviors-imply-two-classes">Two behaviors imply two classes.</h3>
 
@@ -359,6 +356,8 @@ public void step() {
     }
 }
 </code></pre></div>
+<h1 id="conclusion">Conclusion</h1>
+
 <p>That&#39;s everything! If you prefer to download the entire project, with the building included, <a href="https://drive.google.com/open?id=0B3-oRpDTDan3Nl9pdUdDRUY0cDQ">you can do it from here</a></p>
 
 </div>

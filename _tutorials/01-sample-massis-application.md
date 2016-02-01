@@ -32,6 +32,8 @@ In order to create a project using the archetype in eclipse, follow these steps:
 
     ![Selection of MASSIS hellosimulator-archetype](http://i.imgur.com/9yN8wIN.png)
 
+	> **NOTE:** In case Maven Central archetype repository is not well configured, it may be needed to add Maven Central to the list of Catalogs. This can be done with the button _Configure..._ Then the button _Add Remote Catalog..._ and in the popup window indicate as Catalog File: http://repo.maven.apache.org/maven2  and as Description something like "Maven Central".
+
 4. The next window asks for the information about the _group Id_ and _artifact Id_. In this example, the _group Id_ will be `tutorialfollower` and the _artifact Id_ will be `myfirstmassisproject`.
 
     ![Introduction of group and artifica ids](http://i.imgur.com/KbjsvNR.png)

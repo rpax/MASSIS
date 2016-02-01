@@ -2,35 +2,33 @@
 title : "Operation: Rescue the robots. Part 1"
 ---
 
-It is assumed in this tutorial that the reader has already gone through the basic tutorials, such as [the getting started guide]({{< relref "page/getting-started.md" >}}) and [Creating a MASSIS Application]({{< relref "post/tutorials/sample-massis-application.md" >}}) sections have been already been read.
+It is assumed in this tutorial that the reader has already gone through the basic tutorials, such as [the Getting started][getting-started] and [Creating a MASSIS Project][tutorial1] sections have been already been read.
 
-For designing the scenario, it is recommended to read the [environment design]({{< relref "post/tutorials/environment-design.md" >}}) section.
+For designing the scenario, it is also recommended to read the [environment design][tutorial4] section.
 
 ## Scenario description
+
+The impact of a meteorite has caused irreparable damage to an extraterrestrial station. Luckily, there were no humans on the station, only robots.
+
+But these robots were controlled remotely, and the meteorite impact has broken one antenna. In order to solve this issue, a new kind of robots are sent to this station. Their mission will consist on rescuing the robots that are in the incommunicated station, by finding  and taking them to the landing zone of the station.
+
+The file with the description of this extraterrestrial station for this tutorial can be downloaded [from here][escenario]. When opening this should look something like this figure:
+
 ![Scenario](http://i.imgur.com/tRexsTw.png)
 
-The scenario to be simulated is the following:
 
-he impact of a meteorite has caused irreparable damage to an extraterrestrial station. Luckily, there were no humans on the station, only robots.
+There are two kinds of robots, those that  were in the station (workers), and those that have arrived to rescue them (rescuers). Their behaviour, in this case of incommunication of the station, is the following:
 
-But these robots were controlled remotely, and the meteorite impact has broken one antenna. In order to solve this issue, a new kind of robots are sent to this station. Their mission will consist on rescuing the robots that are in the incommunicated station.
-
-The scenario used in this tutorial can be downloaded [from here](https://drive.google.com/open?id=0B3-oRpDTDan3Z3dRQmVXalBYYkU)
-
-
-First, we will start modelling the behavior of the robot in the station (the one incommunicated).
-In case of lost of communication, these robots behave as follows:
-
-- "Worker" robot behavior
- 1. Waits until someone tells him what target should be following.
-- "Rescuer" robot behavior
- 1. Tries to visit all the rooms in the building. Whenever this robot sees a worker robot in the room, makes that worker robot to follow him.
+- **Worker** robot behavior
+ 1. Wait  until someone tells it what target should be following.
+- **Rescuer** robot behavior
+ 1. Try to visit all the rooms in the building. Whenever this robot sees a worker robot in the room, requests that worker robot to follow it.
  2. When two (or more) _rescuer_ robots are in the same room, they share information about the rooms visited.
- 3. When all the rooms have been explored, this robot goes back to the _landing zone_
+ 3. When all the rooms have been explored, the robot goes back to the _landing zone_
 
 ## Implementation - From the idea to the code
 
-This project will be based on the  [basic MASSIS archetype explained previously]({{< relref "post/tutorials/sample-massis-application.md" >}}).
+This project will be based on the  [basic MASSIS archetype explained previously][tutorial1].
 
 ### Two behaviors imply two classes.
 
@@ -276,4 +274,18 @@ public void step() {
     }
 }
 ```
+
+# Conclusion
 That's everything! If you prefer to download the entire project, with the building included, [you can do it from here](https://drive.google.com/open?id=0B3-oRpDTDan3Nl9pdUdDRUY0cDQ)
+
+[getting-started]: {{ site.baseurl }}/getting-started.html
+[tutorial1]: {{ site.baseurl }}/tutorials/01-sample-massis-application.html
+[tutorial2]: {{ site.baseurl }}/tutorials/02-customizing-the-archetype.html
+[tutorial3]: {{ site.baseurl }}/tutorials/03-defining-a-simple-behavior.html
+[tutorial4]: {{ site.baseurl }}/tutorials/04-bigger-environment-and-multiple-agents.html
+[tutorial5]: {{ site.baseurl }}/tutorials/05-perception.html
+[tutorial6]: {{ site.baseurl }}/tutorials/06-extending-the-gui.html
+[exercise]: {{ site.baseurl }}/tutorials/operation-rescue-the-robots.html
+
+[escenario]: https://drive.google.com/open?id=0B3-oRpDTDan3Z3dRQmVXalBYYkU
+[tobedone]:  {{ site.baseurl }}/tobedone.html
