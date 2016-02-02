@@ -34,9 +34,9 @@ This project will be based on the  [basic MASSIS archetype explained previously]
 
 Each behavior should be modeled as a Java class. In this scenario, we have two different behaviors, the _Worker_ behavior and the _Rescuer_ behavior.
 
-The _Worker_ behavior is fairly simple: Just a translation of the behavior definition:
+The _Worker_ behavior is fairly simple. It is waiting and when it has a target to follow, continues to do this forever. A Rescuer agent will indicate that target when it finds it by using the method `setFollowTarget()`.
 
-```
+```java
 package com.myawesomesimulator.ai;
 
 import java.util.Map;
@@ -103,34 +103,34 @@ public class WorkerController extends HighLevelController {
   }
 }
 
-
-
 ```
 That is! Simple, huh?
 
 The _Rescuer_ behavior is a little more tricky. Let's split it into parts:
 
-- _Tries to visit all the rooms in the building._
- - This imply that the robot should track the rooms that it has visited.
-- _Whenever this robot sees a worker robot in the room, makes that worker robot to follow him._
- - We need some type of gathering information about the current room.
-- _When two (or more) rescuer robots are in the same room, they share information about the rooms visited._
- - This can be accomplished interchanging the visited rooms of each robot.
-- _When all the rooms have been explored, this robot goes back to the landing zone_
+- _Try to explore all the rooms in the building._
+ - This implies that the robot should track the rooms that it has visited.
+- _Whenever the Rescuer robot finds a worker robot in the room, it makes that worker robot to follow it._
+ - Gathering information about the current room.
+- _When two (or more) Rescuer robots are in the same room, they share information about the rooms visited._
+ - This can be accomplished by interchanging the visited rooms of each robot.
+- _When all the rooms have been explored, the robot goes back to the landing zone_
  - This is just a basic operation.
 
 With this facts identified, the only thing left is to code them in a `HighLevelController`.
 As we have created the project using the archetype, designing the behavior becomes a _fill in the gaps_ exercise.
-The attributes needed should be the unexplored rooms, the next room to visit and (optional, but useful in this case) if the work has finished or not.
 
-```
+Several  attributes are needed to account for the unexplored rooms, the next room to visit and (optional, but useful in this case) if the work has finished or not.
+
+```java
 private Collection<SimRoom> roomsUnexplored;
 private SimRoom assignedRoom;
 private boolean workFinished;
 ```
 
-In the constructor we should initialize the unexplored rooms, and setting the `workFinished` attribute to false.
-```
+These attributes are initialized in the constructor, to indicate  the collection of unexplored rooms, and setting the `workFinished` attribute to false.
+
+```java
 public RescuerController(LowLevelAgent agent, Map<String, String> metadata,
         String resourcesFolder) {
     super(agent, metadata, resourcesFolder);
@@ -144,8 +144,23 @@ public RescuerController(LowLevelAgent agent, Map<String, String> metadata,
     this.assignNewRoomToExplore();
 }
 ```
-This robot should interchange the information about the rooms with other robots:
+
+This robot should be capable of auto-assigning rooms to explore:
+
+```java
+private void assignNewRoomToExplore() {
+    if (!this.roomsUnexplored.isEmpty()) {
+        SimRoom[] rem = this.roomsUnexplored.toArray(new SimRoom[] {});
+        this.assignedRoom = rem[ThreadLocalRandom.current()
+                .nextInt(rem.length)];
+        this.roomsUnexplored.remove(this.assignedRoom);
+    }
+}
 ```
+
+This robot should also exchange the information about the rooms with other robots:
+
+```java
 private void shareRoomsWith(RescuerController rescuer) {
     // remove every item that is not present in the other map
     final boolean changed = this.roomsUnexplored
@@ -157,20 +172,11 @@ private void shareRoomsWith(RescuerController rescuer) {
     }
 }
 ```
-This robot should be capable of auto-assigning rooms to explore:
-```
-private void assignNewRoomToExplore() {
-    if (!this.roomsUnexplored.isEmpty()) {
-        SimRoom[] rem = this.roomsUnexplored.toArray(new SimRoom[] {});
-        this.assignedRoom = rem[ThreadLocalRandom.current()
-                .nextInt(rem.length)];
-        this.roomsUnexplored.remove(this.assignedRoom);
-    }
 
-}
-```
+
 Also, for approaching to its current target, this method can be written for clarity:
-```
+
+```java
 private void approachToAssignedRoom() {
   this.agent.approachTo(this.assignedRoom.getLocation(),
     new ApproachCallback() {
@@ -195,8 +201,10 @@ private void approachToAssignedRoom() {
     });
 }
 ```
+
 Finally, for approaching to the _landing zone_,
-```
+
+```java
 private void approachToLandingZone() {
     if (!this.workFinished) {
         this.agent.approachToNamedLocation("LANDING_ZONE",
@@ -223,9 +231,9 @@ private void approachToLandingZone() {
 }
 ```
 
-This utility methods are intended for using them in the `step()` method:
+These utility methods are intended for their use in the `step()` method:
 
-```
+```java
 @Override
 public void step() {
     /*
