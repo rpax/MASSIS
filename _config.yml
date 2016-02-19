@@ -19,7 +19,7 @@ sidebar:
 - url: /
   text: Home
 
-- url: /getting-started.html
+- url: /getting-started/
   text: Getting started
   
 - url: /tutorials/
