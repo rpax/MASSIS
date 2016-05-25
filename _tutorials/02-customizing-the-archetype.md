@@ -138,6 +138,6 @@ The simulation can be finalized by selecting the _Quit_ option in the _File_ men
 The next part of the tutorial, [Creating a MASSIS Application. Part 3: Defining a simple behavior][tutorial3], will show how to modify the behaviour of the agent. 
 
 
-[tutorial1]: {{ site.baseurl }}/tutorials/01-sample-massis-application.html
-[tutorial3]: {{ site.baseurl }}/tutorials/03-defining-a-simple-behavior.html
+[tutorial1]: {{ site.baseurl }}/tutorials/01-sample-massis-application
+[tutorial3]: {{ site.baseurl }}/tutorials/03-defining-a-simple-behavior
 [sweethome3d]: http://www.sweethome3d.com/
