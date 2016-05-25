@@ -241,12 +241,12 @@ With all these elements it is possible to create new environments with different
 
 An more complex problem is proposed on a [mission to rescue robots in a remote satellite][exercise].
 
-[tutorial3]: {{ site.baseurl }}/tutorials/03-defining-a-simple-behavior.html
-[tutorial5]: {{ site.baseurl }}/tutorials/05-perception.html
-[exercise]: {{ site.baseurl }}/tutorials/operation-rescue-the-robots.html
+[tutorial3]: {{ site.baseurl }}/tutorials/03-defining-a-simple-behavior
+[tutorial5]: {{ site.baseurl }}/tutorials/05-perception
+[exercise]: {{ site.baseurl }}/tutorials/operation-rescue-the-robots
 [massisgui]: https://github.com/rpax/MASSIS/tree/master/massisframework-utils/massis-gui
 [floormaplayerutils]: https://github.com/rpax/MASSIS/blob/master/massisframework/massis/massis-core/src/main/java/com/massisframework/massis/displays/floormap/layers/FloorMapLayersUtils.java
-[tobedone]:  {{ site.baseurl }}/tobedone.html
+[tobedone]:  {{ site.baseurl }}/tobedone
 
 
 
