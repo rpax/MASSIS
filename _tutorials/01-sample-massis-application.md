@@ -75,7 +75,7 @@ Once all dependencies are downloaded, the project should contain three files:
 The next tutorial, [Customizing the archetype][tutorial2], explains how to configure the environment and associating behaviour to one agent in the environment, so a simulation can be run.
 
 
-[getting-started]: {{ site.baseurl }}/getting-started.html
+[getting-started]: {{ site.baseurl }}/getting-started
 [tutorial2]: {{ site.baseurl }}/tutorials/02-customizing-the-archetype
 [eclipse_page]: http://www.eclipse.org/downloads/
 [maven_eclipse]: http://www.eclipse.org/m2e/
