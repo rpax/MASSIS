@@ -76,6 +76,6 @@ The next tutorial, [Customizing the archetype][tutorial2], explains how to confi
 
 
 [getting-started]: {{ site.baseurl }}/getting-started.html
-[tutorial2]: {{ site.baseurl }}/tutorials/02-customizing-the-archetype.html
+[tutorial2]: {{ site.baseurl }}/tutorials/02-customizing-the-archetype
 [eclipse_page]: http://www.eclipse.org/downloads/
 [maven_eclipse]: http://www.eclipse.org/m2e/
