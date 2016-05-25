@@ -392,9 +392,9 @@ The [Next Tutorial][tutorial6] solves that problem, explaining how to develop vi
 
 
 
-[tutorial4]: {{ site.baseurl }}/tutorials/04-bigger-environment-and-multiple-agents.html
-[tutorial6]: {{ site.baseurl }}/tutorials/06-extending-the-gui.html
-[tobedone]:  {{ site.baseurl }}/tobedone.html
+[tutorial4]: {{ site.baseurl }}/tutorials/04-bigger-environment-and-multiple-agents
+[tutorial6]: {{ site.baseurl }}/tutorials/06-extending-the-gui
+[tobedone]:  {{ site.baseurl }}/tobedone
 
 
 [tag_game]: https://en.wikipedia.org/wiki/Tag_(game)
