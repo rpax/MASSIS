@@ -287,13 +287,13 @@ public void step() {
 That's everything! If you prefer to download the entire project, with the building included, [you can do it from here](https://drive.google.com/open?id=0B3-oRpDTDan3Nl9pdUdDRUY0cDQ)
 
 [getting-started]: {{ site.baseurl }}/getting-started.html
-[tutorial1]: {{ site.baseurl }}/tutorials/01-sample-massis-application.html
-[tutorial2]: {{ site.baseurl }}/tutorials/02-customizing-the-archetype.html
-[tutorial3]: {{ site.baseurl }}/tutorials/03-defining-a-simple-behavior.html
-[tutorial4]: {{ site.baseurl }}/tutorials/04-bigger-environment-and-multiple-agents.html
-[tutorial5]: {{ site.baseurl }}/tutorials/05-perception.html
-[tutorial6]: {{ site.baseurl }}/tutorials/06-extending-the-gui.html
-[exercise]: {{ site.baseurl }}/tutorials/operation-rescue-the-robots.html
+[tutorial1]: {{ site.baseurl }}/tutorials/01-sample-massis-application
+[tutorial2]: {{ site.baseurl }}/tutorials/02-customizing-the-archetype
+[tutorial3]: {{ site.baseurl }}/tutorials/03-defining-a-simple-behavior
+[tutorial4]: {{ site.baseurl }}/tutorials/04-bigger-environment-and-multiple-agents
+[tutorial5]: {{ site.baseurl }}/tutorials/05-perception
+[tutorial6]: {{ site.baseurl }}/tutorials/06-extending-the-gui
+[exercise]: {{ site.baseurl }}/tutorials/operation-rescue-the-robots
 
 [escenario]: https://drive.google.com/open?id=0B3-oRpDTDan3Z3dRQmVXalBYYkU
-[tobedone]:  {{ site.baseurl }}/tobedone.html
+[tobedone]:  {{ site.baseurl }}/tobedone
