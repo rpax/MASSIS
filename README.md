@@ -55,3 +55,27 @@ This is the recommended option for changing core features of MASSIS. The necessa
 This is the preferred option if the objective of your project is developing an application using MASSIS' features, without changing MASSIS' source code.
 
 The [tutorials section](http://www.massisframework.com/tutorials/) contains examples about creating an application based on MASSIS' framework.
+
+## Licensing
+
+### GNU GPL v3.0
+
+[![GNU GPL v3.0](http://www.gnu.org/graphics/gplv3-127x51.png)](http://www.gnu.org/licenses/gpl.html)
+
+View official GNU site <http://www.gnu.org/licenses/gpl.html>.
+
+### Related : 
+ - [Wikipedia - GNU General Public License](http://en.wikipedia.org/wiki/GNU_General_Public_License) - 
+   [(fr)](http://fr.wikipedia.org/wiki/Licence_publique_générale_GNU)
+   [(de)](http://de.wikipedia.org/wiki/GNU_General_Public_License)
+   [(es)](http://es.wikipedia.org/wiki/GNU_General_Public_License)
+   [(it)](http://it.wikipedia.org/wiki/GNU_General_Public_License) - 
+   _from Wikipedia_
+ - [Frequently Asked Questions about the GNU Licenses](http://www.gnu.org/licenses/gpl-faq.en.html) - 
+   [(fr)](http://www.gnu.org/licenses/gpl-faq.fr.html)
+   [(es)](http://www.gnu.org/licenses/gpl-faq.es.html)
+   [(it)](http://www.gnu.org/licenses/gpl-faq.it.html) - 
+   _from GNU official web site_
+ - [A Practical Guide to GPL Compliance](http://www.softwarefreedom.org/resources/2008/compliance-guide.html) - 
+   _from Software Freedom Law Center_
+
