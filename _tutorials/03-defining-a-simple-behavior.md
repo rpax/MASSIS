@@ -317,4 +317,4 @@ The [next part of the tutorial][tutorial4], shows how to work with more agents a
 [tutorial4]: {{ site.baseurl }}/tutorials/04-bigger-environment-and-multiple-agents
 [mason]: http://cs.gmu.edu/~eclab/projects/mason/
 [building-map]: {{ site.baseurl }}/tobedone
-[low-level-agent-interface]: https://github.com/rpax/MASSIS/blob/master/massisframework/massis/massis-core/src/main/java/com/massisframework/massis/model/agents/LowLevelAgent.java
+[low-level-agent-interface]: https://github.com/rpax/MASSIS/blob/master/massis/massis-core/src/main/java/com/massisframework/massis/model/agents/LowLevelAgent.java
