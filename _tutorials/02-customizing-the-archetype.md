@@ -56,14 +56,14 @@ In order to edit and modify the metadata of an element, the element **should be 
 
 A popup window shows the metadata of the agent in the room:
 
-![Window showing metadata associated to the agent](http://i.imgur.com/UF4NV2m.png)
+![Window showing metadata associated to the agent](http://i.imgur.com/m8MXF3v.png)
 
 - `IS_OBSTACLE` : It indicates whether the element is an obstacle or not. _This topic will be covered later_.
 - `ID` : A unique identifier for the element in the building. **It is highly recommended to leave this value unchanged. Do not modify it.**
 - `IS_DYNAMIC` : It indicates whether the element is going to move during the simulation. This is useful to the pathfinder algorithm of the simulator and the visualization toolkit. _This topic will be covered later_.
 - `CLASSNAME` : The reference to the class implementing the agent behavior. By default, its value is `com.massisframework.testdata.ai.HelloHighLevelController`. 
 
-In this tutorial this value is changed to a custom implementation, which was provided by the archetype. This is the class `MyHelloHighLevelController`, which has been mentioned before. Therefore, modify this value to:
+In this tutorial this value is changed to a custom implementation, which was provided by the archetype. This is the class `MyHelloHighLevelController`, which has been mentioned before. Therefore, __**modify this value to:**__
 ```
 tutorialfollower.myfirstmassisproject.MyHelloHighLevelController
 ```
