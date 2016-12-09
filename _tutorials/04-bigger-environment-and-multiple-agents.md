@@ -158,8 +158,8 @@ The agents now can move from and to different locations in the environment, but,
 
 
 
-[tutorial3]: {{ site.baseurl }}/tutorials/03-defining-a-simple-behavior.html
-[tutorial5]: {{ site.baseurl }}/tutorials/05-perception.html
+[tutorial3]: {{ site.baseurl }}/tutorials/03-defining-a-simple-behavior
+[tutorial5]: {{ site.baseurl }}/tutorials/05-perception
 [tobedone]:  {{ site.baseurl }}/tobedone.html
 
 
