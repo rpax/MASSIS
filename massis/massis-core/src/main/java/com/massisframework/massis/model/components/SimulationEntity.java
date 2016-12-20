@@ -9,8 +9,11 @@ public interface SimulationEntity {
 	public <T extends SimulationComponent> boolean has(Class<T> type);
 
 	public <T extends SimulationComponent> void set(T component);
-	
+
 	public <T extends SimulationComponent> void remove(Class<T> type);
 
-	
+	public default void componentChanged(SimulationComponent cmp)
+	{
+	}
+
 }

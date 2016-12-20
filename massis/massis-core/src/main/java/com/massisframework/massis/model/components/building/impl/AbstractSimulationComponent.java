@@ -16,5 +16,9 @@ public abstract class AbstractSimulationComponent implements SimulationComponent
 	{
 		return this.entity;
 	}
+	protected void fireChanged()
+	{
+		this.entity.componentChanged(this);
+	}
 
 }

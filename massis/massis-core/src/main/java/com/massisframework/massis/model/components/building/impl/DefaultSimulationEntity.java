@@ -46,7 +46,6 @@ public class DefaultSimulationEntity implements SimulationEntity {
 		// TODO check for duplicates or not?
 		this.components.add(cmp);
 		cmp.setEntity(this);
-
 	}
 	@Override
 	public <T extends SimulationComponent> void remove(Class<T> type)
@@ -58,6 +57,12 @@ public class DefaultSimulationEntity implements SimulationEntity {
 	public <T extends SimulationComponent> boolean has(Class<T> type)
 	{
 		return this.get(type) != null;
+	}
+
+	@Override
+	public void componentChanged(SimulationComponent cmp)
+	{
+		//
 	}
 
 }
