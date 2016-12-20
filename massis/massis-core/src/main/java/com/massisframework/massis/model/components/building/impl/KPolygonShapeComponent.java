@@ -3,6 +3,7 @@ package com.massisframework.massis.model.components.building.impl;
 import java.awt.Shape;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.massisframework.massis.model.components.building.Coordinate2DComponent;
 import com.massisframework.massis.model.components.building.HeadingComponent;
@@ -24,7 +25,7 @@ public class KPolygonShapeComponent extends AbstractSimulationComponent
 	{
 		this(Arrays.stream(points)
 				.map(p -> new KPoint(p[0], p[1]))
-				.toArray(size -> new KPoint[size]));
+				.collect(Collectors.toList()));
 	}
 
 	public KPolygonShapeComponent(List<KPoint> points)
