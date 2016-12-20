@@ -28,7 +28,7 @@ public class SimWall extends SimulationObject {
 	}
 
 	@Override
-	public JsonState<Building> getState() {
+	public JsonState<IBuilding> getState() {
 		throw new UnsupportedOperationException("Not implemented yet");
 	}
 }

@@ -1,8 +1,8 @@
 package com.massisframework.massis.model.managers;
 
 import com.massisframework.massis.model.agents.DefaultAgent;
-import com.massisframework.massis.model.building.Building;
-import com.massisframework.massis.model.building.SimRoom;
+import com.massisframework.massis.model.building.IBuilding;
+import com.massisframework.massis.model.components.RoomComponent;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.util.collections.filters.Filters;
 
@@ -14,9 +14,9 @@ import com.massisframework.massis.util.collections.filters.Filters;
  */
 public class EnvironmentManager {
 
-    protected Building building;
+    protected IBuilding building;
 
-    public EnvironmentManager(Building building)
+    public EnvironmentManager(IBuilding building)
     {
         this.building = building;
     }
@@ -35,7 +35,7 @@ public class EnvironmentManager {
                 a);
     }
 
-    public SimRoom getRandomRoom()
+    public RoomComponent getRandomRoom()
     {
         return this.building.getRandomRoom();
     }

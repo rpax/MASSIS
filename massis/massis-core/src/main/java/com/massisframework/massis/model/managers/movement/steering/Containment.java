@@ -7,6 +7,7 @@ import java.util.Set;
 
 import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.model.building.RoomConnector;
+import com.massisframework.massis.model.building.SimulationObject;
 import com.massisframework.massis.model.managers.movement.Steering;
 import com.massisframework.massis.util.geom.KLine;
 import com.massisframework.massis.util.geom.KPolygonUtils;
@@ -35,7 +36,7 @@ public class Containment extends SteeringBehavior {
     // Were worse than the other method
     private static KVector stayWithinWalls4(DefaultAgent agent)
     {
-        ArrayList<KLine> roomLines = KPolygonUtils.getLines(agent.getRoom()
+        ArrayList<KLine> roomLines = KPolygonUtils.getLines(((SimulationObject) agent.getRoom())
                 .getPolygon());
         List<KLine> collisionLines = Steering.getCollisionLines(agent, 30);
         for (Iterator<KLine> iterator = collisionLines.iterator(); iterator

@@ -214,7 +214,7 @@ public abstract class SimulationObject implements PolygonHolder, Indexable,
 	
 
 	@Override
-	public JsonState<Building> getState() {
+	public JsonState<IBuilding> getState() {
 		return new SimulationObjectState(this);
 	}
 
@@ -242,11 +242,11 @@ public abstract class SimulationObject implements PolygonHolder, Indexable,
 		return true;
 	}
 
-	private static class SimulationObjectState implements JsonState<Building> {
+	private static class SimulationObjectState implements JsonState<IBuilding> {
 
 		protected int id;
 		protected HashMap<String, Object> properties;
-		protected JsonState<Building> locationState;
+		protected JsonState<IBuilding> locationState;
 
 		public SimulationObjectState(SimulationObject obj) {
 			this.id = obj.id;
@@ -255,7 +255,7 @@ public abstract class SimulationObject implements PolygonHolder, Indexable,
 		}
 
 		@Override
-		public SimulationObject restore(Building building) {
+		public SimulationObject restore(IBuilding building) {
 			final SimulationObject simObj = building.getSimulationObject(this.id);
 			for (final Entry<String, Object> entry : this.properties.entrySet()) {
 				simObj.setProperty(entry.getKey(), entry.getValue());

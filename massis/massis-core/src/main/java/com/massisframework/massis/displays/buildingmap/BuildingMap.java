@@ -7,8 +7,8 @@ import com.massisframework.gui.DrawableLayer;
 import com.massisframework.gui.DrawableTabbedFrame;
 import com.massisframework.massis.displays.SimulationDisplay;
 import com.massisframework.massis.displays.floormap.layers.DrawableFloor;
-import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.Floor;
+import com.massisframework.massis.model.building.IBuilding;
 import com.massisframework.massis.model.building.SimulationObject;
 
 public class BuildingMap extends DrawableTabbedFrame implements SimulationDisplay {
@@ -18,7 +18,7 @@ public class BuildingMap extends DrawableTabbedFrame implements SimulationDispla
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public BuildingMap(Building building,DrawableLayer<DrawableFloor>[] layers) {
+	public BuildingMap(IBuilding building,DrawableLayer<DrawableFloor>[] layers) {
 		super(getDrawableZones(building),getWelcomeText(),layers);
 	}
 
@@ -33,7 +33,7 @@ public class BuildingMap extends DrawableTabbedFrame implements SimulationDispla
 		return this.isVisible();
 	}
 
-	private static Collection<DrawableFloor> getDrawableZones(Building building) {
+	private static Collection<DrawableFloor> getDrawableZones(IBuilding building) {
 		final Collection<DrawableFloor> drawableZones = new ArrayList<>();
 		for (final Floor f : building.getFloors()) {
 			drawableZones.add(new DrawableFloor(f));

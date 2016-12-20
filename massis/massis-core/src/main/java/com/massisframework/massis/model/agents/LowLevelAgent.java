@@ -8,6 +8,7 @@ import java.awt.Shape;
 import java.util.Collection;
 
 import com.massisframework.massis.model.building.SimRoom;
+import com.massisframework.massis.model.components.RoomComponent;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.location.SimLocation;
 import com.massisframework.massis.model.managers.movement.ApproachCallback;
@@ -61,7 +62,7 @@ public interface LowLevelAgent extends  PathFollower,Indexable,SteeringCapable {
      *
      * @return The room where the agent is
      */
-    public SimRoom getRoom();
+    public RoomComponent getRoom();
     /**
      * Retrieves the agents in the current room of the agent. Equivalent method
      * to the call {@link SimRoom#getPeopleIn()}
@@ -247,7 +248,7 @@ public interface LowLevelAgent extends  PathFollower,Indexable,SteeringCapable {
      * @param highLevelData the High-Level data of this agent
      */
     public void setHighLevelData(Object highLevelData);
-    public SimRoom getRandomRoom() ;
+    public RoomComponent getRandomRoom() ;
     
 	public void setMaxSpeed(double maxspeed);
 	public void setMaxForce(double maxforce);
