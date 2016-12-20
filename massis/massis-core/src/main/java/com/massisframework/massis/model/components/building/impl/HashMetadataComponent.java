@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.massisframework.massis.model.components.building.MetadataComponent;
 
-public class HashMetadataComponent implements MetadataComponent {
+public class HashMetadataComponent extends AbstractSimulationComponent implements MetadataComponent {
 
 	private Map<String, String> map;
 
@@ -35,13 +35,14 @@ public class HashMetadataComponent implements MetadataComponent {
 	public void put(String key, String value)
 	{
 		this.map.put(key, value);
+		this.fireChanged();
 	}
 
 	@Override
 	public void remove(String key)
 	{
 		this.map.remove(key);
-
+		this.fireChanged();
 	}
 
 }

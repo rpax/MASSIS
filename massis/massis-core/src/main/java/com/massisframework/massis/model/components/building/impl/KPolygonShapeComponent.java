@@ -26,14 +26,17 @@ public class KPolygonShapeComponent extends AbstractSimulationComponent
 				.map(p -> new KPoint(p[0], p[1]))
 				.toArray(size -> new KPoint[size]));
 	}
+
 	public KPolygonShapeComponent(List<KPoint> points)
 	{
-		this(points.toArray(new KPoint[]{}));
+		this(points.toArray(new KPoint[] {}));
 	}
+
 	public KPolygonShapeComponent(KPoint[] points)
 	{
 		this.polygon = new KPolygon(points);
 	}
+
 	public KPolygonShapeComponent(KPolygon polygon)
 	{
 		this.polygon = new KPolygon(polygon);
@@ -61,14 +64,21 @@ public class KPolygonShapeComponent extends AbstractSimulationComponent
 		final double oldX = this.polygon.getCenter().x;
 		final double oldY = this.polygon.getCenter().y;
 		final double newAngle = rot.getAngle();
+		boolean changed = false;
 		if (oldX != coord.getX() || oldY != coord.getY())
 		{
 			this.polygon.translate(coord.getX(), coord.getY());
+			changed = true;
 		}
 		if (this.oldAngle != newAngle)
 		{
 			this.polygon.rotate(newAngle - oldAngle);
 			this.oldAngle = newAngle;
+			changed = true;
+		}
+		if (changed)
+		{
+			this.fireChanged();
 		}
 
 	}
