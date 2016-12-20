@@ -15,6 +15,5 @@
 		<module>massis-utils</module>
 		<module>massis-core</module>
 		<module>testdata</module>
-		<module>massis-archetypes</module>
 	</modules>
 </project>
