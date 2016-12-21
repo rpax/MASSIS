@@ -4,13 +4,13 @@
  */
 package com.massisframework.massis.util.io.storage;
 
-import com.eteks.sweethome3d.model.Home;
-import com.eteks.sweethome3d.model.RecorderException;
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
+
+import com.eteks.sweethome3d.model.Home;
+import com.eteks.sweethome3d.model.RecorderException;
 
 /**
  *

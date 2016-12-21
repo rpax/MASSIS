@@ -1,9 +1,15 @@
 package com.massisframework.massis.util.building;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import com.eteks.sweethome3d.model.Home;
 import com.eteks.sweethome3d.model.HomePieceOfFurniture;
@@ -12,12 +18,6 @@ import com.eteks.sweethome3d.model.Selectable;
 import com.eteks.sweethome3d.model.Wall;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Objects;
 import com.massisframework.massis.util.SimObjectProperty;
 import com.massisframework.massis.util.io.storage.BuildingMetadata;
 

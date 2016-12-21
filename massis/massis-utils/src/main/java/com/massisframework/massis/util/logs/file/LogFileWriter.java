@@ -7,7 +7,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import com.google.gson.Gson;
-
 import com.massisframework.massis.util.gson.CompressorProcessor;
 import com.massisframework.massis.util.io.JsonState;
 import com.massisframework.massis.util.io.ZipOutputStreamWriter;

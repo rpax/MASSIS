@@ -1,7 +1,6 @@
 package com.massisframework.massis.util.io;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.Writer;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;

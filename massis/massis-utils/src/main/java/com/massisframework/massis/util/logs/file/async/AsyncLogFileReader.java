@@ -3,10 +3,9 @@ package com.massisframework.massis.util.logs.file.async;
 import java.io.IOException;
 import java.util.concurrent.ArrayBlockingQueue;
 
+import com.google.gson.JsonSyntaxException;
 import com.massisframework.massis.util.io.JsonState;
 import com.massisframework.massis   .util.logs.file.LogFileReader;
-
-import com.google.gson.JsonSyntaxException;
 
 public class AsyncLogFileReader extends LogFileReader implements
 		AsyncLogConstants {

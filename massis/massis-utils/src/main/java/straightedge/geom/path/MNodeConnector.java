@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.massisframework.massis.util.field.grid.quadtree.lines.ObstaclesLineGrid;
 import com.massisframework.massis.util.geom.KLine;
+
 import straightedge.geom.AABB;
 import straightedge.geom.KPoint;
 import straightedge.geom.KPolygon;

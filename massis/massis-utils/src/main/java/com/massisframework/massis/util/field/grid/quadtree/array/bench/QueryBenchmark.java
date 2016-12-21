@@ -25,7 +25,6 @@ import com.massisframework.massis.util.field.grid.quadtree.array.ArrayQuadTree;
 import com.massisframework.massis.util.field.grid.quadtree.array.ArrayQuadTreeCallback;
 import com.massisframework.massis.util.geom.CoordinateHolder;
 import com.massisframework.massis.util.geom.KVector;
-import straightedge.geom.KPoint;
 
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.NANOSECONDS)

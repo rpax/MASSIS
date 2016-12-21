@@ -4,13 +4,14 @@
  */
 package com.massisframework.massis.util.building;
 
-import com.eteks.sweethome3d.model.Home;
 import java.io.IOException;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.eteks.sweethome3d.model.Home;
 import com.massisframework.massis.util.io.storage.BuildingMetadata;
 import com.massisframework.massis.util.io.storage.MassisStorage;
 

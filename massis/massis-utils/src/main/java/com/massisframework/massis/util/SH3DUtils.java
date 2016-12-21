@@ -2,11 +2,11 @@ package com.massisframework.massis.util;
 
 import java.util.ArrayList;
 
-import straightedge.geom.KPoint;
-import straightedge.geom.KPolygon;
-
 import com.eteks.sweethome3d.model.Level;
 import com.eteks.sweethome3d.model.Selectable;
+
+import straightedge.geom.KPoint;
+import straightedge.geom.KPolygon;
 /**
  * Utility class for transforming SH3D shapes into {@link KPolygon}
  * @author rpax

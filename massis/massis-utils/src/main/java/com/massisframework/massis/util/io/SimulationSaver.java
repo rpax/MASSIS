@@ -1,8 +1,5 @@
 package com.massisframework.massis.util.io;
 
-import com.eteks.sweethome3d.model.RecorderException;
-import com.eteks.sweethome3d.tools.OperatingSystem;
-import com.google.gson.Gson;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -15,9 +12,14 @@ import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.eteks.sweethome3d.model.RecorderException;
+import com.eteks.sweethome3d.tools.OperatingSystem;
+import com.google.gson.Gson;
 import com.massisframework.massis.util.gson.CompressorProcessor;
 import com.massisframework.massis.util.io.storage.DefaultMassisStorage;
 import com.massisframework.massis.util.io.storage.MassisStorage;
+
 import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.engine.Stoppable;

@@ -1,10 +1,5 @@
 package com.massisframework.massis.util.gson;
 
-import io.gsonfire.GsonFireBuilder;
-import io.gsonfire.PostProcessor;
-import io.gsonfire.PreProcessor;
-import io.gsonfire.TypeSelector;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -13,13 +8,17 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import com.massisframework.massis.util.io.JsonState;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import com.massisframework.massis.util.io.JsonState;
+
+import io.gsonfire.GsonFireBuilder;
+import io.gsonfire.PostProcessor;
+import io.gsonfire.PreProcessor;
+import io.gsonfire.TypeSelector;
 
 /**
  * Compressor for JSON States

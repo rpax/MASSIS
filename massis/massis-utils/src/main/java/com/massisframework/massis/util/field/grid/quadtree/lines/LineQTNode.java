@@ -6,6 +6,7 @@ import java.util.Set;
 
 import com.massisframework.massis.util.geom.KLine;
 import com.massisframework.massis.util.geom.KVector;
+
 import straightedge.geom.AABB;
 import straightedge.geom.KPolygon;
 

@@ -9,14 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.massisframework.massis.util.geom.KPolygonUtils;
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.operation.union.CascadedPolygonUnion;
+
 import straightedge.geom.KPoint;
 import straightedge.geom.KPolygon;
 import straightedge.geom.PolygonBufferer;
 import straightedge.geom.PolygonConverter;
 import straightedge.geom.path.PathBlockingObstacleImpl;
-
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.operation.union.CascadedPolygonUnion;
 
 /**
  * Clase de utilidades de pathfinding,

@@ -7,6 +7,7 @@ import java.util.Set;
 
 import com.massisframework.massis.util.geom.CoordinateHolder;
 import com.massisframework.massis.util.geom.KLine;
+
 import straightedge.geom.AABB;
 import straightedge.geom.KPoint;
 import straightedge.geom.KPolygon;

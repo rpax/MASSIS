@@ -5,7 +5,6 @@
 package com.massisframework.massis.util.collections.filters;
 
 import java.util.Iterator;
-import org.apache.commons.collections15.iterators.IteratorChain;
 
 /**
  *

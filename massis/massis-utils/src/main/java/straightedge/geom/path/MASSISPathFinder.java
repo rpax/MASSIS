@@ -1,10 +1,14 @@
 package straightedge.geom.path;
 
-import straightedge.geom.*;
-import straightedge.geom.util.*;
-import straightedge.geom.vision.Occluder;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-import java.util.*;
+import straightedge.geom.KPoint;
+import straightedge.geom.KPolygon;
+import straightedge.geom.util.BinaryHeap;
+import straightedge.geom.util.Tracker;
+import straightedge.geom.vision.Occluder;
 
 /**
  * Finds a path through PathBlockingObstacles. based on Keith's

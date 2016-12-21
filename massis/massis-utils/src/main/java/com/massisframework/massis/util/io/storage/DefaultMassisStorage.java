@@ -4,13 +4,6 @@
  */
 package com.massisframework.massis.util.io.storage;
 
-import com.eteks.sweethome3d.io.DefaultHomeInputStream;
-import com.eteks.sweethome3d.io.HomeFileRecorder;
-import com.eteks.sweethome3d.model.Home;
-import com.eteks.sweethome3d.model.RecorderException;
-import com.eteks.sweethome3d.tools.OperatingSystem;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,6 +20,14 @@ import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
+
+import com.eteks.sweethome3d.io.DefaultHomeInputStream;
+import com.eteks.sweethome3d.io.HomeFileRecorder;
+import com.eteks.sweethome3d.model.Home;
+import com.eteks.sweethome3d.model.RecorderException;
+import com.eteks.sweethome3d.tools.OperatingSystem;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 /**
  *
