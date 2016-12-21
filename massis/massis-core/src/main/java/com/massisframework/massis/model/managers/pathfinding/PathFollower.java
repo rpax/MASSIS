@@ -1,9 +1,9 @@
 package com.massisframework.massis.model.managers.pathfinding;
 
-import com.massisframework.massis.model.agents.SteeringCapable;
 import com.massisframework.massis.model.building.LocationHolder;
 import com.massisframework.massis.model.building.Movable;
 import com.massisframework.massis.model.managers.movement.Path;
+import com.massisframework.massis.model.managers.movement.steering.SteeringCapable;
 
 import straightedge.geom.PolygonHolder;
 

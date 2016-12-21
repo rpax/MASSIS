@@ -1,4 +1,4 @@
-package com.massisframework.massis.model.agents;
+package com.massisframework.massis.model.managers.movement.steering;
 
 import com.massisframework.massis.util.geom.KVector;
 

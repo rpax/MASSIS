@@ -12,6 +12,7 @@ import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.location.SimLocation;
 import com.massisframework.massis.model.managers.movement.ApproachCallback;
+import com.massisframework.massis.model.managers.movement.steering.SteeringCapable;
 import com.massisframework.massis.model.managers.pathfinding.PathFollower;
 import com.massisframework.massis.util.Indexable;
 import com.massisframework.massis.util.SimObjectProperty;
