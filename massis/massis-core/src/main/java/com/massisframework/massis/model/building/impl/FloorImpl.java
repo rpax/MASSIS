@@ -30,7 +30,6 @@ import com.massisframework.massis.model.building.RoomConnector;
 import com.massisframework.massis.model.building.SimDoor;
 import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.SimWall;
-import com.massisframework.massis.model.building.Teleport;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.location.SimLocation;
 import com.massisframework.massis.pathfinding.straightedge.FindPathResult;
