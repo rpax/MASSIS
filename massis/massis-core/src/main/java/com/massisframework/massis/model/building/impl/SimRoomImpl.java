@@ -30,6 +30,7 @@ import com.massisframework.massis.model.managers.AnimationManager;
 import com.massisframework.massis.model.managers.EnvironmentManager;
 import com.massisframework.massis.model.managers.movement.MovementManager;
 import com.massisframework.massis.model.managers.pathfinding.PathFindingManager;
+import com.massisframework.massis.util.geom.CoordinateHolder;
 import com.massisframework.massis.util.geom.KPolygonUtils;
 import com.massisframework.massis.util.io.JsonState;
 
@@ -231,7 +232,7 @@ public class SimRoomImpl extends SimulationObject
 	 * @see com.massisframework.massis.model.building.ISimRoom#getRandomLoc()
 	 */
 	@Override
-	public Location getRandomLoc() {
+	public CoordinateHolder getRandomLoc() {
 		Random rnd = ThreadLocalRandom.current();
 		Rectangle2D.Double bounds = this.getPolygon().getBounds2D();
 		KPoint p = new KPoint();

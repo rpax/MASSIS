@@ -6,6 +6,7 @@ import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.managers.movement.steering.SteeringBehavior;
+import com.massisframework.massis.util.geom.CoordinateHolder;
 import com.massisframework.massis.util.geom.KVector;
 
 /**
@@ -32,7 +33,7 @@ public class MovementManager {
 	 * @param range
 	 *            the range for checking if it is in location
 	 */
-	public void approachTo(final DefaultAgent vehicle, final Location toLoc,
+	public void approachTo(final DefaultAgent vehicle, final CoordinateHolder toLoc,
 			float range, ApproachCallback callback) {
 
 //		if (checkForArrival(vehicle, toLoc, range)) {

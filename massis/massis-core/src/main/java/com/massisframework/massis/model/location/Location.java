@@ -62,7 +62,6 @@ public class Location implements CoordinateHolder {
 
     public double distance2D(final Location other)
     {
-
         return this.center.distance(other.center);
     }
 

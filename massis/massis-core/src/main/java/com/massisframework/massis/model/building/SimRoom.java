@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.List;
 
 import com.massisframework.massis.model.agents.LowLevelAgent;
-import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.util.geom.CoordinateHolder;
 import com.massisframework.massis.util.io.JsonState;
 
@@ -49,6 +48,6 @@ public interface SimRoom extends Occluder, Steppable, Stoppable,CoordinateHolder
 
 	JsonState<Building> getState();
 
-	Location getRandomLoc();
+	CoordinateHolder getRandomLoc();
 
 }
