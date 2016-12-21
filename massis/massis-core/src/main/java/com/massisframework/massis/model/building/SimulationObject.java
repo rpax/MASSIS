@@ -17,16 +17,13 @@ import com.massisframework.massis.model.managers.AnimationManager;
 import com.massisframework.massis.model.managers.EnvironmentManager;
 import com.massisframework.massis.model.managers.movement.MovementManager;
 import com.massisframework.massis.model.managers.pathfinding.PathFindingManager;
-import com.massisframework.massis.util.Indexable;
 import com.massisframework.massis.util.SimObjectProperty;
-import com.massisframework.massis.util.geom.CoordinateHolder;
 import com.massisframework.massis.util.io.JsonState;
 import com.massisframework.massis.util.io.Restorable;
 import com.massisframework.massis.util.io.RestorableObserver;
 
 import straightedge.geom.KPoint;
 import straightedge.geom.KPolygon;
-import straightedge.geom.PolygonHolder;
 
 /**
  * Basic element of the simulation. It is the result of processing the elements
@@ -35,8 +32,7 @@ import straightedge.geom.PolygonHolder;
  * @author rpax
  *
  */
-public abstract class SimulationObject implements PolygonHolder, Indexable,
-		CoordinateHolder, LocationHolder, Restorable,Movable, ISimulationObject {
+public abstract class SimulationObject implements Restorable, ISimulationObject {
 
 	/**
 	 * The id of this object
