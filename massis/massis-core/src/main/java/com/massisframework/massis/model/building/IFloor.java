@@ -7,13 +7,14 @@ import com.eteks.sweethome3d.model.Level;
 import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.pathfinding.straightedge.FindPathResult;
+import com.massisframework.massis.util.Indexable;
 import com.massisframework.massis.util.geom.ContainmentPolygon;
 
 import straightedge.geom.KPoint;
 import straightedge.geom.KPolygon;
 import straightedge.geom.path.PathBlockingObstacleImpl;
 
-public interface IFloor {
+public interface IFloor extends Indexable{
 
 	void initializePathFinder();
 
@@ -34,6 +35,10 @@ public interface IFloor {
 	int getMinY();
 
 	int getMaxY();
+	
+	public int getXlength();
+
+	public int getYlength();
 
 	List<SimWall> getWalls();
 
@@ -88,7 +93,7 @@ public interface IFloor {
 	 *            the target floor
 	 * @return a list of teleports that can be used to reach the other floor
 	 */
-	List<Teleport> getTeleportsConnectingFloor(Floor other);
+	List<Teleport> getTeleportsConnectingFloor(IFloor other);
 
 	List<Teleport> getTeleports();
 

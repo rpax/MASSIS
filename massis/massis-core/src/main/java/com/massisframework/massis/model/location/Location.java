@@ -1,6 +1,6 @@
 package com.massisframework.massis.model.location;
 
-import com.massisframework.massis.model.building.Floor;
+import com.massisframework.massis.model.building.IFloor;
 import com.massisframework.massis.model.building.IFloor;
 import com.massisframework.massis.util.geom.CoordinateHolder;
 import com.massisframework.massis.util.geom.KVector;
@@ -22,14 +22,14 @@ public class Location implements CoordinateHolder {
     /**
      * Current floor
      */
-    protected Floor floor;
+    protected IFloor floor;
 
     /**
      *
      * @param point the 2D coordinates of this location
      * @param floor the floor
      */
-    public Location(KPoint point, Floor floor)
+    public Location(KPoint point, IFloor floor)
     {
 
         this.center = point;
@@ -48,7 +48,7 @@ public class Location implements CoordinateHolder {
         this.floor = other.floor;
     }
 
-    public Location(double x, double y, Floor floor)
+    public Location(double x, double y, IFloor floor)
     {
 
         this.center = new KPoint(x, y);
@@ -110,7 +110,7 @@ public class Location implements CoordinateHolder {
         return this.center;
     }
 
-    public Floor getFloor()
+    public IFloor getFloor()
     {
         return this.floor;
     }

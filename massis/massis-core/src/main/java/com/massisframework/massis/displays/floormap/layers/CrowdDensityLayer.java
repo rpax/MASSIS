@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 import com.massisframework.gui.DrawableLayer;
 import com.massisframework.massis.model.agents.LowLevelAgent;
-import com.massisframework.massis.model.building.Floor;
+import com.massisframework.massis.model.building.IFloor;
 
 /**
  * Shows efficiently the crowd density of the floor as a heat map
@@ -35,26 +35,26 @@ public class CrowdDensityLayer extends DrawableLayer<DrawableFloor> {
     /**
      * Map linking the layers with their corresponding floors
      */
-    private final HashMap<Floor, BufferedImage> densityImages = new HashMap<>();
+    private final HashMap<IFloor, BufferedImage> densityImages = new HashMap<>();
 
     @Override
     public void draw(DrawableFloor dfloor, Graphics2D g)
     {
-    	final Floor f = dfloor.getFloor();
+    	final IFloor f = dfloor.getFloor();
         /**
          * The factor with wich this floor must be scaled in order to fit in the
          * image
          */
         final double scaleFactor = IMG_MAX_SIZE
-                / ((f.xlength > f.ylength) ? f.xlength : f.ylength);
+                / ((f.getYlength() > f.getYlength()) ? f.getXlength() : f.getYlength());
         /**
          * drawing width
          */
-        final int width = (int) (f.xlength * scaleFactor);
+        final int width = (int) (f.getXlength() * scaleFactor);
         /**
          * drawing height
          */
-        final int height = (int) (f.ylength * scaleFactor);
+        final int height = (int) (f.getXlength() * scaleFactor);
         /*
          * Recover the image from the cached map. It is not there already,
          * creates a new one
@@ -105,8 +105,8 @@ public class CrowdDensityLayer extends DrawableLayer<DrawableFloor> {
              * Translation of the real coordinates of the agent into the images'
              * coordinates
              */
-            final int y1 = (int) ((a.getY() - f.minY) * scaleFactor);
-            final int x1 = (int) ((a.getX() - f.minX) * scaleFactor);
+            final int y1 = (int) ((a.getY() - f.getMinY()) * scaleFactor);
+            final int x1 = (int) ((a.getX() - f.getMinX()) * scaleFactor);
             /*
              * Occupation radius : 500 cm => 5 meters.
              */
@@ -171,8 +171,8 @@ public class CrowdDensityLayer extends DrawableLayer<DrawableFloor> {
         /*
          * Finally, draw the image data.
          */
-        g.drawImage(image, f.minX, f.minY, (f.maxX - f.minX),
-                (f.maxY - f.minY), null);
+        g.drawImage(image, f.getMinX(), f.getMinY(), (f.getMaxX() - f.getMinX()),
+                (f.getMaxY() - f.getMinY()), null);
     }
 
     private int fixXBounds(int x, int width)

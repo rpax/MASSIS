@@ -23,6 +23,7 @@ import com.massisframework.massis.model.agents.HighLevelController;
 import com.massisframework.massis.model.building.BuildingProgressMonitor;
 import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.building.IFloor;
+import com.massisframework.massis.model.building.IFloor;
 import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.SimulationObject;
@@ -52,7 +53,7 @@ public class BuildingImpl implements Building {
     /**
      * Map linking the MASSIS' floors with SH3D levels
      */
-    protected HashMap<Level, Floor> levelsFloors;
+    protected HashMap<Level, IFloor> levelsFloors;
     /**
      * Map linking MASSIS {@link SimulationObject}s with SweetHome3D furniture.
      */
@@ -60,7 +61,7 @@ public class BuildingImpl implements Building {
     /**
      * List of the building's floors
      */
-    protected final ArrayList<Floor> floors;
+    protected final ArrayList<IFloor> floors;
     /**
      * Resources folder of the simulation
      */
@@ -243,7 +244,7 @@ public class BuildingImpl implements Building {
                         .put(level, new ArrayList<HomePieceOfFurniture>());
             }
             System.err.println("Creating level " + SH3DUtils.getLevelName(level));
-            final Floor f = new Floor(level, levelRooms.get(level),
+            final IFloor f = new Floor(level, levelRooms.get(level),
                     levelWalls.get(level), levelFurniture.get(level), this);
             this.floors.add(f);
             this.levelsFloors.put(level, f);
@@ -329,7 +330,7 @@ public class BuildingImpl implements Building {
 	 * @see com.massisframework.massis.model.building.IBuilding#getFloors()
 	 */
     @Override
-	public List<Floor> getFloors()
+	public List<IFloor> getFloors()
     {
         return Collections.unmodifiableList(this.floors);
     }
@@ -347,7 +348,7 @@ public class BuildingImpl implements Building {
 	 * @see com.massisframework.massis.model.building.IBuilding#getLevelsFloors()
 	 */
     @Override
-	public HashMap<Level, Floor> getLevelsFloors()
+	public HashMap<Level, IFloor> getLevelsFloors()
     {
         return this.levelsFloors;
     }
@@ -365,9 +366,9 @@ public class BuildingImpl implements Building {
 	 * @see com.massisframework.massis.model.building.IBuilding#getFloorById(int)
 	 */
     @Override
-	public Floor getFloorById(int floorId)
+	public IFloor getFloorById(int floorId)
     {
-        for (final Floor f : this.getFloors())
+        for (final IFloor f : this.getFloors())
         {
             if (f.getID() == floorId)
             {

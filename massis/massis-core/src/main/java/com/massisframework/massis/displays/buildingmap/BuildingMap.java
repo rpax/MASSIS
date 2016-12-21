@@ -7,7 +7,7 @@ import com.massisframework.gui.DrawableLayer;
 import com.massisframework.gui.DrawableTabbedFrame;
 import com.massisframework.massis.displays.SimulationDisplay;
 import com.massisframework.massis.displays.floormap.layers.DrawableFloor;
-import com.massisframework.massis.model.building.Floor;
+import com.massisframework.massis.model.building.IFloor;
 import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.SimulationObject;
 
@@ -35,7 +35,7 @@ public class BuildingMap extends DrawableTabbedFrame implements SimulationDispla
 
 	private static Collection<DrawableFloor> getDrawableZones(Building building) {
 		final Collection<DrawableFloor> drawableZones = new ArrayList<>();
-		for (final Floor f : building.getFloors()) {
+		for (final IFloor f : building.getFloors()) {
 			drawableZones.add(new DrawableFloor(f));
 		}
 		return drawableZones;

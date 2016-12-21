@@ -50,7 +50,7 @@ public class Teleport extends SimulationObject
 	private final String name;
 	private Teleport connection;
 	private List<SimRoom> target;
-	private final HashMap<Floor, Integer> floorDistances;
+	private final HashMap<IFloor, Integer> floorDistances;
 
 	public Teleport(Map<String, String> metadata, SimLocation location,
 			MovementManager movementManager, AnimationManager animationManager,
@@ -105,11 +105,11 @@ public class Teleport extends SimulationObject
 		return target;
 	}
 
-	protected void setDistanceToFloor(Floor f, int distance) {
+	protected void setDistanceToFloor(IFloor f, int distance) {
 		this.floorDistances.put(f, distance);
 	}
 
-	public int getDistanceToFloor(Floor f) {
+	public int getDistanceToFloor(IFloor f) {
 		if (!this.floorDistances.containsKey(f)) {
 			this.floorDistances.put(f, Integer.MAX_VALUE);
 		}
@@ -177,7 +177,7 @@ public class Teleport extends SimulationObject
 
 			}
 			for (TeleportNode node : graph) {
-				Floor targetFloor = node.getTeleport().getLocation().getFloor();
+				IFloor targetFloor = node.getTeleport().getLocation().getFloor();
 				int oldDist = source.teleport.getDistanceToFloor(targetFloor);
 				int newDist = node.distance;
 				int minDist = Math.min(oldDist, newDist);

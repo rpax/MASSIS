@@ -44,7 +44,7 @@ import straightedge.geom.path.PathBlockingObstacleImpl;
  * @author rpax
  *
  */
-public class Floor implements Indexable, IFloor {
+public class Floor implements IFloor {
 
 	/**
 	 * The ID of this floor. Useful for hashcodes.
@@ -80,7 +80,7 @@ public class Floor implements Indexable, IFloor {
 	/**
 	 * Teleports linking to other floors
 	 */
-	private final HashMap<Floor, List<Teleport>> teleportConnectingFloors = new HashMap<>();
+	private final HashMap<IFloor, List<Teleport>> teleportConnectingFloors = new HashMap<>();
 	/**
 	 * MASSIS Walls
 	 */
@@ -498,11 +498,11 @@ public class Floor implements Indexable, IFloor {
 		if (obj == null) {
 			return false;
 		}
-		if (!(obj instanceof Floor)) {
+		if (!(obj instanceof IFloor)) {
 			return false;
 		}
-		final Floor other = (Floor) obj;
-		if (this.id != other.id) {
+		final IFloor other = (IFloor) obj;
+		if (this.id != other.getID()) {
 			return false;
 		}
 		return true;
@@ -594,7 +594,7 @@ public class Floor implements Indexable, IFloor {
 	 * @see com.massisframework.massis.model.building.IFloor#getTeleportsConnectingFloor(com.massisframework.massis.model.building.Floor)
 	 */
 	@Override
-	public List<Teleport> getTeleportsConnectingFloor(final Floor other) {
+	public List<Teleport> getTeleportsConnectingFloor(final IFloor other) {
 
 		if (!this.teleportConnectingFloors.containsKey(other)) {
 			final ArrayList<Teleport> teleportsConnecting = new ArrayList<>();
@@ -737,5 +737,15 @@ public class Floor implements Indexable, IFloor {
 
 		Logger.getLogger(Floor.class.getName())
 				.log(java.util.logging.Level.INFO, str, data);
+	}
+
+	public int getXlength()
+	{
+		return xlength;
+	}
+
+	public int getYlength()
+	{
+		return ylength;
 	}
 }
