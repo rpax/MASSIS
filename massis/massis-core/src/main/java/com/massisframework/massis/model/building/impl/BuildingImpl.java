@@ -252,7 +252,7 @@ public class BuildingImpl implements Building {
         //
         progressMonitor.onUpdate(3, "Linking floor connectors");
         //
-        Teleport.computeTeleportDistances(this.allTeleports);
+        TeleportImpl.computeTeleportDistances(this.allTeleports);
         //
         progressMonitor.onUpdate(5, "Linking floor connectors");
         //

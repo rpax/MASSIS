@@ -42,7 +42,7 @@ import com.massisframework.massis.util.io.JsonState;
  * @author rpax
  *
  */
-public class Teleport extends SimulationObject
+public class TeleportImpl extends SimulationObject
 		implements  ITeleport {
 
 	//
@@ -52,7 +52,7 @@ public class Teleport extends SimulationObject
 	private List<SimRoom> target;
 	private final HashMap<Floor, Integer> floorDistances;
 
-	public Teleport(Map<String, String> metadata, SimLocation location,
+	public TeleportImpl(Map<String, String> metadata, SimLocation location,
 			MovementManager movementManager, AnimationManager animationManager,
 			EnvironmentManager environment, PathFindingManager pathManager) {
 		super(metadata, location, movementManager, animationManager,
@@ -299,7 +299,7 @@ public class Teleport extends SimulationObject
 		// .getConnection();
 		final ITeleport connectedTeleport = this.getConnection();
 
-		Logger.getLogger(Teleport.class.getName()).log(Level.INFO,
+		Logger.getLogger(TeleportImpl.class.getName()).log(Level.INFO,
 				"Moving vehicle to connected teleport: {0}.",
 				connectedTeleport);
 		/*

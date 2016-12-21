@@ -103,7 +103,7 @@ public class FloorImpl implements Floor {
 	/**
 	 * Teleports in this Floor
 	 */
-	private final ArrayList<Teleport> teleports;
+	private final ArrayList<TeleportImpl> teleports;
 	/**
 	 * The proper pathfinder
 	 */
@@ -213,7 +213,7 @@ public class FloorImpl implements Floor {
 			 */
 			if (metadata.containsKey(SimObjectProperty.TELEPORT.toString())) {
 
-				final Teleport teleport = new Teleport(metadata, location,
+				final TeleportImpl teleport = new TeleportImpl(metadata, location,
 						this.building.getMovementManager(),
 						this.building.getAnimationManager(),
 						this.building.getEnvironmentManager(),
