@@ -40,7 +40,7 @@ public interface Floor extends Indexable{
 
 	public int getYlength();
 
-	List<SimWall> getWalls();
+	List<ISimWall> getWalls();
 
 	List<SimRoom> getRooms();
 
