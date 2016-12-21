@@ -82,7 +82,7 @@ public class FloorImpl implements Floor {
 	 * Rooms & doors
 	 */
 	private final List<SimDoor> doors = new ArrayList<>();
-	private final List<SimWindow> windows = new ArrayList<>();
+	private final List<SimWindowImpl> windows = new ArrayList<>();
 	private final ArrayList<RoomConnector> roomConnectors = new ArrayList<>();
 	/**
 	 * Teleports linking to other floors
@@ -242,7 +242,7 @@ public class FloorImpl implements Floor {
 						if (f.getName() != null
 								&& f.getName().toUpperCase().contains(
 										SimObjectProperty.WINDOW.toString())) {
-							final SimWindow window = new SimWindow(metadata, location,
+							final SimWindowImpl window = new SimWindowImpl(metadata, location,
 									this.building.getMovementManager(),
 									this.building.getAnimationManager(),
 									this.building.getEnvironmentManager(),
