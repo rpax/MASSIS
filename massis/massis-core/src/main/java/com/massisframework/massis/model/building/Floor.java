@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.eteks.sweethome3d.model.Level;
-import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.pathfinding.straightedge.FindPathResult;
