@@ -47,7 +47,7 @@ public interface Building {
 
 	HashMap<Level, Floor> getLevelsFloors();
 
-	Floor getFloorOf(Level lvl);
+	IFloor getFloorOf(Level lvl);
 
 	Floor getFloorById(int floorId);
 

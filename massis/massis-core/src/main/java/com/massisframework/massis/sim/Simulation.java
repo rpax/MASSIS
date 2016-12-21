@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 
 import com.massisframework.massis.model.agents.HighLevelController;
 import com.massisframework.massis.model.building.BuildingProgressMonitor;
-import com.massisframework.massis.model.building.Floor;
+import com.massisframework.massis.model.building.IFloor;
 import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.SimulationObject;
 import com.massisframework.massis.util.io.SimulationSaver;
@@ -59,7 +59,7 @@ public class Simulation extends AbstractSimulation {
         {
             this.schedule.scheduleRepeating(hlc);
         }
-        for (Floor f : this.building.getFloors())
+        for (IFloor f : this.building.getFloors())
         {
             for (SimRoom r : f.getRooms())
             {
@@ -68,7 +68,7 @@ public class Simulation extends AbstractSimulation {
         }
         if (this.simulationSaver != null)
         {
-            for (Floor f : this.building.getFloors())
+            for (IFloor f : this.building.getFloors())
             {
                 for (SimulationObject agent : f.getAgents())
                 {
@@ -82,7 +82,7 @@ public class Simulation extends AbstractSimulation {
     @Override
     protected void endSimulation()
     {
-        for (Floor f : this.building.getFloors())
+        for (IFloor f : this.building.getFloors())
         {
             for (SimRoom r : f.getRooms())
             {

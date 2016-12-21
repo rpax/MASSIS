@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 
 import com.massisframework.gui.DrawableLayer;
 import com.massisframework.massis.model.agents.DefaultAgent;
-import com.massisframework.massis.model.building.Floor;
+import com.massisframework.massis.model.building.IFloor;
 
 /**
  * Displays the radio of each agent.
@@ -23,7 +23,7 @@ public class RadioLayer extends DrawableLayer<DrawableFloor> {
 
 	@Override
 	public void draw(DrawableFloor dfloor, Graphics2D g) {
-		final Floor f = dfloor.getFloor();
+		final IFloor f = dfloor.getFloor();
 		g.setColor(RADIO_COLOR);
 		for (DefaultAgent p : f.getAgents()) {
 			if (p.isDynamic()) {

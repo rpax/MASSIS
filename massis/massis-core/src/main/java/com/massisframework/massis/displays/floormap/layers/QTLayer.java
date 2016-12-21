@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import com.massisframework.gui.DrawableLayer;
-import com.massisframework.massis.model.building.Floor;
+import com.massisframework.massis.model.building.IFloor;
 
 import straightedge.geom.KPolygon;
 
@@ -24,7 +24,7 @@ public class QTLayer extends DrawableLayer<DrawableFloor> {
     @Override
     public void draw(DrawableFloor dfloor, Graphics2D g)
     {
-    	final Floor f = dfloor.getFloor();
+    	final IFloor f = dfloor.getFloor();
         g.setColor(Color.MAGENTA);
         for (KPolygon poly : f.getQTRectangles())
         {

@@ -3,7 +3,7 @@ package com.massisframework.massis.model.managers.pathfinding;
 import java.util.HashMap;
 
 import com.massisframework.massis.model.agents.DefaultAgent;
-import com.massisframework.massis.model.building.Floor;
+import com.massisframework.massis.model.building.IFloor;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.managers.movement.Path;
 import com.massisframework.massis.pathfinding.straightedge.FindPathResult;
@@ -33,7 +33,7 @@ public class PathFindingManager {
 		Path path = this.paths.get(vehicle);
 		if (path == null) {
 
-			final Floor agentFloor = vehicle.getLocation().getFloor();
+			final IFloor agentFloor = vehicle.getLocation().getFloor();
 			agentFloor.findPath(vehicle.getLocation(), toLoc,
 					new FindPathResult() {
 						/*

@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 import org.apache.commons.lang.StringUtils;
 
 import com.massisframework.massis.model.building.Building;
-import com.massisframework.massis.model.building.Floor;
+import com.massisframework.massis.model.building.IFloor;
 import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.RoomConnector;
 import com.massisframework.massis.model.building.SimRoom;
@@ -554,7 +554,7 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 		// throw new UnsupportedOperationException();
 
 		// Maybe the agent is slightly inside an obstacle.
-		final Floor currentFloor = getLocation().getFloor();
+		final IFloor currentFloor = getLocation().getFloor();
 		final KPoint currentXY = DefaultAgent.this.getLocation().getXY();
 		final KPoint nearestPoint = currentFloor
 				.getNearestPointOutsideOfObstacles(currentXY);

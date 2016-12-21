@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import com.massisframework.gui.DrawableLayer;
-import com.massisframework.massis.model.building.Floor;
+import com.massisframework.massis.model.building.IFloor;
 import com.massisframework.massis.model.building.SimWall;
 
 /**
@@ -25,7 +25,7 @@ public class WallLayer extends DrawableLayer<DrawableFloor> {
     @Override
     public void draw(DrawableFloor dfloor, Graphics2D g)
     {
-    	final Floor f = dfloor.getFloor();
+    	final IFloor f = dfloor.getFloor();
         g.setColor(WALL_COLOR);
         for (SimWall wall : f.getWalls())
         {

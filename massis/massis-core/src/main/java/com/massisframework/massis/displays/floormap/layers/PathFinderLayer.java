@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import com.massisframework.gui.DrawableLayer;
-import com.massisframework.massis.model.building.Floor;
+import com.massisframework.massis.model.building.IFloor;
 
 import straightedge.geom.KPoint;
 import straightedge.geom.path.PathBlockingObstacleImpl;
@@ -26,7 +26,7 @@ public class PathFinderLayer extends DrawableLayer<DrawableFloor> {
     @Override
     public void draw(DrawableFloor dfloor, Graphics2D g)
     {
-    	final Floor f = dfloor.getFloor();
+    	final IFloor f = dfloor.getFloor();
         g.setColor(Color.yellow);
         int ovalRad = 10;
         for (PathBlockingObstacleImpl obst : f.getStationaryObstacles())

@@ -44,7 +44,7 @@ import straightedge.geom.path.PathBlockingObstacleImpl;
  * @author rpax
  *
  */
-public class Floor implements Indexable {
+public class Floor implements Indexable, IFloor {
 
 	/**
 	 * The ID of this floor. Useful for hashcodes.
@@ -163,6 +163,10 @@ public class Floor implements Indexable {
 		this.pathFinder = new SEPathFinder(this);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.IFloor#initializePathFinder()
+	 */
+	@Override
 	public void initializePathFinder() {
 		this.pathFinder.initialize();
 
@@ -336,6 +340,10 @@ public class Floor implements Indexable {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.IFloor#getContainmentPolygons()
+	 */
+	@Override
 	public ArrayList<ContainmentPolygon> getContainmentPolygons() {
 		return this.containmentPolygons;
 	}
@@ -393,10 +401,10 @@ public class Floor implements Indexable {
 		return new int[] { minX, minY, maxX, maxY };
 	}
 
-	/**
-	 *
-	 * @return a random Room in this floor
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.IFloor#getRandomRoom()
 	 */
+	@Override
 	public SimRoom getRandomRoom() {
 
 		final SimRoom room = this.rooms
@@ -404,38 +412,73 @@ public class Floor implements Indexable {
 		return room;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.IFloor#getDoors()
+	 */
+	@Override
 	public List<SimDoor> getDoors() {
 		return Collections.unmodifiableList(this.doors);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.IFloor#getMinX()
+	 */
+	@Override
 	public int getMinX() {
 		return this.minX;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.IFloor#getMaxX()
+	 */
+	@Override
 	public int getMaxX() {
 		return this.maxX;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.IFloor#getMinY()
+	 */
+	@Override
 	public int getMinY() {
 		return this.minY;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.IFloor#getMaxY()
+	 */
+	@Override
 	public int getMaxY() {
 		return this.maxY;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.IFloor#getWalls()
+	 */
+	@Override
 	public List<SimWall> getWalls() {
 		return Collections.unmodifiableList(this.walls);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.IFloor#getRooms()
+	 */
+	@Override
 	public final List<SimRoom> getRooms() {
 		return this.rooms;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.IFloor#getAgents()
+	 */
+	@Override
 	public Iterable<DefaultAgent> getAgents() {
 		return this.quadPilu.getElementsIn();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.IFloor#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -444,6 +487,9 @@ public class Floor implements Indexable {
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.IFloor#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -462,38 +508,51 @@ public class Floor implements Indexable {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.IFloor#getStationaryObstacles()
+	 */
+	@Override
 	public Iterable<PathBlockingObstacleImpl> getStationaryObstacles() {
 		return this.pathFinder.getStationaryObstacles();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.IFloor#getWalkableAreas()
+	 */
+	@Override
 	public Iterable<KPolygon> getWalkableAreas() {
 		return this.pathFinder.getWalkableAreas();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.IFloor#getName()
+	 */
+	@Override
 	public String getName() {
 		return SH3DUtils.getLevelName(this.level3D);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.IFloor#getLevel()
+	 */
+	@Override
 	public Level getLevel() {
 		return this.level3D;
 	}
 
-	/**
-	 * Removes an agent from this floor
-	 *
-	 * @param simObj
-	 *            the agent to be removed
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.IFloor#remove(com.massisframework.massis.model.building.SimulationObject)
 	 */
+	@Override
 	public void remove(SimulationObject simObj) {
 		this.quadPilu.remove(simObj);
 
 	}
 
-	/**
-	 * Adds an agent to this floor
-	 *
-	 * @param simObj
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.IFloor#addPerson(com.massisframework.massis.model.building.SimulationObject)
 	 */
+	@Override
 	public void addPerson(SimulationObject simObj) {
 		if (simObj instanceof DefaultAgent) {
 			this.quadPilu.insert((DefaultAgent) simObj);
@@ -501,15 +560,10 @@ public class Floor implements Indexable {
 
 	}
 
-	/**
-	 * Finds a path in this floor. If the
-	 *
-	 * @param fromLoc
-	 *            the starting location
-	 * @param to
-	 *            the desired location
-	 * @return the path.
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.IFloor#findPath(com.massisframework.massis.model.location.Location, com.massisframework.massis.model.location.Location, com.massisframework.massis.pathfinding.straightedge.FindPathResult)
 	 */
+	@Override
 	public void findPath(final Location fromLoc, Location to,
 			FindPathResult callback) {
 		/*
@@ -536,14 +590,10 @@ public class Floor implements Indexable {
 		}
 	}
 
-	/**
-	 * Returns the available teleports in this floor that can be used to reach
-	 * other floor
-	 *
-	 * @param other
-	 *            the target floor
-	 * @return a list of teleports that can be used to reach the other floor
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.IFloor#getTeleportsConnectingFloor(com.massisframework.massis.model.building.Floor)
 	 */
+	@Override
 	public List<Teleport> getTeleportsConnectingFloor(final Floor other) {
 
 		if (!this.teleportConnectingFloors.containsKey(other)) {
@@ -567,45 +617,60 @@ public class Floor implements Indexable {
 		return this.teleportConnectingFloors.get(other);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.IFloor#getTeleports()
+	 */
+	@Override
 	public List<Teleport> getTeleports() {
 		return Collections.unmodifiableList(this.teleports);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.IFloor#getRoomConnectors()
+	 */
+	@Override
 	public List<RoomConnector> getRoomConnectors() {
 		return Collections.unmodifiableList(this.roomConnectors);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.IFloor#getID()
+	 */
 	@Override
 	public int getID() {
 		return this.id;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.IFloor#getNearestPointOutsideOfObstacles(double, double)
+	 */
+	@Override
 	public KPoint getNearestPointOutsideOfObstacles(double x, double y) {
 		return this.pathFinder
 				.getNearestPointOutsideOfObstacles(new KPoint(x, y));
 	}
 
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.IFloor#getNearestPointOutsideOfObstacles(straightedge.geom.KPoint)
+	 */
+	@Override
 	public KPoint getNearestPointOutsideOfObstacles(KPoint p) {
 		return this.pathFinder.getNearestPointOutsideOfObstacles(p);
 	}
 
-	/**
-	 *
-	 * @return the rectangles of the leaves of the QuadTree.
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.IFloor#getQTRectangles()
 	 */
+	@Override
 	public Iterable<KPolygon> getQTRectangles() {
 
 		return this.quadPilu.getRectangles();
 	}
 
-	/**
-	 *
-	 * @param xmin
-	 * @param ymin
-	 * @param xmax
-	 * @param ymax
-	 * @return The agents inside the rectangle defined by xmin,ymin,xmax,ymax
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.IFloor#getAgentsInRange(int, int, int, int)
 	 */
+	@Override
 	public Iterable<DefaultAgent> getAgentsInRange(int xmin, int ymin, int xmax,
 			int ymax) {
 

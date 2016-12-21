@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 
 import com.massisframework.gui.DrawableLayer;
-import com.massisframework.massis.model.building.Floor;
+import com.massisframework.massis.model.building.IFloor;
 
 import straightedge.geom.path.KNode;
 import straightedge.geom.path.KNodeOfObstacle;
@@ -28,7 +28,7 @@ public class ConnectionsLayer extends DrawableLayer<DrawableFloor> {
 	public void draw(DrawableFloor dfloor, Graphics2D g)
     {
 
-    	final Floor f = dfloor.getFloor();
+    	final IFloor f = dfloor.getFloor();
         g.setColor(Color.DARK_GRAY);
         for (PathBlockingObstacleImpl obst : f.getStationaryObstacles())
         {
