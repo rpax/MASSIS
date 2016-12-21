@@ -32,7 +32,7 @@ import straightedge.geom.KPolygon;
  * @author rpax
  *
  */
-public abstract class SimulationObject implements Restorable, ISimulationObject {
+public abstract class SimulationObject implements ISimulationObject {
 
 	/**
 	 * The id of this object

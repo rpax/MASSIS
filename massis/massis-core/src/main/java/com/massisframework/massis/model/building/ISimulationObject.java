@@ -9,12 +9,13 @@ import com.massisframework.massis.model.managers.EnvironmentManager;
 import com.massisframework.massis.model.managers.movement.MovementManager;
 import com.massisframework.massis.model.managers.pathfinding.PathFindingManager;
 import com.massisframework.massis.util.io.JsonState;
+import com.massisframework.massis.util.io.Restorable;
 import com.massisframework.massis.util.io.RestorableObserver;
 
 import straightedge.geom.KPoint;
 import straightedge.geom.KPolygon;
 
-public interface ISimulationObject {
+public interface ISimulationObject extends Restorable{
 
 	SimLocation getLocation();
 
