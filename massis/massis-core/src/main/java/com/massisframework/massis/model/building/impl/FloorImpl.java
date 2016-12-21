@@ -320,7 +320,7 @@ public class FloorImpl implements Floor {
 
 			final Map<String, String> metadata = this.building.getMetadata(r);
 
-			final SimRoom simRoom = new SimRoom(metadata, location,
+			final SimRoomImpl simRoom = new SimRoomImpl(metadata, location,
 					this.building.getMovementManager(),
 					this.building.getAnimationManager(),
 					this.building.getEnvironmentManager(),

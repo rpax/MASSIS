@@ -42,7 +42,7 @@ import straightedge.geom.KPoint;
  * @author rpax
  *
  */
-public class SimRoom extends SimulationObject
+public class SimRoomImpl extends SimulationObject
 		implements  ISimRoom {
 
 	private static final long serialVersionUID = 1L;
@@ -58,7 +58,7 @@ public class SimRoom extends SimulationObject
 	private final Collection<DefaultAgent> vehiclesInThisRoomCached = new ArrayList<>();
 	private boolean vehiclesInThisRoomComputed = false;
 
-	public SimRoom(Map<String, String> metadata, SimLocation location,
+	public SimRoomImpl(Map<String, String> metadata, SimLocation location,
 			MovementManager movementManager, AnimationManager animationManager,
 			EnvironmentManager environment, PathFindingManager pathManager) {
 		super(metadata, location, movementManager, animationManager,
@@ -216,7 +216,7 @@ public class SimRoom extends SimulationObject
 
 		@Override
 		public boolean evaluate(DefaultAgent person) {
-			return (SimRoom.this == person.getRoom());
+			return (SimRoomImpl.this == person.getRoom());
 		}
 	}
 
