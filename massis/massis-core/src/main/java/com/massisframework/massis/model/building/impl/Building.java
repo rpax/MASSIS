@@ -1,4 +1,4 @@
-package com.massisframework.massis.model.building;
+package com.massisframework.massis.model.building.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,6 +20,12 @@ import com.eteks.sweethome3d.model.Wall;
 import com.massisframework.massis.displays.SimulationDisplay;
 import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.model.agents.HighLevelController;
+import com.massisframework.massis.model.building.BuildingProgressMonitor;
+import com.massisframework.massis.model.building.Floor;
+import com.massisframework.massis.model.building.IBuilding;
+import com.massisframework.massis.model.building.SimRoom;
+import com.massisframework.massis.model.building.SimulationObject;
+import com.massisframework.massis.model.building.Teleport;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.managers.AnimationManager;
 import com.massisframework.massis.model.managers.EnvironmentManager;
@@ -483,8 +489,8 @@ public class Building implements IBuilding {
                 f);
         //this.buildingData.getMetadataManager().getMetadata(f);
     }
-
-    protected void addToSchedule(HighLevelController hlc)
+    @Override
+    public void addToSchedule(HighLevelController hlc)
     {
         this.scheduledControllers.add(hlc);
     }

@@ -23,9 +23,10 @@ public interface IBuilding {
 	 * Links a simulationObject with its corresponding sweethome3d furniture
 	 * element
 	 *
-	 * @param simulationObject the simulation object to be linked
-	 * @param representation the furniture element of sweethome3d that
-	 * represents it
+	 * @param simulationObject
+	 *            the simulation object to be linked
+	 * @param representation
+	 *            the furniture element of sweethome3d that represents it
 	 */
 	void addSH3DRepresentation(SimulationObject simulationObject,
 			HomePieceOfFurniture representation);
@@ -33,7 +34,8 @@ public interface IBuilding {
 	/**
 	 * Adds a teleport element to the building
 	 *
-	 * @param teleport the teleport element
+	 * @param teleport
+	 *            the teleport element
 	 */
 	void addTeleport(Teleport teleport);
 
@@ -50,8 +52,7 @@ public interface IBuilding {
 	Floor getFloorById(int floorId);
 
 	/**
-	 * Only used for recovering the state.
-	 * <i>Do not use</i>
+	 * Only used for recovering the state. <i>Do not use</i>
 	 *
 	 * @param simObjId
 	 * @return
@@ -82,4 +83,5 @@ public interface IBuilding {
 
 	PathFindingManager getPathManager();
 
+	public void addToSchedule(HighLevelController hlc);
 }
