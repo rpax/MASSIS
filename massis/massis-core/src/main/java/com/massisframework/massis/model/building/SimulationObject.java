@@ -289,7 +289,7 @@ public abstract class SimulationObject implements ISimulationObject {
 		if (obj == null) {
 			return false;
 		}
-		if (!(obj instanceof ISimulationObject)) {
+		if (!(obj instanceof Restorable)) {
 			return false;
 		}
 
@@ -318,7 +318,7 @@ public abstract class SimulationObject implements ISimulationObject {
 		}
 
 		@Override
-		public ISimulationObject restore(Building building) {
+		public Restorable restore(Building building) {
 			final ISimulationObject simObj = building.getSimulationObject(this.id);
 			for (final Entry<String, Object> entry : this.properties.entrySet()) {
 				simObj.setProperty(entry.getKey(), entry.getValue());

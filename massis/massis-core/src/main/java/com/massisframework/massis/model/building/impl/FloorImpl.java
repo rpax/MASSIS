@@ -24,7 +24,6 @@ import com.massisframework.massis.model.agents.HighLevelController;
 import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.Floor;
-import com.massisframework.massis.model.building.ISimulationObject;
 import com.massisframework.massis.model.building.RoomConnector;
 import com.massisframework.massis.model.building.SimDoor;
 import com.massisframework.massis.model.building.SimRoom;
@@ -40,6 +39,7 @@ import com.massisframework.massis.util.SimObjectProperty;
 import com.massisframework.massis.util.field.grid.quadtree.array.ArrayQuadTree;
 import com.massisframework.massis.util.field.grid.quadtree.array.ArrayQuadTreeCallback;
 import com.massisframework.massis.util.geom.ContainmentPolygon;
+import com.massisframework.massis.util.io.Restorable;
 
 import straightedge.geom.KPoint;
 import straightedge.geom.KPolygon;
@@ -552,7 +552,7 @@ public class FloorImpl implements Floor {
 	 * @see com.massisframework.massis.model.building.IFloor#remove(com.massisframework.massis.model.building.SimulationObject)
 	 */
 	@Override
-	public void remove(ISimulationObject simObj) {
+	public void remove(Restorable simObj) {
 		this.quadPilu.remove(simObj);
 
 	}
@@ -561,7 +561,7 @@ public class FloorImpl implements Floor {
 	 * @see com.massisframework.massis.model.building.IFloor#addPerson(com.massisframework.massis.model.building.SimulationObject)
 	 */
 	@Override
-	public void addPerson(ISimulationObject simObj) {
+	public void addPerson(Restorable simObj) {
 		if (simObj instanceof LowLevelAgent) {
 			this.quadPilu.insert((LowLevelAgent) simObj);
 		}

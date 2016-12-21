@@ -9,6 +9,7 @@ import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.pathfinding.straightedge.FindPathResult;
 import com.massisframework.massis.util.Indexable;
 import com.massisframework.massis.util.geom.ContainmentPolygon;
+import com.massisframework.massis.util.io.Restorable;
 
 import straightedge.geom.KPoint;
 import straightedge.geom.KPolygon;
@@ -64,14 +65,14 @@ public interface Floor extends Indexable{
 	 * @param simObj
 	 *            the agent to be removed
 	 */
-	void remove(ISimulationObject simObj);
+	void remove(Restorable simObj);
 
 	/**
 	 * Adds an agent to this floor
 	 *
 	 * @param simObj
 	 */
-	void addPerson(ISimulationObject simObj);
+	void addPerson(Restorable simObj);
 
 	/**
 	 * Finds a path in this floor. If the

@@ -34,6 +34,7 @@ import com.massisframework.massis.model.managers.pathfinding.PathFindingManager;
 import com.massisframework.massis.sim.AbstractSimulation;
 import com.massisframework.massis.util.Indexable;
 import com.massisframework.massis.util.SH3DUtils;
+import com.massisframework.massis.util.io.Restorable;
 import com.massisframework.sweethome3d.metadata.HomeMetadataLoader;
 
 /**
@@ -192,7 +193,7 @@ public class BuildingImpl implements Building {
 	 * @see com.massisframework.massis.model.building.IBuilding#getSH3DRepresentation(com.massisframework.massis.model.building.SimulationObject)
 	 */
     @Override
-	public HomePieceOfFurniture getSH3DRepresentation(ISimulationObject obj)
+	public HomePieceOfFurniture getSH3DRepresentation(Restorable obj)
     {
         return this.representationMap.get(obj);
     }

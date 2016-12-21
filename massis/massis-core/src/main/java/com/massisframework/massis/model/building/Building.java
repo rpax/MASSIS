@@ -17,6 +17,7 @@ import com.massisframework.massis.model.managers.EnvironmentManager;
 import com.massisframework.massis.model.managers.movement.MovementManager;
 import com.massisframework.massis.model.managers.pathfinding.PathFindingManager;
 import com.massisframework.massis.util.Indexable;
+import com.massisframework.massis.util.io.Restorable;
 
 public interface Building {
 
@@ -40,7 +41,7 @@ public interface Building {
 	 */
 	void addTeleport(Teleport teleport);
 
-	HomePieceOfFurniture getSH3DRepresentation(ISimulationObject obj);
+	HomePieceOfFurniture getSH3DRepresentation(Restorable obj);
 
 	List<Floor> getFloors();
 
