@@ -6,12 +6,13 @@ package com.massisframework.massis.model.building;
 
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.util.geom.CoordinateHolder;
+import com.massisframework.massis.util.io.Restorable;
 
 /**
  *
  * @author Rafael Pax
  */
-public interface LocationHolder extends CoordinateHolder{
+public interface LocationHolder extends CoordinateHolder,Restorable{
 
     /**
      *

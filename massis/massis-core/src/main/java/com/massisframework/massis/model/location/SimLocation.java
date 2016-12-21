@@ -169,7 +169,8 @@ public class SimLocation extends Location implements Restorable {
             /*
              * Se obtiene la localizacion de attached y se configura
              */
-            SimLocation location = attached.getLocation();
+            //FIXME this cast must be removed
+            SimLocation location = (SimLocation) attached.getLocation();
             location.polygon.translateTo(this.centerX, this.centerY);
             location.angle = this.angle;
 

@@ -171,16 +171,6 @@ public abstract class SimulationObject implements ISimulationObject {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.ISimulationObject#getXYCoordinates(double[])
-	 */
-	@Override
-	public double[] getXYCoordinates(final double[] coord) {
-		coord[0] = this.location.getX();
-		coord[1] = this.location.getY();
-		return coord;
-	}
-
-	/* (non-Javadoc)
 	 * @see com.massisframework.massis.model.building.ISimulationObject#getPolygon()
 	 */
 	@Override
@@ -313,8 +303,8 @@ public abstract class SimulationObject implements ISimulationObject {
 			{
 				this.properties.put(name, obj.getProperty(name));
 			}
-			
-			this.locationState = obj.getLocation().getState();
+			//TODO temporary
+			this.locationState = ((SimLocation) obj.getLocation()).getState();
 		}
 
 		@Override

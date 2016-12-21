@@ -1,5 +1,7 @@
 package com.massisframework.massis.util.geom;
 
+import java.util.Objects;
+
 public interface CoordinateHolder {
 
 	/**
@@ -14,6 +16,19 @@ public interface CoordinateHolder {
 	 */
 	public double getY();
 
-	
+	/**
+	 * Returns the coordinates of this object.
+	 *
+	 * @param coord
+	 *            available 1D lenght 2 array
+	 * @return the same array, filled with the coordinates of this object
+	 */
+	default double[] getXYCoordinates(double[] coord)
+	{
+		Objects.requireNonNull(coord);
+		coord[0] = this.getX();
+		coord[1] = this.getY();
+		return coord;
+	}
 
 }
