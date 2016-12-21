@@ -5,7 +5,8 @@ import java.awt.Graphics2D;
 
 import com.massisframework.gui.DrawableLayer;
 import com.massisframework.massis.model.building.Floor;
-import com.massisframework.massis.model.building.SimWall;
+
+import straightedge.geom.PolygonHolder;
 
 /**
  * Draws the walls of a floor
@@ -27,7 +28,7 @@ public class WallLayer extends DrawableLayer<DrawableFloor> {
     {
     	final Floor f = dfloor.getFloor();
         g.setColor(WALL_COLOR);
-        for (SimWall wall : f.getWalls())
+        for (PolygonHolder wall : f.getWalls())
         {
             g.draw(wall.getPolygon());
             g.fill(wall.getPolygon());
