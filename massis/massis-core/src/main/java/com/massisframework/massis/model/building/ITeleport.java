@@ -6,7 +6,7 @@ import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.managers.pathfinding.PathFollower;
 import com.massisframework.massis.util.io.JsonState;
 
-public interface ITeleport {
+public interface ITeleport extends RoomConnector, WayPoint{
 
 	/**
 	 *

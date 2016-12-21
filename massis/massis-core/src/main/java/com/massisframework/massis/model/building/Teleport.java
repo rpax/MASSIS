@@ -38,7 +38,7 @@ import com.massisframework.massis.util.io.JsonState;
  *
  */
 public class Teleport extends SimulationObject
-		implements RoomConnector, WayPoint, ITeleport {
+		implements  ITeleport {
 
 	//
 	private final byte type;
