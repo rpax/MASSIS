@@ -1,7 +1,6 @@
 package com.massisframework.massis.model.location;
 
 import com.massisframework.massis.model.building.Floor;
-import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.util.geom.CoordinateHolder;
 import com.massisframework.massis.util.geom.KVector;
 

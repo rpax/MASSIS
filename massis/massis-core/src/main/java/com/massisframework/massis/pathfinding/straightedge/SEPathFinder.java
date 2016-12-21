@@ -6,9 +6,9 @@ import java.util.List;
 
 import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.building.Floor;
-import com.massisframework.massis.model.building.Teleport;
-import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.SimDoor;
+import com.massisframework.massis.model.building.SimRoom;
+import com.massisframework.massis.model.building.Teleport;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.managers.movement.Path;
 import com.massisframework.massis.util.PathFindingUtils;

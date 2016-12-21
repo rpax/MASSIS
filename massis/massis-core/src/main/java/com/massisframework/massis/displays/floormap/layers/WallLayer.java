@@ -6,7 +6,6 @@ import java.awt.Graphics2D;
 import com.massisframework.gui.DrawableLayer;
 import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.building.SimWall;
-import com.massisframework.massis.model.building.impl.SimWallImpl;
 
 /**
  * Draws the walls of a floor

@@ -19,7 +19,6 @@ import java.util.concurrent.ThreadLocalRandom;
 import org.apache.commons.collections15.Predicate;
 import org.apache.commons.collections15.iterators.FilterIterator;
 
-import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.RoomConnector;

@@ -3,8 +3,8 @@ package com.massisframework.massis.sim;
 import java.io.IOException;
 
 import com.eteks.sweethome3d.model.RecorderException;
-import com.massisframework.massis.model.building.BuildingProgressMonitor;
 import com.massisframework.massis.model.building.Building;
+import com.massisframework.massis.model.building.BuildingProgressMonitor;
 import com.massisframework.massis.util.io.JsonState;
 import com.massisframework.massis.util.logs.file.LogFileReader;
 import com.massisframework.massis.util.logs.file.async.AsyncLogFileReader;

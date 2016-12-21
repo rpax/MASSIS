@@ -7,7 +7,6 @@ import com.eteks.sweethome3d.model.Selectable;
 import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.building.ISimulationObject;
-import com.massisframework.massis.model.building.SimulationObject;
 import com.massisframework.massis.util.SH3DUtils;
 import com.massisframework.massis.util.io.JsonState;
 import com.massisframework.massis.util.io.Restorable;

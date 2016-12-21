@@ -5,8 +5,8 @@ import java.awt.Graphics2D;
 
 import com.massisframework.gui.DrawableLayer;
 import com.massisframework.massis.model.building.Floor;
-import com.massisframework.massis.model.building.Teleport;
 import com.massisframework.massis.model.building.SimDoor;
+import com.massisframework.massis.model.building.Teleport;
 
 /**
  * Draws doors and teleports

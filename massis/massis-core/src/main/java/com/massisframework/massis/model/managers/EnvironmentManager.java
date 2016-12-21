@@ -1,6 +1,5 @@
 package com.massisframework.massis.model.managers;
 
-import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.SimRoom;

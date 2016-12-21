@@ -1,7 +1,6 @@
 package com.massisframework.massis.displays;
 
 import com.massisframework.massis.model.building.ISimulationObject;
-import com.massisframework.massis.model.building.SimulationObject;
 
 /**
  * Interface that must be implemented by any object that behaves as a display.
