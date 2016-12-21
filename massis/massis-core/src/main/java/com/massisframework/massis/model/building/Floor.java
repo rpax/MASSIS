@@ -26,7 +26,7 @@ public interface Floor extends Indexable{
 	 */
 	SimRoom getRandomRoom();
 
-	List<ISimDoor> getDoors();
+	List<SimDoor> getDoors();
 
 	int getMinX();
 

@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 
 import com.massisframework.gui.DrawableLayer;
 import com.massisframework.massis.model.building.Floor;
-import com.massisframework.massis.model.building.ISimDoor;
+import com.massisframework.massis.model.building.SimDoor;
 import com.massisframework.massis.model.building.Teleport;
 
 /**
@@ -26,7 +26,7 @@ public class DoorLayer extends DrawableLayer<DrawableFloor> {
     {
 		final Floor f = dfloor.getFloor();
         g.setColor(Color.green);
-        for (ISimDoor d : f.getDoors())
+        for (SimDoor d : f.getDoors())
         {
             g.fill(d.getPolygon());
         }

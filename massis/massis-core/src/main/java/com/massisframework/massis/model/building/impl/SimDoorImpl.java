@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.massisframework.massis.model.building.Building;
-import com.massisframework.massis.model.building.ISimDoor;
+import com.massisframework.massis.model.building.SimDoor;
 import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.SimulationObject;
 import com.massisframework.massis.model.location.SimLocation;
@@ -27,7 +27,7 @@ import straightedge.geom.KPoint;
  * @author rpax
  *
  */
-public class SimDoorImpl extends SimulationObject implements ISimDoor {
+public class SimDoorImpl extends SimulationObject implements SimDoor {
 
 	/**
 	 * The rooms connected by this Door
@@ -129,15 +129,15 @@ public class SimDoorImpl extends SimulationObject implements ISimDoor {
 		private final boolean isOpen;
 		private final JsonState<Building> data;
 
-		public SimDoorState(ISimDoor d,
+		public SimDoorState(SimDoor d,
 				JsonState<Building> simulationObjectData) {
 			this.data = simulationObjectData;
 			this.isOpen = d.isOpened();
 		}
 
 		@Override
-		public ISimDoor restore(Building building) {
-			ISimDoor d = (ISimDoor) data.restore(building);
+		public SimDoor restore(Building building) {
+			SimDoor d = (SimDoor) data.restore(building);
 			d.setOpen(this.isOpen);
 			return d;
 		}

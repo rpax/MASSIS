@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.model.building.Floor;
-import com.massisframework.massis.model.building.ISimDoor;
+import com.massisframework.massis.model.building.SimDoor;
 import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.Teleport;
 import com.massisframework.massis.model.location.Location;
@@ -96,7 +96,7 @@ public class SEPathFinder {
 			 * Substraction of the doors area to the walls area
 			 */
 			Area area = new Area(so.getPolygon());
-			for (ISimDoor d : floor.getDoors()) {
+			for (SimDoor d : floor.getDoors()) {
 
 				if (d.isOpened()) {
 					area.subtract(new Area(d.getPolygon()));

@@ -6,7 +6,7 @@ import com.massisframework.massis.model.building.impl.SimDoorImpl.SimDoorState;
 
 import straightedge.geom.PolygonHolder;
 
-public interface ISimDoor extends PolygonHolder,RoomConnector{
+public interface SimDoor extends PolygonHolder,RoomConnector{
 
 	List<SimRoom> getConnectedRooms();
 
