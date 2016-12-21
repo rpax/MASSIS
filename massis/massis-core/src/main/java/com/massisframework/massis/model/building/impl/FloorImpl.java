@@ -88,7 +88,7 @@ public class FloorImpl implements Floor {
 	/**
 	 * Teleports linking to other floors
 	 */
-	private final HashMap<Floor, List<Teleport>> teleportConnectingFloors = new HashMap<>();
+	private final HashMap<Floor, List<ITeleport>> teleportConnectingFloors = new HashMap<>();
 	/**
 	 * MASSIS Walls
 	 */
@@ -580,7 +580,7 @@ public class FloorImpl implements Floor {
 		 */
 		if (fromLoc.getFloor() != to.getFloor()) {
 
-			final List<Teleport> teleportsConnecting = getTeleportsConnectingFloor(
+			final List<ITeleport> teleportsConnecting = getTeleportsConnectingFloor(
 					to.getFloor());
 			if (teleportsConnecting == null) {
 				logInfo("No teleports connecting {0} with {1} ",
@@ -588,7 +588,7 @@ public class FloorImpl implements Floor {
 				callback.onError(FindPathResult.PathFinderErrorReason.UNREACHABLE_TARGET);
 				// return null;
 			}
-			final Teleport targetTeleport = teleportsConnecting.get(0);
+			final ITeleport targetTeleport = teleportsConnecting.get(0);
 			final Location targetLocation = targetTeleport.getLocation();
 			this.pathFinder.findPath(fromLoc, targetLocation, targetTeleport,
 					callback);
@@ -602,19 +602,19 @@ public class FloorImpl implements Floor {
 	 * @see com.massisframework.massis.model.building.IFloor#getTeleportsConnectingFloor(com.massisframework.massis.model.building.Floor)
 	 */
 	@Override
-	public List<Teleport> getTeleportsConnectingFloor(final Floor other) {
+	public List<ITeleport> getTeleportsConnectingFloor(final Floor other) {
 
 		if (!this.teleportConnectingFloors.containsKey(other)) {
-			final ArrayList<Teleport> teleportsConnecting = new ArrayList<>();
-			for (final Teleport teleport : this.teleports) {
+			final ArrayList<ITeleport> teleportsConnecting = new ArrayList<>();
+			for (final ITeleport teleport : this.teleports) {
 				if (teleport.getType() == ITeleport.START && teleport
 						.getDistanceToFloor(other) < Integer.MAX_VALUE) {
 					teleportsConnecting.add(teleport);
 				}
 			}
-			Collections.sort(teleportsConnecting, new Comparator<Teleport>() {
+			Collections.sort(teleportsConnecting, new Comparator<ITeleport>() {
 				@Override
-				public int compare(Teleport o1, Teleport o2) {
+				public int compare(ITeleport o1, ITeleport o2) {
 					return Integer.compare(o1.getDistanceToFloor(other),
 							o2.getDistanceToFloor(other));
 				}
@@ -629,7 +629,7 @@ public class FloorImpl implements Floor {
 	 * @see com.massisframework.massis.model.building.IFloor#getTeleports()
 	 */
 	@Override
-	public List<Teleport> getTeleports() {
+	public List<ITeleport> getTeleports() {
 		return Collections.unmodifiableList(this.teleports);
 	}
 

@@ -6,7 +6,7 @@ import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.managers.pathfinding.PathFollower;
 import com.massisframework.massis.util.io.JsonState;
 
-public interface ITeleport extends RoomConnector, WayPoint{
+public interface ITeleport extends RoomConnector, WayPoint, LocationHolder {
 
 	/**
 	 *
@@ -20,7 +20,7 @@ public interface ITeleport extends RoomConnector, WayPoint{
 
 	ITeleport getConnection();
 
-	void setConnection(Teleport connection);
+	void setConnection(ITeleport connection);
 
 	byte getType();
 
@@ -36,4 +36,5 @@ public interface ITeleport extends RoomConnector, WayPoint{
 
 	boolean executeWayPointAction(PathFollower vehicle);
 
+	public void setDistanceToFloor(Floor f, int distance);
 }

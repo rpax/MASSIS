@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.massisframework.massis.model.building.ITeleport;
-import com.massisframework.massis.model.building.Teleport;
 import com.massisframework.massis.model.building.WayPoint;
 import com.massisframework.massis.model.managers.pathfinding.PathFollower;
 
@@ -19,9 +18,9 @@ import straightedge.geom.KPoint;
 public class Path {
 
 	private List<WayPoint> wayPoints;
-	private final Teleport target;
+	private final ITeleport target;
 
-	public Path(List<KPoint> points, Teleport teleport) {
+	public Path(List<KPoint> points, ITeleport teleport) {
 		super();
 		this.target = teleport;
 		this.wayPoints = new ArrayList<>(points.size());

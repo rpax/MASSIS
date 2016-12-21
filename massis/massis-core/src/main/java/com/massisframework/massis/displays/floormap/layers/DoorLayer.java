@@ -7,7 +7,6 @@ import com.massisframework.gui.DrawableLayer;
 import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.building.ITeleport;
 import com.massisframework.massis.model.building.SimDoor;
-import com.massisframework.massis.model.building.Teleport;
 
 /**
  * Draws doors and teleports
@@ -35,7 +34,7 @@ public class DoorLayer extends DrawableLayer<DrawableFloor> {
          * Teleport drawing. Depending on the type of teleport, one color or
          * another is used.
          */
-        for (Teleport d : f.getTeleports())
+        for (ITeleport d : f.getTeleports())
         {
             g.setColor(Color.magenta);
             g.draw(d.getPolygon());

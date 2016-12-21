@@ -43,7 +43,7 @@ public class Teleport extends SimulationObject
 	//
 	private final byte type;
 	private final String name;
-	private Teleport connection;
+	private ITeleport connection;
 	private List<SimRoom> target;
 	private final HashMap<Floor, Integer> floorDistances;
 
@@ -82,7 +82,7 @@ public class Teleport extends SimulationObject
 	 * @see com.massisframework.massis.model.building.ITeleport#getConnection()
 	 */
 	@Override
-	public Teleport getConnection() {
+	public ITeleport getConnection() {
 		return connection;
 	}
 
@@ -90,7 +90,7 @@ public class Teleport extends SimulationObject
 	 * @see com.massisframework.massis.model.building.ITeleport#setConnection(com.massisframework.massis.model.building.Teleport)
 	 */
 	@Override
-	public void setConnection(Teleport connection) {
+	public void setConnection(ITeleport connection) {
 		this.connection = connection;
 	}
 
@@ -122,8 +122,8 @@ public class Teleport extends SimulationObject
 		}
 		return target;
 	}
-
-	protected void setDistanceToFloor(Floor f, int distance) {
+	@Override
+	public void setDistanceToFloor(Floor f, int distance) {
 		this.floorDistances.put(f, distance);
 	}
 
@@ -143,18 +143,18 @@ public class Teleport extends SimulationObject
 	 *
 	 * @param teleports
 	 */
-	public static void computeTeleportDistances(List<Teleport> teleports) {
+	public static void computeTeleportDistances(List<ITeleport> teleports) {
 		ArrayList<TeleportNode> graph = new ArrayList<>();
-		HashMap<Teleport, TeleportNode> tmap = new HashMap<>();
+		HashMap<ITeleport, TeleportNode> tmap = new HashMap<>();
 
 		// 1. construccion grafo
-		for (Teleport t : teleports) {
+		for (ITeleport t : teleports) {
 			TeleportNode node = new TeleportNode(t);
 			tmap.put(t, node);
 			graph.add(node);
 		}
 		// 2. Vecinos
-		for (Teleport t : teleports) {
+		for (ITeleport t : teleports) {
 			for (ITeleport neigh : t.getLocation().getFloor().getTeleports()) {
 				if (neigh != t) {
 					if (tmap.get(neigh) != null) {
@@ -212,11 +212,11 @@ public class Teleport extends SimulationObject
 
 	private static class TeleportNode implements Comparable<TeleportNode> {
 
-		private final Teleport teleport;
+		private final ITeleport teleport;
 		private final ArrayList<TeleportVertex> neighbours;
 		private int distance;
 
-		public TeleportNode(Teleport teleport) {
+		public TeleportNode(ITeleport teleport) {
 			this.teleport = teleport;
 			this.neighbours = new ArrayList<>();
 		}
@@ -226,7 +226,7 @@ public class Teleport extends SimulationObject
 			return Integer.compare(this.distance, o.distance);
 		}
 
-		public Teleport getTeleport() {
+		public ITeleport getTeleport() {
 			return teleport;
 		}
 
@@ -292,7 +292,7 @@ public class Teleport extends SimulationObject
 		vehicle.getVelocity().mult(0);
 		// final Teleport connectedTeleport = path.getTargetTeleport()
 		// .getConnection();
-		final Teleport connectedTeleport = this.getConnection();
+		final ITeleport connectedTeleport = this.getConnection();
 
 		Logger.getLogger(Teleport.class.getName()).log(Level.INFO,
 				"Moving vehicle to connected teleport: {0}.",

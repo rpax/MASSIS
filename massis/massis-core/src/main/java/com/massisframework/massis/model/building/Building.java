@@ -37,7 +37,7 @@ public interface Building {
 	 * @param teleport
 	 *            the teleport element
 	 */
-	void addTeleport(Teleport teleport);
+	void addTeleport(ITeleport teleport);
 
 	HomePieceOfFurniture getSH3DRepresentation(ISimulationObject obj);
 
