@@ -27,7 +27,7 @@ import straightedge.geom.KPoint;
  * @author rpax
  *
  */
-public class SimDoor extends SimulationObject implements ISimDoor {
+public class SimDoorImpl extends SimulationObject implements ISimDoor {
 
 	/**
 	 * The rooms connected by this Door
@@ -38,7 +38,7 @@ public class SimDoor extends SimulationObject implements ISimDoor {
 	 */
 	private boolean open = true;
 
-	public SimDoor(Map<String, String> metadata, SimLocation location,
+	public SimDoorImpl(Map<String, String> metadata, SimLocation location,
 			MovementManager movementManager, AnimationManager animationManager,
 			EnvironmentManager environment, PathFindingManager pathManager) {
 		super(metadata, location, movementManager, animationManager,

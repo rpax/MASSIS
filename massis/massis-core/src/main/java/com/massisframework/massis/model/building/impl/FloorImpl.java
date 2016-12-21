@@ -252,7 +252,7 @@ public class FloorImpl implements Floor {
 							this.windows.add(window);
 
 						} else {
-							final SimDoor door = new SimDoor(metadata, location,
+							final SimDoorImpl door = new SimDoorImpl(metadata, location,
 									this.building.getMovementManager(),
 									this.building.getAnimationManager(),
 									this.building.getEnvironmentManager(),
