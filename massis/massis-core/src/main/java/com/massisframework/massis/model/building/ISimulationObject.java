@@ -1,5 +1,6 @@
 package com.massisframework.massis.model.building;
 
+import java.util.Collection;
 import java.util.List;
 
 import com.massisframework.massis.model.location.Location;
@@ -67,7 +68,7 @@ public interface ISimulationObject {
 	// {
 	// }
 	Object getProperty(String propertyName);
-
+	public Collection<String> getPropertyNames();
 	boolean hasProperty(String propertyName);
 
 	void setProperty(String propertyName, Object value);

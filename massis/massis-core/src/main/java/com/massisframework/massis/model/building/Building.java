@@ -28,7 +28,7 @@ public interface Building {
 	 * @param representation
 	 *            the furniture element of sweethome3d that represents it
 	 */
-	void addSH3DRepresentation(SimulationObject simulationObject,
+	void addSH3DRepresentation(ISimulationObject simulationObject,
 			HomePieceOfFurniture representation);
 
 	/**
@@ -57,7 +57,7 @@ public interface Building {
 	 * @param simObjId
 	 * @return
 	 */
-	SimulationObject getSimulationObject(int simObjId);
+	ISimulationObject getSimulationObject(int simObjId);
 
 	SimRoom getRandomRoom();
 

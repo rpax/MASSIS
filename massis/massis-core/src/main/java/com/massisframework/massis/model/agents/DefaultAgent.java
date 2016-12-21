@@ -14,9 +14,8 @@ import org.apache.commons.lang.StringUtils;
 
 import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.Floor;
-import com.massisframework.massis.model.building.SimRoom;
-import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.RoomConnector;
+import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.SimulationObject;
 import com.massisframework.massis.model.building.WayPoint;
 import com.massisframework.massis.model.location.Location;

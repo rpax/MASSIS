@@ -4,6 +4,8 @@
 package com.massisframework.massis.model.building;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -216,6 +218,10 @@ public abstract class SimulationObject implements PolygonHolder, Indexable,
 		}
 		return this.properties.get(propertyName);
 	}
+	@Override
+	public Collection<String> getPropertyNames() {
+		return Collections.unmodifiableCollection(this.properties.keySet());
+	}
 
 	/* (non-Javadoc)
 	 * @see com.massisframework.massis.model.building.ISimulationObject#hasProperty(java.lang.String)
@@ -291,8 +297,8 @@ public abstract class SimulationObject implements PolygonHolder, Indexable,
 			return false;
 		}
 
-		final SimulationObject other = (SimulationObject) obj;
-		if (this.id != other.id) {
+		final ISimulationObject other = (ISimulationObject) obj;
+		if (this.id != other.getID()) {
 			return false;
 		}
 		return true;
@@ -304,9 +310,14 @@ public abstract class SimulationObject implements PolygonHolder, Indexable,
 		protected HashMap<String, Object> properties;
 		protected JsonState<Building> locationState;
 
-		public SimulationObjectState(SimulationObject obj) {
-			this.id = obj.id;
-			this.properties = new HashMap<>(obj.properties);
+		public SimulationObjectState(ISimulationObject obj) {
+			this.id = obj.getID();
+			this.properties = new HashMap<>();
+			for (String name : obj.getPropertyNames())
+			{
+				this.properties.put(name, obj.getProperty(name));
+			}
+			
 			this.locationState = obj.getLocation().getState();
 		}
 

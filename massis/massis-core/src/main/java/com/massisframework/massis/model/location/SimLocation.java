@@ -165,7 +165,7 @@ public class SimLocation extends Location implements Restorable {
              * Por otro, se recupera el SimulationObject correspondiente al
              * identificador attached.
              */
-            SimulationObject attached = building
+            ISimulationObject attached = building
                     .getSimulationObject(attachedSimulationObjectId);
             /*
              * Se obtiene la localizacion de attached y se configura
