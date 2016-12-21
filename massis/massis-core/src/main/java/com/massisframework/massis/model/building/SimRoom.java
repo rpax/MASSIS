@@ -204,7 +204,7 @@ public class SimRoom extends SimulationObject
 	}
 
 	@Override
-	public JsonState<IBuilding> getState() {
+	public JsonState<Building> getState() {
 		throw new UnsupportedOperationException("Not supported yet");
 	}
 

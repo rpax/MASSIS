@@ -4,9 +4,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.eteks.sweethome3d.model.Selectable;
-import com.massisframework.massis.model.building.IBuilding;
+import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.Floor;
-import com.massisframework.massis.model.building.IBuilding;
+import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.SimulationObject;
 import com.massisframework.massis.util.SH3DUtils;
 import com.massisframework.massis.util.io.JsonState;
@@ -127,12 +127,12 @@ public class SimLocation extends Location implements Restorable {
     }
 
     @Override
-    public JsonState<IBuilding> getState()
+    public JsonState<Building> getState()
     {
         return new SimLocationState(this);
     }
 
-    private static class SimLocationState implements JsonState<IBuilding> {
+    private static class SimLocationState implements JsonState<Building> {
 
         float angle;
         int floorId;
@@ -155,7 +155,7 @@ public class SimLocation extends Location implements Restorable {
         }
 
         @Override
-        public SimLocation restore(IBuilding building)
+        public SimLocation restore(Building building)
         {
             /*
              * Se recupera el floor, por un lado

@@ -12,9 +12,9 @@ import java.util.logging.Logger;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.massisframework.massis.model.building.IBuilding;
+import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.Floor;
-import com.massisframework.massis.model.building.IBuilding;
+import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.RoomConnector;
 import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.SimulationObject;
@@ -399,7 +399,7 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 	}
 
 	@Override
-	public JsonState<IBuilding> getState()
+	public JsonState<Building> getState()
 	{
 
 		return new VehicleState(this, super.getState());
@@ -504,15 +504,15 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 	// return target;
 	// }
 
-	protected static class VehicleState implements JsonState<IBuilding> {
+	protected static class VehicleState implements JsonState<Building> {
 
 		private final KVector velocity;
 		private final double visionRadio;
 		private final double maxforce;
 		private final double maxspeed;
-		private final JsonState<IBuilding> data;
+		private final JsonState<Building> data;
 
-		public VehicleState(DefaultAgent v, JsonState<IBuilding> data)
+		public VehicleState(DefaultAgent v, JsonState<Building> data)
 		{
 			this.data = data;
 			this.velocity = v.velocity.copy();
@@ -522,7 +522,7 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 		}
 
 		@Override
-		public Object restore(IBuilding building)
+		public Object restore(Building building)
 		{
 			final DefaultAgent v = (DefaultAgent) this.data.restore(building);
 			v.velocity = this.velocity;

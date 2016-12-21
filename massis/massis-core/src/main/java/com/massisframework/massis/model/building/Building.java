@@ -17,7 +17,7 @@ import com.massisframework.massis.model.managers.EnvironmentManager;
 import com.massisframework.massis.model.managers.movement.MovementManager;
 import com.massisframework.massis.model.managers.pathfinding.PathFindingManager;
 
-public interface IBuilding {
+public interface Building {
 
 	/**
 	 * Links a simulationObject with its corresponding sweethome3d furniture

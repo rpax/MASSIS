@@ -239,7 +239,7 @@ public class Teleport extends SimulationObject
 	}
 
 	@Override
-	public JsonState<IBuilding> getState() {
+	public JsonState<Building> getState() {
 		throw new UnsupportedOperationException("Not implemented yet");
 	}
 

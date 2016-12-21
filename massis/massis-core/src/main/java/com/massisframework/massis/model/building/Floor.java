@@ -65,7 +65,7 @@ public class Floor implements Indexable {
 	private final ArrayList<Room> rooms3D;
 	private final ArrayList<Wall> walls3D;
 	private final ArrayList<HomePieceOfFurniture> furniture3D;
-	private final IBuilding building;
+	private final Building building;
 	/*
 	 * Bounds
 	 */
@@ -120,7 +120,7 @@ public class Floor implements Indexable {
 	 */
 	public Floor(com.eteks.sweethome3d.model.Level level3D,
 			ArrayList<Room> rooms3D, ArrayList<Wall> walls3D,
-			ArrayList<HomePieceOfFurniture> furniture3D, IBuilding building) {
+			ArrayList<HomePieceOfFurniture> furniture3D, Building building) {
 
 		this.id = getNewUID();
 		this.building = building;

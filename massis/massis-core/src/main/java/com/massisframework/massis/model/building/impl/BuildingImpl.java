@@ -22,7 +22,7 @@ import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.model.agents.HighLevelController;
 import com.massisframework.massis.model.building.BuildingProgressMonitor;
 import com.massisframework.massis.model.building.Floor;
-import com.massisframework.massis.model.building.IBuilding;
+import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.SimulationObject;
 import com.massisframework.massis.model.building.Teleport;
@@ -41,7 +41,7 @@ import com.massisframework.sweethome3d.metadata.HomeMetadataLoader;
  * @author rpax
  *
  */
-public class BuildingImpl implements IBuilding {
+public class BuildingImpl implements Building {
 
     protected Home home;
     /**
