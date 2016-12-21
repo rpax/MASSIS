@@ -21,7 +21,6 @@ import com.massisframework.massis.displays.SimulationDisplay;
 import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.model.agents.HighLevelController;
 import com.massisframework.massis.model.building.BuildingProgressMonitor;
-import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.building.IFloor;
 import com.massisframework.massis.model.building.IFloor;
 import com.massisframework.massis.model.building.Building;

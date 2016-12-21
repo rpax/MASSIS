@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.massisframework.massis.model.building;
+package com.massisframework.massis.model.building.impl;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -22,6 +22,15 @@ import com.eteks.sweethome3d.model.Wall;
 import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.model.agents.HighLevelController;
 import com.massisframework.massis.model.agents.LowLevelAgent;
+import com.massisframework.massis.model.building.Building;
+import com.massisframework.massis.model.building.IFloor;
+import com.massisframework.massis.model.building.RoomConnector;
+import com.massisframework.massis.model.building.SimDoor;
+import com.massisframework.massis.model.building.SimRoom;
+import com.massisframework.massis.model.building.SimWall;
+import com.massisframework.massis.model.building.SimWindow;
+import com.massisframework.massis.model.building.SimulationObject;
+import com.massisframework.massis.model.building.Teleport;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.location.SimLocation;
 import com.massisframework.massis.pathfinding.straightedge.FindPathResult;
