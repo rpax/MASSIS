@@ -25,6 +25,7 @@ import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.building.ISimulationObject;
+import com.massisframework.massis.model.building.ITeleport;
 import com.massisframework.massis.model.building.RoomConnector;
 import com.massisframework.massis.model.building.SimDoor;
 import com.massisframework.massis.model.building.SimRoom;
@@ -606,7 +607,7 @@ public class FloorImpl implements Floor {
 		if (!this.teleportConnectingFloors.containsKey(other)) {
 			final ArrayList<Teleport> teleportsConnecting = new ArrayList<>();
 			for (final Teleport teleport : this.teleports) {
-				if (teleport.getType() == Teleport.START && teleport
+				if (teleport.getType() == ITeleport.START && teleport
 						.getDistanceToFloor(other) < Integer.MAX_VALUE) {
 					teleportsConnecting.add(teleport);
 				}

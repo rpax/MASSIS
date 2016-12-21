@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 
 import com.massisframework.gui.DrawableLayer;
 import com.massisframework.massis.model.building.Floor;
+import com.massisframework.massis.model.building.ITeleport;
 import com.massisframework.massis.model.building.SimDoor;
 import com.massisframework.massis.model.building.Teleport;
 
@@ -38,7 +39,7 @@ public class DoorLayer extends DrawableLayer<DrawableFloor> {
         {
             g.setColor(Color.magenta);
             g.draw(d.getPolygon());
-            if (d.getType() == Teleport.START)
+            if (d.getType() == ITeleport.START)
             {
                 g.setColor(Color.GREEN.darker());
             } else

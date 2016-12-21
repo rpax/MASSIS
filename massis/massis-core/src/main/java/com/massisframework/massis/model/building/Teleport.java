@@ -38,13 +38,8 @@ import com.massisframework.massis.util.io.JsonState;
  *
  */
 public class Teleport extends SimulationObject
-		implements RoomConnector, WayPoint {
+		implements RoomConnector, WayPoint, ITeleport {
 
-	/**
-	 *
-	 */
-	public static final byte START = 0;
-	public static final byte END = 1;
 	//
 	private final byte type;
 	private final String name;
@@ -64,6 +59,10 @@ public class Teleport extends SimulationObject
 		this.floorDistances = new HashMap<>();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.ITeleport#isInTeleport(com.massisframework.massis.model.location.Location)
+	 */
+	@Override
 	public boolean isInTeleport(Location loc) {
 		final boolean isIn = (this.getLocation().isInSameFloor(loc)
 				&& this.getPolygon().contains(loc.getX(), loc.getY()));
@@ -71,22 +70,41 @@ public class Teleport extends SimulationObject
 		return isIn;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.ITeleport#getName()
+	 */
+	@Override
 	public String getName() {
 		return this.name;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.ITeleport#getConnection()
+	 */
+	@Override
 	public Teleport getConnection() {
 		return connection;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.ITeleport#setConnection(com.massisframework.massis.model.building.Teleport)
+	 */
+	@Override
 	public void setConnection(Teleport connection) {
 		this.connection = connection;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.ITeleport#getType()
+	 */
+	@Override
 	public byte getType() {
 		return type;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.ITeleport#getConnectedRooms()
+	 */
 	@Override
 	public List<SimRoom> getConnectedRooms() {
 		if (this.type == END) {
@@ -109,6 +127,10 @@ public class Teleport extends SimulationObject
 		this.floorDistances.put(f, distance);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.ITeleport#getDistanceToFloor(com.massisframework.massis.model.building.Floor)
+	 */
+	@Override
 	public int getDistanceToFloor(Floor f) {
 		if (!this.floorDistances.containsKey(f)) {
 			this.floorDistances.put(f, Integer.MAX_VALUE);
@@ -133,7 +155,7 @@ public class Teleport extends SimulationObject
 		}
 		// 2. Vecinos
 		for (Teleport t : teleports) {
-			for (Teleport neigh : t.getLocation().getFloor().getTeleports()) {
+			for (ITeleport neigh : t.getLocation().getFloor().getTeleports()) {
 				if (neigh != t) {
 					if (tmap.get(neigh) != null) {
 						tmap.get(t).addNeighbour(tmap.get(neigh), 1);
@@ -225,6 +247,9 @@ public class Teleport extends SimulationObject
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.ITeleport#toString()
+	 */
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -238,17 +263,26 @@ public class Teleport extends SimulationObject
 		return builder.toString();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.ITeleport#getState()
+	 */
 	@Override
 	public JsonState<Building> getState() {
 		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.ITeleport#canExecuteWayPointAction(com.massisframework.massis.model.managers.pathfinding.PathFollower)
+	 */
 	@Override
 	public boolean canExecuteWayPointAction(PathFollower pf) {
 		return this.getLocation().isInSameFloor(pf.getLocation())
 				&& KPolygonUtils.intersects(pf, this);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.ITeleport#executeWayPointAction(com.massisframework.massis.model.managers.pathfinding.PathFollower)
+	 */
 	@Override
 	public boolean executeWayPointAction(PathFollower vehicle) {
 		/*
