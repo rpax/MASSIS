@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.massisframework.massis.model.agents.LowLevelAgent;
-import com.massisframework.massis.model.building.RoomConnector;
 import com.massisframework.massis.model.managers.movement.Steering;
 import com.massisframework.massis.util.geom.KLine;
 import com.massisframework.massis.util.geom.KPolygonUtils;
@@ -15,6 +14,7 @@ import com.massisframework.massis.util.geom.KVector;
 import straightedge.geom.AABB;
 import straightedge.geom.KPoint;
 import straightedge.geom.path.PathBlockingObstacleImpl;
+import straightedge.geom.vision.Occluder;
 
 @SuppressWarnings("unused")
 public class Containment extends SteeringBehavior {
@@ -42,7 +42,7 @@ public class Containment extends SteeringBehavior {
                 .hasNext();)
         {
             KLine kLine = iterator.next();
-            for (RoomConnector connector : agent.getRoom()
+            for (Occluder connector : agent.getRoom()
                     .getConnectedRoomConnectors())
             {
                 if (connector.getPolygon().intersectsLine(kLine.from, kLine.to))

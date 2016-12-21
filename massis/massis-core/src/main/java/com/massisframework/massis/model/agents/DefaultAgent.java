@@ -14,7 +14,6 @@ import org.apache.commons.lang.StringUtils;
 
 import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.Floor;
-import com.massisframework.massis.model.building.RoomConnector;
 import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.SimulationObject;
 import com.massisframework.massis.model.building.WayPoint;
@@ -39,6 +38,7 @@ import com.massisframework.massis.util.io.JsonState;
 
 import straightedge.geom.KPoint;
 import straightedge.geom.KPolygon;
+import straightedge.geom.vision.Occluder;
 
 /**
  * Represents an agent in the simulation environment
@@ -278,7 +278,7 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 	@Override
 	public boolean isInDoorArea()
 	{
-		for (final RoomConnector sd : this.getRoom()
+		for (final Occluder sd : this.getRoom()
 				.getConnectedRoomConnectors())
 		{
 			if (sd.getPolygon().getAABB()
