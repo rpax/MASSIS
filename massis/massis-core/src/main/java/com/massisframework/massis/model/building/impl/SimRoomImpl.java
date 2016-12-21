@@ -21,7 +21,7 @@ import org.apache.commons.collections15.iterators.FilterIterator;
 
 import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.model.building.Building;
-import com.massisframework.massis.model.building.ISimRoom;
+import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.RoomConnector;
 import com.massisframework.massis.model.building.SimulationObject;
 import com.massisframework.massis.model.location.Location;
@@ -43,7 +43,7 @@ import straightedge.geom.KPoint;
  *
  */
 public class SimRoomImpl extends SimulationObject
-		implements  ISimRoom {
+		implements  SimRoom {
 
 	private static final long serialVersionUID = 1L;
 	/**
@@ -53,7 +53,7 @@ public class SimRoomImpl extends SimulationObject
 	/**
 	 * Connected rooms , BFS order
 	 */
-	private List<ISimRoom> roomsOrderedByDistance;
+	private List<SimRoom> roomsOrderedByDistance;
 	// Cached values
 	private final Collection<DefaultAgent> vehiclesInThisRoomCached = new ArrayList<>();
 	private boolean vehiclesInThisRoomComputed = false;
@@ -93,20 +93,20 @@ public class SimRoomImpl extends SimulationObject
 	 * @see com.massisframework.massis.model.building.ISimRoom#getRoomsOrderedByDistance()
 	 */
 	@Override
-	public List<ISimRoom> getRoomsOrderedByDistance() {
+	public List<SimRoom> getRoomsOrderedByDistance() {
 		if (this.roomsOrderedByDistance == null) {
 			this.roomsOrderedByDistance = new ArrayList<>();
-			HashSet<ISimRoom> visitedRooms = new HashSet<>();
-			Queue<ISimRoom> queue = new LinkedList<>();
+			HashSet<SimRoom> visitedRooms = new HashSet<>();
+			Queue<SimRoom> queue = new LinkedList<>();
 			visitedRooms.add(this);
 			queue.add(this);
 			while (!queue.isEmpty()) {
-				ISimRoom currentRoom = queue.poll();
+				SimRoom currentRoom = queue.poll();
 				visitedRooms.add(currentRoom);
 				this.roomsOrderedByDistance.add(currentRoom);
 				for (RoomConnector sd : currentRoom
 						.getConnectedRoomConnectors()) {
-					for (ISimRoom sr : sd.getConnectedRooms()) {
+					for (SimRoom sr : sd.getConnectedRooms()) {
 						if (!visitedRooms.contains(sr)) {
 							visitedRooms.add(sr);
 							queue.add(sr);

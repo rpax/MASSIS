@@ -12,6 +12,6 @@ import straightedge.geom.vision.Occluder;
  */
 public interface RoomConnector extends Occluder{
 
-    public List<ISimRoom> getConnectedRooms();
+    public List<SimRoom> getConnectedRooms();
     
 }

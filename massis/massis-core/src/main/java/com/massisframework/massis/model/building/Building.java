@@ -59,7 +59,7 @@ public interface Building {
 	 */
 	SimulationObject getSimulationObject(int simObjId);
 
-	ISimRoom getRandomRoom();
+	SimRoom getRandomRoom();
 
 	AnimationManager getAnimationManager();
 
@@ -71,7 +71,7 @@ public interface Building {
 
 	MovementManager getMovementManager();
 
-	void addNamedRoom(String name, ISimRoom simRoom);
+	void addNamedRoom(String name, SimRoom simRoom);
 
 	void registerDisplays(SimulationDisplay... displays);
 

@@ -24,7 +24,7 @@ import com.massisframework.massis.model.agents.HighLevelController;
 import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.Floor;
-import com.massisframework.massis.model.building.ISimRoom;
+import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.SimDoor;
 import com.massisframework.massis.model.building.RoomConnector;
 import com.massisframework.massis.model.building.SimWall;
@@ -96,7 +96,7 @@ public class FloorImpl implements Floor {
 	/**
 	 * MASSIS Rooms
 	 */
-	private final ArrayList<ISimRoom> rooms;
+	private final ArrayList<SimRoom> rooms;
 	/**
 	 * Polygons for using the containment behavior
 	 */
@@ -413,9 +413,9 @@ public class FloorImpl implements Floor {
 	 * @see com.massisframework.massis.model.building.IFloor#getRandomRoom()
 	 */
 	@Override
-	public ISimRoom getRandomRoom() {
+	public SimRoom getRandomRoom() {
 
-		final ISimRoom room = this.rooms
+		final SimRoom room = this.rooms
 				.get(ThreadLocalRandom.current().nextInt(this.rooms.size()));
 		return room;
 	}
@@ -472,7 +472,7 @@ public class FloorImpl implements Floor {
 	 * @see com.massisframework.massis.model.building.IFloor#getRooms()
 	 */
 	@Override
-	public final List<ISimRoom> getRooms() {
+	public final List<SimRoom> getRooms() {
 		return this.rooms;
 	}
 

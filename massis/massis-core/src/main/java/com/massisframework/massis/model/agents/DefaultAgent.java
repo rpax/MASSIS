@@ -14,7 +14,7 @@ import org.apache.commons.lang.StringUtils;
 
 import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.Floor;
-import com.massisframework.massis.model.building.ISimRoom;
+import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.RoomConnector;
 import com.massisframework.massis.model.building.SimulationObject;
@@ -70,7 +70,7 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 	// ==================================
 	// Cached values & Flags - transient
 	// current/last Known room
-	private ISimRoom lastKnowRoom = null;
+	private SimRoom lastKnowRoom = null;
 	private boolean lastKnownRoomUpdated = false;
 	private boolean peopleInVisionRadioUpdated = false;
 	private List<DefaultAgent> peopleInVisionArea = null;
@@ -294,7 +294,7 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 	 * Speed up methods
 	 */
 
-	public void setLastKnowRoom(ISimRoom lastKnowRoom)
+	public void setLastKnowRoom(SimRoom lastKnowRoom)
 	{
 		this.lastKnowRoom = lastKnowRoom;
 		this.lastKnownRoomUpdated = true;
@@ -311,7 +311,7 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 			findRoomByLastKnownRoom();
 		} else
 		{
-			for (final ISimRoom sr : this.getLocation().getFloor().getRooms())
+			for (final SimRoom sr : this.getLocation().getFloor().getRooms())
 			{
 				if (sr.getPolygon().getRadius() > KPoint.distance(
 						sr.getPolygon().center, this.getPolygon().center))
@@ -328,7 +328,7 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 	}
 
 	@Override
-	public ISimRoom getRoom()
+	public SimRoom getRoom()
 	{
 		this.computeLastKnownRoom();
 		return this.lastKnowRoom;
@@ -341,12 +341,12 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 		return this.lastKnowRoom.getPeopleIn();
 	}
 
-	private ISimRoom findRoomByLastKnownRoom()
+	private SimRoom findRoomByLastKnownRoom()
 	{
 		final double x = this.getX();
 		final double y = this.getY();
-		final ISimRoom lastKnown = this.lastKnowRoom;
-		for (final ISimRoom sr : lastKnown.getRoomsOrderedByDistance())
+		final SimRoom lastKnown = this.lastKnowRoom;
+		for (final SimRoom sr : lastKnown.getRoomsOrderedByDistance())
 		{
 			if (sr.getPolygon().contains(x, y))
 			{
@@ -695,7 +695,7 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 	}
 
 	@Override
-	public ISimRoom getRandomRoom()
+	public SimRoom getRandomRoom()
 	{
 		return this.getEnvironment().getRandomRoom();
 	}

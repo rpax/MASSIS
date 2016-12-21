@@ -15,13 +15,13 @@ import sim.engine.Stoppable;
 import straightedge.geom.KPoint;
 import straightedge.geom.vision.Occluder;
 
-public interface ISimRoom extends Occluder, Steppable, Stoppable,CoordinateHolder{
+public interface SimRoom extends Occluder, Steppable, Stoppable,CoordinateHolder{
 
 	/**
 	 *
 	 * @return the rooms ordered by distance, BFS
 	 */
-	List<ISimRoom> getRoomsOrderedByDistance();
+	List<SimRoom> getRoomsOrderedByDistance();
 
 	/**
 	 *

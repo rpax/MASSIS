@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.model.building.Floor;
-import com.massisframework.massis.model.building.ISimRoom;
+import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.SimDoor;
 import com.massisframework.massis.model.building.Teleport;
 import com.massisframework.massis.model.location.Location;
@@ -155,7 +155,7 @@ public class SEPathFinder {
 
 		walkAblePolys = new ArrayList<>();
 
-		for (ISimRoom sr : this.floor.getRooms()) {
+		for (SimRoom sr : this.floor.getRooms()) {
 			Area walkAble = new Area(sr.getPolygon());
 
 			walkAblePolys.add(PathFindingUtils.createKPolygonFromShape(walkAble));
