@@ -1,5 +1,6 @@
 package com.massisframework.massis.model.components;
 
+import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.sim.SimulationEntity;
 
 public interface TeleportComponent extends SimulationComponent {
@@ -12,4 +13,6 @@ public interface TeleportComponent extends SimulationComponent {
 	TeleportType getTeleportType();
 	
 	public String getTeleportName();
+
+	public int getDistanceToFloor(Floor other);
 }

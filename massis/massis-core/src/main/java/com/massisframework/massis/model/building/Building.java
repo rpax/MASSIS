@@ -11,7 +11,7 @@ import com.eteks.sweethome3d.model.Level;
 import com.eteks.sweethome3d.model.Selectable;
 import com.massisframework.massis.displays.SimulationDisplay;
 import com.massisframework.massis.model.agents.HighLevelController;
-import com.massisframework.massis.model.location.Location;
+import com.massisframework.massis.model.location.LocationImpl;
 import com.massisframework.massis.model.managers.AnimationManager;
 import com.massisframework.massis.model.managers.EnvironmentManager;
 import com.massisframework.massis.model.managers.movement.MovementManager;
@@ -63,9 +63,9 @@ public interface Building {
 
 	EnvironmentManager getEnvironmentManager();
 
-	Location getNamedLocation(String name);
+	LocationImpl getNamedLocation(String name);
 
-	void addNamedLocation(String name, Location location);
+	void addNamedLocation(String name, LocationImpl location);
 
 	MovementManager getMovementManager();
 

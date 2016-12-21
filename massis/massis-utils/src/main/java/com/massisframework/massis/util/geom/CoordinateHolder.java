@@ -2,6 +2,8 @@ package com.massisframework.massis.util.geom;
 
 import java.util.Objects;
 
+import straightedge.geom.KPoint;
+
 public interface CoordinateHolder {
 
 	/**
@@ -29,6 +31,13 @@ public interface CoordinateHolder {
 		coord[0] = this.getX();
 		coord[1] = this.getY();
 		return coord;
+	}
+
+	default <K extends KPoint> K getXYCoordinates(K store)
+	{
+		store.setX(this.getX());
+		store.setY(this.getY());
+		return store;
 	}
 
 }

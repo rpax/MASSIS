@@ -4,46 +4,44 @@
 package com.massisframework.massis.model.building.impl;
 
 import java.awt.Shape;
+import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
+import java.util.stream.StreamSupport;
 
 import com.eteks.sweethome3d.model.HomeDoorOrWindow;
 import com.eteks.sweethome3d.model.HomePieceOfFurniture;
 import com.eteks.sweethome3d.model.Level;
-import com.eteks.sweethome3d.model.Room;
-import com.eteks.sweethome3d.model.Wall;
 import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.model.agents.HighLevelController;
 import com.massisframework.massis.model.agents.LowLevelAgent;
-import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.building.RoomConnector;
-import com.massisframework.massis.model.building.SimDoor;
-import com.massisframework.massis.model.building.SimRoom;
-import com.massisframework.massis.model.building.Teleport;
+import com.massisframework.massis.model.components.Location;
+import com.massisframework.massis.model.components.RoomComponent;
+import com.massisframework.massis.model.components.SimulationComponent;
+import com.massisframework.massis.model.components.TeleportComponent;
+import com.massisframework.massis.model.components.TeleportComponent.TeleportType;
 import com.massisframework.massis.model.components.building.ShapeComponent;
-import com.massisframework.massis.model.components.building.SimulationEntityFactory;
-import com.massisframework.massis.model.location.Location;
+import com.massisframework.massis.model.components.building.WallComponent;
+import com.massisframework.massis.model.location.LocationImpl;
 import com.massisframework.massis.model.location.SimLocation;
 import com.massisframework.massis.pathfinding.straightedge.FindPathResult;
 import com.massisframework.massis.pathfinding.straightedge.SEPathFinder;
 import com.massisframework.massis.sim.SimulationEntity;
 import com.massisframework.massis.util.Indexable;
 import com.massisframework.massis.util.PathFindingUtils;
-import com.massisframework.massis.util.SH3DUtils;
 import com.massisframework.massis.util.SimObjectProperty;
 import com.massisframework.massis.util.field.grid.quadtree.array.ArrayQuadTree;
 import com.massisframework.massis.util.field.grid.quadtree.array.ArrayQuadTreeCallback;
 import com.massisframework.massis.util.geom.ContainmentPolygon;
-import com.massisframework.massis.util.geom.CoordinateHolder;
 import com.massisframework.massis.util.io.Restorable;
 
 import straightedge.geom.KPoint;
@@ -73,44 +71,22 @@ public class FloorImpl implements Floor {
 	}
 
 	/*
-	 * SH3D objects
-	 */
-	private final com.eteks.sweethome3d.model.Level level3D;
-	private final ArrayList<Room> rooms3D;
-	private final ArrayList<Wall> walls3D;
-	private final ArrayList<HomePieceOfFurniture> furniture3D;
-	private final Building building;
-	/*
 	 * Bounds
 	 */
-	public final int minX, maxX, minY, maxY, xlength, ylength;
+	private int minX, maxX, minY, maxY, xlength, ylength;
 
-	/*
-	 * Rooms & doors
-	 */
-	private final List<SimDoor> doors = new ArrayList<>();
-	private final List<SimWindowImpl> windows = new ArrayList<>();
 	private final ArrayList<RoomConnector> roomConnectors = new ArrayList<>();
 	/**
 	 * Teleports linking to other floors
 	 */
-	private final HashMap<Floor, List<Teleport>> teleportConnectingFloors = new HashMap<>();
-	/**
-	 * MASSIS Walls
-	 */
-	private final ArrayList<SimulationEntity> walls;
-	/**
-	 * MASSIS Rooms
-	 */
-	private final ArrayList<SimulationEntity> rooms;
+	private final HashMap<Floor, List<SimulationEntity>> teleportConnectingFloors = new HashMap<>();
+	
+	private List<SimulationEntity> entities;
 	/**
 	 * Polygons for using the containment behavior
 	 */
-	private ArrayList<ContainmentPolygon> containmentPolygons;
-	/**
-	 * Teleports in this Floor
-	 */
-	private final ArrayList<SimulationEntity> teleports;
+	private List<ContainmentPolygon> containmentPolygons;
+
 	/**
 	 * The proper pathfinder
 	 */
@@ -118,8 +94,8 @@ public class FloorImpl implements Floor {
 	/**
 	 * QuadTree
 	 */
-	private final ArrayQuadTree<LowLevelAgent> quadPilu;
-	private SimulationEntityFactory simFactory;
+	private ArrayQuadTree<LowLevelAgent> quadPilu;
+	private String floorName;
 
 	/**
 	 * Creates a floor with all the elements of a Level
@@ -133,47 +109,20 @@ public class FloorImpl implements Floor {
 	 * @param furniture3D
 	 *            the furniture in that level
 	 */
-	public FloorImpl(com.eteks.sweethome3d.model.Level level3D,
-			ArrayList<Room> rooms3D, ArrayList<Wall> walls3D,
-			ArrayList<HomePieceOfFurniture> furniture3D, Building building)
+	public FloorImpl(String name)
 	{
 
-		this.simFactory = SimulationEntityFactory.get(building.getHome());
 		this.id = getNewUID();
-		this.building = building;
-		this.level3D = level3D;
-
-		this.rooms3D = rooms3D;
-		this.walls3D = walls3D;
-		this.furniture3D = furniture3D;
-
+		this.floorName = name;
 		/*
 		 * Rooms & Walls initialization
 		 */
 
-		this.walls = new ArrayList<>(this.walls3D.size());
-		this.rooms = new ArrayList<>(this.rooms3D.size());
-		this.teleports = new ArrayList<>();
-		/**
-		 * TODO Shouldn't be in a Logger or similar?
-		 *
-		 * @formatter:off
-		 */
-		System.err.println("======================================================");
-		System.err.println("Creating floor from level [" + SH3DUtils.getLevelName(this.level3D) + "]");
-		final int[] bounds = this.configureBounds();
-		this.minX = bounds[0];
-		this.minY = bounds[1];
-		this.maxX = bounds[2];
-		this.maxY = bounds[3];
-		this.xlength = this.maxX - this.minX;
-		this.ylength = this.maxY - this.minY;
-		this.quadPilu = new ArrayQuadTree<>(7, this.minX, this.maxX, this.minY, this.maxY);
-		System.err.println("Initializing simulation objects..");
+		this.entities = new ArrayList<>();
+
+		this.configureBounds();
+
 		this.initializeSimObjects();
-		System.err.println("# of SimulationObjects: " + this.quadPilu.countElements());
-		System.err.println("# of rooms: " + this.getRooms().size());
-		System.err.println("======================================================");
 		/**
 		 * @formatter:on
 		 */
@@ -191,18 +140,6 @@ public class FloorImpl implements Floor {
 	{
 		this.pathFinder.initialize();
 
-	}
-
-	private void initializeSimObjects()
-	{
-		// First rooms
-		initializeRooms();
-		// Then walls
-		initializeWalls();
-		// Once the walls are built, the containment polygons
-		initializeContainmentPolygons();
-		// finally the furniture
-		initializeSimFurniture();
 	}
 
 	/**
@@ -252,7 +189,7 @@ public class FloorImpl implements Floor {
 					 */
 					this.building.addNamedLocation(
 							metadata.get(SimObjectProperty.NAME.toString()),
-							new Location(f.getX(), f.getY(), this));
+							new LocationImpl(f.getX(), f.getY(), this));
 				} else
 				{
 					if (f instanceof HomeDoorOrWindow)
@@ -321,46 +258,15 @@ public class FloorImpl implements Floor {
 	}
 
 	/**
-	 * Wall initialization
-	 */
-	private void initializeWalls()
-	{
-		for (final Wall w : this.walls3D)
-		{
-			// final SimLocation location = new SimLocation(w, this);
-			// final Map<String, String> metadata =
-			// this.building.getMetadata(w);
-			// final SimWallImpl simWall = new SimWallImpl(metadata, location,
-			// this.building.getMovementManager(),
-			// this.building.getAnimationManager(),
-			// this.building.getEnvironmentManager(),
-			// this.building.getPathManager());
-			SimulationEntity simWall = this.simFactory.createWall(w);
-			this.walls.add(simWall);
-		}
-
-	}
-
-	/**
-	 * Room initialization
-	 */
-	private void initializeRooms()
-	{
-		for (final Room r : this.rooms3D)
-		{
-			SimulationEntity simRoom = this.simFactory.createRoom(r);
-			this.rooms.add(simRoom);
-		}
-
-	}
-
-	/**
 	 * Creation of the containment polygons
 	 */
 	private void initializeContainmentPolygons()
 	{
 		this.containmentPolygons = new ArrayList<>();
-		for (final SimulationEntity w : this.walls)
+		for (final SimulationEntity w : this
+				.filterEntities(
+						ShapeComponent.class,
+						WallComponent.class))
 		{
 			// uh...
 			Shape shape = w.get(ShapeComponent.class).getShape();
@@ -378,53 +284,33 @@ public class FloorImpl implements Floor {
 	 * com.massisframework.massis.model.building.IFloor#getContainmentPolygons()
 	 */
 	@Override
-	public ArrayList<ContainmentPolygon> getContainmentPolygons()
+	public List<ContainmentPolygon> getContainmentPolygons()
 	{
 		return this.containmentPolygons;
 	}
 
 	/**
-	 * Sets the maximum and minimum bounds
+	 * Sets the maximum and minimum bounds TODO performance. Check only for new
+	 * added items
 	 */
-	private int[] configureBounds()
+	private void configureBounds()
 	{
-		int minX = Integer.MAX_VALUE;
-		int minY = Integer.MAX_VALUE;
-		int maxX = Integer.MIN_VALUE;
-		int maxY = Integer.MIN_VALUE;
-		for (final Room r : this.rooms3D)
+		this.minX = Integer.MAX_VALUE;
+		this.minY = Integer.MAX_VALUE;
+		this.maxX = Integer.MIN_VALUE;
+		this.maxY = Integer.MIN_VALUE;
+		for (final SimulationEntity r : this
+				.filterEntities(ShapeComponent.class))
 		{
-			final float[][] points = r.getPoints();
-			for (int i = 0; i < points.length; i++)
-			{
-				minX = (int) Math.min(minX, Math.floor(points[i][0]));
-				minY = (int) Math.min(minY, Math.floor(points[i][1]));
-				maxX = (int) Math.max(maxX, Math.ceil(points[i][0]));
-				maxY = (int) Math.max(maxY, Math.ceil(points[i][1]));
-			}
+			ShapeComponent s = r.get(ShapeComponent.class);
+			Rectangle2D bounds = s.getBounds();
+			minX = (int) Math.min(minX, bounds.getMinX());
+			minY = (int) Math.min(minY, bounds.getMinY());
+			maxX = (int) Math.max(maxX, bounds.getMaxX());
+			maxY = (int) Math.max(maxY, bounds.getMaxY());
+
 		}
-		for (final Wall w : this.walls3D)
-		{
-			final float[][] points = w.getPoints();
-			for (int i = 0; i < points.length; i++)
-			{
-				minX = (int) Math.min(minX, Math.floor(points[i][0]));
-				minY = (int) Math.min(minY, Math.floor(points[i][1]));
-				maxX = (int) Math.max(maxX, Math.ceil(points[i][0]));
-				maxY = (int) Math.max(maxY, Math.ceil(points[i][1]));
-			}
-		}
-		for (final HomePieceOfFurniture f : this.furniture3D)
-		{
-			final float[][] points = f.getPoints();
-			for (int i = 0; i < points.length; i++)
-			{
-				minX = (int) Math.min(minX, Math.floor(points[i][0]));
-				minY = (int) Math.min(minY, Math.floor(points[i][1]));
-				maxX = (int) Math.max(maxX, Math.ceil(points[i][0]));
-				maxY = (int) Math.max(maxY, Math.ceil(points[i][1]));
-			}
-		}
+
 		minX -= 1;
 		minY -= 1;
 		maxX += 1;
@@ -442,7 +328,55 @@ public class FloorImpl implements Floor {
 			minY = 0;
 			maxY = 1;
 		}
-		return new int[] { minX, minY, maxX, maxY };
+
+		this.xlength = this.maxX - this.minX;
+		this.ylength = this.maxY - this.minY;
+
+		this.quadPilu = new ArrayQuadTree<>(7, this.minX, this.maxX, this.minY,
+				this.maxY);
+	}
+
+	/**
+	 * FIXME this is very inneficient and obscure
+	 * 
+	 * @deprecated
+	 * @param type
+	 * @return
+	 */
+	private <T extends SimulationComponent> Iterable<T> filterComponents(
+			Class<T> type)
+	{
+		return StreamSupport
+				.stream(this.entities.spliterator(), false)
+				.map(e -> e.get(type))
+				.filter(c -> c != null)
+				.map(type::cast)::iterator;
+	}
+
+	/**
+	 * FIXME this is very inneficient and obscure
+	 * 
+	 * @deprecated
+	 * @param type
+	 * @return
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private Iterable<SimulationEntity> filterEntities(Class... types)
+	{
+		return StreamSupport
+				.stream(this.entities.spliterator(), false)
+				.filter(e -> hasAll(e, types))::iterator;
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private static boolean hasAll(SimulationEntity e, Class... cmps)
+	{
+		for (int i = 0; i < cmps.length; i++)
+		{
+			if (!e.has(cmps[i]))
+				return false;
+		}
+		return true;
 	}
 
 	/*
@@ -465,7 +399,7 @@ public class FloorImpl implements Floor {
 	 * @see com.massisframework.massis.model.building.IFloor#getDoors()
 	 */
 	@Override
-	public List<SimDoor> getDoors()
+	public Iterable<SimulationEntity> getDoors()
 	{
 		return Collections.unmodifiableList(this.doors);
 	}
@@ -520,9 +454,9 @@ public class FloorImpl implements Floor {
 	 * @see com.massisframework.massis.model.building.IFloor#getWalls()
 	 */
 	@Override
-	public List<SimulationEntity> getWalls()
+	public Iterable<SimulationEntity> getWalls()
 	{
-		return Collections.unmodifiableList(this.walls);
+		return this.filterEntities(WallComponent.class);
 	}
 
 	/*
@@ -531,9 +465,9 @@ public class FloorImpl implements Floor {
 	 * @see com.massisframework.massis.model.building.IFloor#getRooms()
 	 */
 	@Override
-	public final List<SimulationEntity> getRooms()
+	public final Iterable<SimulationEntity> getRooms()
 	{
-		return this.rooms;
+		return this.filterEntities(RoomComponent.class);
 	}
 
 	/*
@@ -621,7 +555,7 @@ public class FloorImpl implements Floor {
 	@Override
 	public String getName()
 	{
-		return SH3DUtils.getLevelName(this.level3D);
+		return this.floorName;
 	}
 
 	/*
@@ -673,7 +607,7 @@ public class FloorImpl implements Floor {
 	 * com.massisframework.massis.pathfinding.straightedge.FindPathResult)
 	 */
 	@Override
-	public void findPath(final Location fromLoc, Location to,
+	public void findPath(final LocationImpl fromLoc, LocationImpl to,
 			FindPathResult callback)
 	{
 		/*
@@ -696,11 +630,11 @@ public class FloorImpl implements Floor {
 			{
 				final SimulationEntity targetTeleport = teleportsConnecting
 						.get(0);
-				
-				final Location targetLocation = targetTeleport.getLocation();
+
+				final Location targetLocation = targetTeleport
+						.get(Location.class);
 				this.pathFinder.findPath(fromLoc, targetLocation,
-						targetTeleport,
-						callback);
+						targetTeleport.get(TeleportComponent.class), callback);
 			}
 
 		} else
@@ -722,22 +656,23 @@ public class FloorImpl implements Floor {
 
 		if (!this.teleportConnectingFloors.containsKey(other))
 		{
-			final ArrayList<Teleport> teleportsConnecting = new ArrayList<>();
-			for (final Teleport teleport : this.teleports)
+			final ArrayList<SimulationEntity> teleportsConnecting = new ArrayList<>();
+			for (final SimulationEntity se : this.teleports)
 			{
-				if (teleport.getType() == Teleport.START && teleport
+				TeleportComponent teleport = se.get(TeleportComponent.class);
+				if (teleport.getTeleportType() == TeleportType.START && teleport
 						.getDistanceToFloor(other) < Integer.MAX_VALUE)
 				{
-					teleportsConnecting.add(teleport);
+					teleportsConnecting.add(se);
 				}
 			}
-			Collections.sort(teleportsConnecting, new Comparator<Teleport>() {
-				@Override
-				public int compare(Teleport o1, Teleport o2)
-				{
-					return Integer.compare(o1.getDistanceToFloor(other),
-							o2.getDistanceToFloor(other));
-				}
+			Collections.sort(teleportsConnecting, (o1, o2) -> {
+				TeleportComponent t1 = o1.get(TeleportComponent.class);
+				TeleportComponent t2 = o2.get(TeleportComponent.class);
+
+				return Integer.compare(
+						t1.getDistanceToFloor(other),
+						t2.getDistanceToFloor(other));
 			});
 			this.teleportConnectingFloors.put(other,
 					Collections.unmodifiableList(teleportsConnecting));

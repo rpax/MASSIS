@@ -2,7 +2,8 @@ package com.massisframework.massis.model.managers;
 
 import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.building.Building;
-import com.massisframework.massis.model.location.Location;
+import com.massisframework.massis.model.components.Location;
+import com.massisframework.massis.model.location.LocationImpl;
 import com.massisframework.massis.sim.SimulationEntity;
 import com.massisframework.massis.util.collections.filters.Filters;
 import com.massisframework.massis.util.geom.CoordinateHolder;
@@ -41,7 +42,7 @@ public class EnvironmentManager {
         return this.building.getRandomRoom();
     }
 
-    public Location getNamedLocation(String name)
+    public LocationImpl getNamedLocation(String name)
     {
         return this.building.getNamedLocation(name);
     }

@@ -2,7 +2,7 @@ package com.massisframework.massis.model.building;
 
 import java.util.List;
 
-import com.massisframework.massis.model.location.Location;
+import com.massisframework.massis.model.components.Location;
 import com.massisframework.massis.model.managers.pathfinding.PathFollower;
 import com.massisframework.massis.sim.SimulationEntity;
 import com.massisframework.massis.util.io.JsonState;

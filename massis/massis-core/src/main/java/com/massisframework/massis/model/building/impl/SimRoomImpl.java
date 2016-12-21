@@ -7,12 +7,9 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -24,13 +21,12 @@ import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.RoomConnector;
 import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.SimulationObject;
-import com.massisframework.massis.model.location.Location;
+import com.massisframework.massis.model.location.LocationImpl;
 import com.massisframework.massis.model.location.SimLocation;
 import com.massisframework.massis.model.managers.AnimationManager;
 import com.massisframework.massis.model.managers.EnvironmentManager;
 import com.massisframework.massis.model.managers.movement.MovementManager;
 import com.massisframework.massis.model.managers.pathfinding.PathFindingManager;
-import com.massisframework.massis.sim.SimulationEntity;
 import com.massisframework.massis.util.geom.CoordinateHolder;
 import com.massisframework.massis.util.geom.KPolygonUtils;
 import com.massisframework.massis.util.io.JsonState;
@@ -247,7 +243,7 @@ public class SimRoomImpl extends SimulationObject
 			p = this.getLocation().getFloor()
 					.getNearestPointOutsideOfObstacles(p);
 		} while (!this.getPolygon().contains(p));
-		return new Location(p.x, p.y, this.getLocation().getFloor());
+		return new LocationImpl(p.x, p.y, this.getLocation().getFloor());
 
 	}
 }

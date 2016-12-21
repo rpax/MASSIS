@@ -1,15 +1,17 @@
 package com.massisframework.massis.model.components.building.impl;
 
 import java.awt.Shape;
+import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.massisframework.massis.model.components.building.Coordinate2DComponent;
+import com.massisframework.massis.model.components.Location;
 import com.massisframework.massis.model.components.building.HeadingComponent;
 import com.massisframework.massis.model.components.building.ShapeComponent;
 import com.massisframework.massis.util.geom.KPolygonUtils;
 
+import straightedge.geom.AABB;
 import straightedge.geom.KPoint;
 import straightedge.geom.KPolygon;
 import straightedge.geom.PolygonHolder;
@@ -20,7 +22,9 @@ public class KPolygonShapeComponent extends AbstractSimulationComponent
 		PolygonHolder {
 
 	private KPolygon polygon;
+	private AABB aabb;
 	private double oldAngle = 0;
+	private Rectangle2D bounds;
 
 	public KPolygonShapeComponent(float[][] points)
 	{
@@ -60,26 +64,32 @@ public class KPolygonShapeComponent extends AbstractSimulationComponent
 	public void step(float tpf)
 	{
 		// Update the shape accordingly to the location
-		Coordinate2DComponent coord = this.getEntity()
-				.get(Coordinate2DComponent.class);
+		Location loc = this.getEntity().get(Location.class);
+		double angleOffset = 0;
 		HeadingComponent rot = this.getEntity().get(HeadingComponent.class);
+		if (rot != null)
+		{
+			angleOffset = oldAngle - rot.getAngle();
+		}
+
 		final double oldX = this.polygon.getCenter().x;
 		final double oldY = this.polygon.getCenter().y;
-		final double newAngle = rot.getAngle();
+
 		boolean changed = false;
-		if (oldX != coord.getX() || oldY != coord.getY())
+		if (oldX != loc.getX() || oldY != loc.getY())
 		{
-			this.polygon.translate(coord.getX(), coord.getY());
+			this.polygon.translate(loc.getX(), loc.getY());
 			changed = true;
 		}
-		if (this.oldAngle != newAngle)
+		if (angleOffset > 0.0001)
 		{
-			this.polygon.rotate(newAngle - oldAngle);
-			this.oldAngle = newAngle;
+			this.polygon.rotate(angleOffset);
+			this.oldAngle += angleOffset;
 			changed = true;
 		}
 		if (changed)
 		{
+			this.invalidate();
 			this.fireChanged();
 		}
 
@@ -108,8 +118,48 @@ public class KPolygonShapeComponent extends AbstractSimulationComponent
 	@Override
 	public boolean intersects(ShapeComponent s)
 	{
-		// TODO Auto-generated method stub
-		return false;
+		return this.intersects(s.getShape());
+	}
+
+	@Override
+	public boolean intersectsAABB(Shape other)
+	{
+		final double x = this.getAABB().x();
+		final double y = this.getAABB().y();
+		final double w = this.getAABB().w();
+		final double h = this.getAABB().h();
+		return other.intersects(x, y, w, h);
+	}
+
+	private AABB getAABB()
+	{
+		if (this.aabb == null)
+		{
+			this.aabb = this.polygon.getAABB();
+		}
+		return this.aabb;
+	}
+
+	@Override
+	public boolean intersectsAABB(ShapeComponent other)
+	{
+		return this.intersectsAABB(other.getShape());
+	}
+
+	@Override
+	public Rectangle2D getBounds()
+	{
+		if (this.bounds == null)
+		{
+			this.bounds = this.polygon.getBounds2D();
+		}
+		return this.bounds;
+	}
+
+	private void invalidate()
+	{
+		this.bounds = null;
+		this.aabb = null;
 	}
 
 }

@@ -25,7 +25,7 @@ import com.massisframework.massis.model.building.BuildingProgressMonitor;
 import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.building.ISimulationObject;
 import com.massisframework.massis.model.building.SimRoom;
-import com.massisframework.massis.model.location.Location;
+import com.massisframework.massis.model.location.LocationImpl;
 import com.massisframework.massis.model.managers.AnimationManager;
 import com.massisframework.massis.model.managers.EnvironmentManager;
 import com.massisframework.massis.model.managers.movement.MovementManager;
@@ -85,7 +85,7 @@ public class BuildingImpl implements Building {
 	/**
 	 * Map of the named locations of the building. POI & more
 	 */
-	private final Map<String, Location> namedLocations = new HashMap<>();
+	private final Map<String, LocationImpl> namedLocations = new HashMap<>();
 	/**
 	 * Map with the rooms names . It is useful for making an agent to go to an
 	 * specific room
@@ -297,28 +297,7 @@ public class BuildingImpl implements Building {
 
 	}
 
-	/**
-	 * Links the levels with the elements on them.
-	 */
-	private static <T extends Elevatable> HashMap<Level, ArrayList<T>> getLevelsElevatables(
-			Collection<T> elements)
-	{
-		final HashMap<Level, ArrayList<T>> elevatables = new HashMap<>();
-		for (final T e : elements)
-		{
-			ArrayList<T> lvlElevatables = elevatables.get(e.getLevel());
-			if (lvlElevatables == null)
-			{
-				lvlElevatables = new ArrayList<>();
-				lvlElevatables.add(e);
-				elevatables.put(e.getLevel(), lvlElevatables);
-			} else
-			{
-				lvlElevatables.add(e);
-			}
-		}
-		return elevatables;
-	}
+	
 
 	/*
 	 * (non-Javadoc)
@@ -457,7 +436,7 @@ public class BuildingImpl implements Building {
 	 * .lang.String)
 	 */
 	@Override
-	public Location getNamedLocation(String name)
+	public LocationImpl getNamedLocation(String name)
 	{
 		return this.namedLocations.get(name);
 	}
@@ -470,7 +449,7 @@ public class BuildingImpl implements Building {
 	 * .lang.String, com.massisframework.massis.model.location.Location)
 	 */
 	@Override
-	public void addNamedLocation(String name, Location location)
+	public void addNamedLocation(String name, LocationImpl location)
 	{
 		this.namedLocations.put(name, location);
 	}

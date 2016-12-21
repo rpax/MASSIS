@@ -4,7 +4,8 @@ import java.util.logging.Logger;
 
 import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.model.agents.LowLevelAgent;
-import com.massisframework.massis.model.location.Location;
+import com.massisframework.massis.model.components.Location;
+import com.massisframework.massis.model.location.LocationImpl;
 import com.massisframework.massis.model.managers.movement.steering.SteeringBehavior;
 import com.massisframework.massis.util.geom.CoordinateHolder;
 import com.massisframework.massis.util.geom.KVector;
@@ -109,7 +110,7 @@ public class MovementManager {
 		vehicle.setVelocity(velocity);
 		final KVector position = KVector.add(vehicle.getXY(), vehicle.getVelocity());
 
-		final Location newLocation = new Location(position,
+		final Location newLocation = new LocationImpl(position,
 				vehicle.getLocation().getFloor());
 
 		vehicle.moveTo(newLocation);

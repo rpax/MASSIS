@@ -89,7 +89,7 @@ public class SimDoorImpl extends SimulationObject implements SimDoor {
 	 * com.massisframework.massis.model.building.ISimDoor#getConnectedRooms()
 	 */
 	@Override
-	public List<SimulationEntity> getConnectedRooms()
+	public List<RoomConnector> getConnectedRooms()
 	{
 		if (this.connectedRooms == null)
 		{

@@ -1,20 +1,24 @@
 package com.massisframework.massis.model.components.building;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
+import com.eteks.sweethome3d.model.Elevatable;
 import com.eteks.sweethome3d.model.Home;
 import com.eteks.sweethome3d.model.HomeDoorOrWindow;
 import com.eteks.sweethome3d.model.HomePieceOfFurniture;
+import com.eteks.sweethome3d.model.Level;
 import com.eteks.sweethome3d.model.Room;
 import com.eteks.sweethome3d.model.Selectable;
 import com.eteks.sweethome3d.model.Wall;
+import com.massisframework.massis.model.building.Floor;
+import com.massisframework.massis.model.building.impl.FloorImpl;
+import com.massisframework.massis.model.components.Location;
 import com.massisframework.massis.model.components.NameComponent;
-import com.massisframework.massis.model.components.SimulationComponent;
-import com.massisframework.massis.model.components.TeleportComponent;
 import com.massisframework.massis.model.components.TeleportComponent.TeleportType;
-import com.massisframework.massis.model.components.building.impl.Coordinate2DComponentImpl;
 import com.massisframework.massis.model.components.building.impl.DefaultSimulationEntity;
 import com.massisframework.massis.model.components.building.impl.HashMetadataComponent;
 import com.massisframework.massis.model.components.building.impl.KPolygonShapeComponent;
@@ -23,9 +27,9 @@ import com.massisframework.massis.model.components.building.impl.RoomComponentIm
 import com.massisframework.massis.model.components.building.impl.SimplePhysicsComponent;
 import com.massisframework.massis.model.components.building.impl.TeleportComponentImpl;
 import com.massisframework.massis.model.components.building.impl.WallComponentImpl;
+import com.massisframework.massis.model.location.LocationImpl;
 import com.massisframework.massis.sim.SimulationEntity;
 import com.massisframework.massis.util.SimObjectProperty;
-import com.massisframework.massis.util.geom.CoordinateHolder;
 import com.massisframework.sweethome3d.metadata.BuildingMetadataManager;
 import com.massisframework.sweethome3d.metadata.HomeMetadataLoader;
 
@@ -38,12 +42,13 @@ public class SimulationEntityFactory {
 	private BuildingMetadataManager metadataManager;
 
 	private Map<String, SimulationEntity> teleportMap;
+	private Map<Level, Floor> floorMap;
 
 	private SimulationEntityFactory(Home home)
 	{
 		this.home = home;
 		this.metadataManager = HomeMetadataLoader
-				.getBuildingMetadataManager(this.home);
+				.getBuildingMetadataManager(home);
 		this.teleportMap = new HashMap<>();
 	}
 
@@ -85,6 +90,29 @@ public class SimulationEntityFactory {
 		return entity;
 	}
 
+	/**
+	 * Links the levels with the elements on them.
+	 */
+	private static <T extends Elevatable> HashMap<Level, ArrayList<T>> getLevelsElevatables(
+			Collection<T> elements)
+	{
+		final HashMap<Level, ArrayList<T>> elevatables = new HashMap<>();
+		for (final T e : elements)
+		{
+			ArrayList<T> lvlElevatables = elevatables.get(e.getLevel());
+			if (lvlElevatables == null)
+			{
+				lvlElevatables = new ArrayList<>();
+				lvlElevatables.add(e);
+				elevatables.put(e.getLevel(), lvlElevatables);
+			} else
+			{
+				lvlElevatables.add(e);
+			}
+		}
+		return elevatables;
+	}
+
 	public SimulationEntity createRoom(Room room)
 	{
 		// 1 entity with default components
@@ -103,9 +131,8 @@ public class SimulationEntityFactory {
 		KPolygonShapeComponent psc = new KPolygonShapeComponent(s.getPoints());
 		entity.set(psc);
 		// Coordinates
-		Coordinate2DComponentImpl coord = new Coordinate2DComponentImpl();
-		coord.setX(psc.getPolygon().getCenter().x);
-		coord.setY(psc.getPolygon().getCenter().y);
+		Location coord = new LocationImpl(psc.getPolygon().getCenter(),
+				getFloor(s));
 		entity.set(coord);
 		//
 		boolean dynamicDefVal = false;
@@ -158,6 +185,66 @@ public class SimulationEntityFactory {
 
 		}
 		return entity;
+	}
+
+	private Floor getFloor(Selectable s)
+	{
+		if (s instanceof Elevatable)
+		{
+			return this.getFloorMap().get(((Elevatable) s).getLevel());
+		} else
+		{
+			return null;
+		}
+	}
+
+	private Map<Level, Floor> getFloorMap()
+	{
+		if (this.floorMap == null)
+		{
+			this.floorMap = createFloorMap(this.home);
+		}
+		return this.floorMap;
+	}
+
+	private static Map<Level, Floor> createFloorMap(Home home)
+	{
+		/*
+		 * Maps linking the sweethome3d level with the rooms, furniture and
+		 * walls in it
+		 */
+		final HashMap<Level, ArrayList<Room>> levelRooms = getLevelsElevatables(
+				home.getRooms());
+		final HashMap<Level, ArrayList<Wall>> levelWalls = getLevelsElevatables(
+				home.getWalls());
+		final HashMap<Level, ArrayList<HomePieceOfFurniture>> levelFurniture = getLevelsElevatables(
+				home.getFurniture());
+		HashMap<Level, Floor> levelsFloors = new HashMap<>();
+
+		final ArrayList<Level> levels = new ArrayList<>(home.getLevels());
+		if (levels.isEmpty())
+		{
+			levels.add(null);
+		}
+		for (final Level level : levels)
+		{
+			if (!levelRooms.containsKey(level))
+			{
+				levelRooms.put(level, new ArrayList<Room>());
+			}
+			if (!levelWalls.containsKey(level))
+			{
+				levelWalls.put(level, new ArrayList<Wall>());
+			}
+			if (!levelFurniture.containsKey(level))
+			{
+				levelFurniture.put(level,
+						new ArrayList<HomePieceOfFurniture>());
+			}
+			final Floor f = new FloorImpl();
+			levelsFloors.put(level, f);
+		}
+		return levelsFloors;
 	}
 
 	private static long newUUID()

@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.building.Floor;
-import com.massisframework.massis.model.location.Location;
+import com.massisframework.massis.model.location.LocationImpl;
 import com.massisframework.massis.model.managers.movement.Path;
 import com.massisframework.massis.pathfinding.straightedge.FindPathResult;
 
@@ -16,9 +16,9 @@ public class PathFindingManager {
 	/**
 	 * Cached targets
 	 */
-	private final HashMap<PathFollower, Location> targets = new HashMap<>();
+	private final HashMap<PathFollower, LocationImpl> targets = new HashMap<>();
 
-	public void findPath(final PathFollower vehicle, final Location toLoc,
+	public void findPath(final PathFollower vehicle, final LocationImpl toLoc,
 			final FindPathResult callback) {
 		/*
 		 * Check if the target is the same, and therefore, if the path can be
@@ -43,7 +43,7 @@ public class PathFindingManager {
 						public void onSuccess(Path path) {
 							PathFindingManager.this.paths.put(vehicle, path);
 							PathFindingManager.this.targets.put(vehicle,
-									new Location(toLoc));
+									new LocationImpl(toLoc));
 							// continuabamos.
 							callback.onSuccess(path);
 						}

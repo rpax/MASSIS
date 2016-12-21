@@ -1,14 +1,14 @@
 package com.massisframework.massis.model.building;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.eteks.sweethome3d.model.Level;
 import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.components.RoomComponent;
+import com.massisframework.massis.model.components.building.MovementCapabilities;
 import com.massisframework.massis.model.components.building.ShapeComponent;
 import com.massisframework.massis.model.components.building.WallComponent;
-import com.massisframework.massis.model.location.Location;
+import com.massisframework.massis.model.location.LocationImpl;
 import com.massisframework.massis.pathfinding.straightedge.FindPathResult;
 import com.massisframework.massis.sim.SimulationEntity;
 import com.massisframework.massis.util.Indexable;
@@ -23,7 +23,7 @@ public interface Floor extends Indexable {
 
 	void initializePathFinder();
 
-	ArrayList<ContainmentPolygon> getContainmentPolygons();
+	List<ContainmentPolygon> getContainmentPolygons();
 
 	/**
 	 *
@@ -56,7 +56,7 @@ public interface Floor extends Indexable {
 	 * 
 	 * @return the walls of this floor
 	 */
-	List<SimulationEntity> getWalls();
+	Iterable<SimulationEntity> getWalls();
 
 	/**
 	 * Returns the rooms present in this floor. This entities have <i>at
@@ -69,7 +69,7 @@ public interface Floor extends Indexable {
 	 * 
 	 * @return
 	 */
-	List<SimulationEntity> getRooms();
+	Iterable<SimulationEntity> getRooms();
 
 	Iterable<LowLevelAgent> getAgents();
 
@@ -109,7 +109,7 @@ public interface Floor extends Indexable {
 	 *            the desired location
 	 * @return the path.
 	 */
-	void findPath(Location fromLoc, Location to,
+	void findPath(LocationImpl fromLoc, LocationImpl to,
 			FindPathResult callback);
 
 	/**
@@ -120,11 +120,11 @@ public interface Floor extends Indexable {
 	 *            the target floor
 	 * @return a list of teleports that can be used to reach the other floor
 	 */
-	List<SimulationEntity> getTeleportsConnectingFloor(Floor other);
+	Iterable<SimulationEntity> getTeleportsConnectingFloor(Floor other);
 
-	List<SimulationEntity> getTeleports();
+	Iterable<SimulationEntity> getTeleports();
 
-	List<RoomConnector> getRoomConnectors();
+	Iterable<RoomConnector> getRoomConnectors();
 
 	int getID();
 

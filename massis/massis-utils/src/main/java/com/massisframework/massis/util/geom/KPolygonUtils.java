@@ -21,12 +21,18 @@ import straightedge.geom.PolygonHolder;
 
 public final class KPolygonUtils {
 
+	/**
+	 * {@link AffineTransform} que no hace nada.
+	 */
+	private static final AffineTransform IDENTITY_AFFINE_TRANSFORM = new AffineTransform();
 
-    /**
-     * {@link AffineTransform} que no hace nada.
-     */
-    private static final AffineTransform IDENTITY_AFFINE_TRANSFORM = new AffineTransform();
-    
+	public static KPolygon intersection(Shape s1, Shape s2)
+	{
+		KPolygon k1 = createKPolygonFromShape(s1, true);
+		KPolygon k2 = createKPolygonFromShape(s2, true);
+		return intersection(k1, k2);
+	}
+
 	public static KPolygon intersection(KPolygon kpolygon1, KPolygon kpolygon2)
 	{
 		Poly m_Poly1 = new PolyDefault();
@@ -83,7 +89,13 @@ public final class KPolygonUtils {
 	{
 		if (s instanceof KPolygon)
 		{
-			return new KPolygon((KPolygon) s);
+			if (avoidCloneIfPossible)
+			{
+				return (KPolygon) s;
+			} else
+			{
+				return new KPolygon((KPolygon) s);
+			}
 		}
 		final double[] coords = new double[6];
 		final PathIterator pathIterator = s

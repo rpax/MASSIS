@@ -1,5 +1,6 @@
 package com.massisframework.massis.model.components.building.impl;
 
+import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.components.TeleportComponent;
 import com.massisframework.massis.sim.SimulationEntity;
 
@@ -36,6 +37,13 @@ public class TeleportComponentImpl implements TeleportComponent {
 	public String getTeleportName()
 	{
 		return name;
+	}
+
+	@Override
+	public int getDistanceToFloor(Floor other)
+	{
+		// TODO Default return value
+		return 10;
 	}
 
 }

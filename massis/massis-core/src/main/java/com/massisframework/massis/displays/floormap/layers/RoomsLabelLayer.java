@@ -6,7 +6,9 @@ import java.awt.Graphics2D;
 
 import com.massisframework.gui.DrawableLayer;
 import com.massisframework.massis.model.building.Floor;
-import com.massisframework.massis.util.geom.CoordinateHolder;
+import com.massisframework.massis.model.components.Location;
+import com.massisframework.massis.model.components.NameComponent;
+import com.massisframework.massis.sim.SimulationEntity;
 
 public class RoomsLabelLayer extends DrawableLayer<DrawableFloor> {
 
@@ -24,12 +26,14 @@ public class RoomsLabelLayer extends DrawableLayer<DrawableFloor> {
         g.setColor(Color.orange);
         Font originalF = g.getFont();
         g.setFont(NAME_FONT);
-        for (CoordinateHolder r : f.getRooms())
+        for (SimulationEntity se: f.getRooms())
         {
-            char[] chars = r.toString().toCharArray();
+        	Location loc = se.get(Location.class);
+        	NameComponent name=se.get(NameComponent.class);
+            char[] chars = name.toString().toCharArray();
             g.setColor(Color.black);
-            g.drawChars(chars, 0, chars.length, (int) r.getX(),
-                    (int) r.getY());
+            g.drawChars(chars, 0, chars.length, (int)loc.getX(),
+                    (int)loc.getY());
         }
         g.setFont(originalF);
     }

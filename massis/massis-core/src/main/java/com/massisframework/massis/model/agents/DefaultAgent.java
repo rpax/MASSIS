@@ -14,10 +14,12 @@ import org.apache.commons.lang.StringUtils;
 
 import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.Floor;
-import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.SimulationObject;
 import com.massisframework.massis.model.building.WayPoint;
-import com.massisframework.massis.model.location.Location;
+import com.massisframework.massis.model.components.Location;
+import com.massisframework.massis.model.components.RoomComponent;
+import com.massisframework.massis.model.components.building.ShapeComponent;
+import com.massisframework.massis.model.location.LocationImpl;
 import com.massisframework.massis.model.location.SimLocation;
 import com.massisframework.massis.model.managers.AnimationManager;
 import com.massisframework.massis.model.managers.EnvironmentManager;
@@ -31,6 +33,7 @@ import com.massisframework.massis.model.managers.movement.steering.SteeringBehav
 import com.massisframework.massis.model.managers.movement.steering.SteeringCombinationBehavior;
 import com.massisframework.massis.model.managers.pathfinding.PathFindingManager;
 import com.massisframework.massis.pathfinding.straightedge.FindPathResult;
+import com.massisframework.massis.sim.SimulationEntity;
 import com.massisframework.massis.util.SimObjectProperty;
 import com.massisframework.massis.util.geom.CoordinateHolder;
 import com.massisframework.massis.util.geom.KPolygonUtils;
@@ -70,7 +73,7 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 	// ==================================
 	// Cached values & Flags - transient
 	// current/last Known room
-	private SimRoom lastKnowRoom = null;
+	private SimulationEntity lastKnowRoom = null;
 	private boolean lastKnownRoomUpdated = false;
 	private boolean peopleInVisionRadioUpdated = false;
 	private List<LowLevelAgent> peopleInVisionArea = null;
@@ -167,7 +170,7 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 		 * Intersect the polygon with the room boundaries
 		 */
 		this.visionPolygon = KPolygonUtils.intersection(this.boundaryPolygon,
-				this.getRoom().getPolygon());
+				this.getRoom().get(ShapeComponent.class).getShape());
 		/*
 		 * If the operation was done successfully
 		 */
@@ -279,11 +282,11 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 	@Override
 	public boolean isInDoorArea()
 	{
-		for (final Occluder sd : this.getRoom()
-				.getConnectedRoomConnectors())
+		RoomComponent rc = this.getRoom().get(RoomComponent.class);
+		ShapeComponent roomShape = this.getRoom().get(ShapeComponent.class);
+		for (final SimulationEntity sd : rc.getConnectedRoomConnectors())
 		{
-			if (sd.getPolygon().getAABB()
-					.intersects(this.getPolygon().getAABB()))
+			if (sd.get(ShapeComponent.class).intersects(roomShape))
 			{
 				return true;
 			}
@@ -294,7 +297,7 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 	 * Speed up methods
 	 */
 
-	public void setLastKnowRoom(SimRoom lastKnowRoom)
+	public void setLastKnowRoom(SimulationEntity lastKnowRoom)
 	{
 		this.lastKnowRoom = lastKnowRoom;
 		this.lastKnownRoomUpdated = true;
@@ -311,12 +314,15 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 			findRoomByLastKnownRoom();
 		} else
 		{
-			for (final SimRoom sr : this.getLocation().getFloor().getRooms())
+			for (final SimulationEntity sr : this.getLocation().getFloor()
+					.getRooms())
 			{
-				if (sr.getPolygon().getRadius() > KPoint.distance(
-						sr.getPolygon().center, this.getPolygon().center))
+				KPolygon poly = KPolygonUtils.createKPolygonFromShape(
+						sr.get(ShapeComponent.class).getShape(), true);
+				if (poly.getRadius() > KPoint.distance(
+						poly.center, this.getPolygon().center))
 				{
-					if (sr.getPolygon().contains(this.getPolygon().center))
+					if (poly.contains(this.getPolygon().center))
 					{
 						this.lastKnowRoom = sr;
 						break;
@@ -328,7 +334,7 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 	}
 
 	@Override
-	public SimRoom getRoom()
+	public SimulationEntity getRoom()
 	{
 		this.computeLastKnownRoom();
 		return this.lastKnowRoom;
@@ -341,14 +347,17 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 		return this.lastKnowRoom.getPeopleIn();
 	}
 
-	private CoordinateHolder findRoomByLastKnownRoom()
+	private SimulationEntity findRoomByLastKnownRoom()
 	{
 		final double x = this.getX();
 		final double y = this.getY();
-		final SimRoom lastKnown = this.lastKnowRoom;
-		for (final SimRoom sr : lastKnown.getRoomsOrderedByDistance())
+		final RoomComponent lastKnown = this.lastKnowRoom
+				.get(RoomComponent.class);
+		// RoomComponent...
+		for (final SimulationEntity sr : lastKnown.getRoomsOrderedByDistance())
 		{
-			if (sr.getPolygon().contains(x, y))
+			Shape shape = sr.get(ShapeComponent.class).getShape();
+			if (shape.contains(x, y))
 			{
 				this.lastKnowRoom = sr;
 				return this.lastKnowRoom;
@@ -435,7 +444,7 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 	public void approachToNamedLocation(String name,
 			ApproachCallback approachCallback)
 	{
-		final Location namedLocation = this.getEnvironment()
+		final LocationImpl namedLocation = this.getEnvironment()
 				.getNamedLocation(name);
 		Objects.requireNonNull(namedLocation);
 		this.approachTo(namedLocation, approachCallback);
@@ -444,7 +453,7 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 	@Override
 	public boolean isInNamedLocation(String name, int radiusWithin)
 	{
-		final Location namedLocation = this.getEnvironment()
+		final LocationImpl namedLocation = this.getEnvironment()
 				.getNamedLocation(name);
 		Objects.requireNonNull(namedLocation);
 		return namedLocation.isInSameFloor(namedLocation)
@@ -546,7 +555,7 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 	}
 
 	@Override
-	public void approachTo(final Location location,
+	public void approachTo(final LocationImpl location,
 			final ApproachCallback approachCallback)
 	{
 		// // return this.getMovementManager().approachTo(this, location);
@@ -561,20 +570,20 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 		if (nearestPoint.x != currentXY.x || nearestPoint.y != currentXY.y)
 		{
 
-//			// Get the direction to the nearest point.
-//			// move the agent to the nearest point + its radius
-//
-//			//
-//			final KVector displacement = KVector
-//					.sub(nearestPoint, currentXY)
-//					.normalize()
-//					.mult(this.getMaxForce());
-//			// final KPoint nextLocXY = KVector.add(currentXY,displacement);
-//			this.applySteeringForcesAndMove(displacement);
-//			// this.moveTo(new Location(nextLocXY, currentFloor));
+			// // Get the direction to the nearest point.
+			// // move the agent to the nearest point + its radius
+			//
+			// //
+			// final KVector displacement = KVector
+			// .sub(nearestPoint, currentXY)
+			// .normalize()
+			// .mult(this.getMaxForce());
+			// // final KPoint nextLocXY = KVector.add(currentXY,displacement);
+			// this.applySteeringForcesAndMove(displacement);
+			// // this.moveTo(new Location(nextLocXY, currentFloor));
 			this.pathManager.removeFromCache(DefaultAgent.this);
 			this.clearCache();
-//			return;
+			// return;
 		}
 
 		// 1. getPath
@@ -689,14 +698,14 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 		this.setVelocity(velocity);
 		final KVector position = KVector.add(this.getXY(), this.getVelocity());
 
-		final Location newLocation = new Location(position,
+		final Location newLocation = new LocationImpl(position,
 				this.getLocation().getFloor());
 		this.moveTo(newLocation);
 	}
 
 	@Override
-	public CoordinateHolder getRandomRoom()
+	public RoomComponent getRandomRoom()
 	{
-		return this.getEnvironment().getRandomRoom();
+		return this.getEnvironment().getRandomRoom().get(RoomComponent.class);
 	}
 }

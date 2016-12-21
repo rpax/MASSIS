@@ -9,11 +9,14 @@ import java.util.Collection;
 
 import com.massisframework.massis.model.building.ISimulationObject;
 import com.massisframework.massis.model.building.SimRoom;
-import com.massisframework.massis.model.location.Location;
+import com.massisframework.massis.model.components.Location;
+import com.massisframework.massis.model.components.RoomComponent;
+import com.massisframework.massis.model.location.LocationImpl;
 import com.massisframework.massis.model.location.SimLocation;
 import com.massisframework.massis.model.managers.movement.ApproachCallback;
 import com.massisframework.massis.model.managers.movement.steering.SteeringCapable;
 import com.massisframework.massis.model.managers.pathfinding.PathFollower;
+import com.massisframework.massis.sim.SimulationEntity;
 import com.massisframework.massis.util.Indexable;
 import com.massisframework.massis.util.SimObjectProperty;
 import com.massisframework.massis.util.geom.CoordinateHolder;
@@ -30,19 +33,19 @@ import straightedge.geom.vision.Occluder;
 public interface LowLevelAgent extends  PathFollower,Indexable,SteeringCapable,ISimulationObject {
 
     /**
-     * Tries to approach to an specific {@link Location} in the building.
+     * Tries to approach to an specific {@link LocationImpl} in the building.
      * <p>This method <b>does not</b> "Move" the agent to one location to
      * another instantly. Instead, the agent tries to be closer to the location
      * given, avoiding obstacles.</p>
      * <p>
      * For moving the agent to one location <i>instantly</i> the method
-     * {@link #moveTo(rpax.massis.model.location.Location)} should be used
+     * {@link #moveTo(rpax.massis.LocationImpl.location.Location)} should be used
      * instead
      *
-     * @param location the target {@link Location}
+     * @param location the target {@link LocationImpl}
      * @return if the agent has reached the location or not
      */
-    public void approachTo(Location location,ApproachCallback callback);
+    public void approachTo(LocationImpl location,ApproachCallback callback);
     /**
      * Returns the agents lying in the area defined by the location of the agent
      * and the radius defined by the range provided. It is an alternative method
@@ -64,7 +67,7 @@ public interface LowLevelAgent extends  PathFollower,Indexable,SteeringCapable,I
      *
      * @return The room where the agent is
      */
-    public SimRoom getRoom();
+    public SimulationEntity getRoom();
     /**
      * Retrieves the agents in the current room of the agent. Equivalent method
      * to the call {@link SimRoom#getPeopleIn()}
@@ -123,7 +126,7 @@ public interface LowLevelAgent extends  PathFollower,Indexable,SteeringCapable,I
     /**
      * Moves instantly this agent to another point. (a.k.a <i>warping</i>).
      * <p>Does not take into account the velocity, location, floor or anything.
-     * Just moves the agent instantly to the {@link Location} provided.
+     * Just moves the agent instantly to the {@link LocationImpl} provided.
      *
      * @param other the location where the agent should be moved.
      */
@@ -179,7 +182,7 @@ public interface LowLevelAgent extends  PathFollower,Indexable,SteeringCapable,I
     public boolean isInNamedLocation(String name, int radiusWithin);
 
     /**
-     * Tries to execute the {@link #approachTo(rpax.massis.model.location.Location)
+     * Tries to execute the {@link #approachTo(rpax.massis.LocationImpl.location.Location)
      * } to the location of a {@link NamedLocation}.
      * <p>The {@link NamedLocation} object is not needed, only its name.</p>
      *
@@ -250,7 +253,7 @@ public interface LowLevelAgent extends  PathFollower,Indexable,SteeringCapable,I
      * @param highLevelData the High-Level data of this agent
      */
     public void setHighLevelData(Object highLevelData);
-    public CoordinateHolder getRandomRoom() ;
+    public RoomComponent getRandomRoom() ;
     
 	public void setMaxSpeed(double maxspeed);
 	public void setMaxForce(double maxforce);

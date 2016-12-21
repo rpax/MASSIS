@@ -1,6 +1,6 @@
 package com.massisframework.massis.model.building;
 
-import com.massisframework.massis.model.location.Location;
+import com.massisframework.massis.model.components.Location;
 /**
  * Element capable of changing its location
  * @author rpax

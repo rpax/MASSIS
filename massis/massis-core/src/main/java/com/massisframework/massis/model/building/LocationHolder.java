@@ -4,7 +4,7 @@
  */
 package com.massisframework.massis.model.building;
 
-import com.massisframework.massis.model.location.Location;
+import com.massisframework.massis.model.location.LocationImpl;
 import com.massisframework.massis.util.geom.CoordinateHolder;
 import com.massisframework.massis.util.io.Restorable;
 
@@ -18,5 +18,5 @@ public interface LocationHolder extends CoordinateHolder,Restorable{
      *
      * @return the location of this element
      */
-    public Location getLocation();
+    public LocationImpl getLocation();
 }

@@ -21,7 +21,7 @@ import straightedge.geom.KPolygon;
  * @author rpax
  *
  */
-public class SimLocation extends Location implements Restorable {
+public class SimLocation extends LocationImpl implements Restorable {
 
 	/**
 	 * The polygon of the simulation object
@@ -75,7 +75,7 @@ public class SimLocation extends Location implements Restorable {
 	}
 
 	@Override
-	public void translateTo(Location other)
+	public void translateTo(LocationImpl other)
 	{
 		this.translateTo(other.getX(), other.getY(), other.getFloor());
 
