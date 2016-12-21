@@ -23,7 +23,7 @@ import straightedge.geom.KPoint;
  * @author rpax
  *
  */
-public class SimDoor extends SimulationObject implements RoomConnector {
+public class SimDoor extends SimulationObject implements ISimDoor {
 
 	/**
 	 * The rooms connected by this Door
@@ -66,6 +66,9 @@ public class SimDoor extends SimulationObject implements RoomConnector {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.ISimDoor#getConnectedRooms()
+	 */
 	@Override
 	public List<SimRoom> getConnectedRooms() {
 		if (this.connectedRooms == null) {
@@ -74,6 +77,9 @@ public class SimDoor extends SimulationObject implements RoomConnector {
 		return Collections.unmodifiableList(connectedRooms);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.ISimDoor#toString()
+	 */
 	@Override
 	public String toString() {
 
@@ -81,19 +87,34 @@ public class SimDoor extends SimulationObject implements RoomConnector {
 				+ getConnectedRooms().get(1) + "]";
 	}
 
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.ISimDoor#isOpened()
+	 */
+	@Override
 	public boolean isOpened() {
 		return this.open;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.ISimDoor#isClosed()
+	 */
+	@Override
 	public boolean isClosed() {
 		return !this.open;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.ISimDoor#setOpen(boolean)
+	 */
+	@Override
 	public void setOpen(boolean open) {
 		this.open = open;
 		this.notifyChanged();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.building.ISimDoor#getState()
+	 */
 	@Override
 	public SimDoorState getState() {
 		return new SimDoorState(this, super.getState());
@@ -104,16 +125,16 @@ public class SimDoor extends SimulationObject implements RoomConnector {
 		private final boolean isOpen;
 		private final JsonState<Building> data;
 
-		public SimDoorState(SimDoor d,
+		public SimDoorState(ISimDoor d,
 				JsonState<Building> simulationObjectData) {
 			this.data = simulationObjectData;
-			this.isOpen = d.open;
+			this.isOpen = d.isOpened();
 		}
 
 		@Override
-		public SimDoor restore(Building building) {
-			SimDoor d = (SimDoor) data.restore(building);
-			d.open = this.isOpen;
+		public ISimDoor restore(Building building) {
+			ISimDoor d = (ISimDoor) data.restore(building);
+			d.setOpen(this.isOpen);
 			return d;
 		}
 	}
