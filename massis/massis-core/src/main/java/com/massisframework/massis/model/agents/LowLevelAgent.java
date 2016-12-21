@@ -15,6 +15,7 @@ import com.massisframework.massis.model.managers.movement.ApproachCallback;
 import com.massisframework.massis.model.managers.pathfinding.PathFollower;
 import com.massisframework.massis.util.Indexable;
 import com.massisframework.massis.util.SimObjectProperty;
+import com.massisframework.massis.util.geom.CoordinateHolder;
 
 import straightedge.geom.KPoint;
 import straightedge.geom.KPolygon;
@@ -62,7 +63,7 @@ public interface LowLevelAgent extends  PathFollower,Indexable,SteeringCapable,I
      *
      * @return The room where the agent is
      */
-    public SimRoom getRoom();
+    public CoordinateHolder getRoom();
     /**
      * Retrieves the agents in the current room of the agent. Equivalent method
      * to the call {@link SimRoom#getPeopleIn()}
@@ -248,7 +249,7 @@ public interface LowLevelAgent extends  PathFollower,Indexable,SteeringCapable,I
      * @param highLevelData the High-Level data of this agent
      */
     public void setHighLevelData(Object highLevelData);
-    public SimRoom getRandomRoom() ;
+    public CoordinateHolder getRandomRoom() ;
     
 	public void setMaxSpeed(double maxspeed);
 	public void setMaxForce(double maxforce);

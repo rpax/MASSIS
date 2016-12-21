@@ -32,6 +32,7 @@ import com.massisframework.massis.model.managers.movement.steering.SteeringCombi
 import com.massisframework.massis.model.managers.pathfinding.PathFindingManager;
 import com.massisframework.massis.pathfinding.straightedge.FindPathResult;
 import com.massisframework.massis.util.SimObjectProperty;
+import com.massisframework.massis.util.geom.CoordinateHolder;
 import com.massisframework.massis.util.geom.KPolygonUtils;
 import com.massisframework.massis.util.geom.KVector;
 import com.massisframework.massis.util.io.JsonState;
@@ -340,7 +341,7 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 		return this.lastKnowRoom.getPeopleIn();
 	}
 
-	private SimRoom findRoomByLastKnownRoom()
+	private CoordinateHolder findRoomByLastKnownRoom()
 	{
 		final double x = this.getX();
 		final double y = this.getY();
@@ -694,7 +695,7 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 	}
 
 	@Override
-	public SimRoom getRandomRoom()
+	public CoordinateHolder getRandomRoom()
 	{
 		return this.getEnvironment().getRandomRoom();
 	}

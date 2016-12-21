@@ -2,9 +2,9 @@ package com.massisframework.massis.model.managers;
 
 import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.building.Building;
-import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.util.collections.filters.Filters;
+import com.massisframework.massis.util.geom.CoordinateHolder;
 
 /**
  * Manages the environment information of an agent
@@ -35,7 +35,7 @@ public class EnvironmentManager {
                 a);
     }
 
-    public SimRoom getRandomRoom()
+    public CoordinateHolder getRandomRoom()
     {
         return this.building.getRandomRoom();
     }

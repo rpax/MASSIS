@@ -17,6 +17,7 @@ import com.massisframework.massis.model.managers.EnvironmentManager;
 import com.massisframework.massis.model.managers.movement.MovementManager;
 import com.massisframework.massis.model.managers.pathfinding.PathFindingManager;
 import com.massisframework.massis.util.Indexable;
+import com.massisframework.massis.util.geom.CoordinateHolder;
 import com.massisframework.massis.util.io.Restorable;
 
 public interface Building {
@@ -61,7 +62,7 @@ public interface Building {
 	 */
 	ISimulationObject getSimulationObject(int simObjId);
 
-	SimRoom getRandomRoom();
+	CoordinateHolder getRandomRoom();
 
 	AnimationManager getAnimationManager();
 

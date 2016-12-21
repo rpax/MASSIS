@@ -9,6 +9,7 @@ import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.pathfinding.straightedge.FindPathResult;
 import com.massisframework.massis.util.Indexable;
 import com.massisframework.massis.util.geom.ContainmentPolygon;
+import com.massisframework.massis.util.geom.CoordinateHolder;
 import com.massisframework.massis.util.io.Restorable;
 
 import straightedge.geom.KPoint;
@@ -25,7 +26,7 @@ public interface Floor extends Indexable{
 	 *
 	 * @return a random Room in this floor
 	 */
-	SimRoom getRandomRoom();
+	CoordinateHolder getRandomRoom();
 
 	List<SimDoor> getDoors();
 

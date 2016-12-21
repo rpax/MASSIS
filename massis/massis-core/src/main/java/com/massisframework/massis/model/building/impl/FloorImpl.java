@@ -39,6 +39,7 @@ import com.massisframework.massis.util.SimObjectProperty;
 import com.massisframework.massis.util.field.grid.quadtree.array.ArrayQuadTree;
 import com.massisframework.massis.util.field.grid.quadtree.array.ArrayQuadTreeCallback;
 import com.massisframework.massis.util.geom.ContainmentPolygon;
+import com.massisframework.massis.util.geom.CoordinateHolder;
 import com.massisframework.massis.util.io.Restorable;
 
 import straightedge.geom.KPoint;
@@ -413,9 +414,9 @@ public class FloorImpl implements Floor {
 	 * @see com.massisframework.massis.model.building.IFloor#getRandomRoom()
 	 */
 	@Override
-	public SimRoom getRandomRoom() {
+	public CoordinateHolder getRandomRoom() {
 
-		final SimRoom room = this.rooms
+		final CoordinateHolder room = this.rooms
 				.get(ThreadLocalRandom.current().nextInt(this.rooms.size()));
 		return room;
 	}
