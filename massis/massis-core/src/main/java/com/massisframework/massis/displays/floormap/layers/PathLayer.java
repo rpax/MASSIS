@@ -7,7 +7,7 @@ import java.util.List;
 
 import com.massisframework.gui.DrawableLayer;
 import com.massisframework.massis.model.agents.DefaultAgent;
-import com.massisframework.massis.model.building.IFloor;
+import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.building.WayPoint;
 
 /**
@@ -24,7 +24,7 @@ public class PathLayer extends DrawableLayer<DrawableFloor> {
 
 	@Override
 	public void draw(DrawableFloor dfloor, Graphics2D g) {
-		final IFloor f = dfloor.getFloor();
+		final Floor f = dfloor.getFloor();
 		g.setColor(Color.magenta);
 
 		for (DefaultAgent p : f.getAgents())

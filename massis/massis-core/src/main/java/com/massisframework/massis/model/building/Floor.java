@@ -14,7 +14,7 @@ import straightedge.geom.KPoint;
 import straightedge.geom.KPolygon;
 import straightedge.geom.path.PathBlockingObstacleImpl;
 
-public interface IFloor extends Indexable{
+public interface Floor extends Indexable{
 
 	void initializePathFinder();
 
@@ -93,7 +93,7 @@ public interface IFloor extends Indexable{
 	 *            the target floor
 	 * @return a list of teleports that can be used to reach the other floor
 	 */
-	List<Teleport> getTeleportsConnectingFloor(IFloor other);
+	List<Teleport> getTeleportsConnectingFloor(Floor other);
 
 	List<Teleport> getTeleports();
 

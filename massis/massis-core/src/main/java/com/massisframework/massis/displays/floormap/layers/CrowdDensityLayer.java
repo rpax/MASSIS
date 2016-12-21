@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 import com.massisframework.gui.DrawableLayer;
 import com.massisframework.massis.model.agents.LowLevelAgent;
-import com.massisframework.massis.model.building.IFloor;
+import com.massisframework.massis.model.building.Floor;
 
 /**
  * Shows efficiently the crowd density of the floor as a heat map
@@ -35,12 +35,12 @@ public class CrowdDensityLayer extends DrawableLayer<DrawableFloor> {
     /**
      * Map linking the layers with their corresponding floors
      */
-    private final HashMap<IFloor, BufferedImage> densityImages = new HashMap<>();
+    private final HashMap<Floor, BufferedImage> densityImages = new HashMap<>();
 
     @Override
     public void draw(DrawableFloor dfloor, Graphics2D g)
     {
-    	final IFloor f = dfloor.getFloor();
+    	final Floor f = dfloor.getFloor();
         /**
          * The factor with wich this floor must be scaled in order to fit in the
          * image

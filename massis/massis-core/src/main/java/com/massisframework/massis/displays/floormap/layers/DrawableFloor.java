@@ -1,13 +1,13 @@
 package com.massisframework.massis.displays.floormap.layers;
 
 import com.massisframework.gui.DrawableZone;
-import com.massisframework.massis.model.building.IFloor;
+import com.massisframework.massis.model.building.Floor;
 
 public class DrawableFloor implements DrawableZone{
 
-	private IFloor floor;
+	private Floor floor;
 
-	public DrawableFloor(IFloor f) {
+	public DrawableFloor(Floor f) {
 		this.floor=f;
 	}
 	
@@ -36,7 +36,7 @@ public class DrawableFloor implements DrawableZone{
 		return this.floor.getName();
 	}
 
-	public IFloor getFloor() {
+	public Floor getFloor() {
 		return floor;
 	}
 

@@ -23,7 +23,7 @@ import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.model.agents.HighLevelController;
 import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.building.Building;
-import com.massisframework.massis.model.building.IFloor;
+import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.building.RoomConnector;
 import com.massisframework.massis.model.building.SimDoor;
 import com.massisframework.massis.model.building.SimRoom;
@@ -52,7 +52,7 @@ import straightedge.geom.path.PathBlockingObstacleImpl;
  * @author rpax
  *
  */
-public class FloorImpl implements IFloor {
+public class FloorImpl implements Floor {
 
 	/**
 	 * The ID of this floor. Useful for hashcodes.
@@ -88,7 +88,7 @@ public class FloorImpl implements IFloor {
 	/**
 	 * Teleports linking to other floors
 	 */
-	private final HashMap<IFloor, List<Teleport>> teleportConnectingFloors = new HashMap<>();
+	private final HashMap<Floor, List<Teleport>> teleportConnectingFloors = new HashMap<>();
 	/**
 	 * MASSIS Walls
 	 */
@@ -506,10 +506,10 @@ public class FloorImpl implements IFloor {
 		if (obj == null) {
 			return false;
 		}
-		if (!(obj instanceof IFloor)) {
+		if (!(obj instanceof Floor)) {
 			return false;
 		}
-		final IFloor other = (IFloor) obj;
+		final Floor other = (Floor) obj;
 		if (this.id != other.getID()) {
 			return false;
 		}
@@ -602,7 +602,7 @@ public class FloorImpl implements IFloor {
 	 * @see com.massisframework.massis.model.building.IFloor#getTeleportsConnectingFloor(com.massisframework.massis.model.building.Floor)
 	 */
 	@Override
-	public List<Teleport> getTeleportsConnectingFloor(final IFloor other) {
+	public List<Teleport> getTeleportsConnectingFloor(final Floor other) {
 
 		if (!this.teleportConnectingFloors.containsKey(other)) {
 			final ArrayList<Teleport> teleportsConnecting = new ArrayList<>();

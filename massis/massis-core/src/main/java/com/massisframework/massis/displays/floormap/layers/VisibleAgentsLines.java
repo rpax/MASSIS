@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 
 import com.massisframework.gui.DrawableLayer;
 import com.massisframework.massis.model.agents.DefaultAgent;
-import com.massisframework.massis.model.building.IFloor;
+import com.massisframework.massis.model.building.Floor;
 
 /**
  * Shows the agents visible from another agent, in a network fashion
@@ -24,7 +24,7 @@ public class VisibleAgentsLines extends DrawableLayer<DrawableFloor> {
     @Override
     public void draw(DrawableFloor dfloor, Graphics2D g)
     {
-    	final IFloor f = dfloor.getFloor();
+    	final Floor f = dfloor.getFloor();
         g.setColor(Color.WHITE);
         for (DefaultAgent v : f.getAgents())
         {

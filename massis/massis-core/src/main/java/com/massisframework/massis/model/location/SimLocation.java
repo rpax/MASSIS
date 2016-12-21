@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 
 import com.eteks.sweethome3d.model.Selectable;
 import com.massisframework.massis.model.building.Building;
-import com.massisframework.massis.model.building.IFloor;
+import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.SimulationObject;
 import com.massisframework.massis.util.SH3DUtils;
@@ -40,7 +40,7 @@ public class SimLocation extends Location implements Restorable {
      * @param polygon the polygon representing the element
      * @param floor the floor
      */
-    private SimLocation(KPolygon polygon, IFloor floor)
+    private SimLocation(KPolygon polygon, Floor floor)
     {
         super(polygon.center, floor);
         this.polygon = polygon;
@@ -54,7 +54,7 @@ public class SimLocation extends Location implements Restorable {
      * @param hpof the SH3D representation
      * @param floor the floor of the ekement
      */
-    public SimLocation(Selectable hpof, IFloor floor)
+    public SimLocation(Selectable hpof, Floor floor)
     {
         this(SH3DUtils.createKPolygonFromSH3DObj(hpof), floor);
     }
@@ -160,7 +160,7 @@ public class SimLocation extends Location implements Restorable {
             /*
              * Se recupera el floor, por un lado
              */
-            IFloor other = building.getFloorById(floorId);
+            Floor other = building.getFloorById(floorId);
             /*
              * Por otro, se recupera el SimulationObject correspondiente al
              * identificador attached.

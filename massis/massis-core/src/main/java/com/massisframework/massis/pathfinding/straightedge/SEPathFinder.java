@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.massisframework.massis.model.agents.DefaultAgent;
-import com.massisframework.massis.model.building.IFloor;
+import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.building.SimDoor;
 import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.Teleport;
@@ -64,7 +64,7 @@ public class SEPathFinder {
 	/**
 	 * IFloor of this pathfinder
 	 */
-	private final IFloor floor;
+	private final Floor floor;
 	/**
 	 * Allowed walkable polygons
 	 */
@@ -80,7 +80,7 @@ public class SEPathFinder {
 	 *
 	 * @param floor
 	 */
-	public SEPathFinder(IFloor floor) {
+	public SEPathFinder(Floor floor) {
 		this.floor = floor;
 	}
 

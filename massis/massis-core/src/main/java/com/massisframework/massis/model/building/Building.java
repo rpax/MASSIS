@@ -41,15 +41,15 @@ public interface Building {
 
 	HomePieceOfFurniture getSH3DRepresentation(SimulationObject obj);
 
-	List<IFloor> getFloors();
+	List<Floor> getFloors();
 
 	Home getHome();
 
-	HashMap<Level, IFloor> getLevelsFloors();
+	HashMap<Level, Floor> getLevelsFloors();
 
-	IFloor getFloorOf(Level lvl);
+	Floor getFloorOf(Level lvl);
 
-	IFloor getFloorById(int floorId);
+	Floor getFloorById(int floorId);
 
 	/**
 	 * Only used for recovering the state. <i>Do not use</i>

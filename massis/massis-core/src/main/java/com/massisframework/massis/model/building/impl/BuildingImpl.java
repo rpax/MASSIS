@@ -21,8 +21,8 @@ import com.massisframework.massis.displays.SimulationDisplay;
 import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.model.agents.HighLevelController;
 import com.massisframework.massis.model.building.BuildingProgressMonitor;
-import com.massisframework.massis.model.building.IFloor;
-import com.massisframework.massis.model.building.IFloor;
+import com.massisframework.massis.model.building.Floor;
+import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.SimulationObject;
@@ -52,7 +52,7 @@ public class BuildingImpl implements Building {
     /**
      * Map linking the MASSIS' floors with SH3D levels
      */
-    protected HashMap<Level, IFloor> levelsFloors;
+    protected HashMap<Level, Floor> levelsFloors;
     /**
      * Map linking MASSIS {@link SimulationObject}s with SweetHome3D furniture.
      */
@@ -60,7 +60,7 @@ public class BuildingImpl implements Building {
     /**
      * List of the building's floors
      */
-    protected final ArrayList<IFloor> floors;
+    protected final ArrayList<Floor> floors;
     /**
      * Resources folder of the simulation
      */
@@ -243,7 +243,7 @@ public class BuildingImpl implements Building {
                         .put(level, new ArrayList<HomePieceOfFurniture>());
             }
             System.err.println("Creating level " + SH3DUtils.getLevelName(level));
-            final IFloor f = new FloorImpl(level, levelRooms.get(level),
+            final Floor f = new FloorImpl(level, levelRooms.get(level),
                     levelWalls.get(level), levelFurniture.get(level), this);
             this.floors.add(f);
             this.levelsFloors.put(level, f);
@@ -258,7 +258,7 @@ public class BuildingImpl implements Building {
         progressMonitor.onUpdate(5, "Preprocessing rooms");
         //
         int nrooms = 0;
-        for (final IFloor f : this.getFloors())
+        for (final Floor f : this.getFloors())
         {
             nrooms += f.getRooms().size();
         }
@@ -270,7 +270,7 @@ public class BuildingImpl implements Building {
          * on a room, and there is not now, it is more probable that it is in
          * the nearest room (BFS order).
          */
-        for (final IFloor f : this.getFloors())
+        for (final Floor f : this.getFloors())
         {
             for (final SimRoom sr : f.getRooms())
             {
@@ -286,7 +286,7 @@ public class BuildingImpl implements Building {
         final AtomicInteger nfloor = new AtomicInteger(0);
         final StringBuffer sb = new StringBuffer();
         progressMonitor.onUpdate(10, "Processing floors");
-        for (final IFloor f : this.getFloors())
+        for (final Floor f : this.getFloors())
         {
 
             f.initializePathFinder();
@@ -329,7 +329,7 @@ public class BuildingImpl implements Building {
 	 * @see com.massisframework.massis.model.building.IBuilding#getFloors()
 	 */
     @Override
-	public List<IFloor> getFloors()
+	public List<Floor> getFloors()
     {
         return Collections.unmodifiableList(this.floors);
     }
@@ -347,7 +347,7 @@ public class BuildingImpl implements Building {
 	 * @see com.massisframework.massis.model.building.IBuilding#getLevelsFloors()
 	 */
     @Override
-	public HashMap<Level, IFloor> getLevelsFloors()
+	public HashMap<Level, Floor> getLevelsFloors()
     {
         return this.levelsFloors;
     }
@@ -356,7 +356,7 @@ public class BuildingImpl implements Building {
 	 * @see com.massisframework.massis.model.building.IBuilding#getFloorOf(com.eteks.sweethome3d.model.Level)
 	 */
     @Override
-	public IFloor getFloorOf(Level lvl)
+	public Floor getFloorOf(Level lvl)
     {
         return this.levelsFloors.get(lvl);
     }
@@ -365,9 +365,9 @@ public class BuildingImpl implements Building {
 	 * @see com.massisframework.massis.model.building.IBuilding#getFloorById(int)
 	 */
     @Override
-	public IFloor getFloorById(int floorId)
+	public Floor getFloorById(int floorId)
     {
-        for (final IFloor f : this.getFloors())
+        for (final Floor f : this.getFloors())
         {
             if (f.getID() == floorId)
             {
@@ -383,7 +383,7 @@ public class BuildingImpl implements Building {
     @Override
 	public SimulationObject getSimulationObject(int simObjId)
     {
-        for (final IFloor f : this.getFloors())
+        for (final Floor f : this.getFloors())
         {
             for (final DefaultAgent p : f.getAgents())
             {
@@ -403,7 +403,7 @@ public class BuildingImpl implements Building {
     @Override
 	public SimRoom getRandomRoom()
     {
-        final IFloor rndFloor = this.floors.get(ThreadLocalRandom.current().nextInt(
+        final Floor rndFloor = this.floors.get(ThreadLocalRandom.current().nextInt(
                 this.floors.size()));
         return rndFloor.getRandomRoom();
     }
