@@ -8,6 +8,7 @@ import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.building.ISimulationObject;
 import com.massisframework.massis.util.SH3DUtils;
+import com.massisframework.massis.util.geom.CoordinateHolder;
 import com.massisframework.massis.util.io.JsonState;
 import com.massisframework.massis.util.io.Restorable;
 
@@ -154,7 +155,7 @@ public class SimLocation extends Location implements Restorable {
         }
 
         @Override
-        public SimLocation restore(Building building)
+        public CoordinateHolder restore(Building building)
         {
             /*
              * Se recupera el floor, por un lado
