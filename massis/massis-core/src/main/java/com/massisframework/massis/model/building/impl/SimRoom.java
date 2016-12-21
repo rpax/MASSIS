@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.massisframework.massis.model.building;
+package com.massisframework.massis.model.building.impl;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -20,6 +20,10 @@ import org.apache.commons.collections15.Predicate;
 import org.apache.commons.collections15.iterators.FilterIterator;
 
 import com.massisframework.massis.model.agents.DefaultAgent;
+import com.massisframework.massis.model.building.Building;
+import com.massisframework.massis.model.building.ISimRoom;
+import com.massisframework.massis.model.building.RoomConnector;
+import com.massisframework.massis.model.building.SimulationObject;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.location.SimLocation;
 import com.massisframework.massis.model.managers.AnimationManager;

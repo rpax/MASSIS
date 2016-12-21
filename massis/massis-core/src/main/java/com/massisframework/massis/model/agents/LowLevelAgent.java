@@ -8,7 +8,6 @@ import java.awt.Shape;
 import java.util.Collection;
 
 import com.massisframework.massis.model.building.ISimRoom;
-import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.location.SimLocation;
 import com.massisframework.massis.model.managers.movement.ApproachCallback;

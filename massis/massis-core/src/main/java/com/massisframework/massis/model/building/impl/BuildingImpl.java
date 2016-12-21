@@ -25,7 +25,6 @@ import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.building.ISimRoom;
 import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.building.Building;
-import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.SimulationObject;
 import com.massisframework.massis.model.building.Teleport;
 import com.massisframework.massis.model.location.Location;
