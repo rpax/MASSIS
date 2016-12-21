@@ -92,7 +92,7 @@ public class FloorImpl implements Floor {
 	/**
 	 * MASSIS Walls
 	 */
-	private final ArrayList<SimWall> walls;
+	private final ArrayList<SimWallImpl> walls;
 	/**
 	 * MASSIS Rooms
 	 */
@@ -300,7 +300,7 @@ public class FloorImpl implements Floor {
 		for (final Wall w : this.walls3D) {
 			final SimLocation location = new SimLocation(w, this);
 			final Map<String, String> metadata = this.building.getMetadata(w);
-			final SimWall simWall = new SimWall(metadata, location,
+			final SimWallImpl simWall = new SimWallImpl(metadata, location,
 					this.building.getMovementManager(),
 					this.building.getAnimationManager(),
 					this.building.getEnvironmentManager(),
@@ -341,7 +341,7 @@ public class FloorImpl implements Floor {
 	 */
 	private void initializeContainmentPolygons() {
 		this.containmentPolygons = new ArrayList<>();
-		for (final SimWall w : this.walls) {
+		for (final SimWallImpl w : this.walls) {
 			this.containmentPolygons.add(new ContainmentPolygon(
 					new PolygonBufferer().buffer(w.getPolygon(), 50, 1)));
 		}
