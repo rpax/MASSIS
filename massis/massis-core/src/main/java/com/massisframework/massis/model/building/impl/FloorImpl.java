@@ -26,7 +26,6 @@ import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.building.ISimDoor;
 import com.massisframework.massis.model.building.RoomConnector;
-import com.massisframework.massis.model.building.SimDoor;
 import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.SimWall;
 import com.massisframework.massis.model.building.SimWindow;

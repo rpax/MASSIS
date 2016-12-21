@@ -2,7 +2,7 @@ package com.massisframework.massis.model.building;
 
 import java.util.List;
 
-import com.massisframework.massis.model.building.SimDoor.SimDoorState;
+import com.massisframework.massis.model.building.impl.SimDoor.SimDoorState;
 
 import straightedge.geom.PolygonHolder;
 
