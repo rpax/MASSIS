@@ -63,7 +63,7 @@ public interface LowLevelAgent extends  PathFollower,Indexable,SteeringCapable,I
      *
      * @return The room where the agent is
      */
-    public CoordinateHolder getRoom();
+    public SimRoom getRoom();
     /**
      * Retrieves the agents in the current room of the agent. Equivalent method
      * to the call {@link SimRoom#getPeopleIn()}
