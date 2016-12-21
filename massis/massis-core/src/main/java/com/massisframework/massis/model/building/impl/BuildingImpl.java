@@ -41,7 +41,7 @@ import com.massisframework.sweethome3d.metadata.HomeMetadataLoader;
  * @author rpax
  *
  */
-public class Building implements IBuilding {
+public class BuildingImpl implements IBuilding {
 
     protected Home home;
     /**
@@ -99,7 +99,7 @@ public class Building implements IBuilding {
      * @param progressMonitor a progress monitor which tracks the progress of
      * the loading of the building
      */
-    public Building(Home home, String resourcesFolder,
+    public BuildingImpl(Home home, String resourcesFolder,
             BuildingProgressMonitor progressMonitor)
     {
         this.resourcesFolder = resourcesFolder;
@@ -131,14 +131,14 @@ public class Building implements IBuilding {
 
     /**
      * Same as null null null null null     {@link #Building(AbstractSimulation, String, String, BuildingProgressMonitor)
-	 * , without a {@link Building.BuildingProgressMonitor}
+	 * , without a {@link BuildingImpl.BuildingProgressMonitor}
      *
      * @param state
      * @param homeFilePath
      * @param resourcesFolder
      * @throws RecorderException
      */
-    public Building(Home home,
+    public BuildingImpl(Home home,
             String resourcesFolder) throws RecorderException
     {
         this(home, resourcesFolder,

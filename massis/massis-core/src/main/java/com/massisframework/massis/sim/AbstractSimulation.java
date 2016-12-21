@@ -9,7 +9,7 @@ import com.eteks.sweethome3d.model.Home;
 import com.eteks.sweethome3d.model.RecorderException;
 import com.massisframework.massis.model.building.BuildingProgressMonitor;
 import com.massisframework.massis.model.building.IBuilding;
-import com.massisframework.massis.model.building.impl.Building;
+import com.massisframework.massis.model.building.impl.BuildingImpl;
 import com.massisframework.sweethome3d.additionaldata.AdditionalDataHomeRecorder;
 import com.massisframework.sweethome3d.additionaldata.AdditionalDataReader;
 import com.massisframework.sweethome3d.metadata.HomeMetadataLoader;
@@ -115,9 +115,9 @@ public abstract class AbstractSimulation extends SimState {
 				(AdditionalDataReader) new HomeMetadataLoader());
 		final Home home = recorder.readHome(this.buildingFile.getAbsolutePath());
 		if (this.buildingProgress != null) {
-			return new Building(home, this.resourcesPath, this.buildingProgress);
+			return new BuildingImpl(home, this.resourcesPath, this.buildingProgress);
 		} else {
-			return new Building(home, this.resourcesPath);
+			return new BuildingImpl(home, this.resourcesPath);
 		}
 
 	}
