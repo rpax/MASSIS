@@ -16,6 +16,7 @@ import com.massisframework.massis.model.managers.AnimationManager;
 import com.massisframework.massis.model.managers.EnvironmentManager;
 import com.massisframework.massis.model.managers.movement.MovementManager;
 import com.massisframework.massis.model.managers.pathfinding.PathFindingManager;
+import com.massisframework.massis.util.Indexable;
 
 public interface Building {
 
@@ -47,7 +48,7 @@ public interface Building {
 
 	HashMap<Level, Floor> getLevelsFloors();
 
-	Floor getFloorOf(Level lvl);
+	Indexable getFloorOf(Level lvl);
 
 	Floor getFloorById(int floorId);
 

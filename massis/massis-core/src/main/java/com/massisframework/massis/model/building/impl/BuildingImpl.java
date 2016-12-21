@@ -32,6 +32,7 @@ import com.massisframework.massis.model.managers.EnvironmentManager;
 import com.massisframework.massis.model.managers.movement.MovementManager;
 import com.massisframework.massis.model.managers.pathfinding.PathFindingManager;
 import com.massisframework.massis.sim.AbstractSimulation;
+import com.massisframework.massis.util.Indexable;
 import com.massisframework.massis.util.SH3DUtils;
 import com.massisframework.sweethome3d.metadata.HomeMetadataLoader;
 
@@ -355,7 +356,7 @@ public class BuildingImpl implements Building {
 	 * @see com.massisframework.massis.model.building.IBuilding#getFloorOf(com.eteks.sweethome3d.model.Level)
 	 */
     @Override
-	public Floor getFloorOf(Level lvl)
+	public Indexable getFloorOf(Level lvl)
     {
         return this.levelsFloors.get(lvl);
     }

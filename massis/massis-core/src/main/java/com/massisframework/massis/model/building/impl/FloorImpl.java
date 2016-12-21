@@ -34,6 +34,7 @@ import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.location.SimLocation;
 import com.massisframework.massis.pathfinding.straightedge.FindPathResult;
 import com.massisframework.massis.pathfinding.straightedge.SEPathFinder;
+import com.massisframework.massis.util.Indexable;
 import com.massisframework.massis.util.SH3DUtils;
 import com.massisframework.massis.util.SimObjectProperty;
 import com.massisframework.massis.util.field.grid.quadtree.array.ArrayQuadTree;
@@ -505,10 +506,10 @@ public class FloorImpl implements Floor {
 		if (obj == null) {
 			return false;
 		}
-		if (!(obj instanceof Floor)) {
+		if (!(obj instanceof Indexable)) {
 			return false;
 		}
-		final Floor other = (Floor) obj;
+		final Indexable other = (Indexable) obj;
 		if (this.id != other.getID()) {
 			return false;
 		}
