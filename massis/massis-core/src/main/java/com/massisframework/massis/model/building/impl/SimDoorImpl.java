@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.massisframework.massis.model.building.Building;
+import com.massisframework.massis.model.building.RoomConnector;
 import com.massisframework.massis.model.building.SimDoor;
 import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.SimulationObject;
@@ -136,7 +137,7 @@ public class SimDoorImpl extends SimulationObject implements SimDoor {
 		}
 
 		@Override
-		public SimDoor restore(Building building) {
+		public RoomConnector restore(Building building) {
 			SimDoor d = (SimDoor) data.restore(building);
 			d.setOpen(this.isOpen);
 			return d;
