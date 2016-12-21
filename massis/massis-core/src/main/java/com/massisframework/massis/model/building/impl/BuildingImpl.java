@@ -243,7 +243,7 @@ public class BuildingImpl implements Building {
                         .put(level, new ArrayList<HomePieceOfFurniture>());
             }
             System.err.println("Creating level " + SH3DUtils.getLevelName(level));
-            final IFloor f = new Floor(level, levelRooms.get(level),
+            final IFloor f = new FloorImpl(level, levelRooms.get(level),
                     levelWalls.get(level), levelFurniture.get(level), this);
             this.floors.add(f);
             this.levelsFloors.put(level, f);

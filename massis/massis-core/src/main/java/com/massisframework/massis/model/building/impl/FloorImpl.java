@@ -52,7 +52,7 @@ import straightedge.geom.path.PathBlockingObstacleImpl;
  * @author rpax
  *
  */
-public class Floor implements IFloor {
+public class FloorImpl implements IFloor {
 
 	/**
 	 * The ID of this floor. Useful for hashcodes.
@@ -126,7 +126,7 @@ public class Floor implements IFloor {
 	 * @param furniture3D
 	 *            the furniture in that level
 	 */
-	public Floor(com.eteks.sweethome3d.model.Level level3D,
+	public FloorImpl(com.eteks.sweethome3d.model.Level level3D,
 			ArrayList<Room> rooms3D, ArrayList<Wall> walls3D,
 			ArrayList<HomePieceOfFurniture> furniture3D, Building building) {
 
@@ -710,7 +710,7 @@ public class Floor implements IFloor {
 						metadata, absResFolder);
 
 			} catch (final ClassNotFoundException ex) {
-				Logger.getLogger(Floor.class.getName())
+				Logger.getLogger(FloorImpl.class.getName())
 						.log(java.util.logging.Level.SEVERE, null, ex);
 			}
 
@@ -743,7 +743,7 @@ public class Floor implements IFloor {
 
 	private static void logInfo(String str, Object[] data) {
 
-		Logger.getLogger(Floor.class.getName())
+		Logger.getLogger(FloorImpl.class.getName())
 				.log(java.util.logging.Level.INFO, str, data);
 	}
 
