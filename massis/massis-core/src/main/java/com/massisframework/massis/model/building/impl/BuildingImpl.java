@@ -23,7 +23,7 @@ import com.massisframework.massis.model.agents.HighLevelController;
 import com.massisframework.massis.model.building.BuildingProgressMonitor;
 import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.building.ISimulationObject;
-import com.massisframework.massis.model.building.ITeleport;
+import com.massisframework.massis.model.building.Teleport;
 import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.building.Building;
@@ -69,13 +69,13 @@ public class BuildingImpl implements Building {
     /**
      * The teleports of the building (stairs, basically)
      */
-    private final ArrayList<ITeleport> allTeleports = new ArrayList<>();
+    private final ArrayList<Teleport> allTeleports = new ArrayList<>();
     /**
      * Map which links the name of the teleport with the teleport itself. this
      * is needed because the teleports are not added in order, and it is needed
      * to keep track of the first teleport element found
      */
-    private final HashMap<String, ITeleport> teleportMap = new HashMap<>();
+    private final HashMap<String, Teleport> teleportMap = new HashMap<>();
     // Managers
     private final MovementManager movement;
     private final AnimationManager animation;
@@ -171,7 +171,7 @@ public class BuildingImpl implements Building {
 	 * @see com.massisframework.massis.model.building.IBuilding#addTeleport(com.massisframework.massis.model.building.Teleport)
 	 */
     @Override
-	public void addTeleport(ITeleport teleport)
+	public void addTeleport(Teleport teleport)
     {
         if (this.teleportMap.containsKey(teleport.getName()))
         {

@@ -25,7 +25,7 @@ import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.building.ISimulationObject;
-import com.massisframework.massis.model.building.ITeleport;
+import com.massisframework.massis.model.building.Teleport;
 import com.massisframework.massis.model.building.RoomConnector;
 import com.massisframework.massis.model.building.SimDoor;
 import com.massisframework.massis.model.building.SimRoom;
@@ -87,7 +87,7 @@ public class FloorImpl implements Floor {
 	/**
 	 * Teleports linking to other floors
 	 */
-	private final HashMap<Floor, List<ITeleport>> teleportConnectingFloors = new HashMap<>();
+	private final HashMap<Floor, List<Teleport>> teleportConnectingFloors = new HashMap<>();
 	/**
 	 * MASSIS Walls
 	 */
@@ -579,7 +579,7 @@ public class FloorImpl implements Floor {
 		 */
 		if (fromLoc.getFloor() != to.getFloor()) {
 
-			final List<ITeleport> teleportsConnecting = getTeleportsConnectingFloor(
+			final List<Teleport> teleportsConnecting = getTeleportsConnectingFloor(
 					to.getFloor());
 			if (teleportsConnecting == null) {
 				logInfo("No teleports connecting {0} with {1} ",
@@ -587,7 +587,7 @@ public class FloorImpl implements Floor {
 				callback.onError(FindPathResult.PathFinderErrorReason.UNREACHABLE_TARGET);
 				// return null;
 			}
-			final ITeleport targetTeleport = teleportsConnecting.get(0);
+			final Teleport targetTeleport = teleportsConnecting.get(0);
 			final Location targetLocation = targetTeleport.getLocation();
 			this.pathFinder.findPath(fromLoc, targetLocation, targetTeleport,
 					callback);
@@ -601,19 +601,19 @@ public class FloorImpl implements Floor {
 	 * @see com.massisframework.massis.model.building.IFloor#getTeleportsConnectingFloor(com.massisframework.massis.model.building.Floor)
 	 */
 	@Override
-	public List<ITeleport> getTeleportsConnectingFloor(final Floor other) {
+	public List<Teleport> getTeleportsConnectingFloor(final Floor other) {
 
 		if (!this.teleportConnectingFloors.containsKey(other)) {
-			final ArrayList<ITeleport> teleportsConnecting = new ArrayList<>();
-			for (final ITeleport teleport : this.teleports) {
-				if (teleport.getType() == ITeleport.START && teleport
+			final ArrayList<Teleport> teleportsConnecting = new ArrayList<>();
+			for (final Teleport teleport : this.teleports) {
+				if (teleport.getType() == Teleport.START && teleport
 						.getDistanceToFloor(other) < Integer.MAX_VALUE) {
 					teleportsConnecting.add(teleport);
 				}
 			}
-			Collections.sort(teleportsConnecting, new Comparator<ITeleport>() {
+			Collections.sort(teleportsConnecting, new Comparator<Teleport>() {
 				@Override
-				public int compare(ITeleport o1, ITeleport o2) {
+				public int compare(Teleport o1, Teleport o2) {
 					return Integer.compare(o1.getDistanceToFloor(other),
 							o2.getDistanceToFloor(other));
 				}
@@ -628,7 +628,7 @@ public class FloorImpl implements Floor {
 	 * @see com.massisframework.massis.model.building.IFloor#getTeleports()
 	 */
 	@Override
-	public List<ITeleport> getTeleports() {
+	public List<Teleport> getTeleports() {
 		return Collections.unmodifiableList(this.teleports);
 	}
 

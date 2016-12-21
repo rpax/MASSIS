@@ -93,9 +93,9 @@ public interface Floor extends Indexable{
 	 *            the target floor
 	 * @return a list of teleports that can be used to reach the other floor
 	 */
-	List<ITeleport> getTeleportsConnectingFloor(Floor other);
+	List<Teleport> getTeleportsConnectingFloor(Floor other);
 
-	List<ITeleport> getTeleports();
+	List<Teleport> getTeleports();
 
 	List<RoomConnector> getRoomConnectors();
 

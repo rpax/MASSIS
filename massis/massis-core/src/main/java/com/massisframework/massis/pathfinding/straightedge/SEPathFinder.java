@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.model.building.Floor;
-import com.massisframework.massis.model.building.ITeleport;
+import com.massisframework.massis.model.building.Teleport;
 import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.SimDoor;
 import com.massisframework.massis.model.location.Location;
@@ -251,7 +251,7 @@ public class SEPathFinder {
 	 *            goal
 	 * @return the path between them, noll if it does not exist
 	 */
-	public void findPath(Location fromLocation, Location toLocation,ITeleport targetTeleport, FindPathResult callback) {
+	public void findPath(Location fromLocation, Location toLocation,Teleport targetTeleport, FindPathResult callback) {
 		if (this.floor != fromLocation.getFloor()) {
 			callback.onError(FindPathResult.PathFinderErrorReason.DIFFERENT_FLOORS);
 		}
