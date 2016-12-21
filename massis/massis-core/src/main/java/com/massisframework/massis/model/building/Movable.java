@@ -8,4 +8,5 @@ import com.massisframework.massis.model.location.Location;
  */
 public interface Movable {
 	public void moveTo(Location other);
+	public void moveTo(double x,double y,Floor f);
 }

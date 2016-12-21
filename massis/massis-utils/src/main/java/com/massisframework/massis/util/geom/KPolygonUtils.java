@@ -1,5 +1,8 @@
 package com.massisframework.massis.util.geom;
 
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.PathIterator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -8,6 +11,7 @@ import java.util.List;
 import java.util.Queue;
 
 import com.badlogic.gdx.math.EarClippingTriangulator;
+import com.massisframework.massis.util.PathFindingUtils;
 import com.seisw.util.geom.Poly;
 import com.seisw.util.geom.PolyDefault;
 
@@ -17,6 +21,12 @@ import straightedge.geom.PolygonHolder;
 
 public final class KPolygonUtils {
 
+
+    /**
+     * {@link AffineTransform} que no hace nada.
+     */
+    private static final AffineTransform IDENTITY_AFFINE_TRANSFORM = new AffineTransform();
+    
 	public static KPolygon intersection(KPolygon kpolygon1, KPolygon kpolygon2)
 	{
 		Poly m_Poly1 = new PolyDefault();
@@ -51,6 +61,46 @@ public final class KPolygonUtils {
 		{
 			poly.add(p.x, p.y);
 		}
+		return poly;
+	}
+
+	public static KPolygon createKPolygonFromShape(Shape s)
+	{
+		return createKPolygonFromShape(s, false);
+	}
+
+	/**
+	 * Crea un poligono desde un {@link Shape}. Solo funciona con poligonos
+	 * normales, sin agujeros. Shape debe estar hecho de rectas.
+	 *
+	 * @param s
+	 *            La Shape correspondiente
+	 * @return Un {@link KPolygon} cuya figura es como la de la Shape
+	 *         proporcionada.
+	 */
+	public static KPolygon createKPolygonFromShape(Shape s,
+			boolean avoidCloneIfPossible)
+	{
+		if (s instanceof KPolygon)
+		{
+			return new KPolygon((KPolygon) s);
+		}
+		final double[] coords = new double[6];
+		final PathIterator pathIterator = s
+				.getPathIterator(IDENTITY_AFFINE_TRANSFORM);
+		final ArrayList<KPoint> pointList = new ArrayList<KPoint>();
+
+		while (!pathIterator.isDone())
+		{
+			pathIterator.currentSegment(coords);
+			pointList.add(new KPoint(coords[0], coords[1]));
+			pathIterator.next();
+		}
+		if (pointList.size() < 3)
+		{
+			return null;
+		}
+		KPolygon poly = new KPolygon(pointList);
 		return poly;
 	}
 

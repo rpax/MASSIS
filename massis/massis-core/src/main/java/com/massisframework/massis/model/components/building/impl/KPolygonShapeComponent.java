@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import com.massisframework.massis.model.components.building.Coordinate2DComponent;
 import com.massisframework.massis.model.components.building.HeadingComponent;
 import com.massisframework.massis.model.components.building.ShapeComponent;
+import com.massisframework.massis.util.geom.KPolygonUtils;
 
 import straightedge.geom.KPoint;
 import straightedge.geom.KPolygon;
@@ -82,6 +83,33 @@ public class KPolygonShapeComponent extends AbstractSimulationComponent
 			this.fireChanged();
 		}
 
+	}
+
+	@Override
+	public boolean intersects(Shape s)
+	{
+		if (s instanceof KPolygon)
+		{
+			KPolygon other = (KPolygon) s;
+			if (this.polygon.intersectionPossible(other))
+			{
+				return this.polygon.intersects(other);
+			} else
+			{
+				return false;
+			}
+		} else
+		{
+			return intersects(KPolygonUtils.createKPolygonFromShape(s, true));
+		}
+
+	}
+
+	@Override
+	public boolean intersects(ShapeComponent s)
+	{
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

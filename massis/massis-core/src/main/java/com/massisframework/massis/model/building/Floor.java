@@ -5,19 +5,21 @@ import java.util.List;
 
 import com.eteks.sweethome3d.model.Level;
 import com.massisframework.massis.model.agents.LowLevelAgent;
+import com.massisframework.massis.model.components.RoomComponent;
+import com.massisframework.massis.model.components.building.ShapeComponent;
+import com.massisframework.massis.model.components.building.WallComponent;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.pathfinding.straightedge.FindPathResult;
 import com.massisframework.massis.sim.SimulationEntity;
 import com.massisframework.massis.util.Indexable;
 import com.massisframework.massis.util.geom.ContainmentPolygon;
-import com.massisframework.massis.util.geom.CoordinateHolder;
 import com.massisframework.massis.util.io.Restorable;
 
 import straightedge.geom.KPoint;
 import straightedge.geom.KPolygon;
 import straightedge.geom.path.PathBlockingObstacleImpl;
 
-public interface Floor extends Indexable{
+public interface Floor extends Indexable {
 
 	void initializePathFinder();
 
@@ -27,7 +29,7 @@ public interface Floor extends Indexable{
 	 *
 	 * @return a random Room in this floor
 	 */
-	CoordinateHolder getRandomRoom();
+	SimulationEntity getRandomRoom();
 
 	List<SimDoor> getDoors();
 
@@ -38,14 +40,36 @@ public interface Floor extends Indexable{
 	int getMinY();
 
 	int getMaxY();
-	
+
 	public int getXlength();
 
 	public int getYlength();
 
+	/**
+	 * Returns the entities representing the walls of this floor. This entities
+	 * have <i>at least</i> these components:
+	 * <ul>
+	 * <li>{@link ShapeComponent}</li>
+	 * <li>{@link WallComponent}</li>
+	 * <li>{@link MovementCapabilities}</li>
+	 * </ul>
+	 * 
+	 * @return the walls of this floor
+	 */
 	List<SimulationEntity> getWalls();
 
-	List<SimRoom> getRooms();
+	/**
+	 * Returns the rooms present in this floor. This entities have <i>at
+	 * least</i> these components:
+	 * <ul>
+	 * <li>{@link ShapeComponent}</li>
+	 * <li>{@link RoomComponent}</li>
+	 * <li>{@link MovementCapabilities}</li>
+	 * </ul>
+	 * 
+	 * @return
+	 */
+	List<SimulationEntity> getRooms();
 
 	Iterable<LowLevelAgent> getAgents();
 

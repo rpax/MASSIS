@@ -15,11 +15,11 @@ import straightedge.geom.vision.Occluder;
 
 public interface SimRoom extends Occluder, Steppable, Stoppable,CoordinateHolder{
 
-	/**
-	 *
-	 * @return the rooms ordered by distance, BFS
-	 */
-	List<SimRoom> getRoomsOrderedByDistance();
+//	/**
+//	 *
+//	 * @return the rooms ordered by distance, BFS
+//	 */
+//	List<SimRoom> getRoomsOrderedByDistance();
 
 	/**
 	 *

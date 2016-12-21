@@ -32,9 +32,9 @@ import com.massisframework.massis.model.managers.EnvironmentManager;
 import com.massisframework.massis.model.managers.movement.MovementManager;
 import com.massisframework.massis.model.managers.pathfinding.PathFindingManager;
 import com.massisframework.massis.sim.AbstractSimulation;
+import com.massisframework.massis.sim.SimulationEntity;
 import com.massisframework.massis.util.Indexable;
 import com.massisframework.massis.util.SH3DUtils;
-import com.massisframework.massis.util.geom.CoordinateHolder;
 import com.massisframework.massis.util.io.Restorable;
 import com.massisframework.sweethome3d.metadata.HomeMetadataLoader;
 
@@ -46,470 +46,544 @@ import com.massisframework.sweethome3d.metadata.HomeMetadataLoader;
  */
 public class BuildingImpl implements Building {
 
-    protected Home home;
-    /**
-     * SH3D building representation
-     */
-    // protected final Home home;
-    /**
-     * Map linking the MASSIS' floors with SH3D levels
-     */
-    protected HashMap<Level, Floor> levelsFloors;
-    /**
-     * Map linking MASSIS {@link ISimulationObject}s with SweetHome3D furniture.
-     */
-    private final HashMap<ISimulationObject, HomePieceOfFurniture> representationMap;
-    /**
-     * List of the building's floors
-     */
-    protected final ArrayList<Floor> floors;
-    /**
-     * Resources folder of the simulation
-     */
-    private final String resourcesFolder;
-    /**
-     * The teleports of the building (stairs, basically)
-     */
-    private final ArrayList<Teleport> allTeleports = new ArrayList<>();
-    /**
-     * Map which links the name of the teleport with the teleport itself. this
-     * is needed because the teleports are not added in order, and it is needed
-     * to keep track of the first teleport element found
-     */
-    private final HashMap<String, Teleport> teleportMap = new HashMap<>();
-    // Managers
-    private final MovementManager movement;
-    private final AnimationManager animation;
-    private final EnvironmentManager environment;
-    private final PathFindingManager pathManager;
-    //
-    /**
-     * Map of the named locations of the building. POI & more
-     */
-    private final Map<String, Location> namedLocations = new HashMap<>();
-    /**
-     * Map with the rooms names . It is useful for making an agent to go to an
-     * specific room
-     */
-    private final Map<String, SimRoom> namedRooms = new HashMap<>();
-    private final Collection<HighLevelController> scheduledControllers = new ArrayList<>();
-	
+	protected Home home;
+	/**
+	 * SH3D building representation
+	 */
+	// protected final Home home;
+	/**
+	 * Map linking the MASSIS' floors with SH3D levels
+	 */
+	protected HashMap<Level, Floor> levelsFloors;
+	/**
+	 * Map linking MASSIS {@link ISimulationObject}s with SweetHome3D furniture.
+	 */
+	private final HashMap<ISimulationObject, HomePieceOfFurniture> representationMap;
+	/**
+	 * List of the building's floors
+	 */
+	protected final ArrayList<Floor> floors;
+	/**
+	 * Resources folder of the simulation
+	 */
+	private final String resourcesFolder;
+	/**
+	 * The teleports of the building (stairs, basically)
+	 */
+	private final ArrayList<SimulationEntity> allTeleports = new ArrayList<>();
+	/**
+	 * Map which links the name of the teleport with the teleport itself. this
+	 * is needed because the teleports are not added in order, and it is needed
+	 * to keep track of the first teleport element found
+	 */
+	private final HashMap<String, SimulationEntity> teleportMap = new HashMap<>();
+	// Managers
+	private final MovementManager movement;
+	private final AnimationManager animation;
+	private final EnvironmentManager environment;
+	private final PathFindingManager pathManager;
+	//
+	/**
+	 * Map of the named locations of the building. POI & more
+	 */
+	private final Map<String, Location> namedLocations = new HashMap<>();
+	/**
+	 * Map with the rooms names . It is useful for making an agent to go to an
+	 * specific room
+	 */
+	private final Map<String, SimRoom> namedRooms = new HashMap<>();
+	private final Collection<HighLevelController> scheduledControllers = new ArrayList<>();
 
-    /**
-     *
-     *
-     * @param resourcesFolder the simulation resourcdes folder
-     * @param progressMonitor a progress monitor which tracks the progress of
-     * the loading of the building
-     */
-    public BuildingImpl(Home home, String resourcesFolder,
-            BuildingProgressMonitor progressMonitor)
-    {
-        this.resourcesFolder = resourcesFolder;
-        // Initial message
-        progressMonitor.onUpdate(0, "Loading building");
+	/**
+	 *
+	 *
+	 * @param resourcesFolder
+	 *            the simulation resourcdes folder
+	 * @param progressMonitor
+	 *            a progress monitor which tracks the progress of the loading of
+	 *            the building
+	 */
+	public BuildingImpl(Home home, String resourcesFolder,
+			BuildingProgressMonitor progressMonitor)
+	{
+		this.resourcesFolder = resourcesFolder;
+		// Initial message
+		progressMonitor.onUpdate(0, "Loading building");
 
-        this.home = home;
+		this.home = home;
 
-        /*
-         * Lock the base plan -> Increases speed
-         */
-        this.home.setBasePlanLocked(true);
-        /*
-         * Initialization
-         */
-        this.representationMap = new HashMap<>();
-        this.floors = new ArrayList<>();
-        this.movement = new MovementManager();
-        this.animation = new AnimationManager();
-        this.environment = new EnvironmentManager(this);
-        this.pathManager=new PathFindingManager();
-        // Initial message
-        progressMonitor.onUpdate(1, "Building loaded");
-        /*
-         * Transform SH3D home into MASSIS Representation
-         */
-        this.build(progressMonitor);
-    }
+		/*
+		 * Lock the base plan -> Increases speed
+		 */
+		this.home.setBasePlanLocked(true);
+		/*
+		 * Initialization
+		 */
+		this.representationMap = new HashMap<>();
+		this.floors = new ArrayList<>();
+		this.movement = new MovementManager();
+		this.animation = new AnimationManager();
+		this.environment = new EnvironmentManager(this);
+		this.pathManager = new PathFindingManager();
+		// Initial message
+		progressMonitor.onUpdate(1, "Building loaded");
+		/*
+		 * Transform SH3D home into MASSIS Representation
+		 */
+		this.build(progressMonitor);
+	}
 
-    /**
-     * Same as null null null null null     {@link #Building(AbstractSimulation, String, String, BuildingProgressMonitor)
+	/**
+	 * Same as null null null null null
+	 * {@link #Building(AbstractSimulation, String, String, BuildingProgressMonitor)
 	 * , without a {@link BuildingImpl.BuildingProgressMonitor}
-     *
-     * @param state
-     * @param homeFilePath
-     * @param resourcesFolder
-     * @throws RecorderException
-     */
-    public BuildingImpl(Home home,
-            String resourcesFolder) throws RecorderException
-    {
-        this(home, resourcesFolder,
-                new BuildingProgressMonitor() {
-            @Override
-            public void onFinished()
-            {
-            }
-
-            @Override
-            public void onUpdate(double progress, String msg)
-            {
-            }
-        });
-    }
-
-    /* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.IBuilding#addSH3DRepresentation(com.massisframework.massis.model.building.SimulationObject, com.eteks.sweethome3d.model.HomePieceOfFurniture)
+	 *
+	 * @param state
+	 * @param homeFilePath
+	 * @param resourcesFolder
+	 * @throws RecorderException
 	 */
-    @Override
+	public BuildingImpl(Home home,
+			String resourcesFolder) throws RecorderException
+	{
+		this(home, resourcesFolder,
+				new BuildingProgressMonitor() {
+					@Override
+					public void onFinished()
+					{
+					}
+
+					@Override
+					public void onUpdate(double progress, String msg)
+					{
+					}
+				});
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.massisframework.massis.model.building.IBuilding#addSH3DRepresentation
+	 * (com.massisframework.massis.model.building.SimulationObject,
+	 * com.eteks.sweethome3d.model.HomePieceOfFurniture)
+	 */
+	@Override
 	public void addSH3DRepresentation(ISimulationObject simulationObject,
-            HomePieceOfFurniture representation)
-    {
-        this.representationMap.put(simulationObject, representation);
-    }
+			HomePieceOfFurniture representation)
+	{
+		this.representationMap.put(simulationObject, representation);
+	}
 
-    /* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.IBuilding#addTeleport(com.massisframework.massis.model.building.Teleport)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.massisframework.massis.model.building.IBuilding#addTeleport(com.
+	 * massisframework.massis.model.building.Teleport)
 	 */
-    @Override
+	@Override
 	public void addTeleport(Teleport teleport)
-    {
-        if (this.teleportMap.containsKey(teleport.getName()))
-        {
-            teleport.setConnection(this.teleportMap.get(teleport.getName()));
-            this.teleportMap.get(teleport.getName()).setConnection(teleport);
-            this.allTeleports.add(teleport);
-            this.allTeleports.add(this.teleportMap.get(teleport.getName()));
-            System.err.println("Linked " + teleport.getName());
-            // Y se quita del mapa
-            this.teleportMap.remove(teleport.getName());
+	{
+		if (this.teleportMap.containsKey(teleport.getName()))
+		{
+			teleport.setConnection(this.teleportMap.get(teleport.getName()));
+			this.teleportMap.get(teleport.getName()).setConnection(teleport);
+			this.allTeleports.add(teleport);
+			this.allTeleports.add(this.teleportMap.get(teleport.getName()));
+			System.err.println("Linked " + teleport.getName());
+			// Y se quita del mapa
+			this.teleportMap.remove(teleport.getName());
 
-        } else
-        {
-            this.teleportMap.put(teleport.getName(), teleport);
-        }
-    }
+		} else
+		{
+			this.teleportMap.put(teleport.getName(), teleport);
+		}
+	}
 
-    /* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.IBuilding#getSH3DRepresentation(com.massisframework.massis.model.building.SimulationObject)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.massisframework.massis.model.building.IBuilding#getSH3DRepresentation
+	 * (com.massisframework.massis.model.building.SimulationObject)
 	 */
-    @Override
+	@Override
 	public HomePieceOfFurniture getSH3DRepresentation(Restorable obj)
-    {
-        return this.representationMap.get(obj);
-    }
+	{
+		return this.representationMap.get(obj);
+	}
 
-    /**
-     * Constructs the building
-     *
-     * @param progressMonitor progress monitor, to show the state of the
-     * operation
-     */
-    protected final void build(final BuildingProgressMonitor progressMonitor)
-    {
-        /*
-         * Maps linking the sweethome3d level with the rooms, furniture and
-         * walls in it
-         */
-        final HashMap<Level, ArrayList<Room>> levelRooms = getLevelsElevatables(
-                this.getHome()
-                .getRooms());
-        final HashMap<Level, ArrayList<Wall>> levelWalls = getLevelsElevatables(
-                this.getHome()
-                .getWalls());
-        final HashMap<Level, ArrayList<HomePieceOfFurniture>> levelFurniture = getLevelsElevatables(
-                this.getHome()
-                .getFurniture());
-        this.levelsFloors = new HashMap<>();
-        //
-        progressMonitor.onUpdate(2, "Loading building");
-        //
-        final ArrayList<Level> levels = new ArrayList<>(this.getHome().getLevels());
-        if (levels.isEmpty())
+	/**
+	 * Constructs the building
+	 *
+	 * @param progressMonitor
+	 *            progress monitor, to show the state of the operation
+	 */
+	protected final void build(final BuildingProgressMonitor progressMonitor)
+	{
+		/*
+		 * Maps linking the sweethome3d level with the rooms, furniture and
+		 * walls in it
+		 */
+		final HashMap<Level, ArrayList<Room>> levelRooms = getLevelsElevatables(
+				this.getHome()
+						.getRooms());
+		final HashMap<Level, ArrayList<Wall>> levelWalls = getLevelsElevatables(
+				this.getHome()
+						.getWalls());
+		final HashMap<Level, ArrayList<HomePieceOfFurniture>> levelFurniture = getLevelsElevatables(
+				this.getHome()
+						.getFurniture());
+		this.levelsFloors = new HashMap<>();
+		//
+		progressMonitor.onUpdate(2, "Loading building");
+		//
+		final ArrayList<Level> levels = new ArrayList<>(
+				this.getHome().getLevels());
+		if (levels.isEmpty())
 		{
 			levels.add(null);
 		}
-        for (final Level level : levels)
-        {
-            if (!levelRooms.containsKey(level))
-            {
-                levelRooms.put(level, new ArrayList<Room>());
-            }
-            if (!levelWalls.containsKey(level))
-            {
-                levelWalls.put(level, new ArrayList<Wall>());
-            }
-            if (!levelFurniture.containsKey(level))
-            {
-                levelFurniture
-                        .put(level, new ArrayList<HomePieceOfFurniture>());
-            }
-            System.err.println("Creating level " + SH3DUtils.getLevelName(level));
-            final Floor f = new FloorImpl(level, levelRooms.get(level),
-                    levelWalls.get(level), levelFurniture.get(level), this);
-            this.floors.add(f);
-            this.levelsFloors.put(level, f);
-        }
-        //
-        progressMonitor.onUpdate(3, "Linking floor connectors");
-        //
-        TeleportImpl.computeTeleportDistances(this.allTeleports);
-        //
-        progressMonitor.onUpdate(5, "Linking floor connectors");
-        //
-        progressMonitor.onUpdate(5, "Preprocessing rooms");
-        //
-        int nrooms = 0;
-        for (final Floor f : this.getFloors())
-        {
-            nrooms += f.getRooms().size();
-        }
+		for (final Level level : levels)
+		{
+			if (!levelRooms.containsKey(level))
+			{
+				levelRooms.put(level, new ArrayList<Room>());
+			}
+			if (!levelWalls.containsKey(level))
+			{
+				levelWalls.put(level, new ArrayList<Wall>());
+			}
+			if (!levelFurniture.containsKey(level))
+			{
+				levelFurniture
+						.put(level, new ArrayList<HomePieceOfFurniture>());
+			}
+			System.err
+					.println("Creating level " + SH3DUtils.getLevelName(level));
+			final Floor f = new FloorImpl(level, levelRooms.get(level),
+					levelWalls.get(level), levelFurniture.get(level), this);
+			this.floors.add(f);
+			this.levelsFloors.put(level, f);
+		}
+		//
+		progressMonitor.onUpdate(3, "Linking floor connectors");
+		//
+		TeleportImpl.computeTeleportDistances(this.allTeleports);
+		//
+		progressMonitor.onUpdate(5, "Linking floor connectors");
+		//
+		progressMonitor.onUpdate(5, "Preprocessing rooms");
+		//
+		int nrooms = 0;
+		for (final Floor f : this.getFloors())
+		{
+			nrooms += f.getRooms().size();
+		}
 
-        int roomNumber = 0;
-        /*
-         * Room preprocessing. Every room has knowledge of the rooms around it,
-         * which makes faster the elements localization by room. If an agent was
-         * on a room, and there is not now, it is more probable that it is in
-         * the nearest room (BFS order).
-         */
-        for (final Floor f : this.getFloors())
-        {
-            for (final SimRoom sr : f.getRooms())
-            {
-                progressMonitor.onUpdate(5 + roomNumber * 5.0D / nrooms,
-                        "Connecting rooms");
-                sr.getRoomsOrderedByDistance();
-                roomNumber++;
-            }
-        }
-        /*
-         * Pathfinder creation.
-         */
-        final AtomicInteger nfloor = new AtomicInteger(0);
-        final StringBuffer sb = new StringBuffer();
-        progressMonitor.onUpdate(10, "Processing floors");
-        for (final Floor f : this.getFloors())
-        {
+		int roomNumber = 0;
+		/*
+		 * Room preprocessing. Every room has knowledge of the rooms around it,
+		 * which makes faster the elements localization by room. If an agent was
+		 * on a room, and there is not now, it is more probable that it is in
+		 * the nearest room (BFS order).
+		 */
+		for (final Floor f : this.getFloors())
+		{
+			for (final SimulationEntity sr : f.getRooms())
+			{
+				progressMonitor.onUpdate(5 + roomNumber * 5.0D / nrooms,
+						"Connecting rooms");
+				// TODO defer preloading
+				// sr.getRoomsOrderedByDistance();
+				roomNumber++;
+			}
+		}
+		/*
+		 * Pathfinder creation.
+		 */
+		final AtomicInteger nfloor = new AtomicInteger(0);
+		final StringBuffer sb = new StringBuffer();
+		progressMonitor.onUpdate(10, "Processing floors");
+		for (final Floor f : this.getFloors())
+		{
 
-            f.initializePathFinder();
-            sb.append(f.getName()).append(",");
-            progressMonitor.onUpdate(10 + nfloor.get() * 90.0
-                    / getFloors().size(), "<html>Processed: <br/>" + sb
-                    + "</html>");
-            nfloor.incrementAndGet();
+			f.initializePathFinder();
+			sb.append(f.getName()).append(",");
+			progressMonitor.onUpdate(10 + nfloor.get() * 90.0
+					/ getFloors().size(), "<html>Processed: <br/>" + sb
+							+ "</html>");
+			nfloor.incrementAndGet();
 
-        }
-        progressMonitor.onUpdate(100, "Building created");
-        progressMonitor.onFinished();
+		}
+		progressMonitor.onUpdate(100, "Building created");
+		progressMonitor.onFinished();
 
-    }
+	}
 
-    /**
-     * Links the levels with the elements on them.
-     */
-    private static <T extends Elevatable> HashMap<Level, ArrayList<T>> getLevelsElevatables(
-            Collection<T> elements)
-    {
-        final HashMap<Level, ArrayList<T>> elevatables = new HashMap<>();
-        for (final T e : elements)
-        {
-            ArrayList<T> lvlElevatables = elevatables.get(e.getLevel());
-            if (lvlElevatables == null)
-            {
-                lvlElevatables = new ArrayList<>();
-                lvlElevatables.add(e);
-                elevatables.put(e.getLevel(), lvlElevatables);
-            } else
-            {
-                lvlElevatables.add(e);
-            }
-        }
-        return elevatables;
-    }
+	/**
+	 * Links the levels with the elements on them.
+	 */
+	private static <T extends Elevatable> HashMap<Level, ArrayList<T>> getLevelsElevatables(
+			Collection<T> elements)
+	{
+		final HashMap<Level, ArrayList<T>> elevatables = new HashMap<>();
+		for (final T e : elements)
+		{
+			ArrayList<T> lvlElevatables = elevatables.get(e.getLevel());
+			if (lvlElevatables == null)
+			{
+				lvlElevatables = new ArrayList<>();
+				lvlElevatables.add(e);
+				elevatables.put(e.getLevel(), lvlElevatables);
+			} else
+			{
+				lvlElevatables.add(e);
+			}
+		}
+		return elevatables;
+	}
 
-    /* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.massisframework.massis.model.building.IBuilding#getFloors()
 	 */
-    @Override
+	@Override
 	public List<Floor> getFloors()
-    {
-        return Collections.unmodifiableList(this.floors);
-    }
+	{
+		return Collections.unmodifiableList(this.floors);
+	}
 
-    /* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.massisframework.massis.model.building.IBuilding#getHome()
 	 */
-    @Override
+	@Override
 	public Home getHome()
-    {
-        return this.home;
-    }
+	{
+		return this.home;
+	}
 
-    /* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.IBuilding#getLevelsFloors()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.massisframework.massis.model.building.IBuilding#getLevelsFloors()
 	 */
-    @Override
+	@Override
 	public HashMap<Level, Floor> getLevelsFloors()
-    {
-        return this.levelsFloors;
-    }
+	{
+		return this.levelsFloors;
+	}
 
-    /* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.IBuilding#getFloorOf(com.eteks.sweethome3d.model.Level)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.massisframework.massis.model.building.IBuilding#getFloorOf(com.eteks.
+	 * sweethome3d.model.Level)
 	 */
-    @Override
+	@Override
 	public Indexable getFloorOf(Level lvl)
-    {
-        return this.levelsFloors.get(lvl);
-    }
+	{
+		return this.levelsFloors.get(lvl);
+	}
 
-    /* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.IBuilding#getFloorById(int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.massisframework.massis.model.building.IBuilding#getFloorById(int)
 	 */
-    @Override
+	@Override
 	public Floor getFloorById(int floorId)
-    {
-        for (final Floor f : this.getFloors())
-        {
-            if (f.getID() == floorId)
-            {
-                return f;
-            }
-        }
-        return null;
-    }
+	{
+		for (final Floor f : this.getFloors())
+		{
+			if (f.getID() == floorId)
+			{
+				return f;
+			}
+		}
+		return null;
+	}
 
-    /* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.IBuilding#getSimulationObject(int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.massisframework.massis.model.building.IBuilding#getSimulationObject(
+	 * int)
 	 */
-    @Override
+	@Override
 	public ISimulationObject getSimulationObject(int simObjId)
-    {
-        for (final Floor f : this.getFloors())
-        {
-            for (final LowLevelAgent p : f.getAgents())
-            {
-                if (p.getID() == simObjId)
-                {
-                    return p;
-                }
-            }
-        }
-        return null;
+	{
+		for (final Floor f : this.getFloors())
+		{
+			for (final LowLevelAgent p : f.getAgents())
+			{
+				if (p.getID() == simObjId)
+				{
+					return p;
+				}
+			}
+		}
+		return null;
 
-    }
+	}
 
-    /* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.massisframework.massis.model.building.IBuilding#getRandomRoom()
 	 */
-    @Override
-	public CoordinateHolder getRandomRoom()
-    {
-        final Floor rndFloor = this.floors.get(ThreadLocalRandom.current().nextInt(
-                this.floors.size()));
-        return rndFloor.getRandomRoom();
-    }
+	@Override
+	public SimulationEntity getRandomRoom()
+	{
+		final Floor rndFloor = this.floors
+				.get(ThreadLocalRandom.current().nextInt(
+						this.floors.size()));
+		return rndFloor.getRandomRoom();
+	}
 
-    /* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.IBuilding#getAnimationManager()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.massisframework.massis.model.building.IBuilding#getAnimationManager()
 	 */
-    @Override
+	@Override
 	public AnimationManager getAnimationManager()
-    {
-        return this.animation;
-    }
+	{
+		return this.animation;
+	}
 
-    /* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.IBuilding#getEnvironmentManager()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.massisframework.massis.model.building.IBuilding#getEnvironmentManager
+	 * ()
 	 */
-    @Override
+	@Override
 	public EnvironmentManager getEnvironmentManager()
-    {
-        return this.environment;
-    }
+	{
+		return this.environment;
+	}
 
-    /* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.IBuilding#getNamedLocation(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.massisframework.massis.model.building.IBuilding#getNamedLocation(java
+	 * .lang.String)
 	 */
-    @Override
+	@Override
 	public Location getNamedLocation(String name)
-    {
-        return this.namedLocations.get(name);
-    }
+	{
+		return this.namedLocations.get(name);
+	}
 
-    /* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.IBuilding#addNamedLocation(java.lang.String, com.massisframework.massis.model.location.Location)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.massisframework.massis.model.building.IBuilding#addNamedLocation(java
+	 * .lang.String, com.massisframework.massis.model.location.Location)
 	 */
-    @Override
+	@Override
 	public void addNamedLocation(String name, Location location)
-    {
-        this.namedLocations.put(name, location);
-    }
+	{
+		this.namedLocations.put(name, location);
+	}
 
-    /* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.IBuilding#getMovementManager()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.massisframework.massis.model.building.IBuilding#getMovementManager()
 	 */
-    @Override
+	@Override
 	public MovementManager getMovementManager()
-    {
-        return this.movement;
-    }
+	{
+		return this.movement;
+	}
 
-    @Override
+	@Override
 	public void addNamedRoom(String name, SimRoom simRoom)
-    {
-        this.namedRooms.put(name, simRoom);
-    }
+	{
+		this.namedRooms.put(name, simRoom);
+	}
 
-    /* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.IBuilding#registerDisplays(com.massisframework.massis.displays.SimulationDisplay)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.massisframework.massis.model.building.IBuilding#registerDisplays(com.
+	 * massisframework.massis.displays.SimulationDisplay)
 	 */
-    @Override
+	@Override
 	public void registerDisplays(SimulationDisplay... displays)
-    {
-        this.animation.add(displays);
-    }
+	{
+		this.animation.add(displays);
+	}
 
-    /* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.IBuilding#getResourcesFolder()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.massisframework.massis.model.building.IBuilding#getResourcesFolder()
 	 */
-    @Override
+	@Override
 	public String getResourcesFolder()
-    {
-        return this.resourcesFolder;
-    }
+	{
+		return this.resourcesFolder;
+	}
 
-    /* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.IBuilding#getMetadata(com.eteks.sweethome3d.model.Selectable)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.massisframework.massis.model.building.IBuilding#getMetadata(com.eteks
+	 * .sweethome3d.model.Selectable)
 	 */
-    @Override
+	@Override
 	public Map<String, String> getMetadata(Selectable f)
-    {
-        return HomeMetadataLoader.getBuildingMetadataManager(this.home).getMetadata(
-                f);
-        //this.buildingData.getMetadataManager().getMetadata(f);
-    }
-    @Override
-    public void addToSchedule(HighLevelController hlc)
-    {
-        this.scheduledControllers.add(hlc);
-    }
+	{
+		return HomeMetadataLoader.getBuildingMetadataManager(this.home)
+				.getMetadata(
+						f);
+		// this.buildingData.getMetadataManager().getMetadata(f);
+	}
 
-    /* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.IBuilding#getScheduledControllers()
+	@Override
+	public void addToSchedule(HighLevelController hlc)
+	{
+		this.scheduledControllers.add(hlc);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.massisframework.massis.model.building.IBuilding#
+	 * getScheduledControllers()
 	 */
-    @Override
+	@Override
 	public Collection<HighLevelController> getScheduledControllers()
-    {
-        return this.scheduledControllers;
-    }
+	{
+		return this.scheduledControllers;
+	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.massisframework.massis.model.building.IBuilding#getPathManager()
 	 */
 	@Override
-	public PathFindingManager getPathManager() {
+	public PathFindingManager getPathManager()
+	{
 		return this.pathManager;
 	}
 }

@@ -30,6 +30,7 @@ import com.massisframework.massis.model.managers.AnimationManager;
 import com.massisframework.massis.model.managers.EnvironmentManager;
 import com.massisframework.massis.model.managers.movement.MovementManager;
 import com.massisframework.massis.model.managers.pathfinding.PathFindingManager;
+import com.massisframework.massis.sim.SimulationEntity;
 import com.massisframework.massis.util.geom.CoordinateHolder;
 import com.massisframework.massis.util.geom.KPolygonUtils;
 import com.massisframework.massis.util.io.JsonState;
@@ -59,9 +60,13 @@ public class SimRoomImpl extends SimulationObject
 	private final Collection<LowLevelAgent> vehiclesInThisRoomCached = new ArrayList<>();
 	private boolean vehiclesInThisRoomComputed = false;
 
-	public SimRoomImpl(Map<String, String> metadata, SimLocation location,
-			MovementManager movementManager, AnimationManager animationManager,
-			EnvironmentManager environment, PathFindingManager pathManager) {
+	public SimRoomImpl(
+			Map<String, String> metadata,
+			SimLocation location,
+			MovementManager movementManager,
+			AnimationManager animationManager,
+			EnvironmentManager environment,
+			PathFindingManager pathManager) {
 		super(metadata, location, movementManager, animationManager,
 				environment, pathManager);
 	}
@@ -90,35 +95,35 @@ public class SimRoomImpl extends SimulationObject
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.ISimRoom#getRoomsOrderedByDistance()
-	 */
-	@Override
-	public List<SimRoom> getRoomsOrderedByDistance() {
-		if (this.roomsOrderedByDistance == null) {
-			this.roomsOrderedByDistance = new ArrayList<>();
-			HashSet<SimRoom> visitedRooms = new HashSet<>();
-			Queue<SimRoom> queue = new LinkedList<>();
-			visitedRooms.add(this);
-			queue.add(this);
-			while (!queue.isEmpty()) {
-				SimRoom currentRoom = queue.poll();
-				visitedRooms.add(currentRoom);
-				this.roomsOrderedByDistance.add(currentRoom);
-				for (RoomConnector sd : currentRoom
-						.getConnectedRoomConnectors()) {
-					for (SimRoom sr : sd.getConnectedRooms()) {
-						if (!visitedRooms.contains(sr)) {
-							visitedRooms.add(sr);
-							queue.add(sr);
-						}
-					}
-				}
-			}
-
-		}
-		return Collections.unmodifiableList(this.roomsOrderedByDistance);
-	}
+//	/* (non-Javadoc)
+//	 * @see com.massisframework.massis.model.building.ISimRoom#getRoomsOrderedByDistance()
+//	 */
+//	@Override
+//	public List<SimRoom> getRoomsOrderedByDistance() {
+//		if (this.roomsOrderedByDistance == null) {
+//			this.roomsOrderedByDistance = new ArrayList<>();
+//			HashSet<SimulationEntity> visitedRooms = new HashSet<>();
+//			Queue<SimRoom> queue = new LinkedList<>();
+//			visitedRooms.add(this);
+//			queue.add(this);
+//			while (!queue.isEmpty()) {
+//				SimRoom currentRoom = queue.poll();
+//				visitedRooms.add(currentRoom);
+//				this.roomsOrderedByDistance.add(currentRoom);
+//				for (RoomConnector sd : currentRoom
+//						.getConnectedRoomConnectors()) {
+//					for (SimulationEntity sr : sd.getConnectedRooms()) {
+//						if (!visitedRooms.contains(sr)) {
+//							visitedRooms.add(sr);
+//							queue.add(sr);
+//						}
+//					}
+//				}
+//			}
+//
+//		}
+//		return Collections.unmodifiableList(this.roomsOrderedByDistance);
+//	}
 
 	/* (non-Javadoc)
 	 * @see com.massisframework.massis.model.building.ISimRoom#getConnectedRoomConnectors()

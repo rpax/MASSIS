@@ -1,9 +1,16 @@
 package com.massisframework.massis.model.components;
 
-import straightedge.geom.KPoint;
+import com.massisframework.massis.model.building.Floor;
+import com.massisframework.massis.util.geom.CoordinateHolder;
 
-public interface TeleportComponent extends SimulationComponent{
+public interface TeleportComponent extends SimulationComponent {
 
-	public long getTargetFloorId();
-	public <T extends KPoint> T getTargetLocation(T store);
+	public static enum TeleportType {
+		START, END
+	}
+	public Floor getTargetFloor();
+
+	public CoordinateHolder getTargetLocation();
+
+	TeleportType getTeleportType();
 }

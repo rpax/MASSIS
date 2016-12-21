@@ -18,7 +18,6 @@ import com.massisframework.massis.util.geom.KPolygonUtils;
 
 import straightedge.geom.KPoint;
 import straightedge.geom.KPolygon;
-import straightedge.geom.PolygonHolder;
 import straightedge.geom.path.MASSISPathFinder;
 import straightedge.geom.path.MNodeConnector;
 import straightedge.geom.path.PathBlockingObstacleImpl;
@@ -159,8 +158,9 @@ public class SEPathFinder {
 
 		walkAblePolys = new ArrayList<>();
 
-		for (PolygonHolder sr : this.floor.getRooms()) {
-			Area walkAble = new Area(sr.getPolygon());
+		for (SimulationEntity sr : this.floor.getRooms()) {
+			
+			Area walkAble = new Area(sr.get(ShapeComponent.class).getShape());
 
 			walkAblePolys.add(PathFindingUtils.createKPolygonFromShape(walkAble));
 

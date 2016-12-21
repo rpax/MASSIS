@@ -102,7 +102,7 @@ public class FloorImpl implements Floor {
 	/**
 	 * MASSIS Rooms
 	 */
-	private final ArrayList<SimRoom> rooms;
+	private final ArrayList<SimulationEntity> rooms;
 	/**
 	 * Polygons for using the containment behavior
 	 */
@@ -348,22 +348,7 @@ public class FloorImpl implements Floor {
 	{
 		for (final Room r : this.rooms3D)
 		{
-			final SimLocation location = new SimLocation(r, this);
-
-			final Map<String, String> metadata = this.building.getMetadata(r);
-
-			final SimRoomImpl simRoom = new SimRoomImpl(metadata, location,
-					this.building.getMovementManager(),
-					this.building.getAnimationManager(),
-					this.building.getEnvironmentManager(),
-					this.building.getPathManager());
-			/*
-			 * If has a name, must be added to the named rooms section
-			 */
-			if (r.getName() != null)
-			{
-				this.building.addNamedRoom(r.getName(), simRoom);
-			}
+			SimulationEntity simRoom = this.simFactory.createRoom(r);
 			this.rooms.add(simRoom);
 		}
 
@@ -466,10 +451,10 @@ public class FloorImpl implements Floor {
 	 * @see com.massisframework.massis.model.building.IFloor#getRandomRoom()
 	 */
 	@Override
-	public CoordinateHolder getRandomRoom()
+	public SimulationEntity getRandomRoom()
 	{
 
-		final CoordinateHolder room = this.rooms
+		final SimulationEntity room = this.rooms
 				.get(ThreadLocalRandom.current().nextInt(this.rooms.size()));
 		return room;
 	}
@@ -546,7 +531,7 @@ public class FloorImpl implements Floor {
 	 * @see com.massisframework.massis.model.building.IFloor#getRooms()
 	 */
 	@Override
-	public final List<SimRoom> getRooms()
+	public final List<SimulationEntity> getRooms()
 	{
 		return this.rooms;
 	}

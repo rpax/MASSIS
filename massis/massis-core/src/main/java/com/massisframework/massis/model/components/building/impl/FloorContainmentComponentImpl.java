@@ -1,22 +1,29 @@
 package com.massisframework.massis.model.components.building.impl;
 
+import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.components.building.FloorContainmentComponent;
 
 public class FloorContainmentComponentImpl
 		extends AbstractSimulationComponent
 		implements FloorContainmentComponent {
 
-	private long floorId;
+	private Floor floor;
 
-	@Override
-	public long getFloorId()
+	public FloorContainmentComponentImpl(Floor floor)
 	{
-		return this.floorId;
+		this.floor = floor;
 	}
 
-	public void setFloorId(long floorId)
+	@Override
+	public Floor getFloor()
 	{
-		this.floorId = floorId;
+		return this.floor;
+	}
+
+	@Override
+	public void setFloor(Floor f)
+	{
+		this.floor = f;
 		this.fireChanged();
 	}
 

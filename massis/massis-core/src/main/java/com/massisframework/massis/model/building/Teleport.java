@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.managers.pathfinding.PathFollower;
+import com.massisframework.massis.sim.SimulationEntity;
 import com.massisframework.massis.util.io.JsonState;
 
 public interface Teleport extends RoomConnector, WayPoint, LocationHolder {
@@ -18,13 +19,13 @@ public interface Teleport extends RoomConnector, WayPoint, LocationHolder {
 
 	String getName();
 
-	Teleport getConnection();
+	SimulationEntity getConnection();
 
-	void setConnection(Teleport connection);
+	public void setConnection(SimulationEntity connection);
 
 	byte getType();
 
-	List<SimRoom> getConnectedRooms();
+//	List<SimulationEntity> getConnectedRooms();
 
 	int getDistanceToFloor(Floor f);
 

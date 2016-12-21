@@ -13,14 +13,17 @@ import com.massisframework.massis.model.building.RoomConnector;
 import com.massisframework.massis.model.building.SimDoor;
 import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.SimulationObject;
+import com.massisframework.massis.model.components.building.ShapeComponent;
 import com.massisframework.massis.model.location.SimLocation;
 import com.massisframework.massis.model.managers.AnimationManager;
 import com.massisframework.massis.model.managers.EnvironmentManager;
 import com.massisframework.massis.model.managers.movement.MovementManager;
 import com.massisframework.massis.model.managers.pathfinding.PathFindingManager;
+import com.massisframework.massis.sim.SimulationEntity;
 import com.massisframework.massis.util.io.JsonState;
 
 import straightedge.geom.KPoint;
+import straightedge.geom.KPolygon;
 
 /**
  * Represents a Door in MASSIS
@@ -33,7 +36,7 @@ public class SimDoorImpl extends SimulationObject implements SimDoor {
 	/**
 	 * The rooms connected by this Door
 	 */
-	private List<SimRoom> connectedRooms;
+	private List<SimulationEntity> connectedRooms;
 	/**
 	 * If it is open or not. by default is true.
 	 */
@@ -41,7 +44,8 @@ public class SimDoorImpl extends SimulationObject implements SimDoor {
 
 	public SimDoorImpl(Map<String, String> metadata, SimLocation location,
 			MovementManager movementManager, AnimationManager animationManager,
-			EnvironmentManager environment, PathFindingManager pathManager) {
+			EnvironmentManager environment, PathFindingManager pathManager)
+	{
 		super(metadata, location, movementManager, animationManager,
 				environment, pathManager);
 	}
@@ -50,20 +54,27 @@ public class SimDoorImpl extends SimulationObject implements SimDoor {
 	 * Iterates over all rooms in this floor and, if they intersect, are added
 	 * to the connected rooms list.
 	 */
-	private void computeRoomConnections() {
+	private void computeRoomConnections()
+	{
 		this.connectedRooms = new ArrayList<>();
 		// Por sentido comun: los cuartos que intersecta son los que conecta.
-		for (SimRoom sr : this.getLocation().getFloor().getRooms()) {
-			if (this.getPolygon().intersects(sr.getPolygon())) {
+		for (SimulationEntity sr : this.getLocation().getFloor().getRooms())
+		{
+			// FIXME temporary
+			KPolygon poly = (KPolygon) sr.get(ShapeComponent.class).getShape();
+			if (this.getPolygon().intersects(poly))
+			{
 				this.connectedRooms.add(sr);
-			} else {
-
-				KPoint doorCenter = sr.getPolygon().getCenter();
+			} else
+			{
+				// TODO ??
+				KPoint doorCenter = this.getPolygon().getCenter();
 				KPoint roomBound = this.getPolygon()
 						.getBoundaryPointClosestTo(doorCenter);
-				KPoint doorBound = sr.getPolygon()
+				KPoint doorBound = this.getPolygon()
 						.getBoundaryPointClosestTo(roomBound);
-				if (roomBound.distance(doorBound) < 1) {
+				if (roomBound.distance(doorBound) < 1)
+				{
 					this.connectedRooms.add(sr);
 				}
 			}
@@ -71,57 +82,77 @@ public class SimDoorImpl extends SimulationObject implements SimDoor {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.ISimDoor#getConnectedRooms()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.massisframework.massis.model.building.ISimDoor#getConnectedRooms()
 	 */
 	@Override
-	public List<SimRoom> getConnectedRooms() {
-		if (this.connectedRooms == null) {
+	public List<SimulationEntity> getConnectedRooms()
+	{
+		if (this.connectedRooms == null)
+		{
 			this.computeRoomConnections();
 		}
 		return Collections.unmodifiableList(connectedRooms);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.massisframework.massis.model.building.ISimDoor#toString()
 	 */
 	@Override
-	public String toString() {
+	public String toString()
+	{
 
 		return super.toString() + " [" + getConnectedRooms().get(0) + ","
 				+ getConnectedRooms().get(1) + "]";
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.massisframework.massis.model.building.ISimDoor#isOpened()
 	 */
 	@Override
-	public boolean isOpened() {
+	public boolean isOpened()
+	{
 		return this.open;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.massisframework.massis.model.building.ISimDoor#isClosed()
 	 */
 	@Override
-	public boolean isClosed() {
+	public boolean isClosed()
+	{
 		return !this.open;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.massisframework.massis.model.building.ISimDoor#setOpen(boolean)
 	 */
 	@Override
-	public void setOpen(boolean open) {
+	public void setOpen(boolean open)
+	{
 		this.open = open;
 		this.notifyChanged();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.massisframework.massis.model.building.ISimDoor#getState()
 	 */
 	@Override
-	public SimDoorState getState() {
+	public SimDoorState getState()
+	{
 		return new SimDoorState(this, super.getState());
 	}
 
@@ -131,13 +162,15 @@ public class SimDoorImpl extends SimulationObject implements SimDoor {
 		private final JsonState<Building> data;
 
 		public SimDoorState(SimDoor d,
-				JsonState<Building> simulationObjectData) {
+				JsonState<Building> simulationObjectData)
+		{
 			this.data = simulationObjectData;
 			this.isOpen = d.isOpened();
 		}
 
 		@Override
-		public RoomConnector restore(Building building) {
+		public RoomConnector restore(Building building)
+		{
 			SimDoor d = (SimDoor) data.restore(building);
 			d.setOpen(this.isOpen);
 			return d;

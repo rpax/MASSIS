@@ -15,6 +15,8 @@ import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.SimulationObject;
 import com.massisframework.massis.model.building.Teleport;
+import com.massisframework.massis.model.components.building.Coordinate2DComponent;
+import com.massisframework.massis.model.components.building.FloorContainmentComponent;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.location.SimLocation;
 import com.massisframework.massis.model.managers.AnimationManager;
@@ -22,6 +24,7 @@ import com.massisframework.massis.model.managers.EnvironmentManager;
 import com.massisframework.massis.model.managers.movement.MovementManager;
 import com.massisframework.massis.model.managers.pathfinding.PathFindingManager;
 import com.massisframework.massis.model.managers.pathfinding.PathFollower;
+import com.massisframework.massis.sim.SimulationEntity;
 import com.massisframework.massis.util.SimObjectProperty;
 import com.massisframework.massis.util.geom.KPolygonUtils;
 import com.massisframework.massis.util.io.JsonState;
@@ -43,18 +46,19 @@ import com.massisframework.massis.util.io.JsonState;
  *
  */
 public class TeleportImpl extends SimulationObject
-		implements  Teleport {
+		implements Teleport {
 
 	//
 	private final byte type;
 	private final String name;
-	private Teleport connection;
+	private SimulationEntity connection;
 	private List<SimRoom> target;
 	private final HashMap<Floor, Integer> floorDistances;
 
 	public TeleportImpl(Map<String, String> metadata, SimLocation location,
 			MovementManager movementManager, AnimationManager animationManager,
-			EnvironmentManager environment, PathFindingManager pathManager) {
+			EnvironmentManager environment, PathFindingManager pathManager)
+	{
 		super(metadata, location, movementManager, animationManager,
 				environment, pathManager);
 		this.type = metadata.get(SimObjectProperty.TYPE.toString())
@@ -64,80 +68,115 @@ public class TeleportImpl extends SimulationObject
 		this.floorDistances = new HashMap<>();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.ITeleport#isInTeleport(com.massisframework.massis.model.location.Location)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.massisframework.massis.model.building.ITeleport#isInTeleport(com.
+	 * massisframework.massis.model.location.Location)
 	 */
 	@Override
-	public boolean isInTeleport(Location loc) {
+	public boolean isInTeleport(Location loc)
+	{
 		final boolean isIn = (this.getLocation().isInSameFloor(loc)
 				&& this.getPolygon().contains(loc.getX(), loc.getY()));
 
 		return isIn;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.massisframework.massis.model.building.ITeleport#getName()
 	 */
 	@Override
-	public String getName() {
+	public String getName()
+	{
 		return this.name;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.massisframework.massis.model.building.ITeleport#getConnection()
 	 */
 	@Override
-	public Teleport getConnection() {
+	public SimulationEntity getConnection()
+	{
 		return connection;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.ITeleport#setConnection(com.massisframework.massis.model.building.Teleport)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.massisframework.massis.model.building.ITeleport#setConnection(com.
+	 * massisframework.massis.model.building.Teleport)
 	 */
 	@Override
-	public void setConnection(Teleport connection) {
+	public void setConnection(SimulationEntity connection)
+	{
 		this.connection = connection;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.massisframework.massis.model.building.ITeleport#getType()
 	 */
 	@Override
-	public byte getType() {
+	public byte getType()
+	{
 		return type;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.ITeleport#getConnectedRooms()
-	 */
+//	/*
+//	 * (non-Javadoc)
+//	 * 
+//	 * @see
+//	 * com.massisframework.massis.model.building.ITeleport#getConnectedRooms()
+//	 */
+//	@Override
+//	public List<SimulationEntity> getConnectedRooms()
+//	{
+//		if (this.type == END)
+//		{
+//			return Collections.emptyList();
+//		} else if (target == null)
+//		{
+//			for (SimulationEntity sr : this.getConnection().getLocation()
+//					.getFloor().getRooms())
+//			{
+//				if (this.getConnection().getPolygon()
+//						.intersects(sr.getPolygon()))
+//				{
+//					this.target = Collections
+//							.unmodifiableList(Arrays.asList(sr));
+//					break;
+//				}
+//			}
+//		}
+//		return target;
+//	}
+
 	@Override
-	public List<SimRoom> getConnectedRooms() {
-		if (this.type == END) {
-			return Collections.emptyList();
-		} else if (target == null) {
-			for (SimRoom sr : this.getConnection().getLocation().getFloor()
-					.getRooms()) {
-				if (this.getConnection().getPolygon()
-						.intersects(sr.getPolygon())) {
-					this.target = Collections
-							.unmodifiableList(Arrays.asList(sr));
-					break;
-				}
-			}
-		}
-		return target;
-	}
-	@Override
-	public void setDistanceToFloor(Floor f, int distance) {
+	public void setDistanceToFloor(Floor f, int distance)
+	{
 		this.floorDistances.put(f, distance);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.ITeleport#getDistanceToFloor(com.massisframework.massis.model.building.Floor)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.massisframework.massis.model.building.ITeleport#getDistanceToFloor(
+	 * com.massisframework.massis.model.building.Floor)
 	 */
 	@Override
-	public int getDistanceToFloor(Floor f) {
-		if (!this.floorDistances.containsKey(f)) {
+	public int getDistanceToFloor(Floor f)
+	{
+		if (!this.floorDistances.containsKey(f))
+		{
 			this.floorDistances.put(f, Integer.MAX_VALUE);
 		}
 		return this.floorDistances.get(f);
@@ -148,28 +187,36 @@ public class TeleportImpl extends SimulationObject
 	 *
 	 * @param teleports
 	 */
-	public static void computeTeleportDistances(List<Teleport> teleports) {
+	public static void computeTeleportDistances(List<Teleport> teleports)
+	{
 		ArrayList<TeleportNode> graph = new ArrayList<>();
 		HashMap<Teleport, TeleportNode> tmap = new HashMap<>();
 
 		// 1. construccion grafo
-		for (Teleport t : teleports) {
+		for (Teleport t : teleports)
+		{
 			TeleportNode node = new TeleportNode(t);
 			tmap.put(t, node);
 			graph.add(node);
 		}
 		// 2. Vecinos
-		for (Teleport t : teleports) {
-			for (Teleport neigh : t.getLocation().getFloor().getTeleports()) {
-				if (neigh != t) {
-					if (tmap.get(neigh) != null) {
+		for (Teleport t : teleports)
+		{
+			for (Teleport neigh : t.getLocation().getFloor().getTeleports())
+			{
+				if (neigh != t)
+				{
+					if (tmap.get(neigh) != null)
+					{
 						tmap.get(t).addNeighbour(tmap.get(neigh), 1);
 					}
 
 				}
 			}
-			if (t.getType() == START) {
-				if (tmap.get(t.getConnection()) != null) {
+			if (t.getType() == START)
+			{
+				if (tmap.get(t.getConnection()) != null)
+				{
 					tmap.get(t).addNeighbour(tmap.get(t.getConnection()), 10);
 				}
 
@@ -177,13 +224,16 @@ public class TeleportImpl extends SimulationObject
 
 		}
 
-		for (int i = 0; i < graph.size(); i++) {
+		for (int i = 0; i < graph.size(); i++)
+		{
 			// Si no es un punto de partida no interesa
-			if (graph.get(i).getTeleport().getType() != START) {
+			if (graph.get(i).getTeleport().getType() != START)
+			{
 				continue;
 			}
 			// se resetean todos los nodos
-			for (TeleportNode node : graph) {
+			for (TeleportNode node : graph)
+			{
 				node.distance = Integer.MAX_VALUE;
 			}
 
@@ -192,18 +242,22 @@ public class TeleportImpl extends SimulationObject
 			// Caminos minimos
 			PriorityQueue<TeleportNode> heap = new PriorityQueue<>();
 			heap.add(source);
-			while (!heap.isEmpty()) {
+			while (!heap.isEmpty())
+			{
 				TeleportNode u = heap.poll();
 
-				for (TeleportVertex v : u.neighbours) {
-					if (u.distance + v.distance < v.n.distance) {
+				for (TeleportVertex v : u.neighbours)
+				{
+					if (u.distance + v.distance < v.n.distance)
+					{
 						v.n.distance = u.distance + v.distance;
 						heap.add(v.n);
 					}
 				}
 
 			}
-			for (TeleportNode node : graph) {
+			for (TeleportNode node : graph)
+			{
 				Floor targetFloor = node.getTeleport().getLocation().getFloor();
 				int oldDist = source.teleport.getDistanceToFloor(targetFloor);
 				int newDist = node.distance;
@@ -221,21 +275,25 @@ public class TeleportImpl extends SimulationObject
 		private final ArrayList<TeleportVertex> neighbours;
 		private int distance;
 
-		public TeleportNode(Teleport teleport) {
+		public TeleportNode(Teleport teleport)
+		{
 			this.teleport = teleport;
 			this.neighbours = new ArrayList<>();
 		}
 
 		@Override
-		public int compareTo(TeleportNode o) {
+		public int compareTo(TeleportNode o)
+		{
 			return Integer.compare(this.distance, o.distance);
 		}
 
-		public Teleport getTeleport() {
+		public Teleport getTeleport()
+		{
 			return teleport;
 		}
 
-		public void addNeighbour(TeleportNode n, int d) {
+		public void addNeighbour(TeleportNode n, int d)
+		{
 
 			this.neighbours.add(new TeleportVertex(n, d));
 		}
@@ -246,17 +304,21 @@ public class TeleportImpl extends SimulationObject
 		TeleportNode n;
 		int distance;
 
-		public TeleportVertex(TeleportNode n, int distance) {
+		public TeleportVertex(TeleportNode n, int distance)
+		{
 			this.n = n;
 			this.distance = distance;
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.massisframework.massis.model.building.ITeleport#toString()
 	 */
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		StringBuilder builder = new StringBuilder();
 		builder.append("Teleport [type=");
 		builder.append(type == START ? "START" : "END");
@@ -268,28 +330,41 @@ public class TeleportImpl extends SimulationObject
 		return builder.toString();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.massisframework.massis.model.building.ITeleport#getState()
 	 */
 	@Override
-	public JsonState<Building> getState() {
+	public JsonState<Building> getState()
+	{
 		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.ITeleport#canExecuteWayPointAction(com.massisframework.massis.model.managers.pathfinding.PathFollower)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.massisframework.massis.model.building.ITeleport#
+	 * canExecuteWayPointAction(com.massisframework.massis.model.managers.
+	 * pathfinding.PathFollower)
 	 */
 	@Override
-	public boolean canExecuteWayPointAction(PathFollower pf) {
+	public boolean canExecuteWayPointAction(PathFollower pf)
+	{
 		return this.getLocation().isInSameFloor(pf.getLocation())
 				&& KPolygonUtils.intersects(pf, this);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.ITeleport#executeWayPointAction(com.massisframework.massis.model.managers.pathfinding.PathFollower)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.massisframework.massis.model.building.ITeleport#executeWayPointAction
+	 * (com.massisframework.massis.model.managers.pathfinding.PathFollower)
 	 */
 	@Override
-	public boolean executeWayPointAction(PathFollower vehicle) {
+	public boolean executeWayPointAction(PathFollower vehicle)
+	{
 		/*
 		 * Is in this teleport?
 		 */
@@ -297,7 +372,7 @@ public class TeleportImpl extends SimulationObject
 		vehicle.getVelocity().mult(0);
 		// final Teleport connectedTeleport = path.getTargetTeleport()
 		// .getConnection();
-		final Teleport connectedTeleport = this.getConnection();
+		final SimulationEntity connectedTeleport = this.getConnection();
 
 		Logger.getLogger(TeleportImpl.class.getName()).log(Level.INFO,
 				"Moving vehicle to connected teleport: {0}.",
@@ -305,7 +380,10 @@ public class TeleportImpl extends SimulationObject
 		/*
 		 * Proper teleporting
 		 */
-		vehicle.moveTo(connectedTeleport.getLocation());
+		Coordinate2DComponent coord = connectedTeleport.get(Coordinate2DComponent.class);
+		FloorContainmentComponent fc=connectedTeleport.get(FloorContainmentComponent.class);
+		
+		vehicle.moveTo(coord.getX(),coord.getY(),fc.getFloor());
 		/*
 		 * Remove from cache, everything has changed
 		 */
