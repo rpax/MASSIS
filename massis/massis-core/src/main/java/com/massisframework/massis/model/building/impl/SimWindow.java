@@ -1,7 +1,9 @@
-package com.massisframework.massis.model.building;
+package com.massisframework.massis.model.building.impl;
 
 import java.util.Map;
 
+import com.massisframework.massis.model.building.ISimulationObject;
+import com.massisframework.massis.model.building.SimulationObject;
 import com.massisframework.massis.model.location.SimLocation;
 import com.massisframework.massis.model.managers.AnimationManager;
 import com.massisframework.massis.model.managers.EnvironmentManager;
@@ -14,7 +16,7 @@ import com.massisframework.massis.model.managers.pathfinding.PathFindingManager;
  * @author rpax
  *
  */
-public class SimWindow extends SimulationObject {
+public class SimWindow extends SimulationObject implements ISimulationObject{
 
 
     public SimWindow(Map<String, String> metadata, SimLocation location,
