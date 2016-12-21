@@ -5,7 +5,8 @@ import java.awt.Graphics2D;
 
 import com.massisframework.gui.DrawableLayer;
 import com.massisframework.massis.model.building.Floor;
-import com.massisframework.massis.model.building.SimRoom;
+
+import straightedge.geom.PolygonHolder;
 
 /**
  * Draws each room of the floor
@@ -25,7 +26,7 @@ public class RoomsLayer extends DrawableLayer<DrawableFloor> {
     public void draw(DrawableFloor dfloor, Graphics2D g)
     {
     	final Floor f = dfloor.getFloor();
-        for (SimRoom r : f.getRooms())
+        for (PolygonHolder r : f.getRooms())
         {
             g.setColor(Color.gray);
             g.fill(r.getPolygon());
