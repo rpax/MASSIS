@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import com.massisframework.gui.DrawableLayer;
-import com.massisframework.massis.model.agents.DefaultAgent;
+import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.building.Floor;
 
 /**
@@ -25,7 +25,7 @@ public class VisionRadioLayer extends DrawableLayer<DrawableFloor> {
     public void draw(DrawableFloor dfloor, Graphics2D g)
     {
     	final Floor f = dfloor.getFloor();
-        for (DefaultAgent p : f.getAgents())
+        for (LowLevelAgent p : f.getAgents())
         {
             if (!p.isDynamic())
             {

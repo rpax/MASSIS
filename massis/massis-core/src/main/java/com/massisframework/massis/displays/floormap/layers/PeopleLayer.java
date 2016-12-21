@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import com.massisframework.gui.DrawableLayer;
-import com.massisframework.massis.model.agents.DefaultAgent;
+import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.building.Floor;
 
 import straightedge.geom.KPolygon;
@@ -24,7 +24,7 @@ public class PeopleLayer extends DrawableLayer<DrawableFloor> {
     	final Floor f = dfloor.getFloor();
         g.setColor(Color.red);
 
-        for (DefaultAgent p : f.getAgents())
+        for (LowLevelAgent p : f.getAgents())
         {
             if (!p.isDynamic())
             {
@@ -32,7 +32,7 @@ public class PeopleLayer extends DrawableLayer<DrawableFloor> {
                 g.fill(p.getPolygon());
             }
         }
-        for (DefaultAgent p : f.getAgents())
+        for (LowLevelAgent p : f.getAgents())
         {
             if (p.isDynamic())
             {

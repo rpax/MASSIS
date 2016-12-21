@@ -111,7 +111,7 @@ public class FloorImpl implements Floor {
 	/**
 	 * QuadTree
 	 */
-	private final ArrayQuadTree<DefaultAgent> quadPilu;
+	private final ArrayQuadTree<LowLevelAgent> quadPilu;
 
 	/**
 	 * Creates a floor with all the elements of a Level
@@ -267,7 +267,7 @@ public class FloorImpl implements Floor {
 						 * Tries to build an agent, by its metadata.
 						 */
 
-						final DefaultAgent person = new DefaultAgent(metadata,
+						final LowLevelAgent person = new DefaultAgent(metadata,
 								location, this.building.getMovementManager(),
 								this.building.getAnimationManager(),
 								this.building.getEnvironmentManager(),
@@ -479,7 +479,7 @@ public class FloorImpl implements Floor {
 	 * @see com.massisframework.massis.model.building.IFloor#getAgents()
 	 */
 	@Override
-	public Iterable<DefaultAgent> getAgents() {
+	public Iterable<LowLevelAgent> getAgents() {
 		return this.quadPilu.getElementsIn();
 	}
 
@@ -561,8 +561,8 @@ public class FloorImpl implements Floor {
 	 */
 	@Override
 	public void addPerson(ISimulationObject simObj) {
-		if (simObj instanceof DefaultAgent) {
-			this.quadPilu.insert((DefaultAgent) simObj);
+		if (simObj instanceof LowLevelAgent) {
+			this.quadPilu.insert((LowLevelAgent) simObj);
 		}
 
 	}
@@ -678,7 +678,7 @@ public class FloorImpl implements Floor {
 	 * @see com.massisframework.massis.model.building.IFloor#getAgentsInRange(int, int, int, int)
 	 */
 	@Override
-	public Iterable<DefaultAgent> getAgentsInRange(int xmin, int ymin, int xmax,
+	public Iterable<LowLevelAgent> getAgentsInRange(int xmin, int ymin, int xmax,
 			int ymax) {
 
 		final SearchRangeCallback rangeCallback = new SearchRangeCallback();
@@ -725,12 +725,12 @@ public class FloorImpl implements Floor {
 	 *
 	 */
 	private static class SearchRangeCallback
-			implements ArrayQuadTreeCallback<DefaultAgent> {
+			implements ArrayQuadTreeCallback<LowLevelAgent> {
 
-		private final ArrayList<DefaultAgent> agents = new ArrayList<>();
+		private final ArrayList<LowLevelAgent> agents = new ArrayList<>();
 
 		@Override
-		public void query(DefaultAgent element) {
+		public void query(LowLevelAgent element) {
 			this.agents.add(element);
 		}
 

@@ -1,6 +1,7 @@
 package com.massisframework.massis.model.managers;
 
 import com.massisframework.massis.model.agents.DefaultAgent;
+import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.location.Location;
@@ -21,7 +22,7 @@ public class EnvironmentManager {
         this.building = building;
     }
 
-    public Iterable<DefaultAgent> getAgentsInRange(Location l, double range)
+    public Iterable<LowLevelAgent> getAgentsInRange(Location l, double range)
     {
         return l.getFloor().getAgentsInRange((int) (l.getX() - range),
                 (int) (l.getY() - range), (int) (l.getX() + range),
@@ -29,7 +30,7 @@ public class EnvironmentManager {
 
     }
 
-    public Iterable<DefaultAgent> getAgentsInRange(DefaultAgent a, double range)
+    public Iterable<LowLevelAgent> getAgentsInRange(LowLevelAgent a, double range)
     {
         return Filters.allExcept(this.getAgentsInRange(a.getLocation(), range),
                 a);

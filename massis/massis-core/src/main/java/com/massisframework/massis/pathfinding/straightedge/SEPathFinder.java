@@ -4,7 +4,7 @@ import java.awt.geom.Area;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.massisframework.massis.model.agents.DefaultAgent;
+import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.building.Teleport;
 import com.massisframework.massis.model.building.SimRoom;
@@ -142,7 +142,7 @@ public class SEPathFinder {
 
 		System.out.println("Before/After Reduction : " + beforeReduction + "/" + afterReduction + ",[" + nlines1 + "=>"
 				+ nlines2 + "] took " + (end - start) + " ms");
-		for (DefaultAgent v : floor.getAgents()) {
+		for (LowLevelAgent v : floor.getAgents()) {
 			if (v.isObstacle() && !v.isDynamic()) {
 				this.stationaryObstacles.add(PathFindingUtils.createObstacleFromInnerPolygon(v.getPolygon(),
 						BUFFER_AMOUNT, NUM_POINTS_IN_A_QUADRANT));

@@ -2,7 +2,7 @@ package com.massisframework.massis.model.managers.movement.steering;
 
 import java.util.List;
 
-import com.massisframework.massis.model.agents.DefaultAgent;
+import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.building.WayPoint;
 import com.massisframework.massis.util.geom.KVector;
 
@@ -13,7 +13,7 @@ public class FollowPath extends SteeringBehavior {
     private final double radius;
     private final double frames_ahead;
 
-    public FollowPath(DefaultAgent v, double radius, double frames_ahead)
+    public FollowPath(LowLevelAgent v, double radius, double frames_ahead)
     {
         super(v);
         this.radius = radius;

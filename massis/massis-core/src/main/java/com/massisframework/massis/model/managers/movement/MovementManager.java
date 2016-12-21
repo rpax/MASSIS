@@ -3,6 +3,7 @@ package com.massisframework.massis.model.managers.movement;
 import java.util.logging.Logger;
 
 import com.massisframework.massis.model.agents.DefaultAgent;
+import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.managers.movement.steering.SteeringBehavior;
 import com.massisframework.massis.util.geom.KVector;
@@ -54,7 +55,7 @@ public class MovementManager {
 
 	}
 
-	private boolean checkForArrival(DefaultAgent vehicle, Location toLoc,
+	private boolean checkForArrival(LowLevelAgent vehicle, Location toLoc,
 			float range) {
 		return (vehicle.getLocation().getFloor() == toLoc.getFloor() && (vehicle
 				.getLocation().distance2D(toLoc) < vehicle.getMaxSpeed()

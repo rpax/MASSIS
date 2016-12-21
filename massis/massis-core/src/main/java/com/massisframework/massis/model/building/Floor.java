@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.eteks.sweethome3d.model.Level;
 import com.massisframework.massis.model.agents.DefaultAgent;
+import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.pathfinding.straightedge.FindPathResult;
 import com.massisframework.massis.util.Indexable;
@@ -44,7 +45,7 @@ public interface Floor extends Indexable{
 
 	List<SimRoom> getRooms();
 
-	Iterable<DefaultAgent> getAgents();
+	Iterable<LowLevelAgent> getAgents();
 
 	int hashCode();
 
@@ -119,7 +120,7 @@ public interface Floor extends Indexable{
 	 * @param ymax
 	 * @return The agents inside the rectangle defined by xmin,ymin,xmax,ymax
 	 */
-	Iterable<DefaultAgent> getAgentsInRange(int xmin, int ymin, int xmax,
+	Iterable<LowLevelAgent> getAgentsInRange(int xmin, int ymin, int xmax,
 			int ymax);
 
 }

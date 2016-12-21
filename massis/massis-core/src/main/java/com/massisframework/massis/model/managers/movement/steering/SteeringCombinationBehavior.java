@@ -1,13 +1,13 @@
 package com.massisframework.massis.model.managers.movement.steering;
 
-import com.massisframework.massis.model.agents.DefaultAgent;
+import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.util.geom.KVector;
 
 public class SteeringCombinationBehavior extends SteeringBehavior {
 
     private final SteeringBehavior[] behaviors;
 
-    public SteeringCombinationBehavior(DefaultAgent v,
+    public SteeringCombinationBehavior(LowLevelAgent v,
             SteeringBehavior... behaviors)
     {
         super(v);

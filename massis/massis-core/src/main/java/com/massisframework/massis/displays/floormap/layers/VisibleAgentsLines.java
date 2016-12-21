@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import com.massisframework.gui.DrawableLayer;
-import com.massisframework.massis.model.agents.DefaultAgent;
+import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.building.Floor;
 
 /**
@@ -26,13 +26,13 @@ public class VisibleAgentsLines extends DrawableLayer<DrawableFloor> {
     {
     	final Floor f = dfloor.getFloor();
         g.setColor(Color.WHITE);
-        for (DefaultAgent v : f.getAgents())
+        for (LowLevelAgent v : f.getAgents())
         {
             if (!v.isDynamic())
             {
                 continue;
             }
-            for (DefaultAgent v2 : v.getAgentsInVisionRadio())
+            for (LowLevelAgent v2 : v.getAgentsInVisionRadio())
             {
                 g.drawLine((int) v.getX(), (int) v.getY(), (int) v2.getX(),
                         (int) v2.getY());

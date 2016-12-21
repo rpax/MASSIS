@@ -5,6 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.massisframework.massis.model.agents.HighLevelController;
+import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.building.BuildingProgressMonitor;
 import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.building.ISimulationObject;
@@ -70,7 +71,7 @@ public class Simulation extends AbstractSimulation {
         {
             for (Floor f : this.building.getFloors())
             {
-                for (ISimulationObject agent : f.getAgents())
+                for (LowLevelAgent agent : f.getAgents())
                 {
                     agent.addRestorableObserver(simulationSaver);
                 }

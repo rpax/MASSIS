@@ -5,7 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 
 import com.massisframework.gui.DrawableLayer;
-import com.massisframework.massis.model.agents.DefaultAgent;
+import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.building.Floor;
 
 /**
@@ -31,7 +31,7 @@ public class PeopleIDLayer extends DrawableLayer<DrawableFloor> {
         Font originalF = g.getFont();
 
         g.setFont(ID_FONT);
-        for (DefaultAgent p : f.getAgents())
+        for (LowLevelAgent p : f.getAgents())
         {
             g.drawChars(String.valueOf(p.getID()).toCharArray(), 0, String
                     .valueOf(p.getID()).toCharArray().length,

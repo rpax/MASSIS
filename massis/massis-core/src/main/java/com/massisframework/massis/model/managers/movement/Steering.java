@@ -3,7 +3,7 @@ package com.massisframework.massis.model.managers.movement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.massisframework.massis.model.agents.DefaultAgent;
+import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.util.geom.ContainmentPolygon;
 import com.massisframework.massis.util.geom.KLine;
 import com.massisframework.massis.util.geom.KVector;
@@ -19,7 +19,7 @@ import straightedge.geom.KPoint;
  */
 public class Steering {
 
-    public static KVector seek(DefaultAgent p, KPoint target)
+    public static KVector seek(LowLevelAgent p, KPoint target)
     {
 
         // List<KPoint> path = p.getFloor().findPath(p.getLocation(), target);
@@ -46,7 +46,7 @@ public class Steering {
         return steer;
     }
 
-    public static KVector arrive(DefaultAgent p, KVector target,
+    public static KVector arrive(LowLevelAgent p, KVector target,
             double aproximationRadio)
     {
         KVector desired = KVector.sub(target, p.getXY()); // A vector
@@ -70,7 +70,7 @@ public class Steering {
         return steer;
     }
 
-    public static KVector wander(DefaultAgent p, double wanderRadio,
+    public static KVector wander(LowLevelAgent p, double wanderRadio,
             double wanderDistance, double wanderTheta)
     {
 
@@ -114,7 +114,7 @@ public class Steering {
     };
 
     // =======================================================================
-    public static KVector stayWithInWalls(DefaultAgent person,
+    public static KVector stayWithInWalls(LowLevelAgent person,
             List<ContainmentPolygon> containmentPolygons)
     {
 
@@ -399,7 +399,7 @@ public class Steering {
         return projection;
     }
 
-    public static KVector evade(DefaultAgent fleer, DefaultAgent predator)
+    public static KVector evade(LowLevelAgent fleer, LowLevelAgent predator)
     {
         if (fleer.isObjectPerceived(predator))
         {
@@ -409,8 +409,8 @@ public class Steering {
         return new KVector(0, 0);
     }
 
-    public static KVector followIfVisible(DefaultAgent follower,
-            DefaultAgent leader)
+    public static KVector followIfVisible(LowLevelAgent follower,
+            LowLevelAgent leader)
     {
         if (follower.isObjectPerceived(leader))
         {
@@ -420,21 +420,21 @@ public class Steering {
         return new KVector(0, 0);
     }
 
-    public static KVector flee(DefaultAgent fleer, KVector undesired)
+    public static KVector flee(LowLevelAgent fleer, KVector undesired)
     {
         return KVector.mult(-1, seek(fleer, undesired));
     }
 
-    public static KVector follow(DefaultAgent fleer, DefaultAgent leader)
+    public static KVector follow(LowLevelAgent fleer, LowLevelAgent leader)
     {
         return seek(fleer, KVector.add(leader.getXY(), leader.getVelocity()));
     }
 
-    public static KVector align(DefaultAgent p, double distance)
+    public static KVector align(LowLevelAgent p, double distance)
     {
         KVector v = new KVector();
         int neighborCount = 0;
-        for (DefaultAgent agent : p.getAgentsInRoom())
+        for (LowLevelAgent agent : p.getAgentsInRoom())
         {
             if (agent != p && p.isObjectPerceived(agent))
             {
@@ -461,7 +461,7 @@ public class Steering {
     }
 
     // ////////////////////////////////////////////////
-    public KVector createFeeler(DefaultAgent v, double angle, double length)
+    public KVector createFeeler(LowLevelAgent v, double angle, double length)
     {
         KVector vel = v.getVelocity();
         KVector feeler = new KVector();
@@ -471,7 +471,7 @@ public class Steering {
         return feeler;
     }
 
-    public static List<KLine> getCollisionLines(DefaultAgent agent,
+    public static List<KLine> getCollisionLines(LowLevelAgent agent,
             double STEPS_AHEAD)
     {
         // draw1(g,v,STEPS_AHEAD);

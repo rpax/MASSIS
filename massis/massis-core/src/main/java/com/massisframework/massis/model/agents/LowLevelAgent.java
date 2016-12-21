@@ -7,6 +7,7 @@ package com.massisframework.massis.model.agents;
 import java.awt.Shape;
 import java.util.Collection;
 
+import com.massisframework.massis.model.building.ISimulationObject;
 import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.location.SimLocation;
@@ -24,7 +25,7 @@ import straightedge.geom.vision.Occluder;
  *
  * @author Rafael Pax
  */
-public interface LowLevelAgent extends  PathFollower,Indexable,SteeringCapable {
+public interface LowLevelAgent extends  PathFollower,Indexable,SteeringCapable,ISimulationObject {
 
     /**
      * Tries to approach to an specific {@link Location} in the building.
@@ -49,7 +50,7 @@ public interface LowLevelAgent extends  PathFollower,Indexable,SteeringCapable {
      * @param range the radius of the circle.
      * @return
      */
-    public Iterable<? extends LowLevelAgent> getAgentsInRange(double range);
+    public Iterable<LowLevelAgent> getAgentsInRange(double range);
     /**
      * Returns the <i>visible</i> agents in the vision radio of this agent.
      *

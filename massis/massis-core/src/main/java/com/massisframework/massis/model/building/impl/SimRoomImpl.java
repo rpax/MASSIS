@@ -20,9 +20,10 @@ import org.apache.commons.collections15.Predicate;
 import org.apache.commons.collections15.iterators.FilterIterator;
 
 import com.massisframework.massis.model.agents.DefaultAgent;
+import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.building.Building;
-import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.RoomConnector;
+import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.SimulationObject;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.location.SimLocation;
@@ -55,7 +56,7 @@ public class SimRoomImpl extends SimulationObject
 	 */
 	private List<SimRoom> roomsOrderedByDistance;
 	// Cached values
-	private final Collection<DefaultAgent> vehiclesInThisRoomCached = new ArrayList<>();
+	private final Collection<LowLevelAgent> vehiclesInThisRoomCached = new ArrayList<>();
 	private boolean vehiclesInThisRoomComputed = false;
 
 	public SimRoomImpl(Map<String, String> metadata, SimLocation location,
@@ -161,10 +162,9 @@ public class SimRoomImpl extends SimulationObject
 	/* (non-Javadoc)
 	 * @see com.massisframework.massis.model.building.ISimRoom#getPeopleInIterator()
 	 */
-	@Override
 	@Deprecated
-	public Iterator<DefaultAgent> getPeopleInIterator() {
-		return new FilterIterator<DefaultAgent>(
+	private Iterator<LowLevelAgent> getPeopleInIterator() {
+		return new FilterIterator<LowLevelAgent>(
 				this.getLocation().getFloor().getAgents().iterator(),
 				new PeopleInThisRoomPredicate());
 	}
@@ -173,7 +173,7 @@ public class SimRoomImpl extends SimulationObject
 	 * @see com.massisframework.massis.model.building.ISimRoom#getPeopleIn()
 	 */
 	@Override
-	public Collection<DefaultAgent> getPeopleIn() {
+	public Collection<LowLevelAgent> getPeopleIn() {
 		cacheVehiclesInThisRoom();
 		return this.vehiclesInThisRoomCached;
 	}
@@ -197,7 +197,7 @@ public class SimRoomImpl extends SimulationObject
 	private void cacheVehiclesInThisRoom() {
 		if (!this.vehiclesInThisRoomComputed) {
 			this.vehiclesInThisRoomCached.clear();
-			Iterator<DefaultAgent> it = this.getPeopleInIterator();
+			Iterator<LowLevelAgent> it = this.getPeopleInIterator();
 			while (it.hasNext()) {
 				this.vehiclesInThisRoomCached.add(it.next());
 			}
@@ -212,10 +212,10 @@ public class SimRoomImpl extends SimulationObject
 	public void stop() {
 	}
 
-	private class PeopleInThisRoomPredicate implements Predicate<DefaultAgent> {
+	private class PeopleInThisRoomPredicate implements Predicate<LowLevelAgent> {
 
 		@Override
-		public boolean evaluate(DefaultAgent person) {
+		public boolean evaluate(LowLevelAgent person) {
 			return (SimRoomImpl.this == person.getRoom());
 		}
 	}

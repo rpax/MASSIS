@@ -5,32 +5,32 @@ import java.util.Iterator;
 import org.apache.commons.collections15.Predicate;
 import org.apache.commons.collections15.iterators.FilterIterator;
 
-import com.massisframework.massis.model.agents.DefaultAgent;
+import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.util.geom.KVector;
 
 public abstract class SteeringBehavior {
 
-    protected DefaultAgent v;
+    protected LowLevelAgent v;
 
-    public SteeringBehavior(DefaultAgent v)
+    public SteeringBehavior(LowLevelAgent v)
     {
         this.v = v;
     }
 
     public abstract KVector steer();
 
-    protected static Iterable<DefaultAgent> getActiveAgentsInRange(
-            final DefaultAgent v, final double range)
+    protected static Iterable<LowLevelAgent> getActiveAgentsInRange(
+            final LowLevelAgent v, final double range)
     {
-        return new Iterable<DefaultAgent>() {
+        return new Iterable<LowLevelAgent>() {
             @Override
-            public Iterator<DefaultAgent> iterator()
+            public Iterator<LowLevelAgent> iterator()
             {
                 return new FilterIterator<>(
                         v.getAgentsInRange(range).iterator(),
-                        new Predicate<DefaultAgent>() {
+                        new Predicate<LowLevelAgent>() {
                     @Override
-                    public boolean evaluate(DefaultAgent other)
+                    public boolean evaluate(LowLevelAgent other)
                     {
                         return !(
                                    !other.isDynamic()

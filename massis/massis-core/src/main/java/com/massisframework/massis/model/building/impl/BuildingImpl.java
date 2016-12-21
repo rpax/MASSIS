@@ -20,6 +20,7 @@ import com.eteks.sweethome3d.model.Wall;
 import com.massisframework.massis.displays.SimulationDisplay;
 import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.model.agents.HighLevelController;
+import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.BuildingProgressMonitor;
 import com.massisframework.massis.model.building.Floor;
@@ -384,7 +385,7 @@ public class BuildingImpl implements Building {
     {
         for (final Floor f : this.getFloors())
         {
-            for (final DefaultAgent p : f.getAgents())
+            for (final LowLevelAgent p : f.getAgents())
             {
                 if (p.getID() == simObjId)
                 {

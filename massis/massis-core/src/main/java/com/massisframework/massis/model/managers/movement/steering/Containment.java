@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import com.massisframework.massis.model.agents.DefaultAgent;
+import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.building.RoomConnector;
 import com.massisframework.massis.model.managers.movement.Steering;
 import com.massisframework.massis.util.geom.KLine;
@@ -19,7 +19,7 @@ import straightedge.geom.path.PathBlockingObstacleImpl;
 @SuppressWarnings("unused")
 public class Containment extends SteeringBehavior {
 
-    public Containment(DefaultAgent v)
+    public Containment(LowLevelAgent v)
     {
         super(v);
 
@@ -33,7 +33,7 @@ public class Containment extends SteeringBehavior {
     }
 
     // Were worse than the other method
-    private static KVector stayWithinWalls4(DefaultAgent agent)
+    private static KVector stayWithinWalls4(LowLevelAgent agent)
     {
         ArrayList<KLine> roomLines = KPolygonUtils.getLines(agent.getRoom()
                 .getPolygon());
@@ -95,7 +95,7 @@ public class Containment extends SteeringBehavior {
 
     }
 
-    private static KVector stayWithinWalls3(DefaultAgent v)
+    private static KVector stayWithinWalls3(LowLevelAgent v)
     {
         if (v.isInDoorArea())
         {
@@ -135,7 +135,7 @@ public class Containment extends SteeringBehavior {
         return force;
     }
 
-    public static KVector stayWithInWalls2(DefaultAgent v, Set<KLine> lines)
+    public static KVector stayWithInWalls2(LowLevelAgent v, Set<KLine> lines)
     {
         KVector force = new KVector();
         double feelerLength = 100;
@@ -195,7 +195,7 @@ public class Containment extends SteeringBehavior {
         return force;
     }
 
-    private static KVector createFeeler(DefaultAgent v, double angle,
+    private static KVector createFeeler(LowLevelAgent v, double angle,
             double length)
     {
         KVector vel = v.getVelocity();

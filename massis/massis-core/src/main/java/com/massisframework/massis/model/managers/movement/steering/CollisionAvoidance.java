@@ -3,7 +3,7 @@ package com.massisframework.massis.model.managers.movement.steering;
 import static odk.lang.FastMath.pow;
 import static odk.lang.FastMath.sqrt;
 
-import com.massisframework.massis.model.agents.DefaultAgent;
+import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.util.geom.KVector;
 
 /**
@@ -16,7 +16,7 @@ public class CollisionAvoidance extends SteeringBehavior {
 
     private final int STEPS_AHEAD;
 
-    public CollisionAvoidance(DefaultAgent v, double d)
+    public CollisionAvoidance(LowLevelAgent v, double d)
     {
         super(v);
         this.STEPS_AHEAD = (int) d;
@@ -31,7 +31,7 @@ public class CollisionAvoidance extends SteeringBehavior {
         KVector separationVector = new KVector();
         KVector repulsionVector = new KVector();
         final double agent_vel_magnitude = v.getVelocity().magnitude();
-        for (DefaultAgent other : getActiveAgentsInRange(this.v,STEPS_AHEAD * 2
+        for (LowLevelAgent other : getActiveAgentsInRange(this.v,STEPS_AHEAD * 2
                 * agent_vel_magnitude))
         {
            
@@ -71,12 +71,12 @@ public class CollisionAvoidance extends SteeringBehavior {
         return repulsionVector;
     }
 
-    public static KVector futureLocation(DefaultAgent a, double t)
+    public static KVector futureLocation(LowLevelAgent a, double t)
     {
         return new KVector(a.getXY()).add(a.getVelocity().copy().mult(t));
     }
 
-    private static double getTimeToCollision(DefaultAgent a, DefaultAgent b,
+    private static double getTimeToCollision(LowLevelAgent a, LowLevelAgent b,
             double d1)
     {
 

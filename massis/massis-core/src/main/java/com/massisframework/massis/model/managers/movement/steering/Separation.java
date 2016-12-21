@@ -2,7 +2,7 @@ package com.massisframework.massis.model.managers.movement.steering;
 
 import java.util.List;
 
-import com.massisframework.massis.model.agents.DefaultAgent;
+import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.managers.movement.Steering;
 import com.massisframework.massis.util.geom.KLine;
 import com.massisframework.massis.util.geom.KVector;
@@ -15,7 +15,7 @@ public class Separation extends SteeringBehavior {
 
     private final int STEPS_AHEAD;
 
-    public Separation(DefaultAgent v, double d)
+    public Separation(LowLevelAgent v, double d)
     {
         super(v);
         this.STEPS_AHEAD = (int) d;
@@ -28,7 +28,7 @@ public class Separation extends SteeringBehavior {
         return separateNew(v, STEPS_AHEAD);
     }
 
-    private static KVector separateNew(DefaultAgent v, double STEPS_AHEAD)
+    private static KVector separateNew(LowLevelAgent v, double STEPS_AHEAD)
     {
         KVector force = new KVector();
         KVector brakingforce = new KVector();
@@ -42,7 +42,7 @@ public class Separation extends SteeringBehavior {
                 / agent_vel_magnitude;
         KVector vCenterAtIntersection = null;
         KVector otherCenterAtIntersection = null;
-        for (DefaultAgent other : getActiveAgentsInRange(v,
+        for (LowLevelAgent other : getActiveAgentsInRange(v,
                 STEPS_AHEAD * agent_vel_magnitude))
         {
             double agent_other_dist = other.getXY().distance(v.getXY());
@@ -129,16 +129,16 @@ public class Separation extends SteeringBehavior {
     }
 //
 
-    private static KVector separateOld(DefaultAgent v, double STEPS_AHEAD)
+    private static KVector separateOld(LowLevelAgent v, double STEPS_AHEAD)
     {
 
         int minStep = Integer.MAX_VALUE;
         KPoint otherCenterAtIntersection = null;
         KPoint vCenterAtIntersection = null;
-        DefaultAgent nearestOther = null;
+        LowLevelAgent nearestOther = null;
         KVector force = new KVector();
 
-        for (DefaultAgent other : v.getAgentsInRange(
+        for (LowLevelAgent other : v.getAgentsInRange(
                 v.getMaxSpeed() * (STEPS_AHEAD + 1)))
         {
             if (v == other)

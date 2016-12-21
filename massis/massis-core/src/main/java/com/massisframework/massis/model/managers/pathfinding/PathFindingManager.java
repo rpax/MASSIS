@@ -2,7 +2,7 @@ package com.massisframework.massis.model.managers.pathfinding;
 
 import java.util.HashMap;
 
-import com.massisframework.massis.model.agents.DefaultAgent;
+import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.managers.movement.Path;
@@ -73,7 +73,7 @@ public class PathFindingManager {
 	 *            the agent
 	 * @return the agent's path, an empty list if has no path.
 	 */
-	public Path getPathOf(DefaultAgent v) {
+	public Path getPathOf(LowLevelAgent v) {
 		Path path = this.paths.get(v);
 		if (path == null || path.isEmpty()) {
 			return null;

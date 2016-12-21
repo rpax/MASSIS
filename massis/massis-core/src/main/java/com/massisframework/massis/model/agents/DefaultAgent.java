@@ -72,7 +72,7 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 	private SimRoom lastKnowRoom = null;
 	private boolean lastKnownRoomUpdated = false;
 	private boolean peopleInVisionRadioUpdated = false;
-	private List<DefaultAgent> peopleInVisionArea = null;
+	private List<LowLevelAgent> peopleInVisionArea = null;
 	//
 	private boolean visionFinderUpdated = false;
 	private Shape visionPolygon;
@@ -234,9 +234,9 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 		if (!this.peopleInVisionRadioUpdated)
 		{
 			this.peopleInVisionRadioUpdated = true;
-			final ArrayList<DefaultAgent> peopleInVisionArea_tmp = new ArrayList<>();
+			final ArrayList<LowLevelAgent> peopleInVisionArea_tmp = new ArrayList<>();
 
-			for (final DefaultAgent agent : this
+			for (final LowLevelAgent agent : this
 					.getAgentsInRange(this.getVisionRadio()))
 			{
 				{
@@ -257,14 +257,14 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 	}
 
 	@Override
-	public Iterable<DefaultAgent> getAgentsInVisionRadio()
+	public Iterable<LowLevelAgent> getAgentsInVisionRadio()
 	{
 		this.computePeopleInVisionArea();
 		return this.peopleInVisionArea;
 	}
 
 	@Override
-	public Iterable<DefaultAgent> getAgentsInRange(double range)
+	public Iterable<LowLevelAgent> getAgentsInRange(double range)
 	{
 		return this.getEnvironment().getAgentsInRange(this, range);
 	}
@@ -334,7 +334,7 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 	}
 
 	@Override
-	public Collection<DefaultAgent> getAgentsInRoom()
+	public Collection<LowLevelAgent> getAgentsInRoom()
 	{
 		this.computeLastKnownRoom();
 		return this.lastKnowRoom.getPeopleIn();
