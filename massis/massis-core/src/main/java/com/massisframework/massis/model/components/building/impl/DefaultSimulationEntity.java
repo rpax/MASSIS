@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.massisframework.massis.model.components.SimulationComponent;
-import com.massisframework.massis.model.components.SimulationEntity;
+import com.massisframework.massis.sim.SimulationEntity;
 
 public class DefaultSimulationEntity implements SimulationEntity {
 

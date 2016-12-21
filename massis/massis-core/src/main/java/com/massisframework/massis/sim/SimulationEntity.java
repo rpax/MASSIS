@@ -1,4 +1,6 @@
-package com.massisframework.massis.model.components;
+package com.massisframework.massis.sim;
+
+import com.massisframework.massis.model.components.SimulationComponent;
 
 public interface SimulationEntity {
 

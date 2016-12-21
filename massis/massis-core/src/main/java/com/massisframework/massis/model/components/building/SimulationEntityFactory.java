@@ -6,7 +6,6 @@ import com.eteks.sweethome3d.model.Home;
 import com.eteks.sweethome3d.model.HomePieceOfFurniture;
 import com.eteks.sweethome3d.model.Selectable;
 import com.eteks.sweethome3d.model.Wall;
-import com.massisframework.massis.model.components.SimulationEntity;
 import com.massisframework.massis.model.components.building.impl.Coordinate2DComponentImpl;
 import com.massisframework.massis.model.components.building.impl.DefaultSimulationEntity;
 import com.massisframework.massis.model.components.building.impl.HashMetadataComponent;
@@ -14,6 +13,7 @@ import com.massisframework.massis.model.components.building.impl.KPolygonShapeCo
 import com.massisframework.massis.model.components.building.impl.MovementCapabilititesImpl;
 import com.massisframework.massis.model.components.building.impl.SimplePhysicsComponent;
 import com.massisframework.massis.model.components.building.impl.WallComponentImpl;
+import com.massisframework.massis.sim.SimulationEntity;
 import com.massisframework.massis.util.SimObjectProperty;
 import com.massisframework.sweethome3d.metadata.BuildingMetadataManager;
 import com.massisframework.sweethome3d.metadata.HomeMetadataLoader;
