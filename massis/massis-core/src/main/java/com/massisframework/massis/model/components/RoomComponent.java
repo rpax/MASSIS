@@ -3,7 +3,7 @@ package com.massisframework.massis.model.components;
 import java.util.Collection;
 import java.util.List;
 
-import com.massisframework.massis.model.agents.DefaultAgent;
+import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.building.RoomConnector;
 
 import straightedge.geom.KPoint;
@@ -29,7 +29,7 @@ public interface RoomComponent {
 	 *
 	 * @return the people in this room (Agents)
 	 */
-	Collection<DefaultAgent> getPeopleIn();
+	Collection<LowLevelAgent> getPeopleIn();
 
 	boolean contains(double x, double y);
 
