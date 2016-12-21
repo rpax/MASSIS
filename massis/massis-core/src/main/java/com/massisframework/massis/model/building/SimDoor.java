@@ -1,14 +1,10 @@
 package com.massisframework.massis.model.building;
 
-import java.util.List;
-
 import com.massisframework.massis.model.building.impl.SimDoorImpl.SimDoorState;
 
 import straightedge.geom.PolygonHolder;
 
 public interface SimDoor extends PolygonHolder,RoomConnector{
-
-	List<SimRoom> getConnectedRooms();
 
 	String toString();
 

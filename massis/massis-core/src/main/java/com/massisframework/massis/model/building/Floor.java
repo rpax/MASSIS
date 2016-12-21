@@ -24,7 +24,7 @@ public interface Floor extends Indexable{
 	 *
 	 * @return a random Room in this floor
 	 */
-	SimRoom getRandomRoom();
+	ISimRoom getRandomRoom();
 
 	List<SimDoor> getDoors();
 
@@ -42,7 +42,7 @@ public interface Floor extends Indexable{
 
 	List<SimWall> getWalls();
 
-	List<SimRoom> getRooms();
+	List<ISimRoom> getRooms();
 
 	Iterable<DefaultAgent> getAgents();
 

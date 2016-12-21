@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 
 import com.massisframework.gui.DrawableLayer;
 import com.massisframework.massis.model.building.Floor;
-import com.massisframework.massis.model.building.SimRoom;
+import com.massisframework.massis.model.building.ISimRoom;
 
 public class RoomsLabelLayer extends DrawableLayer<DrawableFloor> {
 
@@ -24,12 +24,12 @@ public class RoomsLabelLayer extends DrawableLayer<DrawableFloor> {
         g.setColor(Color.orange);
         Font originalF = g.getFont();
         g.setFont(NAME_FONT);
-        for (SimRoom r : f.getRooms())
+        for (ISimRoom r : f.getRooms())
         {
             char[] chars = r.toString().toCharArray();
             g.setColor(Color.black);
-            g.drawChars(chars, 0, chars.length, (int) r.getXY().x,
-                    (int) r.getXY().y);
+            g.drawChars(chars, 0, chars.length, (int) r.getX(),
+                    (int) r.getY());
         }
         g.setFont(originalF);
     }

@@ -49,7 +49,7 @@ public class Teleport extends SimulationObject
 	private final byte type;
 	private final String name;
 	private Teleport connection;
-	private List<SimRoom> target;
+	private List<ISimRoom> target;
 	private final HashMap<Floor, Integer> floorDistances;
 
 	public Teleport(Map<String, String> metadata, SimLocation location,
@@ -88,11 +88,11 @@ public class Teleport extends SimulationObject
 	}
 
 	@Override
-	public List<SimRoom> getConnectedRooms() {
+	public List<ISimRoom> getConnectedRooms() {
 		if (this.type == END) {
 			return Collections.emptyList();
 		} else if (target == null) {
-			for (SimRoom sr : this.getConnection().getLocation().getFloor()
+			for (ISimRoom sr : this.getConnection().getLocation().getFloor()
 					.getRooms()) {
 				if (this.getConnection().getPolygon()
 						.intersects(sr.getPolygon())) {

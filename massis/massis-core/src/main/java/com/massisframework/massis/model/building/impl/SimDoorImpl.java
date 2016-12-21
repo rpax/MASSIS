@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.massisframework.massis.model.building.Building;
+import com.massisframework.massis.model.building.ISimRoom;
 import com.massisframework.massis.model.building.SimDoor;
-import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.SimulationObject;
 import com.massisframework.massis.model.location.SimLocation;
 import com.massisframework.massis.model.managers.AnimationManager;
@@ -32,7 +32,7 @@ public class SimDoorImpl extends SimulationObject implements SimDoor {
 	/**
 	 * The rooms connected by this Door
 	 */
-	private List<SimRoom> connectedRooms;
+	private List<ISimRoom> connectedRooms;
 	/**
 	 * If it is open or not. by default is true.
 	 */
@@ -52,7 +52,7 @@ public class SimDoorImpl extends SimulationObject implements SimDoor {
 	private void computeRoomConnections() {
 		this.connectedRooms = new ArrayList<>();
 		// Por sentido comun: los cuartos que intersecta son los que conecta.
-		for (SimRoom sr : this.getLocation().getFloor().getRooms()) {
+		for (ISimRoom sr : this.getLocation().getFloor().getRooms()) {
 			if (this.getPolygon().intersects(sr.getPolygon())) {
 				this.connectedRooms.add(sr);
 			} else {
@@ -74,7 +74,7 @@ public class SimDoorImpl extends SimulationObject implements SimDoor {
 	 * @see com.massisframework.massis.model.building.ISimDoor#getConnectedRooms()
 	 */
 	@Override
-	public List<SimRoom> getConnectedRooms() {
+	public List<ISimRoom> getConnectedRooms() {
 		if (this.connectedRooms == null) {
 			this.computeRoomConnections();
 		}

@@ -2,7 +2,7 @@ package com.massisframework.massis.model.managers;
 
 import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.model.building.Building;
-import com.massisframework.massis.model.building.SimRoom;
+import com.massisframework.massis.model.building.ISimRoom;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.util.collections.filters.Filters;
 
@@ -35,7 +35,7 @@ public class EnvironmentManager {
                 a);
     }
 
-    public SimRoom getRandomRoom()
+    public ISimRoom getRandomRoom()
     {
         return this.building.getRandomRoom();
     }

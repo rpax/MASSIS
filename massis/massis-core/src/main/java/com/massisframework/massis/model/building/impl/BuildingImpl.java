@@ -22,6 +22,7 @@ import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.model.agents.HighLevelController;
 import com.massisframework.massis.model.building.BuildingProgressMonitor;
 import com.massisframework.massis.model.building.Floor;
+import com.massisframework.massis.model.building.ISimRoom;
 import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.SimRoom;
@@ -89,7 +90,7 @@ public class BuildingImpl implements Building {
      * Map with the rooms names . It is useful for making an agent to go to an
      * specific room
      */
-    private final Map<String, SimRoom> namedRooms = new HashMap<>();
+    private final Map<String, ISimRoom> namedRooms = new HashMap<>();
     private final Collection<HighLevelController> scheduledControllers = new ArrayList<>();
 	
 
@@ -272,7 +273,7 @@ public class BuildingImpl implements Building {
          */
         for (final Floor f : this.getFloors())
         {
-            for (final SimRoom sr : f.getRooms())
+            for (final ISimRoom sr : f.getRooms())
             {
                 progressMonitor.onUpdate(5 + roomNumber * 5.0D / nrooms,
                         "Connecting rooms");
@@ -401,7 +402,7 @@ public class BuildingImpl implements Building {
 	 * @see com.massisframework.massis.model.building.IBuilding#getRandomRoom()
 	 */
     @Override
-	public SimRoom getRandomRoom()
+	public ISimRoom getRandomRoom()
     {
         final Floor rndFloor = this.floors.get(ThreadLocalRandom.current().nextInt(
                 this.floors.size()));
@@ -453,11 +454,8 @@ public class BuildingImpl implements Building {
         return this.movement;
     }
 
-    /* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.IBuilding#addNamedRoom(java.lang.String, com.massisframework.massis.model.building.SimRoom)
-	 */
     @Override
-	public void addNamedRoom(String name, SimRoom simRoom)
+	public void addNamedRoom(String name, ISimRoom simRoom)
     {
         this.namedRooms.put(name, simRoom);
     }
