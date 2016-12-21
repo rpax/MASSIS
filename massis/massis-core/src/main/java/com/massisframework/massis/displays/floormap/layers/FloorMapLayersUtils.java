@@ -2,7 +2,11 @@ package com.massisframework.massis.displays.floormap.layers;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Shape;
 
+import com.massisframework.massis.model.components.SimulationComponent;
+import com.massisframework.massis.model.components.building.ShapeComponent;
+import com.massisframework.massis.sim.SimulationEntity;
 import com.massisframework.massis.util.geom.CoordinateHolder;
 import com.massisframework.massis.util.geom.KLine;
 
@@ -210,4 +214,9 @@ public class FloorMapLayersUtils {
     {
         drawRectAtCenter(g, center.x, center.y, width, height);
     }
+
+	public static Shape getShape(SimulationEntity e)
+	{
+		return e.get(ShapeComponent.class).getShape();
+	}
 }

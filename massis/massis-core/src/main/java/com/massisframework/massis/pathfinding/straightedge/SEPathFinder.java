@@ -1,5 +1,6 @@
 package com.massisframework.massis.pathfinding.straightedge;
 
+import java.awt.Shape;
 import java.awt.geom.Area;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,8 +9,10 @@ import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.building.SimDoor;
 import com.massisframework.massis.model.building.Teleport;
+import com.massisframework.massis.model.components.building.ShapeComponent;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.managers.movement.Path;
+import com.massisframework.massis.sim.SimulationEntity;
 import com.massisframework.massis.util.PathFindingUtils;
 import com.massisframework.massis.util.geom.KPolygonUtils;
 
@@ -90,11 +93,13 @@ public class SEPathFinder {
 
 		this.stationaryObstacles = new ArrayList<PathBlockingObstacleImpl>();
 		List<KPolygon> obstPolys = new ArrayList<KPolygon>();
-		for (PolygonHolder so : floor.getWalls()) {
+		for (SimulationEntity so : floor.getWalls()) {
+			
+			Shape shape=so.get(ShapeComponent.class).getShape();
 			/*
 			 * Substraction of the doors area to the walls area
 			 */
-			Area area = new Area(so.getPolygon());
+			Area area = new Area(shape);
 			for (SimDoor d : floor.getDoors()) {
 
 				if (d.isOpened()) {

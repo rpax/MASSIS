@@ -1,5 +1,7 @@
 package com.massisframework.massis.model.components.building;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 import com.eteks.sweethome3d.model.Home;
@@ -23,12 +25,30 @@ public class SimulationEntityFactory {
 	private Home home;
 	private BuildingMetadataManager metadataManager;
 	private static final AtomicLong ID_GEN = new AtomicLong();
+	private static Map<Home, SimulationEntityFactory> factories;
 
-	public SimulationEntityFactory(Home home)
+	private SimulationEntityFactory(Home home)
 	{
 		this.home = home;
 		this.metadataManager = HomeMetadataLoader
 				.getBuildingMetadataManager(this.home);
+	}
+
+	public synchronized static SimulationEntityFactory get(Home home)
+	{
+
+		if (factories == null)
+		{
+			factories = new HashMap<>();
+		}
+		SimulationEntityFactory factory = factories.get(home);
+		if (factory == null)
+		{
+			factory = new SimulationEntityFactory(home);
+			factories.put(home, factory);
+		}
+
+		return factory;
 	}
 
 	public SimulationEntity createEntity()
@@ -42,12 +62,14 @@ public class SimulationEntityFactory {
 		entity.set(new WallComponentImpl());
 		return entity;
 	}
+
 	public SimulationEntity createFurniture(HomePieceOfFurniture f)
 	{
 		SimulationEntity entity = createHomeEntity(f);
-		//1
+		// 1
 		return entity;
 	}
+
 	private SimulationEntity createHomeEntity(Selectable s)
 	{
 		SimulationEntity entity = createEntity();
@@ -74,8 +96,6 @@ public class SimulationEntityFactory {
 		entity.set(movementCap);
 		return entity;
 	}
-
-	
 
 	private static long newUUID()
 	{

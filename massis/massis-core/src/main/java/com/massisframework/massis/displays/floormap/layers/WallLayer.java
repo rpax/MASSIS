@@ -1,12 +1,14 @@
 package com.massisframework.massis.displays.floormap.layers;
 
+import static com.massisframework.massis.displays.floormap.layers.FloorMapLayersUtils.getShape;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Shape;
 
 import com.massisframework.gui.DrawableLayer;
 import com.massisframework.massis.model.building.Floor;
-
-import straightedge.geom.PolygonHolder;
+import com.massisframework.massis.sim.SimulationEntity;
 
 /**
  * Draws the walls of a floor
@@ -28,10 +30,12 @@ public class WallLayer extends DrawableLayer<DrawableFloor> {
     {
     	final Floor f = dfloor.getFloor();
         g.setColor(WALL_COLOR);
-        for (PolygonHolder wall : f.getWalls())
+        
+        for (SimulationEntity e : f.getWalls())
         {
-            g.draw(wall.getPolygon());
-            g.fill(wall.getPolygon());
+        	Shape s=getShape(e);
+            g.draw(s);
+            g.fill(s);
         }
 
     }

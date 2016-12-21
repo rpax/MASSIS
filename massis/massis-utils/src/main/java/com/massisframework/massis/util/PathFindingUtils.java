@@ -46,6 +46,9 @@ public final class PathFindingUtils {
      */
     public static KPolygon createKPolygonFromShape(Shape s)
     {
+    	if (s instanceof KPolygon){
+    		return new KPolygon((KPolygon)s);
+    	}
         final double[] coords = new double[6];
         final PathIterator pathIterator = s
                 .getPathIterator(IDENTITY_AFFINE_TRANSFORM);

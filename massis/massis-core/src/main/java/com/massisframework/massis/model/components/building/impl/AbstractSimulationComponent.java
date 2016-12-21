@@ -3,7 +3,8 @@ package com.massisframework.massis.model.components.building.impl;
 import com.massisframework.massis.model.components.SimulationComponent;
 import com.massisframework.massis.sim.SimulationEntity;
 
-public abstract class AbstractSimulationComponent implements SimulationComponent {
+public abstract class AbstractSimulationComponent
+		implements SimulationComponent {
 
 	private SimulationEntity entity;
 
@@ -16,9 +17,13 @@ public abstract class AbstractSimulationComponent implements SimulationComponent
 	{
 		return this.entity;
 	}
+
 	protected void fireChanged()
 	{
-		this.entity.componentChanged(this);
+		if (this.entity != null)
+		{
+			this.entity.componentChanged(this);
+		}
 	}
 
 }

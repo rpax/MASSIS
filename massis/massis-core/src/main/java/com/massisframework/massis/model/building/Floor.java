@@ -7,6 +7,7 @@ import com.eteks.sweethome3d.model.Level;
 import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.pathfinding.straightedge.FindPathResult;
+import com.massisframework.massis.sim.SimulationEntity;
 import com.massisframework.massis.util.Indexable;
 import com.massisframework.massis.util.geom.ContainmentPolygon;
 import com.massisframework.massis.util.geom.CoordinateHolder;
@@ -42,7 +43,7 @@ public interface Floor extends Indexable{
 
 	public int getYlength();
 
-	List<SimWall> getWalls();
+	List<SimulationEntity> getWalls();
 
 	List<SimRoom> getRooms();
 
