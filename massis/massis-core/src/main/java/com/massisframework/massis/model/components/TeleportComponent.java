@@ -1,16 +1,15 @@
 package com.massisframework.massis.model.components;
 
-import com.massisframework.massis.model.building.Floor;
-import com.massisframework.massis.util.geom.CoordinateHolder;
+import com.massisframework.massis.sim.SimulationEntity;
 
 public interface TeleportComponent extends SimulationComponent {
 
 	public static enum TeleportType {
 		START, END
 	}
-	public Floor getTargetFloor();
-
-	public CoordinateHolder getTargetLocation();
+	public SimulationEntity getTarget();
 
 	TeleportType getTeleportType();
+	
+	public String getTeleportName();
 }

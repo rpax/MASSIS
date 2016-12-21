@@ -110,7 +110,7 @@ public class FloorImpl implements Floor {
 	/**
 	 * Teleports in this Floor
 	 */
-	private final ArrayList<TeleportImpl> teleports;
+	private final ArrayList<SimulationEntity> teleports;
 	/**
 	 * The proper pathfinder
 	 */
@@ -683,7 +683,7 @@ public class FloorImpl implements Floor {
 		if (fromLoc.getFloor() != to.getFloor())
 		{
 
-			final List<Teleport> teleportsConnecting = getTeleportsConnectingFloor(
+			final List<SimulationEntity> teleportsConnecting = getTeleportsConnectingFloor(
 					to.getFloor());
 			if (teleportsConnecting == null)
 			{
@@ -692,11 +692,16 @@ public class FloorImpl implements Floor {
 				callback.onError(
 						FindPathResult.PathFinderErrorReason.UNREACHABLE_TARGET);
 				// return null;
+			} else
+			{
+				final SimulationEntity targetTeleport = teleportsConnecting
+						.get(0);
+				
+				final Location targetLocation = targetTeleport.getLocation();
+				this.pathFinder.findPath(fromLoc, targetLocation,
+						targetTeleport,
+						callback);
 			}
-			final Teleport targetTeleport = teleportsConnecting.get(0);
-			final Location targetLocation = targetTeleport.getLocation();
-			this.pathFinder.findPath(fromLoc, targetLocation, targetTeleport,
-					callback);
 
 		} else
 		{
@@ -712,7 +717,7 @@ public class FloorImpl implements Floor {
 	 * Floor)
 	 */
 	@Override
-	public List<Teleport> getTeleportsConnectingFloor(final Floor other)
+	public List<SimulationEntity> getTeleportsConnectingFloor(final Floor other)
 	{
 
 		if (!this.teleportConnectingFloors.containsKey(other))
@@ -746,7 +751,7 @@ public class FloorImpl implements Floor {
 	 * @see com.massisframework.massis.model.building.IFloor#getTeleports()
 	 */
 	@Override
-	public List<Teleport> getTeleports()
+	public List<SimulationEntity> getTeleports()
 	{
 		return Collections.unmodifiableList(this.teleports);
 	}

@@ -1,63 +1,18 @@
 package com.massisframework.massis.model.components.building.impl;
 
-import java.util.Map;
-
-import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.components.TeleportComponent;
-import com.massisframework.massis.model.components.building.Coordinate2DComponent;
-import com.massisframework.massis.model.components.building.FloorContainmentComponent;
 import com.massisframework.massis.sim.SimulationEntity;
-import com.massisframework.massis.util.geom.CoordinateHolder;
 
 public class TeleportComponentImpl implements TeleportComponent {
 
-	private Floor targetFloor;
-	private CoordinateHolder targetLocation;
 	private TeleportType teleportType;
-	private String targetTeleportName;
-	private Map<String, SimulationEntity> teleportMap;
+	private SimulationEntity target;
+	private String name;
 
-	public TeleportComponentImpl(Map<String, SimulationEntity> teleportMap)
+	public TeleportComponentImpl(String name, TeleportType teleportType)
 	{
-		this.teleportMap = teleportMap;
-	}
-
-	@Override
-	public Floor getTargetFloor()
-	{
-		if (this.targetFloor == null)
-		{
-			buildConnection();
-		}
-		return targetFloor;
-	}
-
-	private void buildConnection()
-	{
-		SimulationEntity target = this.teleportMap.get(this.targetTeleportName);
-		this.targetLocation = target.get(Coordinate2DComponent.class);
-		this.targetFloor = target.get(FloorContainmentComponent.class)
-				.getFloor();
-	}
-
-	public void setTargetFloor(Floor targetFloor)
-	{
-		this.targetFloor = targetFloor;
-	}
-
-	@Override
-	public CoordinateHolder getTargetLocation()
-	{
-		if (this.targetLocation == null)
-		{
-			buildConnection();
-		}
-		return targetLocation;
-	}
-
-	public void setTargetLocation(CoordinateHolder targetLocation)
-	{
-		this.targetLocation = targetLocation;
+		this.name = name;
+		this.teleportType = teleportType;
 	}
 
 	@Override
@@ -66,19 +21,21 @@ public class TeleportComponentImpl implements TeleportComponent {
 		return teleportType;
 	}
 
-	public void setTeleportType(TeleportType teleportType)
+	@Override
+	public SimulationEntity getTarget()
 	{
-		this.teleportType = teleportType;
+		return this.target;
 	}
 
-	public String getTargetTeleportName()
+	public void setTarget(SimulationEntity target)
 	{
-		return targetTeleportName;
+		this.target = target;
 	}
 
-	public void setTargetTeleportName(String targetTeleportName)
+	@Override
+	public String getTeleportName()
 	{
-		this.targetTeleportName = targetTeleportName;
+		return name;
 	}
 
 }

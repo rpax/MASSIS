@@ -35,13 +35,7 @@ public interface Building {
 	void addSH3DRepresentation(ISimulationObject simulationObject,
 			HomePieceOfFurniture representation);
 
-	/**
-	 * Adds a teleport element to the building
-	 *
-	 * @param teleport
-	 *            the teleport element
-	 */
-	void addTeleport(Teleport teleport);
+	
 
 	HomePieceOfFurniture getSH3DRepresentation(Restorable obj);
 

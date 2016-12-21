@@ -11,6 +11,8 @@ import com.eteks.sweethome3d.model.Room;
 import com.eteks.sweethome3d.model.Selectable;
 import com.eteks.sweethome3d.model.Wall;
 import com.massisframework.massis.model.components.NameComponent;
+import com.massisframework.massis.model.components.SimulationComponent;
+import com.massisframework.massis.model.components.TeleportComponent;
 import com.massisframework.massis.model.components.TeleportComponent.TeleportType;
 import com.massisframework.massis.model.components.building.impl.Coordinate2DComponentImpl;
 import com.massisframework.massis.model.components.building.impl.DefaultSimulationEntity;
@@ -23,6 +25,7 @@ import com.massisframework.massis.model.components.building.impl.TeleportCompone
 import com.massisframework.massis.model.components.building.impl.WallComponentImpl;
 import com.massisframework.massis.sim.SimulationEntity;
 import com.massisframework.massis.util.SimObjectProperty;
+import com.massisframework.massis.util.geom.CoordinateHolder;
 import com.massisframework.sweethome3d.metadata.BuildingMetadataManager;
 import com.massisframework.sweethome3d.metadata.HomeMetadataLoader;
 
@@ -141,10 +144,18 @@ public class SimulationEntityFactory {
 		 */
 		if (isTeleport(s))
 		{
-			this.teleportMap.put(getTeleportName(s), entity);
-			TeleportComponentImpl teleport=new TeleportComponentImpl(this.teleportMap);
-			teleport.setTargetTeleportName(getTargetTeleportName(s));
-			teleport.setTeleportType(getTeleportType(s));
+			String teleportName = getTeleportName(s);
+			TeleportComponentImpl originTeleport = new TeleportComponentImpl(
+					teleportName, getTeleportType(s));
+			entity.set(originTeleport);
+			if (this.teleportMap.containsKey(teleportName))
+			{
+				originTeleport.setTarget(this.teleportMap.get(teleportName));
+			} else
+			{
+				this.teleportMap.put(teleportName, entity);
+			}
+
 		}
 		return entity;
 	}
@@ -216,6 +227,7 @@ public class SimulationEntityFactory {
 	{
 		return getMetadata(s, SimObjectProperty.TELEPORT);
 	}
+
 	private String getTargetTeleportName(Selectable s)
 	{
 		return getMetadata(s, SimObjectProperty.TELEPORT);

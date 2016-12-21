@@ -1,8 +1,6 @@
 package com.massisframework.massis.model.building.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +13,8 @@ import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.SimulationObject;
 import com.massisframework.massis.model.building.Teleport;
+import com.massisframework.massis.model.components.TeleportComponent;
+import com.massisframework.massis.model.components.TeleportComponent.TeleportType;
 import com.massisframework.massis.model.components.building.Coordinate2DComponent;
 import com.massisframework.massis.model.components.building.FloorContainmentComponent;
 import com.massisframework.massis.model.location.Location;
@@ -130,34 +130,34 @@ public class TeleportImpl extends SimulationObject
 		return type;
 	}
 
-//	/*
-//	 * (non-Javadoc)
-//	 * 
-//	 * @see
-//	 * com.massisframework.massis.model.building.ITeleport#getConnectedRooms()
-//	 */
-//	@Override
-//	public List<SimulationEntity> getConnectedRooms()
-//	{
-//		if (this.type == END)
-//		{
-//			return Collections.emptyList();
-//		} else if (target == null)
-//		{
-//			for (SimulationEntity sr : this.getConnection().getLocation()
-//					.getFloor().getRooms())
-//			{
-//				if (this.getConnection().getPolygon()
-//						.intersects(sr.getPolygon()))
-//				{
-//					this.target = Collections
-//							.unmodifiableList(Arrays.asList(sr));
-//					break;
-//				}
-//			}
-//		}
-//		return target;
-//	}
+	// /*
+	// * (non-Javadoc)
+	// *
+	// * @see
+	// * com.massisframework.massis.model.building.ITeleport#getConnectedRooms()
+	// */
+	// @Override
+	// public List<SimulationEntity> getConnectedRooms()
+	// {
+	// if (this.type == END)
+	// {
+	// return Collections.emptyList();
+	// } else if (target == null)
+	// {
+	// for (SimulationEntity sr : this.getConnection().getLocation()
+	// .getFloor().getRooms())
+	// {
+	// if (this.getConnection().getPolygon()
+	// .intersects(sr.getPolygon()))
+	// {
+	// this.target = Collections
+	// .unmodifiableList(Arrays.asList(sr));
+	// break;
+	// }
+	// }
+	// }
+	// return target;
+	// }
 
 	@Override
 	public void setDistanceToFloor(Floor f, int distance)
@@ -187,22 +187,26 @@ public class TeleportImpl extends SimulationObject
 	 *
 	 * @param teleports
 	 */
-	public static void computeTeleportDistances(List<Teleport> teleports)
+	public static void computeTeleportDistances(
+			List<SimulationEntity> teleports)
 	{
 		ArrayList<TeleportNode> graph = new ArrayList<>();
-		HashMap<Teleport, TeleportNode> tmap = new HashMap<>();
+		Map<SimulationEntity, TeleportNode> tmap = new HashMap<>();
 
 		// 1. construccion grafo
-		for (Teleport t : teleports)
+		for (SimulationEntity t : teleports)
 		{
 			TeleportNode node = new TeleportNode(t);
 			tmap.put(t, node);
 			graph.add(node);
 		}
 		// 2. Vecinos
-		for (Teleport t : teleports)
+		for (SimulationEntity se : teleports)
 		{
-			for (Teleport neigh : t.getLocation().getFloor().getTeleports())
+			TeleportComponent t=se.get(TeleportComponent.class);
+			Floor floor=se.get(FloorContainmentComponent.class).getFloor();
+			
+			for (SimulationEntity neigh : floor.getTeleports())
 			{
 				if (neigh != t)
 				{
@@ -213,11 +217,11 @@ public class TeleportImpl extends SimulationObject
 
 				}
 			}
-			if (t.getType() == START)
+			if (t.getTeleportType() == TeleportType.START)
 			{
-				if (tmap.get(t.getConnection()) != null)
+				if (tmap.get(t.getTarget()) != null)
 				{
-					tmap.get(t).addNeighbour(tmap.get(t.getConnection()), 10);
+					tmap.get(t).addNeighbour(tmap.get(t.getTarget()), 10);
 				}
 
 			}
@@ -227,7 +231,7 @@ public class TeleportImpl extends SimulationObject
 		for (int i = 0; i < graph.size(); i++)
 		{
 			// Si no es un punto de partida no interesa
-			if (graph.get(i).getTeleport().getType() != START)
+			if (graph.get(i).getTeleport().get(TeleportComponent.class).getTeleportType() != TeleportType.START)
 			{
 				continue;
 			}
@@ -258,7 +262,7 @@ public class TeleportImpl extends SimulationObject
 			}
 			for (TeleportNode node : graph)
 			{
-				Floor targetFloor = node.getTeleport().getLocation().getFloor();
+				Floor targetFloor = node.getTeleport().get(FloorContainmentComponent.class).getFloor();
 				int oldDist = source.teleport.getDistanceToFloor(targetFloor);
 				int newDist = node.distance;
 				int minDist = Math.min(oldDist, newDist);
@@ -271,11 +275,11 @@ public class TeleportImpl extends SimulationObject
 
 	private static class TeleportNode implements Comparable<TeleportNode> {
 
-		private final Teleport teleport;
+		private final SimulationEntity teleport;
 		private final ArrayList<TeleportVertex> neighbours;
 		private int distance;
 
-		public TeleportNode(Teleport teleport)
+		public TeleportNode(SimulationEntity teleport)
 		{
 			this.teleport = teleport;
 			this.neighbours = new ArrayList<>();
@@ -287,7 +291,7 @@ public class TeleportImpl extends SimulationObject
 			return Integer.compare(this.distance, o.distance);
 		}
 
-		public Teleport getTeleport()
+		public SimulationEntity getTeleport()
 		{
 			return teleport;
 		}
@@ -380,10 +384,12 @@ public class TeleportImpl extends SimulationObject
 		/*
 		 * Proper teleporting
 		 */
-		Coordinate2DComponent coord = connectedTeleport.get(Coordinate2DComponent.class);
-		FloorContainmentComponent fc=connectedTeleport.get(FloorContainmentComponent.class);
-		
-		vehicle.moveTo(coord.getX(),coord.getY(),fc.getFloor());
+		Coordinate2DComponent coord = connectedTeleport
+				.get(Coordinate2DComponent.class);
+		FloorContainmentComponent fc = connectedTeleport
+				.get(FloorContainmentComponent.class);
+
+		vehicle.moveTo(coord.getX(), coord.getY(), fc.getFloor());
 		/*
 		 * Remove from cache, everything has changed
 		 */

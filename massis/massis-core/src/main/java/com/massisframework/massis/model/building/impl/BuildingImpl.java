@@ -25,7 +25,6 @@ import com.massisframework.massis.model.building.BuildingProgressMonitor;
 import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.building.ISimulationObject;
 import com.massisframework.massis.model.building.SimRoom;
-import com.massisframework.massis.model.building.Teleport;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.managers.AnimationManager;
 import com.massisframework.massis.model.managers.EnvironmentManager;
@@ -175,30 +174,7 @@ public class BuildingImpl implements Building {
 		this.representationMap.put(simulationObject, representation);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.massisframework.massis.model.building.IBuilding#addTeleport(com.
-	 * massisframework.massis.model.building.Teleport)
-	 */
-	@Override
-	public void addTeleport(Teleport teleport)
-	{
-		if (this.teleportMap.containsKey(teleport.getName()))
-		{
-			teleport.setConnection(this.teleportMap.get(teleport.getName()));
-			this.teleportMap.get(teleport.getName()).setConnection(teleport);
-			this.allTeleports.add(teleport);
-			this.allTeleports.add(this.teleportMap.get(teleport.getName()));
-			System.err.println("Linked " + teleport.getName());
-			// Y se quita del mapa
-			this.teleportMap.remove(teleport.getName());
-
-		} else
-		{
-			this.teleportMap.put(teleport.getName(), teleport);
-		}
-	}
+	
 
 	/*
 	 * (non-Javadoc)
@@ -269,9 +245,9 @@ public class BuildingImpl implements Building {
 		//
 		progressMonitor.onUpdate(3, "Linking floor connectors");
 		//
-		TeleportImpl.computeTeleportDistances(this.allTeleports);
+		//TeleportImpl.computeTeleportDistances(this.allTeleports);
 		//
-		progressMonitor.onUpdate(5, "Linking floor connectors");
+		progressMonitor.onUpdate(5, "Linked floor connectors");
 		//
 		progressMonitor.onUpdate(5, "Preprocessing rooms");
 		//

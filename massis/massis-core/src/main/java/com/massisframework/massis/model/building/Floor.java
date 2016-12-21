@@ -120,9 +120,9 @@ public interface Floor extends Indexable {
 	 *            the target floor
 	 * @return a list of teleports that can be used to reach the other floor
 	 */
-	List<Teleport> getTeleportsConnectingFloor(Floor other);
+	List<SimulationEntity> getTeleportsConnectingFloor(Floor other);
 
-	List<Teleport> getTeleports();
+	List<SimulationEntity> getTeleports();
 
 	List<RoomConnector> getRoomConnectors();
 
