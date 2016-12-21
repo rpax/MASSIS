@@ -3,8 +3,8 @@ package com.massisframework.massis.sim;
 import java.io.IOException;
 
 import com.eteks.sweethome3d.model.RecorderException;
+import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.Building.BuildingProgressMonitor;
-import com.massisframework.massis.model.building.IBuilding;
 import com.massisframework.massis.util.io.JsonState;
 import com.massisframework.massis.util.logs.file.LogFileReader;
 import com.massisframework.massis.util.logs.file.async.AsyncLogFileReader;
@@ -53,7 +53,7 @@ public class RecordedSimulation extends AbstractSimulation {
     }
 
     @Override
-    protected IBuilding createBuilding() throws RecorderException
+    protected Building createBuilding() throws RecorderException
     {
         return super.createBuilding();
     }
@@ -79,7 +79,7 @@ public class RecordedSimulation extends AbstractSimulation {
             try
             {
 
-                for (final JsonState<IBuilding> ks : this.lr.nextStep())
+                for (final JsonState<Building> ks : this.lr.nextStep())
                 {
                     ks.restore(RecordedSimulation.this.building);
                 }

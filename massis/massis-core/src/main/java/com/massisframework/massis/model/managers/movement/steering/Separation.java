@@ -3,7 +3,6 @@ package com.massisframework.massis.model.managers.movement.steering;
 import java.util.List;
 
 import com.massisframework.massis.model.agents.DefaultAgent;
-import com.massisframework.massis.model.building.SimulationObject;
 import com.massisframework.massis.model.managers.movement.Steering;
 import com.massisframework.massis.util.geom.KLine;
 import com.massisframework.massis.util.geom.KVector;
@@ -72,7 +71,7 @@ public class Separation extends SteeringBehavior {
                         KPoint intersection = agentLine
                                 .getIntersectionPoint(otherLine);
                         if (intersection != null
-                                && ((SimulationObject)v.getRoom()).getPolygon()
+                                && v.getRoom().getPolygon()
                                 .contains(intersection))
                         {
 
@@ -170,9 +169,9 @@ public class Separation extends SteeringBehavior {
 
                 if (otherAABB.intersects(vAABB))
                 {
-                    if (!((SimulationObject)v.getRoom()).getPolygon()
+                    if (!v.getRoom().getPolygon()
                             .contains(otherAABB.getCenter())
-                            || !((SimulationObject)v.getRoom()).getPolygon()
+                            || !v.getRoom().getPolygon()
                             .contains(vAABB.getCenter()))
                     {
                         // se comprueba que ambos siguen en el cuarto.

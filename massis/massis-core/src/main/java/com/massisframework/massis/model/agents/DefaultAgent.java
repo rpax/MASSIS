@@ -12,13 +12,12 @@ import java.util.logging.Logger;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.Floor;
-import com.massisframework.massis.model.building.IBuilding;
 import com.massisframework.massis.model.building.RoomConnector;
 import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.SimulationObject;
 import com.massisframework.massis.model.building.WayPoint;
-import com.massisframework.massis.model.components.RoomComponent;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.location.SimLocation;
 import com.massisframework.massis.model.managers.AnimationManager;
@@ -70,7 +69,7 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 	// ==================================
 	// Cached values & Flags - transient
 	// current/last Known room
-	private RoomComponent lastKnowRoom = null;
+	private SimRoom lastKnowRoom = null;
 	private boolean lastKnownRoomUpdated = false;
 	private boolean peopleInVisionRadioUpdated = false;
 	private List<DefaultAgent> peopleInVisionArea = null;
@@ -167,7 +166,7 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 		 * Intersect the polygon with the room boundaries
 		 */
 		this.visionPolygon = KPolygonUtils.intersection(this.boundaryPolygon,
-				((SimRoom)this.getRoom()).getPolygon());
+				this.getRoom().getPolygon());
 		/*
 		 * If the operation was done successfully
 		 */
@@ -328,7 +327,7 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 	}
 
 	@Override
-	public RoomComponent getRoom()
+	public SimRoom getRoom()
 	{
 		this.computeLastKnownRoom();
 		return this.lastKnowRoom;
@@ -341,14 +340,14 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 		return this.lastKnowRoom.getPeopleIn();
 	}
 
-	private RoomComponent findRoomByLastKnownRoom()
+	private SimRoom findRoomByLastKnownRoom()
 	{
 		final double x = this.getX();
 		final double y = this.getY();
-		final RoomComponent lastKnown = this.lastKnowRoom;
-		for (final RoomComponent sr : lastKnown.getRoomsOrderedByDistance())
+		final SimRoom lastKnown = this.lastKnowRoom;
+		for (final SimRoom sr : lastKnown.getRoomsOrderedByDistance())
 		{
-			if (sr.contains(x, y))
+			if (sr.getPolygon().contains(x, y))
 			{
 				this.lastKnowRoom = sr;
 				return this.lastKnowRoom;
@@ -399,7 +398,7 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 	}
 
 	@Override
-	public JsonState<IBuilding> getState()
+	public JsonState<Building> getState()
 	{
 
 		return new VehicleState(this, super.getState());
@@ -504,15 +503,15 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 	// return target;
 	// }
 
-	protected static class VehicleState implements JsonState<IBuilding> {
+	protected static class VehicleState implements JsonState<Building> {
 
 		private final KVector velocity;
 		private final double visionRadio;
 		private final double maxforce;
 		private final double maxspeed;
-		private final JsonState<IBuilding> data;
+		private final JsonState<Building> data;
 
-		public VehicleState(DefaultAgent v, JsonState<IBuilding> data)
+		public VehicleState(DefaultAgent v, JsonState<Building> data)
 		{
 			this.data = data;
 			this.velocity = v.velocity.copy();
@@ -522,7 +521,7 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 		}
 
 		@Override
-		public Object restore(IBuilding building)
+		public Object restore(Building building)
 		{
 			final DefaultAgent v = (DefaultAgent) this.data.restore(building);
 			v.velocity = this.velocity;
@@ -695,7 +694,7 @@ public class DefaultAgent extends SimulationObject implements LowLevelAgent {
 	}
 
 	@Override
-	public RoomComponent getRandomRoom()
+	public SimRoom getRandomRoom()
 	{
 		return this.getEnvironment().getRandomRoom();
 	}

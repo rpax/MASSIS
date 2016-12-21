@@ -20,7 +20,6 @@ import com.eteks.sweethome3d.model.Wall;
 import com.massisframework.massis.displays.SimulationDisplay;
 import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.model.agents.HighLevelController;
-import com.massisframework.massis.model.components.RoomComponent;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.managers.AnimationManager;
 import com.massisframework.massis.model.managers.EnvironmentManager;
@@ -36,7 +35,7 @@ import com.massisframework.sweethome3d.metadata.HomeMetadataLoader;
  * @author rpax
  *
  */
-public class Building implements IBuilding {
+public class Building {
 
     protected Home home;
     /**
@@ -150,21 +149,26 @@ public class Building implements IBuilding {
         });
     }
 
-    /* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.IBuilding#addSH3DRepresentation(com.massisframework.massis.model.building.SimulationObject, com.eteks.sweethome3d.model.HomePieceOfFurniture)
-	 */
-    @Override
-	public void addSH3DRepresentation(SimulationObject simulationObject,
+    /**
+     * Links a simulationObject with its corresponding sweethome3d furniture
+     * element
+     *
+     * @param simulationObject the simulation object to be linked
+     * @param representation the furniture element of sweethome3d that
+     * represents it
+     */
+    public void addSH3DRepresentation(SimulationObject simulationObject,
             HomePieceOfFurniture representation)
     {
         this.representationMap.put(simulationObject, representation);
     }
 
-    /* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.IBuilding#addTeleport(com.massisframework.massis.model.building.Teleport)
-	 */
-    @Override
-	public void addTeleport(Teleport teleport)
+    /**
+     * Adds a teleport element to the building
+     *
+     * @param teleport the teleport element
+     */
+    public void addTeleport(Teleport teleport)
     {
         if (this.teleportMap.containsKey(teleport.getName()))
         {
@@ -182,11 +186,7 @@ public class Building implements IBuilding {
         }
     }
 
-    /* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.IBuilding#getSH3DRepresentation(com.massisframework.massis.model.building.SimulationObject)
-	 */
-    @Override
-	public HomePieceOfFurniture getSH3DRepresentation(SimulationObject obj)
+    public HomePieceOfFurniture getSH3DRepresentation(SimulationObject obj)
     {
         return this.representationMap.get(obj);
     }
@@ -266,7 +266,7 @@ public class Building implements IBuilding {
          */
         for (final Floor f : this.getFloors())
         {
-            for (final RoomComponent sr : f.getRooms())
+            for (final SimRoom sr : f.getRooms())
             {
                 progressMonitor.onUpdate(5 + roomNumber * 5.0D / nrooms,
                         "Connecting rooms");
@@ -319,47 +319,27 @@ public class Building implements IBuilding {
         return elevatables;
     }
 
-    /* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.IBuilding#getFloors()
-	 */
-    @Override
-	public List<Floor> getFloors()
+    public List<Floor> getFloors()
     {
         return Collections.unmodifiableList(this.floors);
     }
 
-    /* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.IBuilding#getHome()
-	 */
-    @Override
-	public Home getHome()
+    public Home getHome()
     {
         return this.home;
     }
 
-    /* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.IBuilding#getLevelsFloors()
-	 */
-    @Override
-	public HashMap<Level, Floor> getLevelsFloors()
+    public HashMap<Level, Floor> getLevelsFloors()
     {
         return this.levelsFloors;
     }
 
-    /* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.IBuilding#getFloorOf(com.eteks.sweethome3d.model.Level)
-	 */
-    @Override
-	public Floor getFloorOf(Level lvl)
+    public Floor getFloorOf(Level lvl)
     {
         return this.levelsFloors.get(lvl);
     }
 
-    /* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.IBuilding#getFloorById(int)
-	 */
-    @Override
-	public Floor getFloorById(int floorId)
+    public Floor getFloorById(int floorId)
     {
         for (final Floor f : this.getFloors())
         {
@@ -371,11 +351,14 @@ public class Building implements IBuilding {
         return null;
     }
 
-    /* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.IBuilding#getSimulationObject(int)
-	 */
-    @Override
-	public SimulationObject getSimulationObject(int simObjId)
+    /**
+     * Only used for recovering the state.
+     * <i>Do not use</i>
+     *
+     * @param simObjId
+     * @return
+     */
+    public SimulationObject getSimulationObject(int simObjId)
     {
         for (final Floor f : this.getFloors())
         {
@@ -391,94 +374,54 @@ public class Building implements IBuilding {
 
     }
 
-    /* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.IBuilding#getRandomRoom()
-	 */
-    @Override
-	public RoomComponent getRandomRoom()
+    public SimRoom getRandomRoom()
     {
         final Floor rndFloor = this.floors.get(ThreadLocalRandom.current().nextInt(
                 this.floors.size()));
         return rndFloor.getRandomRoom();
     }
 
-    /* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.IBuilding#getAnimationManager()
-	 */
-    @Override
-	public AnimationManager getAnimationManager()
+    public AnimationManager getAnimationManager()
     {
         return this.animation;
     }
 
-    /* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.IBuilding#getEnvironmentManager()
-	 */
-    @Override
-	public EnvironmentManager getEnvironmentManager()
+    public EnvironmentManager getEnvironmentManager()
     {
         return this.environment;
     }
 
-    /* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.IBuilding#getNamedLocation(java.lang.String)
-	 */
-    @Override
-	public Location getNamedLocation(String name)
+    public Location getNamedLocation(String name)
     {
         return this.namedLocations.get(name);
     }
 
-    /* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.IBuilding#addNamedLocation(java.lang.String, com.massisframework.massis.model.location.Location)
-	 */
-    @Override
-	public void addNamedLocation(String name, Location location)
+    public void addNamedLocation(String name, Location location)
     {
         this.namedLocations.put(name, location);
     }
 
-    /* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.IBuilding#getMovementManager()
-	 */
-    @Override
-	public MovementManager getMovementManager()
+    public MovementManager getMovementManager()
     {
         return this.movement;
     }
 
-    /* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.IBuilding#addNamedRoom(java.lang.String, com.massisframework.massis.model.building.SimRoom)
-	 */
-    @Override
-	public void addNamedRoom(String name, SimRoom simRoom)
+    public void addNamedRoom(String name, SimRoom simRoom)
     {
         this.namedRooms.put(name, simRoom);
     }
 
-    /* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.IBuilding#registerDisplays(com.massisframework.massis.displays.SimulationDisplay)
-	 */
-    @Override
-	public void registerDisplays(SimulationDisplay... displays)
+    public void registerDisplays(SimulationDisplay... displays)
     {
         this.animation.add(displays);
     }
 
-    /* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.IBuilding#getResourcesFolder()
-	 */
-    @Override
-	public String getResourcesFolder()
+    public String getResourcesFolder()
     {
         return this.resourcesFolder;
     }
 
-    /* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.IBuilding#getMetadata(com.eteks.sweethome3d.model.Selectable)
-	 */
-    @Override
-	public Map<String, String> getMetadata(Selectable f)
+    public Map<String, String> getMetadata(Selectable f)
     {
         return HomeMetadataLoader.getBuildingMetadataManager(this.home).getMetadata(
                 f);
@@ -490,11 +433,7 @@ public class Building implements IBuilding {
         this.scheduledControllers.add(hlc);
     }
 
-    /* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.IBuilding#getScheduledControllers()
-	 */
-    @Override
-	public Collection<HighLevelController> getScheduledControllers()
+    public Collection<HighLevelController> getScheduledControllers()
     {
         return this.scheduledControllers;
     }
@@ -506,10 +445,6 @@ public class Building implements IBuilding {
         public void onUpdate(final double progress, final String msg);
     }
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.IBuilding#getPathManager()
-	 */
-	@Override
 	public PathFindingManager getPathManager() {
 		return this.pathManager;
 	}

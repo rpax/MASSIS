@@ -10,7 +10,6 @@ import java.util.PriorityQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.massisframework.massis.model.components.RoomComponent;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.location.SimLocation;
 import com.massisframework.massis.model.managers.AnimationManager;
@@ -50,7 +49,7 @@ public class Teleport extends SimulationObject
 	private final byte type;
 	private final String name;
 	private Teleport connection;
-	private List<RoomComponent> target;
+	private List<SimRoom> target;
 	private final HashMap<Floor, Integer> floorDistances;
 
 	public Teleport(Map<String, String> metadata, SimLocation location,
@@ -89,11 +88,11 @@ public class Teleport extends SimulationObject
 	}
 
 	@Override
-	public List<RoomComponent> getConnectedRooms() {
+	public List<SimRoom> getConnectedRooms() {
 		if (this.type == END) {
 			return Collections.emptyList();
 		} else if (target == null) {
-			for (RoomComponent sr : this.getConnection().getLocation().getFloor()
+			for (SimRoom sr : this.getConnection().getLocation().getFloor()
 					.getRooms()) {
 				if (this.getConnection().getPolygon()
 						.intersects(sr.getPolygon())) {
@@ -240,7 +239,7 @@ public class Teleport extends SimulationObject
 	}
 
 	@Override
-	public JsonState<IBuilding> getState() {
+	public JsonState<Building> getState() {
 		throw new UnsupportedOperationException("Not implemented yet");
 	}
 

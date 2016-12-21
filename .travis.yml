@@ -1,4 +1,4 @@
 language: java
 
-install: mvn clean install -Dmaven.javadoc.skip=true
+install: cd massisframework;mvn clean install -Dmaven.javadoc.skip=true
 script: mvn test

@@ -3,6 +3,7 @@
  */
 package com.massisframework.massis.model.building;
 
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -12,17 +13,20 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.apache.commons.collections15.Predicate;
 import org.apache.commons.collections15.iterators.FilterIterator;
 
 import com.massisframework.massis.model.agents.DefaultAgent;
-import com.massisframework.massis.model.components.RoomComponent;
+import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.location.SimLocation;
 import com.massisframework.massis.model.managers.AnimationManager;
 import com.massisframework.massis.model.managers.EnvironmentManager;
 import com.massisframework.massis.model.managers.movement.MovementManager;
 import com.massisframework.massis.model.managers.pathfinding.PathFindingManager;
+import com.massisframework.massis.util.geom.KPolygonUtils;
 import com.massisframework.massis.util.io.JsonState;
 
 import sim.engine.SimState;
@@ -38,7 +42,7 @@ import straightedge.geom.vision.Occluder;
  *
  */
 public class SimRoom extends SimulationObject
-		implements Occluder, Steppable, Stoppable, RoomComponent {
+		implements Occluder, Steppable, Stoppable {
 
 	private static final long serialVersionUID = 1L;
 	/**
@@ -48,7 +52,7 @@ public class SimRoom extends SimulationObject
 	/**
 	 * Connected rooms , BFS order
 	 */
-	private List<RoomComponent> roomsOrderedByDistance;
+	private List<SimRoom> roomsOrderedByDistance;
 	// Cached values
 	private final Collection<DefaultAgent> vehiclesInThisRoomCached = new ArrayList<>();
 	private boolean vehiclesInThisRoomComputed = false;
@@ -84,24 +88,24 @@ public class SimRoom extends SimulationObject
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.RoomComponent#getRoomsOrderedByDistance()
+	/**
+	 *
+	 * @return the rooms ordered by distance, BFS
 	 */
-	@Override
-	public List<RoomComponent> getRoomsOrderedByDistance() {
+	public List<SimRoom> getRoomsOrderedByDistance() {
 		if (this.roomsOrderedByDistance == null) {
 			this.roomsOrderedByDistance = new ArrayList<>();
-			HashSet<RoomComponent> visitedRooms = new HashSet<>();
-			Queue<RoomComponent> queue = new LinkedList<>();
+			HashSet<SimRoom> visitedRooms = new HashSet<SimRoom>();
+			Queue<SimRoom> queue = new LinkedList<SimRoom>();
 			visitedRooms.add(this);
 			queue.add(this);
 			while (!queue.isEmpty()) {
-				RoomComponent currentRoom = queue.poll();
+				SimRoom currentRoom = queue.poll();
 				visitedRooms.add(currentRoom);
 				this.roomsOrderedByDistance.add(currentRoom);
 				for (RoomConnector sd : currentRoom
 						.getConnectedRoomConnectors()) {
-					for (RoomComponent sr : sd.getConnectedRooms()) {
+					for (SimRoom sr : sd.getConnectedRooms()) {
 						if (!visitedRooms.contains(sr)) {
 							visitedRooms.add(sr);
 							queue.add(sr);
@@ -114,10 +118,11 @@ public class SimRoom extends SimulationObject
 		return Collections.unmodifiableList(this.roomsOrderedByDistance);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.RoomComponent#getConnectedRoomConnectors()
+	/**
+	 *
+	 * @return the connectors of this room. Using that room connectors one agent
+	 *         can move from one room to another
 	 */
-	@Override
 	public List<RoomConnector> getConnectedRoomConnectors() {
 
 		if (this.connectedConnectors == null) {
@@ -126,40 +131,42 @@ public class SimRoom extends SimulationObject
 		return Collections.unmodifiableList(connectedConnectors);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.RoomComponent#getBoundaryPointClosestTo(straightedge.geom.KPoint)
-	 */
-	@Override
 	public KPoint getBoundaryPointClosestTo(KPoint p) {
 		return this.getPolygon().getBoundaryPointClosestTo(p);
 	}
 
-	
+	public KPoint[] getBoundaryPointsClosestTo(KPoint p, int npoints) {
+		return KPolygonUtils.getBoundaryPointsClosestTo(this.getPolygon(), p.x,
+				p.y, npoints);
+	}
 
-	
+	public double getDistanceOfBoundaryPointClosestTo(KPoint p) {
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.RoomComponent#getPeopleInIterator()
+		return this.getPolygon().getBoundaryPointClosestTo(p).distance(p);
+
+	}
+
+	/**
+	 * @deprecated use {@link #getPeopleIn()} instead
+	 * @return the people in this room.
+	 *
 	 */
 	@Deprecated
-	private Iterator<DefaultAgent> getPeopleInIterator() {
+	public Iterator<DefaultAgent> getPeopleInIterator() {
 		return new FilterIterator<DefaultAgent>(
 				this.getLocation().getFloor().getAgents().iterator(),
 				new PeopleInThisRoomPredicate());
 	}
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.RoomComponent#getPeopleIn()
+	/**
+	 *
+	 * @return the people in this room (Agents)
 	 */
-	@Override
 	public Collection<DefaultAgent> getPeopleIn() {
 		cacheVehiclesInThisRoom();
 		return this.vehiclesInThisRoomCached;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.RoomComponent#step(sim.engine.SimState)
-	 */
 	@Override
 	public void step(SimState s) {
 		this.clearFlags();
@@ -184,9 +191,6 @@ public class SimRoom extends SimulationObject
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.RoomComponent#stop()
-	 */
 	@Override
 	public void stop() {
 	}
@@ -199,19 +203,22 @@ public class SimRoom extends SimulationObject
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.RoomComponent#getState()
-	 */
 	@Override
-	public JsonState<IBuilding> getState() {
+	public JsonState<Building> getState() {
 		throw new UnsupportedOperationException("Not supported yet");
 	}
 
+	public Location getRandomLoc() {
+		Random rnd = ThreadLocalRandom.current();
+		Rectangle2D.Double bounds = this.getPolygon().getBounds2D();
+		KPoint p = new KPoint();
+		do {
+			p.x = bounds.getX() + rnd.nextInt((int) bounds.getWidth());
+			p.y = bounds.getY() + rnd.nextInt((int) bounds.getHeight());
+			p = this.getLocation().getFloor()
+					.getNearestPointOutsideOfObstacles(p);
+		} while (!this.getPolygon().contains(p));
+		return new Location(p.x, p.y, this.getLocation().getFloor());
 
-
-	@Override
-	public boolean contains(double x, double y)
-	{
-		return this.getPolygon().contains(x,y);
 	}
 }

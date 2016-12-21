@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import com.massisframework.massis.model.components.RoomComponent;
 import com.massisframework.massis.model.location.SimLocation;
 import com.massisframework.massis.model.managers.AnimationManager;
 import com.massisframework.massis.model.managers.EnvironmentManager;
@@ -29,7 +28,7 @@ public class SimDoor extends SimulationObject implements RoomConnector {
 	/**
 	 * The rooms connected by this Door
 	 */
-	private List<RoomComponent> connectedRooms;
+	private List<SimRoom> connectedRooms;
 	/**
 	 * If it is open or not. by default is true.
 	 */
@@ -68,7 +67,7 @@ public class SimDoor extends SimulationObject implements RoomConnector {
 	}
 
 	@Override
-	public List<RoomComponent> getConnectedRooms() {
+	public List<SimRoom> getConnectedRooms() {
 		if (this.connectedRooms == null) {
 			this.computeRoomConnections();
 		}
@@ -100,19 +99,19 @@ public class SimDoor extends SimulationObject implements RoomConnector {
 		return new SimDoorState(this, super.getState());
 	}
 
-	public static class SimDoorState implements JsonState<IBuilding> {
+	public static class SimDoorState implements JsonState<Building> {
 
 		private final boolean isOpen;
-		private final JsonState<IBuilding> data;
+		private final JsonState<Building> data;
 
 		public SimDoorState(SimDoor d,
-				JsonState<IBuilding> simulationObjectData) {
+				JsonState<Building> simulationObjectData) {
 			this.data = simulationObjectData;
 			this.isOpen = d.open;
 		}
 
 		@Override
-		public SimDoor restore(IBuilding building) {
+		public SimDoor restore(Building building) {
 			SimDoor d = (SimDoor) data.restore(building);
 			d.open = this.isOpen;
 			return d;

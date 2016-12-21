@@ -22,7 +22,6 @@ import com.eteks.sweethome3d.model.Wall;
 import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.model.agents.HighLevelController;
 import com.massisframework.massis.model.agents.LowLevelAgent;
-import com.massisframework.massis.model.components.RoomComponent;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.location.SimLocation;
 import com.massisframework.massis.pathfinding.straightedge.FindPathResult;
@@ -398,9 +397,9 @@ public class Floor implements Indexable {
 	 *
 	 * @return a random Room in this floor
 	 */
-	public RoomComponent getRandomRoom() {
+	public SimRoom getRandomRoom() {
 
-		final RoomComponent room = this.rooms
+		final SimRoom room = this.rooms
 				.get(ThreadLocalRandom.current().nextInt(this.rooms.size()));
 		return room;
 	}
