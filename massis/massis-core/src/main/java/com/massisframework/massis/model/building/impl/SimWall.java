@@ -1,10 +1,13 @@
 /**
  *
  */
-package com.massisframework.massis.model.building;
+package com.massisframework.massis.model.building.impl;
 
 import java.util.Map;
 
+import com.massisframework.massis.model.building.Building;
+import com.massisframework.massis.model.building.ISimWall;
+import com.massisframework.massis.model.building.SimulationObject;
 import com.massisframework.massis.model.location.SimLocation;
 import com.massisframework.massis.model.managers.AnimationManager;
 import com.massisframework.massis.model.managers.EnvironmentManager;
