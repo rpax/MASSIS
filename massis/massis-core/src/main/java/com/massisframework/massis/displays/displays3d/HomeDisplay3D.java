@@ -14,7 +14,7 @@ import com.eteks.sweethome3d.model.UserPreferences;
 import com.eteks.sweethome3d.swing.FileContentManager;
 import com.eteks.sweethome3d.swing.SwingViewFactory;
 import com.massisframework.massis.displays.SimulationDisplay;
-import com.massisframework.massis.model.building.Building;
+import com.massisframework.massis.model.building.IBuilding;
 import com.massisframework.massis.model.building.SimulationObject;
 
 public class HomeDisplay3D extends JFrame implements SimulationDisplay {
@@ -22,11 +22,11 @@ public class HomeDisplay3D extends JFrame implements SimulationDisplay {
     private static final long serialVersionUID = -6696779235522417183L;
     private HomeControllerDisplay3D planController;
     HomeComponentDisplay3D homeComponent3D;
-    private final Building building;
+    private final IBuilding building;
     private final Home home;
     private boolean initiated = false;
 
-    public HomeDisplay3D(Building building)
+    public HomeDisplay3D(IBuilding building)
     {
         this.home = building.getHome();
         this.building = building;

@@ -5,7 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.massisframework.massis.model.agents.HighLevelController;
-import com.massisframework.massis.model.building.Building.BuildingProgressMonitor;
+import com.massisframework.massis.model.building.BuildingProgressMonitor;
 import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.SimulationObject;
