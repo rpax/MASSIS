@@ -24,7 +24,7 @@ import com.massisframework.massis.model.agents.HighLevelController;
 import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.Floor;
-import com.massisframework.massis.model.building.ISimWall;
+import com.massisframework.massis.model.building.SimWall;
 import com.massisframework.massis.model.building.ISimulationObject;
 import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.SimDoor;
@@ -464,7 +464,7 @@ public class FloorImpl implements Floor {
 	 * @see com.massisframework.massis.model.building.IFloor#getWalls()
 	 */
 	@Override
-	public List<ISimWall> getWalls() {
+	public List<SimWall> getWalls() {
 		return Collections.unmodifiableList(this.walls);
 	}
 
