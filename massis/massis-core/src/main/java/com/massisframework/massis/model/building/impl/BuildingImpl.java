@@ -22,6 +22,7 @@ import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.model.agents.HighLevelController;
 import com.massisframework.massis.model.building.BuildingProgressMonitor;
 import com.massisframework.massis.model.building.Floor;
+import com.massisframework.massis.model.building.ISimulationObject;
 import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.building.Building;
@@ -192,7 +193,7 @@ public class BuildingImpl implements Building {
 	 * @see com.massisframework.massis.model.building.IBuilding#getSH3DRepresentation(com.massisframework.massis.model.building.SimulationObject)
 	 */
     @Override
-	public HomePieceOfFurniture getSH3DRepresentation(SimulationObject obj)
+	public HomePieceOfFurniture getSH3DRepresentation(ISimulationObject obj)
     {
         return this.representationMap.get(obj);
     }

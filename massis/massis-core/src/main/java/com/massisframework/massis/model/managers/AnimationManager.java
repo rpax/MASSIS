@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.massisframework.massis.displays.SimulationDisplay;
-import com.massisframework.massis.model.building.SimulationObject;
+import com.massisframework.massis.model.building.ISimulationObject;
 
 /**
  * Controls the animations. Basically it consists on a list of
@@ -38,7 +38,7 @@ public class AnimationManager {
 
     }
 
-    public void animate(SimulationObject obj)
+    public void animate(ISimulationObject obj)
     {
         for (SimulationDisplay disp : this.displays)
         {

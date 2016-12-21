@@ -64,14 +64,14 @@ public interface Floor extends Indexable{
 	 * @param simObj
 	 *            the agent to be removed
 	 */
-	void remove(SimulationObject simObj);
+	void remove(ISimulationObject simObj);
 
 	/**
 	 * Adds an agent to this floor
 	 *
 	 * @param simObj
 	 */
-	void addPerson(SimulationObject simObj);
+	void addPerson(ISimulationObject simObj);
 
 	/**
 	 * Finds a path in this floor. If the

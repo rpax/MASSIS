@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 import com.eteks.sweethome3d.model.Selectable;
 import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.Floor;
-import com.massisframework.massis.model.building.Building;
+import com.massisframework.massis.model.building.ISimulationObject;
 import com.massisframework.massis.model.building.SimulationObject;
 import com.massisframework.massis.util.SH3DUtils;
 import com.massisframework.massis.util.io.JsonState;
@@ -34,7 +34,7 @@ public class SimLocation extends Location implements Restorable {
     /**
      * The attached simulation object
      */
-    private SimulationObject attached;
+    private ISimulationObject attached;
 
     /**
      * @param polygon the polygon representing the element
@@ -59,7 +59,7 @@ public class SimLocation extends Location implements Restorable {
         this(SH3DUtils.createKPolygonFromSH3DObj(hpof), floor);
     }
 
-    public void attach(SimulationObject simAgent)
+    public void attach(ISimulationObject simAgent)
     {
         this.attached = simAgent;
     }

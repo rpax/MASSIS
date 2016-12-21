@@ -1,5 +1,6 @@
 package com.massisframework.massis.displays;
 
+import com.massisframework.massis.model.building.ISimulationObject;
 import com.massisframework.massis.model.building.SimulationObject;
 
 /**
@@ -18,7 +19,7 @@ public interface SimulationDisplay {
      *
      * @param obj
      */
-    public void animate(SimulationObject obj);
+    public void animate(ISimulationObject obj);
 
     /**
      *

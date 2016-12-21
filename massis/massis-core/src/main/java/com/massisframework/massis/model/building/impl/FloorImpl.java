@@ -24,12 +24,12 @@ import com.massisframework.massis.model.agents.HighLevelController;
 import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.Floor;
+import com.massisframework.massis.model.building.ISimulationObject;
 import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.SimDoor;
 import com.massisframework.massis.model.building.RoomConnector;
 import com.massisframework.massis.model.building.SimWall;
 import com.massisframework.massis.model.building.SimWindow;
-import com.massisframework.massis.model.building.SimulationObject;
 import com.massisframework.massis.model.building.Teleport;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.location.SimLocation;
@@ -552,7 +552,7 @@ public class FloorImpl implements Floor {
 	 * @see com.massisframework.massis.model.building.IFloor#remove(com.massisframework.massis.model.building.SimulationObject)
 	 */
 	@Override
-	public void remove(SimulationObject simObj) {
+	public void remove(ISimulationObject simObj) {
 		this.quadPilu.remove(simObj);
 
 	}
@@ -561,7 +561,7 @@ public class FloorImpl implements Floor {
 	 * @see com.massisframework.massis.model.building.IFloor#addPerson(com.massisframework.massis.model.building.SimulationObject)
 	 */
 	@Override
-	public void addPerson(SimulationObject simObj) {
+	public void addPerson(ISimulationObject simObj) {
 		if (simObj instanceof DefaultAgent) {
 			this.quadPilu.insert((DefaultAgent) simObj);
 		}

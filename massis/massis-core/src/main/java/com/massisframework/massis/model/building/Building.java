@@ -39,7 +39,7 @@ public interface Building {
 	 */
 	void addTeleport(Teleport teleport);
 
-	HomePieceOfFurniture getSH3DRepresentation(SimulationObject obj);
+	HomePieceOfFurniture getSH3DRepresentation(ISimulationObject obj);
 
 	List<Floor> getFloors();
 
