@@ -11,13 +11,11 @@ public class MovementCapabilititesImpl extends AbstractSimulationComponent imple
 	public void setObstacle(boolean isObstacle)
 	{
 		this.isObstacle = isObstacle;
-		this.fireChanged();
 	}
 
 	public void setCanMove(boolean canMove)
 	{
 		this.canMove = canMove;
-		this.fireChanged();
 	}
 
 	/* (non-Javadoc)

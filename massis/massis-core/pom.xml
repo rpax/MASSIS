@@ -1,9 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.massisframework.massis</groupId>
 		<artifactId>massis</artifactId>
-		<version>1.2.23-SNAPSHOT</version>
+		<version>1.2.24-SNAPSHOT</version>
 	</parent>
 	<artifactId>massis-core</artifactId>
 	<packaging>jar</packaging>
@@ -33,12 +34,12 @@
 		<dependency>
 			<groupId>com.massisframework.massis</groupId>
 			<artifactId>massis-utils</artifactId>
-			<version>1.2.23-SNAPSHOT</version>
+			<version>1.2.24-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.massisframework</groupId>
 			<artifactId>massis-gui</artifactId>
-			<version>1.2.23-SNAPSHOT</version>
+			<version>1.2.24-SNAPSHOT</version>
 		</dependency>
 
 		<!-- -->
@@ -68,6 +69,21 @@
 			<groupId>com.massisframework.sweethome3d</groupId>
 			<artifactId>sh3d-metadata-plugin</artifactId>
 			<version>1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.badlogicgames.ashley</groupId>
+			<artifactId>ashley</artifactId>
+			<version>1.7.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>4.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.reflections</groupId>
+			<artifactId>reflections</artifactId>
+			<version>0.9.10</version>
 		</dependency>
 	</dependencies>
 </project>

@@ -17,13 +17,4 @@ public abstract class AbstractSimulationComponent
 	{
 		return this.entity;
 	}
-
-	protected void fireChanged()
-	{
-		if (this.entity != null)
-		{
-			this.entity.componentChanged(this);
-		}
-	}
-
 }

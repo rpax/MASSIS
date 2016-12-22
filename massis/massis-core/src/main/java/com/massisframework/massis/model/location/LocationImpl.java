@@ -1,5 +1,6 @@
 package com.massisframework.massis.model.location;
 
+import com.google.inject.Inject;
 import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.components.Location;
 import com.massisframework.massis.util.geom.CoordinateHolder;
@@ -24,19 +25,7 @@ public class LocationImpl implements CoordinateHolder, Location {
 	 */
 	protected Floor floor;
 
-	/**
-	 *
-	 * @param point
-	 *            the 2D coordinates of this location
-	 * @param floor
-	 *            the floor
-	 */
-	public LocationImpl(KPoint point, Floor floor)
-	{
-
-		this.center = point;
-		this.floor = floor;
-	}
+	
 
 	/**
 	 * Constructor copy
@@ -44,19 +33,14 @@ public class LocationImpl implements CoordinateHolder, Location {
 	 * @param other
 	 *            another location
 	 */
-	public LocationImpl(LocationImpl other)
+	@Inject
+	private LocationImpl()
 	{
 
-		this.center = new KPoint(other.center);
-		this.floor = other.floor;
+		this.center = new KPoint();
+		this.floor = null;
 	}
 
-	public LocationImpl(double x, double y, Floor floor)
-	{
-
-		this.center = new KPoint(x, y);
-		this.floor = floor;
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -228,9 +212,28 @@ public class LocationImpl implements CoordinateHolder, Location {
 		return true;
 	}
 
-	// @Override
-	public KPoint getXY()
+	public void setCoordinates2D(KPoint center)
 	{
-		return this.center;
+		this.setCoordinates2D(center.x, center.y);
+	}
+
+	public void setCoordinates2D(double x, double y)
+	{
+		this.center.setCoords(x, y);
+	}
+
+	public void setX(double x)
+	{
+		this.center.x = x;
+	}
+
+	public void setY(double y)
+	{
+		this.center.y = y;
+	}
+
+	public void setFloor(Floor floor)
+	{
+		this.floor = floor;
 	}
 }

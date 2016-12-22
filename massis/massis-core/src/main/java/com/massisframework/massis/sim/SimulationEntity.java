@@ -4,7 +4,6 @@ import com.massisframework.massis.model.components.SimulationComponent;
 
 public interface SimulationEntity {
 
-	public long getId();
 
 	public <T extends SimulationComponent> T get(Class<T> type);
 
@@ -14,8 +13,5 @@ public interface SimulationEntity {
 
 	public <T extends SimulationComponent> void remove(Class<T> type);
 
-	public default void componentChanged(SimulationComponent cmp)
-	{
-	}
 
 }

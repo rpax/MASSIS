@@ -18,14 +18,12 @@ public class SimplePhysicsComponent extends AbstractSimulationComponent
 	public void setSpeed(double speed)
 	{
 		this.speed = speed;
-		this.fireChanged();
 	}
 
 	@Override
 	public void setMass(double mass)
 	{
 		this.mass = mass;
-		this.fireChanged();
 	}
 
 	@Override

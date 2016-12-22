@@ -1,11 +1,8 @@
 package com.massisframework.massis.displays.floormap.layers;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 
 import com.massisframework.gui.DrawableLayer;
-import com.massisframework.massis.model.agents.LowLevelAgent;
-import com.massisframework.massis.model.building.Floor;
 
 /**
  * Shows the agents visible from another agent, in a network fashion
@@ -24,20 +21,19 @@ public class VisibleAgentsLines extends DrawableLayer<DrawableFloor> {
     @Override
     public void draw(DrawableFloor dfloor, Graphics2D g)
     {
-    	final Floor f = dfloor.getFloor();
-        g.setColor(Color.WHITE);
-        for (LowLevelAgent v : f.getAgents())
-        {
-            if (!v.isDynamic())
-            {
-                continue;
-            }
-            for (LowLevelAgent v2 : v.getAgentsInVisionRadio())
-            {
-                g.drawLine((int) v.getX(), (int) v.getY(), (int) v2.getX(),
-                        (int) v2.getY());
-            }
-        }
+//        g.setColor(Color.WHITE);
+//        for (LowLevelAgent v : dfloor.getEntitiesFor(MovementCapabilities.class))
+//        {
+//            if (!v.isDynamic())
+//            {
+//                continue;
+//            }
+//            for (LowLevelAgent v2 : v.getAgentsInVisionRadio())
+//            {
+//                g.drawLine((int) v.getX(), (int) v.getY(), (int) v2.getX(),
+//                        (int) v2.getY());
+//            }
+//        }
 
     }
 

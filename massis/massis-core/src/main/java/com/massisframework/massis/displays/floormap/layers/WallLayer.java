@@ -7,7 +7,8 @@ import java.awt.Graphics2D;
 import java.awt.Shape;
 
 import com.massisframework.gui.DrawableLayer;
-import com.massisframework.massis.model.building.Floor;
+import com.massisframework.massis.model.components.building.ShapeComponent;
+import com.massisframework.massis.model.components.building.WallComponent;
 import com.massisframework.massis.sim.SimulationEntity;
 
 /**
@@ -28,10 +29,9 @@ public class WallLayer extends DrawableLayer<DrawableFloor> {
     @Override
     public void draw(DrawableFloor dfloor, Graphics2D g)
     {
-    	final Floor f = dfloor.getFloor();
         g.setColor(WALL_COLOR);
-        
-        for (SimulationEntity e : f.getWalls())
+        Iterable<SimulationEntity> walls = dfloor.getEntitiesFor(WallComponent.class,ShapeComponent.class);
+        for (SimulationEntity e : walls)
         {
         	Shape s=getShape(e);
             g.draw(s);

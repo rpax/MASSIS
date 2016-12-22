@@ -14,148 +14,157 @@ import com.eteks.sweethome3d.model.UserPreferences;
 import com.eteks.sweethome3d.swing.FileContentManager;
 import com.eteks.sweethome3d.swing.SwingViewFactory;
 import com.massisframework.massis.displays.SimulationDisplay;
-import com.massisframework.massis.model.building.Building;
-import com.massisframework.massis.model.building.ISimulationObject;
+import com.massisframework.massis.model.components.Location;
+import com.massisframework.massis.model.components.building.HeadingComponent;
+import com.massisframework.massis.model.components.building.SweetHome3DFurniture;
+import com.massisframework.massis.sim.SimulationEntity;
+import com.massisframework.massis.sim.engine.SimulationEngine;
 
 public class HomeDisplay3D extends JFrame implements SimulationDisplay {
 
-    private static final long serialVersionUID = -6696779235522417183L;
-    private HomeControllerDisplay3D planController;
-    HomeComponentDisplay3D homeComponent3D;
-    private final Building building;
-    private final Home home;
-    private boolean initiated = false;
+	private static final long serialVersionUID = -6696779235522417183L;
+	private HomeControllerDisplay3D planController;
+	HomeComponentDisplay3D homeComponent3D;
+	private final SimulationEngine engine;
+	private final Home home;
+	private boolean initiated = false;
 
-    public HomeDisplay3D(Building building)
-    {
-        this.home = building.getHome();
-        this.building = building;
-        setTitle("HomeDisplay3D");
-        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+	public HomeDisplay3D(SimulationEngine engine,Home home)
+	{
+		this.home = home;
+		this.engine = engine;
+		setTitle("HomeDisplay3D");
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-    }
+	}
 
-    @Override
-    public void animate(ISimulationObject obj)
-    {
-        if (!this.initiated)
-        {
-            return;
-        }
-        final HomePieceOfFurniture hpof = this.building.getSH3DRepresentation(obj);
+	@Override
+	public void animate(SimulationEntity obj)
+	{
+		if (!this.initiated || !obj.has(SweetHome3DFurniture.class))
+		{
+			return;
+		}
+		
+		final HomePieceOfFurniture hpof = obj.get(SweetHome3DFurniture.class).get();
+		final Location location=obj.get(Location.class);
+		final HeadingComponent heading=obj.get(HeadingComponent.class);
+		if (hpof == null)
+		{
+			System.err.println(obj + " has no representation");
+			return;
+		}
+		//TODO handle levelss
+//		if (hpof.getLevel() != obj.getLocation().getFloor().getLevel())
+//		{
+//			hpof.setLevel(obj.getLocation().getFloor().getLevel());
+//		}
+		hpof.setAngle((float) (heading.getAngle() - Math.PI / 2));
+		hpof.setY((float) location.getY());
+		hpof.setX((float) location.getX());
+		final HomePieceOfFurniture3D hpof3D = ((HomePieceOfFurniture3D) this.homeComponent3D.homeObjects
+				.get(hpof));
+		// si todavia no se ha cargado, fuera
+		if (hpof3D == null)
+		{
+			return;
+		}
+		// animateFurniture3D(hpof3D);
+		final Transform3D pieceTransform = getPieceOFFurnitureNormalizedModelTransformation(
+				hpof);
+		// Change model transformation
+		((TransformGroup) hpof3D.getChild(0)).setTransform(pieceTransform);
 
-        if (hpof == null)
-        {
-            System.err.println(obj + " has no representation");
-            return;
-        }
-        if (hpof.getLevel() != obj.getLocation().getFloor().getLevel())
-        {
-            hpof.setLevel(obj.getLocation().getFloor().getLevel());
-        }
-        hpof.setAngle((float) (obj.getAngle() - Math.PI / 2));
-        hpof.setY((float) obj.getLocation().getY());
-        hpof.setX((float) obj.getLocation().getX());
-        final HomePieceOfFurniture3D hpof3D = ((HomePieceOfFurniture3D) this.homeComponent3D.homeObjects
-                .get(hpof));
-        // si todavia no se ha cargado, fuera
-        if (hpof3D == null)
-        {
-            return;
-        }
-        // animateFurniture3D(hpof3D);
-        final Transform3D pieceTransform = getPieceOFFurnitureNormalizedModelTransformation(
-                hpof);
-        // Change model transformation
-        ((TransformGroup) hpof3D.getChild(0)).setTransform(pieceTransform);
+	}
 
-    }
+	private static Transform3D getPieceOFFurnitureNormalizedModelTransformation(
+			HomePieceOfFurniture piece)
+	{
+		// Set piece size
+		final Transform3D scale = new Transform3D();
+		float pieceWidth = piece.getWidth();
+		// If piece model is mirrored, inverse its width
+		if (piece.isModelMirrored())
+		{
+			pieceWidth *= -1;
+		}
+		scale.setScale(new Vector3d(pieceWidth, piece.getHeight(), piece
+				.getDepth()));
+		// Change its angle around y axis
+		final Transform3D orientation = new Transform3D();
+		orientation.rotY(-piece.getAngle());
+		orientation.mul(scale);
+		// Translate it to its location
+		final Transform3D pieceTransform = new Transform3D();
+		float z = piece.getElevation() + piece.getHeight() / 2;
+		if (piece.getLevel() != null)
+		{
+			z += piece.getLevel().getElevation();
+		}
+		pieceTransform.setTranslation(new Vector3f(piece.getX(), z, piece
+				.getY()));
+		pieceTransform.mul(orientation);
+		return pieceTransform;
+	}
 
-    private static Transform3D getPieceOFFurnitureNormalizedModelTransformation(
-            HomePieceOfFurniture piece)
-    {
-        // Set piece size
-        final Transform3D scale = new Transform3D();
-        float pieceWidth = piece.getWidth();
-        // If piece model is mirrored, inverse its width
-        if (piece.isModelMirrored())
-        {
-            pieceWidth *= -1;
-        }
-        scale.setScale(new Vector3d(pieceWidth, piece.getHeight(), piece
-                .getDepth()));
-        // Change its angle around y axis
-        final Transform3D orientation = new Transform3D();
-        orientation.rotY(-piece.getAngle());
-        orientation.mul(scale);
-        // Translate it to its location
-        final Transform3D pieceTransform = new Transform3D();
-        float z = piece.getElevation() + piece.getHeight() / 2;
-        if (piece.getLevel() != null)
-        {
-            z += piece.getLevel().getElevation();
-        }
-        pieceTransform.setTranslation(new Vector3f(piece.getX(), z, piece
-                .getY()));
-        pieceTransform.mul(orientation);
-        return pieceTransform;
-    }
+	private void init()
+	{
 
-    private void init()
-    {
+		final UserPreferences fileUserPreferences = new FileUserPreferences();
 
-        final UserPreferences fileUserPreferences = new FileUserPreferences();
+		this.planController = new HomeControllerDisplay3D(this.home,
+				fileUserPreferences,
+				new SwingViewFactory(), new FileContentManager(
+						fileUserPreferences),
+				null);
+		this.homeComponent3D = new HomeComponentDisplay3D(this.home,
+				fileUserPreferences,
+				this.planController);
 
-        this.planController = new HomeControllerDisplay3D(this.home, fileUserPreferences,
-                new SwingViewFactory(), new FileContentManager(
-                fileUserPreferences), null);
-        this.homeComponent3D = new HomeComponentDisplay3D(this.home, fileUserPreferences,
-                this.planController);
+		getContentPane().add(this.homeComponent3D);
+		System.err.println("Making outer walls invisible...");
+		VisualOps.makeOuterWallsInvisible(this.home);
+		System.err.println("done.");
+		this.home.setCamera(this.home.getTopCamera());
+		pack();
+		setSize(600, 500);
+		registerListeners();
+		this.homeComponent3D.removeHomeListeners();
+		this.initiated = true;
+	}
 
-        getContentPane().add(this.homeComponent3D);
-        System.err.println("Making outer walls invisible...");
-        VisualOps.makeOuterWallsInvisible(this.home);
-        System.err.println("done.");
-        this.home.setCamera(this.home.getTopCamera());
-        pack();
-        setSize(600, 500);
-        registerListeners();
-        this.homeComponent3D.removeHomeListeners();
-        this.initiated = true;
-    }
+	private void unregisterListeners()
+	{
+		// planController.exit();
+	}
 
-    private void unregisterListeners()
-    {
-        // planController.exit();
-    }
+	private void registerListeners()
+	{
+		// planController.enter();
+	}
 
-    private void registerListeners()
-    {
-        // planController.enter();
-    }
+	@Override
+	public void setVisible(boolean visible)
+	{
+		if (visible)
+		{
+			if (!this.initiated)
+			{
+				init();
+			} else
+			{
+				registerListeners();
+			}
+		} else
+		{
+			unregisterListeners();
+		}
+		super.setVisible(visible);
+	}
 
-    @Override
-    public void setVisible(boolean visible)
-    {
-        if (visible)
-        {
-            if (!this.initiated)
-            {
-                init();
-            } else
-            {
-                registerListeners();
-            }
-        } else
-        {
-            unregisterListeners();
-        }
-        super.setVisible(visible);
-    }
-
-    @Override
-    public boolean isDisplayEnabled()
-    {
-        return this.isVisible();
-    }
+	@Override
+	public boolean isDisplayEnabled()
+	{
+		return this.isVisible();
+	}
 }

@@ -7,9 +7,9 @@ import com.massisframework.gui.DrawableLayer;
 import com.massisframework.gui.DrawableTabbedFrame;
 import com.massisframework.massis.displays.SimulationDisplay;
 import com.massisframework.massis.displays.floormap.layers.DrawableFloor;
-import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.Floor;
-import com.massisframework.massis.model.building.ISimulationObject;
+import com.massisframework.massis.sim.SimulationEntity;
+import com.massisframework.massis.sim.engine.SimulationEngine;
 
 public class BuildingMap extends DrawableTabbedFrame implements SimulationDisplay {
 
@@ -18,12 +18,12 @@ public class BuildingMap extends DrawableTabbedFrame implements SimulationDispla
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public BuildingMap(Building building,DrawableLayer<DrawableFloor>[] layers) {
-		super(getDrawableZones(building),getWelcomeText(),layers);
+	public BuildingMap(SimulationEngine engine,DrawableLayer<DrawableFloor>[] layers) {
+		super(getDrawableZones(engine),getWelcomeText(),layers);
 	}
 
 	@Override
-	public void animate(ISimulationObject obj) {
+	public void animate(SimulationEntity obj) {
 		this.refresh();
 
 	}
@@ -33,11 +33,15 @@ public class BuildingMap extends DrawableTabbedFrame implements SimulationDispla
 		return this.isVisible();
 	}
 
-	private static Collection<DrawableFloor> getDrawableZones(Building building) {
+	private static Collection<DrawableFloor> getDrawableZones(SimulationEngine engine) {
 		final Collection<DrawableFloor> drawableZones = new ArrayList<>();
-		for (final Floor f : building.getFloors()) {
-			drawableZones.add(new DrawableFloor(f));
+		//for (final Floor f : building.getFloors()) {
+		System.out.println(engine.getEntitiesFor(Floor.class));
+		for (SimulationEntity se : engine.getEntitiesFor(Floor.class))
+		{
+			drawableZones.add(new DrawableFloor(se.get(Floor.class),engine));
 		}
+			
 		return drawableZones;
 	}
 

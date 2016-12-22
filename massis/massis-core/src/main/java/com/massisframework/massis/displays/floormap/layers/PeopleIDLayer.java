@@ -1,12 +1,9 @@
 package com.massisframework.massis.displays.floormap.layers;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 
 import com.massisframework.gui.DrawableLayer;
-import com.massisframework.massis.model.agents.LowLevelAgent;
-import com.massisframework.massis.model.building.Floor;
 
 /**
  * Shows the UID number of each agent in the floor
@@ -26,18 +23,18 @@ public class PeopleIDLayer extends DrawableLayer<DrawableFloor> {
     @Override
     public void draw(DrawableFloor dfloor, Graphics2D g)
     {
-    	final Floor f = dfloor.getFloor();
-        g.setColor(Color.orange);
-        Font originalF = g.getFont();
-
-        g.setFont(ID_FONT);
-        for (LowLevelAgent p : f.getAgents())
-        {
-            g.drawChars(String.valueOf(p.getID()).toCharArray(), 0, String
-                    .valueOf(p.getID()).toCharArray().length,
-                    (int) p.getXY().x, (int) p.getXY().y);
-        }
-        g.setFont(originalF);
+//    	final Floor f = dfloor.getFloor();
+//        g.setColor(Color.orange);
+//        Font originalF = g.getFont();
+//
+//        g.setFont(ID_FONT);
+//        for (LowLevelAgent p : f.getAgents())
+//        {
+//            g.drawChars(String.valueOf(p.getID()).toCharArray(), 0, String
+//                    .valueOf(p.getID()).toCharArray().length,
+//                    (int) p.getX(), (int) p.getY());
+//        }
+//        g.setFont(originalF);
     }
 
     @Override

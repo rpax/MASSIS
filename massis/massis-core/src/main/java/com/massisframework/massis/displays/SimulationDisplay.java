@@ -1,6 +1,6 @@
 package com.massisframework.massis.displays;
 
-import com.massisframework.massis.model.building.ISimulationObject;
+import com.massisframework.massis.sim.SimulationEntity;
 
 /**
  * Interface that must be implemented by any object that behaves as a display.
@@ -18,7 +18,7 @@ public interface SimulationDisplay {
      *
      * @param obj
      */
-    public void animate(ISimulationObject obj);
+    public void animate(SimulationEntity obj);
 
     /**
      *

@@ -9,6 +9,10 @@ public interface ShapeComponent extends SimulationComponent {
 
 	public Shape getShape();
 
+	public void setShape(Shape s);
+
+	public void setShape(float[][] points);
+
 	public boolean intersects(Shape other);
 
 	public Rectangle2D getBounds();
@@ -18,4 +22,6 @@ public interface ShapeComponent extends SimulationComponent {
 	public boolean intersectsAABB(ShapeComponent other);
 
 	public boolean intersects(ShapeComponent s);
+
+	public double getRadius();
 }

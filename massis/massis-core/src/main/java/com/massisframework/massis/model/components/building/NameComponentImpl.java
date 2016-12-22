@@ -1,14 +1,14 @@
 package com.massisframework.massis.model.components.building;
 
+import com.google.inject.Inject;
 import com.massisframework.massis.model.components.NameComponent;
 
 public class NameComponentImpl implements NameComponent {
 
 	private String name;
-
-	public NameComponentImpl(String name)
+	@Inject
+	private NameComponentImpl()
 	{
-		this.name = name;
 	}
 
 	@Override

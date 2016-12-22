@@ -5,8 +5,9 @@ import static com.massisframework.massis.displays.floormap.layers.FloorMapLayers
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import com.itextpdf.awt.geom.Shape;
 import com.massisframework.gui.DrawableLayer;
-import com.massisframework.massis.model.building.Floor;
+import com.massisframework.massis.model.components.RoomComponent;
 import com.massisframework.massis.sim.SimulationEntity;/**
  * Draws each room of the floor
  *
@@ -24,8 +25,7 @@ public class RoomsLayer extends DrawableLayer<DrawableFloor> {
     @Override
     public void draw(DrawableFloor dfloor, Graphics2D g)
     {
-    	final Floor f = dfloor.getFloor();
-        for (SimulationEntity r : f.getRooms())
+        for (SimulationEntity r : dfloor.getEntitiesFor(Shape.class,RoomComponent.class))
         {
             g.setColor(Color.gray);
             g.fill(getShape(r));

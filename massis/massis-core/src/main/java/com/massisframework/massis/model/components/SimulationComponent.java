@@ -1,13 +1,10 @@
 package com.massisframework.massis.model.components;
 
-import com.massisframework.massis.sim.SimulationEntity;
+import com.badlogic.ashley.core.Component;
 
-public interface SimulationComponent {
+public interface SimulationComponent extends Component{
 
-	public default void setEntity(SimulationEntity se)
-	{
-	}
-
+	
 	public default void step(float tpf)
 	{
 	}

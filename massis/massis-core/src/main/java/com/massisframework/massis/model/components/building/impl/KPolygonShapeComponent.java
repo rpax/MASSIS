@@ -1,6 +1,7 @@
 package com.massisframework.massis.model.components.building.impl;
 
 import java.awt.Shape;
+import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
 import java.util.List;
@@ -21,29 +22,39 @@ public class KPolygonShapeComponent extends AbstractSimulationComponent
 		ShapeComponent,
 		PolygonHolder {
 
+	private static final Shape EMPTY_SHAPE=new Area();
 	private KPolygon polygon;
 	private AABB aabb;
 	private double oldAngle = 0;
 	private Rectangle2D bounds;
-
-	public KPolygonShapeComponent(float[][] points)
+	
+	private KPolygonShapeComponent()
 	{
-		this(Arrays.stream(points)
+		
+	}
+	@Override
+	public void setShape(float[][] points)
+	{
+		setShape(Arrays.stream(points)
 				.map(p -> new KPoint(p[0], p[1]))
 				.collect(Collectors.toList()));
 	}
-
-	public KPolygonShapeComponent(List<KPoint> points)
+	@Override
+	public void setShape(Shape s)
 	{
-		this(points.toArray(new KPoint[] {}));
+		setShape(KPolygonUtils.createKPolygonFromShape(s, false));
+	}
+	private void setShape(List<KPoint> points)
+	{
+		setShape(points.toArray(new KPoint[] {}));
 	}
 
-	public KPolygonShapeComponent(KPoint[] points)
+	private void setShape(KPoint[] points)
 	{
 		this.polygon = new KPolygon(points);
 	}
 
-	public KPolygonShapeComponent(KPolygon polygon)
+	private void setShape(KPolygon polygon)
 	{
 		this.polygon = new KPolygon(polygon);
 	}
@@ -57,9 +68,12 @@ public class KPolygonShapeComponent extends AbstractSimulationComponent
 	@Override
 	public Shape getShape()
 	{
+		if (this.polygon==null){
+			return EMPTY_SHAPE;
+		}
 		return this.getPolygon();
 	}
-
+	@Deprecated
 	@Override
 	public void step(float tpf)
 	{
@@ -90,7 +104,6 @@ public class KPolygonShapeComponent extends AbstractSimulationComponent
 		if (changed)
 		{
 			this.invalidate();
-			this.fireChanged();
 		}
 
 	}
@@ -161,5 +174,13 @@ public class KPolygonShapeComponent extends AbstractSimulationComponent
 		this.bounds = null;
 		this.aabb = null;
 	}
+
+	@Override
+	public double getRadius()
+	{
+		return this.polygon.getRadius();
+	}
+
+	
 
 }

@@ -1,83 +1,66 @@
 package com.massisframework.massis.model.managers.pathfinding;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.building.Floor;
-import com.massisframework.massis.model.location.LocationImpl;
-import com.massisframework.massis.model.managers.movement.Path;
-import com.massisframework.massis.pathfinding.straightedge.FindPathResult;
+import com.massisframework.massis.model.components.Location;
+import com.massisframework.massis.pathfinding.straightedge.SEPathFinder;
+import com.massisframework.massis.pathfinding.straightedge.SimulationPathFinder;
+import com.massisframework.massis.sim.engine.SimulationEngine;
+import com.massisframework.massis.sim.engine.SimulationSystem;
 
-public class PathFindingManager {
-	/**
-	 * Cached paths
-	 */
-	private final HashMap<PathFollower, Path> paths = new HashMap<>();
-	/**
-	 * Cached targets
-	 */
-	private final HashMap<PathFollower, LocationImpl> targets = new HashMap<>();
+import straightedge.geom.KPoint;
 
-	public void findPath(final PathFollower vehicle, final LocationImpl toLoc,
-			final FindPathResult callback) {
-		/*
-		 * Check if the target is the same, and therefore, if the path can be
-		 * reused. TODO more checks are necessary (if the agent is in the same room, for example).
-		 */
-		if (!toLoc.equals(this.targets.get(vehicle))) {
-			this.removeFromCache(vehicle);
-		}
-		/*
-		 * Exists a cached path?
-		 */
-		Path path = this.paths.get(vehicle);
-		if (path == null) {
+public class PathFindingManager implements SimulationSystem   {
 
-			final Floor agentFloor = vehicle.getLocation().getFloor();
-			agentFloor.findPath(vehicle.getLocation(), toLoc,
-					new FindPathResult() {
-						/*
-						 * Path is cached
-						 */
-						@Override
-						public void onSuccess(Path path) {
-							PathFindingManager.this.paths.put(vehicle, path);
-							PathFindingManager.this.targets.put(vehicle,
-									new LocationImpl(toLoc));
-							// continuabamos.
-							callback.onSuccess(path);
-						}
+	private Map<Floor, SimulationPathFinder> pathFinders;
+	private SimulationEngine engine;
 
-						@Override
-						public void onError(PathFinderErrorReason reason) {
-							// fixInvalidLocation(vehicle, toLoc);
-							// return false
-							callback.onError(reason);
-						}
-					});
-		}
-		else {
-			//path not null, already in cache
-			callback.onSuccess(path);
-		}
+	public PathFindingManager()
+	{
+		this.pathFinders = new HashMap<>();
 	}
 	
-	public void removeFromCache(Object v) {
-		this.paths.remove(v);
-		this.targets.remove(v);
+	public List<KPoint> findPath(
+			final Location from,
+			final Location toLoc)
+	{
+		SimulationPathFinder pathfinder = getPathFinderOf(from);
+		return pathfinder.findPath(from,toLoc);
 	}
-	/**
-	 * Returns the cached path of the agent provided
-	 *
-	 * @param v
-	 *            the agent
-	 * @return the agent's path, an empty list if has no path.
-	 */
-	public Path getPathOf(LowLevelAgent v) {
-		Path path = this.paths.get(v);
-		if (path == null || path.isEmpty()) {
-			return null;
+	private SimulationPathFinder getPathFinderOf(Floor floor){
+		SimulationPathFinder pF = this.pathFinders.get(floor);
+		if (pF == null)
+		{
+			pF = new SEPathFinder(floor,this.engine);
+			this.pathFinders.put(floor, pF);
 		}
-		return path;
+		return pF;
 	}
+	private SimulationPathFinder getPathFinderOf(Location from)
+	{
+		return getPathFinderOf(from.getFloor());
+	}
+
+	@Override
+	public void update(float deltaTime)
+	{
+		
+	}
+
+	@Override
+	public void addedToEngine(SimulationEngine simEngine)
+	{
+		this.engine=simEngine;
+	}
+
+	@Override
+	public void removedFromEngine(SimulationEngine simEngine)
+	{
+	}
+
+	
+
 }
