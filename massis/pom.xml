@@ -18,5 +18,6 @@
 		<module>testdata</module>
 		<module>massis-app</module>
 		<module>massis-archetypes</module>
+		<module>massis-ecs</module>
 	</modules>
 </project>
