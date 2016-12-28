@@ -1,16 +1,26 @@
 package com.massisframework.massis.ecs.system.graphics;
 
+import static com.massisframework.massis.ecs.util.EntitiesCollections.iterate;
+import static com.massisframework.massis.ecs.util.SimulationObjects.isDoor;
+import static com.massisframework.massis.ecs.util.SimulationObjects.isRoom;
+import static com.massisframework.massis.ecs.util.SimulationObjects.isWall;
+
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.artemis.Aspect;
 import com.artemis.BaseEntitySystem;
+import com.artemis.Entity;
+import com.artemis.EntitySubscription;
 import com.artemis.World;
-import com.artemis.utils.IntBag;
 import com.massisframework.gui.DrawableLayer;
 import com.massisframework.gui.DrawableZone;
 import com.massisframework.massis.ecs.components.Floor;
 import com.massisframework.massis.ecs.components.NameComponent;
+import com.massisframework.massis.ecs.components.PolygonComponent;
+import com.massisframework.massis.ecs.util.EntitiesCollections;
 
 public class FloorLayersSystem extends BaseEntitySystem {
 
@@ -26,12 +36,8 @@ public class FloorLayersSystem extends BaseEntitySystem {
 	{
 		super.initialize();
 		this.drawableZones = new HashMap<Integer, FloorDrawableZone>();
-		IntBag actives = subscription.getEntities();
-		int[] ids = actives.getData();
-		for (int i = 0, s = actives.size(); s > i; i++)
-		{
-			inserted(world.getEntity(ids[i]).getId());
-		}
+		EntitiesCollections.iterate(subscription).forEach(this::inserted);
+		this.getWorld().getSystem(Graphics2DSystem.class).addLayer(new DL());
 	}
 
 	@Override
@@ -55,6 +61,41 @@ public class FloorLayersSystem extends BaseEntitySystem {
 		{
 			super(enabled);
 		}
+	}
+
+	private class DL extends FloorDrawableLayer {
+
+		public DL()
+		{
+			super(true);
+		}
+
+		@Override
+		public String getName()
+		{
+			return "Default Layer test";
+		}
+
+		@Override
+		public void draw(FloorDrawableZone dz, Graphics2D g)
+		{
+			System.out.println("Drawing");
+			for (Entity entity : iterate(dz.getFloor().getDoors(), world))
+			{
+				g.setColor(Color.green);
+				g.fill(entity.getComponent(PolygonComponent.class).get());
+			}
+			for (Entity entity : iterate(dz.getFloor().getWalls(), world))
+			{
+				g.setColor(Color.BLUE);
+				g.fill(entity.getComponent(PolygonComponent.class).get());
+			}
+			for (Entity entity : iterate(dz.getFloor().getRooms(), world))
+			{
+				g.setColor(Color.GRAY);
+			}
+
+		}
 
 	}
 
@@ -67,6 +108,12 @@ public class FloorLayersSystem extends BaseEntitySystem {
 		{
 			this.entityId = entityId;
 			this.world = world;
+		}
+
+		public Floor getFloor()
+		{
+			return this.world.getEntity(this.entityId)
+					.getComponent(Floor.class);
 		}
 
 		@Override
@@ -108,12 +155,6 @@ public class FloorLayersSystem extends BaseEntitySystem {
 
 	@Override
 	protected void processSystem()
-	{
-		// TODO Auto-generated method stub
-
-	}
-
-	public void addLayer()
 	{
 
 	}

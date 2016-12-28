@@ -1,9 +1,9 @@
-package com.massisframework.massis.ecs.system.sweethome3d;
+package com.massisframework.massis.ecs.components;
 
+import com.artemis.Component;
 import com.eteks.sweethome3d.model.HomeObject;
-import com.massisframework.massis.ecs.components.ModifiableComponent;
 
-public class SweetHome3DComponent extends ModifiableComponent {
+public class SweetHome3DComponent extends Component {
 
 	private HomeObject ho;
 
@@ -20,7 +20,6 @@ public class SweetHome3DComponent extends ModifiableComponent {
 	public SweetHome3DComponent set(HomeObject ho)
 	{
 		this.ho = ho;
-		this.fireChanged();
 		return this;
 	}
 

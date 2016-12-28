@@ -1,4 +1,4 @@
-package com.massisframework.massis.ecs.system.sweethome3d;
+package com.massisframework.massis.ecs.system.sweethome3d.loader;
 
 import java.awt.Rectangle;
 import java.util.HashMap;
@@ -10,17 +10,19 @@ import com.artemis.Aspect;
 import com.artemis.BaseEntitySystem;
 import com.artemis.Entity;
 import com.eteks.sweethome3d.model.Level;
+import com.massisframework.massis.ecs.components.BuildingLocation;
 import com.massisframework.massis.ecs.components.Floor;
 import com.massisframework.massis.ecs.components.NameComponent;
 import com.massisframework.massis.ecs.components.PolygonComponent;
-import com.massisframework.massis.ecs.components.ReferencedFloor;
+import com.massisframework.massis.ecs.components.SweetHome3DComponent;
+import com.massisframework.massis.ecs.system.sweethome3d.SweetHome3DLevelComponent;
 
-public class FloorSystem extends BaseEntitySystem {
+public class FloorLevelsSystem extends BaseEntitySystem {
 
 	private Archetype floorArcheType;
 	private Map<Level, Integer> homeLevels;
 
-	public FloorSystem()
+	public FloorLevelsSystem()
 	{
 		super(Aspect.all(
 				SweetHome3DComponent.class,
@@ -70,8 +72,8 @@ public class FloorSystem extends BaseEntitySystem {
 				.expand(homeObjectBounds);
 		
 		homeEntity
-				.getComponent(ReferencedFloor.class)
-				.setFloorEntityId(floorEntitId);
+				.getComponent(BuildingLocation.class)
+				.setFloor(floorEntitId);
 	}
 
 	private Archetype createFloorArchetype()

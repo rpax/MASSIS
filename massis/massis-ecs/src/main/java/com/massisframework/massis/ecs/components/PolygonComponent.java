@@ -1,8 +1,10 @@
 package com.massisframework.massis.ecs.components;
 
+import com.artemis.Component;
+
 import straightedge.geom.KPolygon;
 
-public class PolygonComponent extends ModifiableComponent {
+public class PolygonComponent extends Component {
 
 	private KPolygon polygon;
 

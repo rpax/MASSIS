@@ -2,14 +2,15 @@ package com.massisframework.massis.ecs.components;
 
 import com.artemis.Component;
 
-public class Rotation extends Component {
+public class MovableInfo extends Component {
+
 	/**
 	 * @treatAsPrivate
 	 */
-	public float angle;
+	public boolean movable;
 
-	public void setAngle(float angle)
+	public boolean isMovable()
 	{
-		this.angle = angle;
+		return movable;
 	}
 }

@@ -19,5 +19,6 @@
 		<module>massis-app</module>
 		<module>massis-archetypes</module>
 		<module>massis-ecs</module>
+		<module>massis-javafx</module>
 	</modules>
 </project>

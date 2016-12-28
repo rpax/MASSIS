@@ -1,6 +1,8 @@
 package com.massisframework.massis.ecs.components;
 
-public class NameComponent extends ModifiableComponent {
+import com.artemis.Component;
+
+public class NameComponent extends Component {
 
 	private String name="";
 
@@ -17,6 +19,5 @@ public class NameComponent extends ModifiableComponent {
 	public void set(String name)
 	{
 		this.name = name;
-		this.fireChanged();
 	}
 }

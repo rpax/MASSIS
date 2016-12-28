@@ -4,6 +4,7 @@ import java.util.Scanner;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 
 import com.artemis.World;
 import com.artemis.WorldConfiguration;
@@ -12,12 +13,15 @@ import com.artemis.link.EntityLinkManager;
 import com.eteks.sweethome3d.io.HomeFileRecorder;
 import com.eteks.sweethome3d.model.Home;
 import com.eteks.sweethome3d.model.RecorderException;
+import com.massisframework.massis.ecs.system.Loggable;
+import com.massisframework.massis.ecs.system.ai.AISystem;
 import com.massisframework.massis.ecs.system.graphics.FloorLayersSystem;
 import com.massisframework.massis.ecs.system.graphics.Graphics2DSystem;
-import com.massisframework.massis.ecs.system.sweethome3d.FloorSystem;
-import com.massisframework.massis.ecs.system.sweethome3d.SweetHome3DSystem;
+import com.massisframework.massis.ecs.system.location.LocationSystem;
+import com.massisframework.massis.ecs.system.sweethome3d.loader.FloorLevelsSystem;
+import com.massisframework.massis.ecs.system.sweethome3d.loader.SweetHome3DSystem;
 
-public class SimulationEngine {
+public class SimulationEngine implements Loggable {
 
 	private ScheduledExecutorService executor;
 	private long framerate = 1;
@@ -30,8 +34,10 @@ public class SimulationEngine {
 		 */
 		WorldConfiguration config = new WorldConfigurationBuilder()
 				.with(new EntityLinkManager())
-				.with(new SweetHome3DSystem(loadHome()))
-				.with(new FloorSystem())
+					.with(new SweetHome3DSystem(loadHome()))
+					.with(new FloorLevelsSystem())
+				.with(new LocationSystem())
+				.with(new AISystem())
 				.with(new Graphics2DSystem())
 					.with(new FloorLayersSystem())
 				.build();
@@ -80,8 +86,14 @@ public class SimulationEngine {
 
 	private void update()
 	{
-		this.world.setDelta(1f / this.framerate);
-		this.world.process();
+		try
+		{
+			this.world.setDelta(1f / this.framerate);
+			this.world.process();
+		} catch (Exception e)
+		{
+			logger().log(Level.SEVERE, "Error when processing simulation", e);
+		}
 	}
 
 	public static void main(String[] args)

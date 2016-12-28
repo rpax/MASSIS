@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import com.artemis.Entity;
+import com.artemis.EntitySubscription;
 import com.artemis.World;
 import com.artemis.utils.IntBag;
 
@@ -20,6 +21,18 @@ public class EntitiesCollections {
 			}
 
 		};
+	}
+
+	public static Iterable<Integer> iterate(EntitySubscription subscription)
+	{
+		return iterate(subscription.getEntities());
+
+	}
+
+	public static Iterable<Entity> iterate(EntitySubscription subscription,
+			final World w)
+	{
+		return iterate(subscription.getEntities(), w);
 	}
 
 	public static Iterable<Entity> iterate(final IntBag bag, final World w)
@@ -92,4 +105,5 @@ public class EntitiesCollections {
 			throw new UnsupportedOperationException();
 		}
 	}
+
 }
