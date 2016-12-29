@@ -2,6 +2,9 @@ package com.massisframework.massis.javafx.canvas25d;
 
 import com.massisframework.massis.javafx.JFXController;
 
+import javafx.beans.DefaultProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.geometry.Point3D;
 import javafx.scene.Camera;
@@ -36,10 +39,11 @@ public class CameraCanvas extends AnchorPane implements JFXController {
 	{
 		inject();
 	}
-
+	
 	@FXML
 	public void initialize()
 	{
+		System.out.println("Initializing " + getClass());
 		this.root = this;
 		this.root3D = new Group();
 		this.dragData = new DragData();
@@ -52,7 +56,7 @@ public class CameraCanvas extends AnchorPane implements JFXController {
 		final PhongMaterial redMaterial = new PhongMaterial();
 		redMaterial.setDiffuseColor(Color.DARKRED);
 		redMaterial.setSpecularColor(Color.RED);
-		for (int i = 0; i < 10; i++)
+		for (int i = 10; i < 20; i++)
 		{
 			Cylinder c = new Cylinder(10, 1);
 			c.setTranslateX(i * 20);

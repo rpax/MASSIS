@@ -1,9 +1,6 @@
 package com.massisframework.massis.ecs.system.graphics;
 
 import static com.massisframework.massis.ecs.util.EntitiesCollections.iterate;
-import static com.massisframework.massis.ecs.util.SimulationObjects.isDoor;
-import static com.massisframework.massis.ecs.util.SimulationObjects.isRoom;
-import static com.massisframework.massis.ecs.util.SimulationObjects.isWall;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -13,7 +10,6 @@ import java.util.Map;
 import com.artemis.Aspect;
 import com.artemis.BaseEntitySystem;
 import com.artemis.Entity;
-import com.artemis.EntitySubscription;
 import com.artemis.World;
 import com.massisframework.gui.DrawableLayer;
 import com.massisframework.gui.DrawableZone;

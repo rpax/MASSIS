@@ -1,18 +1,21 @@
 package com.massisframework.massis.javafx.test;
 
 import java.io.IOException;
+import java.util.Enumeration;
+
+import com.massisframework.massis.javafx.inject.JFXBuilderFactory;
 
 /**
  * 
  */
 import javafx.application.Application;
+import javafx.collections.MapChangeListener;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
 /**
  * An application with a zoomable and pannable canvas.
@@ -26,16 +29,49 @@ public class JFXTests extends Application {
 	@Override
 	public void start(Stage stage)
 	{
+		FXMLLoader loader = null;
+		// Injector injector = Guice.createInjector(new JFXModule());
+		// FXMLLoader loader=injector.getProvider(FXMLLoader.class).get();
+		loader = new FXMLLoader(getClass().getResource("BasicApp.fxml"));
+		loader.getNamespace().addListener(
+				(MapChangeListener<? super String, ? super Object>) evt -> {
+					System.out.println("EVENT: "+evt);
+				});
+		
+		// loader.setBuilderFactory(new JFXBuilderFactory());
+		// loader.setControllerFactory(injector::getInstance);
+		// loader.setBuilderFactory(new BuilderFactory() {
+		// @Override
+		// public Builder<?> getBuilder(Class<?> type)
+		// {
+		// return new Builder<Object>() {
+		//
+		// @Override
+		// public Object build()
+		// {
+		// if (JFXController.class.isAssignableFrom(type))
+		// {
+		//
+		// JFXController obj = (JFXController) injector
+		// .getInstance(type);
+		// JFXModule.injectFXML(obj);
+		// }
+		// return null;
+		// }
+		// };
+		// }
+		// });
 		// launchScene(stage,CameraCanvas.class);
 		// launch3D(stage);
 		Scene scene;
 
 		// loader.setRoot(new CameraCanvas());
-		FXMLLoader loader = new FXMLLoader();
 		try
 		{
-			Parent parent = loader
-					.load(getClass().getResource("BasicApp.fxml"));
+
+			Parent parent = loader.load();
+			
+			// JFXController.injectOn(parent);
 			scene = new Scene(parent);
 			stage.setScene(scene);
 			stage.show();

@@ -1,23 +1,32 @@
 package com.massisframework.massis.javafx;
 
 import java.io.IOException;
+import java.net.URL;
 
+import javafx.beans.DefaultProperty;
 import javafx.fxml.FXMLLoader;
 
 public interface JFXController {
 
+	public default URL getFMLLocation()
+	{
+		return getClass()
+				.getResource(getClass().getSimpleName().concat(".fxml"));
+	}
+	
 	public default void inject()
 	{
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass()
-				.getResource(getClass().getSimpleName().concat(".fxml")));
-		fxmlLoader.setRoot(this);
-		fxmlLoader.setController(this);
 		try
 		{
+			FXMLLoader fxmlLoader = new FXMLLoader(this.getFMLLocation());
+			fxmlLoader.setRoot(this);
+			fxmlLoader.setController(this);
 			fxmlLoader.load();
-		} catch (IOException exception)
+		} catch (IOException e)
 		{
-			throw new RuntimeException(exception);
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
+
 }

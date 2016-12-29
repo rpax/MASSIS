@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.massisframework.massis.javafx.canvas25d.CameraCanvas?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="vbox" prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:id="vbox" minHeight="600.0" minWidth="800.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
 	<children>
 		<MenuBar VBox.vgrow="NEVER">
 			<menus>
@@ -48,6 +49,15 @@
 				</Menu>
 			</menus>
 		</MenuBar>
-      <CameraCanvas />
+      <HBox VBox.vgrow="ALWAYS">
+         <children>
+      		<AnchorPane HBox.hgrow="ALWAYS">
+      			<children>
+      				<com.massisframework.massis.javafx.canvas2d.CanvasTabbedPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      			</children>
+      		</AnchorPane>
+         </children>
+      </HBox>
+
 	</children>
 </VBox>
