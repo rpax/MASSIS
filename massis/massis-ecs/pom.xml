@@ -24,11 +24,6 @@
 			<version>0.8</version>
 		</dependency>
 		<dependency>
-			<groupId>com.massisframework</groupId>
-			<artifactId>massis-gui</artifactId>
-			<version>1.2.23-SNAPSHOT</version>
-		</dependency>
-		<dependency>
 			<groupId>it.unimi.dsi</groupId>
 			<artifactId>fastutil</artifactId>
 			<version>7.0.13</version>
