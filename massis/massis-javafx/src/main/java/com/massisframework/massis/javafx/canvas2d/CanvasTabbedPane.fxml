@@ -1,32 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<fx:root type="AnchorPane"
+<fx:root minHeight="300.0" minWidth="400.0" type="AnchorPane"
 	xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
 	<children>
-		<GridPane alignment="CENTER" gridLinesVisible="true"
-			AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-			AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-			<columnConstraints>
-				<ColumnConstraints hgrow="ALWAYS" />
-			</columnConstraints>
-			<rowConstraints>
-				<RowConstraints valignment="CENTER" vgrow="ALWAYS" />
-			</rowConstraints>
-			<children>
-				<AnchorPane GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS"
-					GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
-					<children>
-						<com.massisframework.massis.javafx.canvas2d.Canvas2D
-							fx:id="canvas2D" 
-							style="-fx-background-color: blue;" />
-					</children>
-				</AnchorPane>
-			</children>
-		</GridPane>
+		<TabPane prefHeight="200.0" prefWidth="200.0"
+			tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0"
+			AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+			AnchorPane.topAnchor="0.0" fx:id="tabPane">
+			<tabs>
+				
+			</tabs>
+		</TabPane>
 	</children>
 </fx:root>

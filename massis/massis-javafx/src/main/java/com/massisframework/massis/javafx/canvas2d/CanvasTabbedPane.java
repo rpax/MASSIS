@@ -1,14 +1,27 @@
 package com.massisframework.massis.javafx.canvas2d;
 
-import com.massisframework.massis.javafx.JFXController;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.massisframework.massis.javafx.JFXController;
+import com.massisframework.massis.javafx.util.Listeners;
+
+import javafx.animation.AnimationTimer;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.WeakChangeListener;
 import javafx.fxml.FXML;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
+import static com.massisframework.massis.javafx.util.Listeners.*;
 
 public class CanvasTabbedPane extends AnchorPane implements JFXController {
 
 	@FXML
-	private Canvas2D canvas2D;
+	private TabPane tabPane;
+	private List<Canvas2D> canvases;
+	private WeakChangeListener<? super Number> hL;
+	private WeakChangeListener<? super Number> wL;
 
 	public CanvasTabbedPane()
 	{
@@ -18,17 +31,36 @@ public class CanvasTabbedPane extends AnchorPane implements JFXController {
 	@FXML
 	public void initialize()
 	{
-		AnchorPane.setBottomAnchor(canvas2D, 0D);
-		AnchorPane.setTopAnchor(canvas2D, 0D);
-		AnchorPane.setLeftAnchor(canvas2D, 0D);
-		AnchorPane.setRightAnchor(canvas2D, 0D);
-		// // this.autosize();
-		this.widthProperty().addListener((obs1, o, n) -> {
-			canvas2D.setWidth(n.doubleValue());
-		});
-		this.heightProperty().addListener((obs1, o, n) -> {
-			canvas2D.setHeight(n.doubleValue());
-		});
+		this.canvases = new ArrayList<>();
+		this.wL = weakL(n -> canvases.forEach(c -> c.setWidth(n)));
+		this.hL = weakL(n -> canvases.forEach(c -> c.setHeight(n)));
+		this.heightProperty().addListener(this.wL);
+		this.widthProperty().addListener(this.hL);
+		for (int i = 0; i < 10; i++)
+		{
+			addTab("Tab_" + i);
+		}
+		new AnimationTimer() {
 
+			@Override
+			public void handle(long now)
+			{
+				canvases.forEach(canvas -> {
+					canvas.drawTest();
+				});
+
+			}
+		}.start();
+	}
+
+	public void addTab(String text)
+	{
+		Tab tab = new Tab(text);
+		Canvas2D canvas = new Canvas2D();
+		tab.setContent(canvas);
+		canvas.setWidth(this.getWidth());
+		canvas.setHeight(this.getHeight());
+		this.canvases.add(canvas);
+		this.tabPane.getTabs().add(tab);
 	}
 }
