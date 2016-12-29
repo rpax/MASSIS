@@ -3,7 +3,6 @@ package com.massisframework.massis.javafx.canvas2d;
 import java.util.function.Consumer;
 
 import com.massisframework.massis.javafx.JFXController;
-import com.massisframework.massis.javafx.util.Listeners;
 
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -11,7 +10,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.ArcType;
 import javafx.scene.transform.Affine;
 
 public class Canvas2D extends AnchorPane implements JFXController {
@@ -99,7 +97,7 @@ public class Canvas2D extends AnchorPane implements JFXController {
 		});
 	}
 
-	private CanvasDrawable drawable;
+	private Consumer<GraphicsContext> drawable;
 
 	private void enablePan()
 	{
@@ -138,7 +136,7 @@ public class Canvas2D extends AnchorPane implements JFXController {
 		}
 	}
 
-	private void draw(CanvasDrawable action)
+	public void draw(Consumer<GraphicsContext> action)
 	{
 
 		GraphicsContext gc = this.canvas.getGraphicsContext2D();
@@ -149,8 +147,7 @@ public class Canvas2D extends AnchorPane implements JFXController {
 		gc.fillRect(0, 0, gc.getCanvas().getWidth(),
 				gc.getCanvas().getHeight());
 		gc.setTransform(transform);
-		action.draw(gc);
-
+		action.accept(gc);
 	}
 
 	protected void setWidth(Number value)
@@ -175,9 +172,9 @@ public class Canvas2D extends AnchorPane implements JFXController {
 		super.setHeight(value);
 	}
 
-	public void setDrawHandler(CanvasDrawable drawable)
+	public void setDrawHandler(Consumer<GraphicsContext> action)
 	{
-		this.drawable = drawable;
+		this.drawable = action;
 		this.setZoom(1);
 	}
 }

@@ -1,8 +1,6 @@
 package com.massisframework.massis.javafx.canvas2d;
 
-import javafx.scene.canvas.GraphicsContext;
-
-public interface CanvasDrawable {
+public interface CanvasDrawable<Model> {
 
 	double getMaxX();
 
@@ -11,6 +9,7 @@ public interface CanvasDrawable {
 	double getMinX();
 
 	double getMinY();
+	
+	Model getModel();
 
-	public void draw(GraphicsContext graphics);
 }
