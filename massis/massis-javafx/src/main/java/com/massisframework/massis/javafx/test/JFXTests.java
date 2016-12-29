@@ -1,9 +1,6 @@
 package com.massisframework.massis.javafx.test;
 
 import java.io.IOException;
-import java.util.Enumeration;
-
-import com.massisframework.massis.javafx.inject.JFXBuilderFactory;
 
 /**
  * 

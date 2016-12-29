@@ -3,7 +3,6 @@ package com.massisframework.massis.javafx;
 import java.io.IOException;
 import java.net.URL;
 
-import javafx.beans.DefaultProperty;
 import javafx.fxml.FXMLLoader;
 
 public interface JFXController {

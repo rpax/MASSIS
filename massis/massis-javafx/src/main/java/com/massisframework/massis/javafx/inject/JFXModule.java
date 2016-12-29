@@ -3,18 +3,9 @@ package com.massisframework.massis.javafx.inject;
 import java.io.IOException;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Injector;
-import com.google.inject.Provides;
-import com.google.inject.TypeLiteral;
-import com.google.inject.matcher.Matcher;
-import com.google.inject.matcher.Matchers;
-import com.google.inject.spi.InjectionListener;
-import com.google.inject.spi.TypeEncounter;
-import com.google.inject.spi.TypeListener;
 import com.massisframework.massis.javafx.JFXController;
 
 import javafx.fxml.FXMLLoader;
-import javafx.util.Callback;
 
 public class JFXModule extends AbstractModule {
 

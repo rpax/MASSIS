@@ -4,7 +4,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
 import com.massisframework.massis.javafx.JFXController;
-import com.massisframework.massis.javafx.util.Listeners;
 
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
