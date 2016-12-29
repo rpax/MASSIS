@@ -1,19 +1,18 @@
 package com.massisframework.massis.javafx.canvas2d;
 
+import static com.massisframework.massis.javafx.util.Listeners.weakL;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import com.massisframework.massis.javafx.JFXController;
-import com.massisframework.massis.javafx.util.Listeners;
 
 import javafx.animation.AnimationTimer;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.WeakChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
-import static com.massisframework.massis.javafx.util.Listeners.*;
 
 public class CanvasTabbedPane extends AnchorPane implements JFXController {
 
