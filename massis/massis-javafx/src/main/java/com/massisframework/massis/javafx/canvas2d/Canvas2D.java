@@ -1,9 +1,9 @@
 package com.massisframework.massis.javafx.canvas2d;
 
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
 import com.massisframework.massis.javafx.JFXController;
+import com.massisframework.massis.javafx.util.Listeners;
 
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -23,9 +23,9 @@ public class Canvas2D extends AnchorPane implements JFXController {
 	@FXML
 	private AnchorPane anchorPane;
 	private double pressedX, pressedY;
+	private boolean panning = false;
 	private Affine transform;
 	private static final Affine IDENTITY = new Affine();
-	private AtomicBoolean needsRedraw;
 
 	public Canvas2D()
 	{
@@ -35,30 +35,35 @@ public class Canvas2D extends AnchorPane implements JFXController {
 	@FXML
 	public void initialize()
 	{
-		this.needsRedraw = new AtomicBoolean(true);
 		this.transform = new Affine();
 		anchorPane.widthProperty().addListener((obs, o, n) -> {
 			canvas.setWidth(n.doubleValue());
-			needsRedraw.set(true);
+			redraw();
 		});
 		anchorPane.heightProperty().addListener((obs, o, n) -> {
 			canvas.setHeight(n.doubleValue());
-			needsRedraw.set(true);
+			redraw();
 		});
 		this.enablePan();
 		this.enableZoom();
+		this.setZoom(1);
+		this.redraw();
 	}
 
 	public void setZoom(double percentage)
 	{
-		if (percentage <= 0)
-		{
-			percentage = 0.0001D;
-		}
-		this.transform.setMxx(percentage);
-		this.transform.setMyy(percentage);
+		double original = percentage;
+		if (percentage < 0)
+			percentage = 0.0001;
+		if (percentage > 100)
+			percentage = 99;
+		double scale = percentage;
+		System.out.println("Original: " + original + ".Percentage: "
+				+ percentage + ". Scale: " + scale);
+		this.transform.setMxx(scale);
+		this.transform.setMyy(scale);
 		this.canvas.getGraphicsContext2D().setTransform(transform);
-		needsRedraw.set(true);
+		redraw();
 	}
 
 	public double getZoom()
@@ -71,7 +76,7 @@ public class Canvas2D extends AnchorPane implements JFXController {
 		this.transform.setTx(tx);
 		this.transform.setTy(ty);
 		this.canvas.getGraphicsContext2D().setTransform(transform);
-		needsRedraw.set(true);
+		redraw();
 	}
 
 	public double getCanvasTranslationX()
@@ -87,13 +92,14 @@ public class Canvas2D extends AnchorPane implements JFXController {
 	private void enableZoom()
 	{
 		canvas.setOnScroll(evt -> {
-			final double inc = Math.signum(evt.getDeltaY()) > 0 ? 0.1 : -0.1;
+			final double inc = Math.signum(evt.getDeltaY()) > 0 ? 0.1
+					: -0.1;
 			this.setZoom(getZoom() + inc);
 			evt.consume();
 		});
 	}
 
-	private boolean panning = false;
+	private CanvasDrawable drawable;
 
 	private void enablePan()
 	{
@@ -124,34 +130,17 @@ public class Canvas2D extends AnchorPane implements JFXController {
 	private static ThreadLocal<Affine> drawShapes_transform_TL = ThreadLocal
 			.withInitial(Affine::new);
 
-	public void drawTest()
+	public void redraw()
 	{
-		this.draw((gc) -> {
-			gc.setFill(Color.GREEN);
-			gc.setStroke(Color.BLUE);
-			gc.setLineWidth(5);
-			gc.strokeLine(40, 10, 10, 40);
-			gc.fillOval(10, 60, 30, 30);
-			gc.strokeOval(60, 60, 30, 30);
-			gc.fillRoundRect(110, 60, 30, 30, 10, 10);
-			gc.strokeRoundRect(160, 60, 30, 30, 10, 10);
-			gc.fillArc(10, 110, 30, 30, 45, 240, ArcType.OPEN);
-			gc.fillArc(60, 110, 30, 30, 45, 240, ArcType.CHORD);
-			gc.fillArc(110, 110, 30, 30, 45, 240, ArcType.ROUND);
-			gc.strokeArc(10, 160, 30, 30, 45, 240, ArcType.OPEN);
-			gc.strokeArc(60, 160, 30, 30, 45, 240, ArcType.CHORD);
-			gc.strokeArc(110, 160, 30, 30, 45, 240, ArcType.ROUND);
-			gc.fillPolygon(new double[] { 10, 40, 10, 40 },
-					new double[] { 210, 210, 240, 240 }, 4);
-			gc.strokePolygon(new double[] { 60, 90, 60, 90 },
-					new double[] { 210, 210, 240, 240 }, 4);
-			gc.strokePolyline(new double[] { 110, 140, 110, 140 },
-					new double[] { 210, 210, 240, 240 }, 4);
-		});
+		if (this.drawable != null)
+		{
+			this.draw(this.drawable);
+		}
 	}
 
-	public void draw(Consumer<GraphicsContext> action)
+	private void draw(CanvasDrawable action)
 	{
+
 		GraphicsContext gc = this.canvas.getGraphicsContext2D();
 		Affine transform = gc.getTransform(drawShapes_transform_TL.get());
 		gc.setTransform(IDENTITY);
@@ -160,7 +149,8 @@ public class Canvas2D extends AnchorPane implements JFXController {
 		gc.fillRect(0, 0, gc.getCanvas().getWidth(),
 				gc.getCanvas().getHeight());
 		gc.setTransform(transform);
-		action.accept(gc);
+		action.draw(gc);
+
 	}
 
 	protected void setWidth(Number value)
@@ -185,4 +175,9 @@ public class Canvas2D extends AnchorPane implements JFXController {
 		super.setHeight(value);
 	}
 
+	public void setDrawHandler(CanvasDrawable drawable)
+	{
+		this.drawable = drawable;
+		this.setZoom(1);
+	}
 }
