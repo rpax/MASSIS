@@ -12,4 +12,6 @@ public interface CanvasDrawable<Model> {
 	
 	Model getModel();
 
+	default String getName() { return "No name specified";}
+
 }

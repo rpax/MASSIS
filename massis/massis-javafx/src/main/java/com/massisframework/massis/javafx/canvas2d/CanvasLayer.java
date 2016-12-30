@@ -11,9 +11,15 @@ public abstract class CanvasLayer<Model> {
 	public <T extends CanvasDrawable<Model>> CanvasLayer(T drawable,
 			String name)
 	{
+		this(drawable.getModel(), name);
+	}
+
+	public CanvasLayer(Model model,
+			String name)
+	{
 		this.name = name;
 		this.enabled = true;
-		this.model = drawable.getModel();
+		this.model = model;
 	}
 
 	public final void draw(GraphicsContext gc)

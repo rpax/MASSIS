@@ -1,23 +1,20 @@
 package com.massisframework.massis.ecs.system.graphics;
 
-import java.util.Collections;
-
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-
 import com.artemis.Aspect;
 import com.artemis.BaseEntitySystem;
-import com.massisframework.gui.DrawableTabbedFrame;
-import com.massisframework.gui.DrawableZone;
 import com.massisframework.massis.ecs.components.BuildingLocation;
 import com.massisframework.massis.ecs.components.PolygonComponent;
-import com.massisframework.massis.ecs.system.graphics.FloorLayersSystem.FloorDrawableLayer;
+import com.massisframework.massis.javafx.canvas2d.CanvasDrawable;
+import com.massisframework.massis.javafx.canvas2d.CanvasTabbedPane;
+import com.massisframework.massis.javafx.util.ApplicationLauncher;
+
+import javafx.application.Platform;
+import javafx.scene.Scene;
 
 public class Graphics2DSystem extends BaseEntitySystem {
 
-	private DrawableTabbedFrame frame;
 	// private Map<Integer, IntBag> entitiesToDraw;
-
+	// How to
 	public Graphics2DSystem()
 	{
 		super(Aspect.all(BuildingLocation.class, PolygonComponent.class));
@@ -28,13 +25,17 @@ public class Graphics2DSystem extends BaseEntitySystem {
 	{
 		super.initialize();
 		// this.entitiesToDraw = new HashMap<>();
-
+		ApplicationLauncher.launchWrappedApplication((stage, app) -> {
+			Scene scene = new Scene(new CanvasTabbedPane());
+			stage.setScene(scene);
+			stage.show();
+		});
 	}
 
 	@Override
 	protected void processSystem()
 	{
-		getFrame().refresh();
+		// getFrame().refresh();
 		// this.entitiesToDraw.values().forEach(IntBag::clear);
 		// iterate(subscription, world).forEach(entity -> {
 		// int fid = entity.getComponent(BuildingLocation.class).getFloorId();
@@ -48,30 +49,13 @@ public class Graphics2DSystem extends BaseEntitySystem {
 		// });
 	}
 
-	public void addDrawableZone(DrawableZone dz)
+	public void addDrawableZone(CanvasDrawable<?> dz)
 	{
-		SwingUtilities.invokeLater(() -> {
-			this.getFrame().addDrawableZone(dz);
+		Platform.runLater(() -> {
+
 		});
 	}
 
-	private synchronized DrawableTabbedFrame getFrame()
-	{
-		if (this.frame == null)
-		{
-			this.frame = new DrawableTabbedFrame(Collections.emptyList(), "");
-			// this.frame.pack();
-			this.frame.setVisible(true);
-			this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		}
-		return this.frame;
-	}
-
-	public void addLayer(FloorDrawableLayer layer)
-	{
-		SwingUtilities.invokeLater(() -> {
-			this.getFrame().addDrawableLayer(layer);
-		});
-	}
+	
 
 }

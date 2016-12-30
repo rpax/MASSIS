@@ -7,16 +7,21 @@ import java.awt.Graphics2D;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jfree.fx.FXGraphics2D;
+
 import com.artemis.Aspect;
 import com.artemis.BaseEntitySystem;
 import com.artemis.Entity;
 import com.artemis.World;
-import com.massisframework.gui.DrawableLayer;
-import com.massisframework.gui.DrawableZone;
 import com.massisframework.massis.ecs.components.Floor;
 import com.massisframework.massis.ecs.components.NameComponent;
 import com.massisframework.massis.ecs.components.PolygonComponent;
 import com.massisframework.massis.ecs.util.EntitiesCollections;
+import com.massisframework.massis.javafx.canvas2d.CanvasDrawable;
+import com.massisframework.massis.javafx.canvas2d.CanvasLayer;
+
+import javafx.scene.canvas.GraphicsContext;
+import javafx.util.Pair;
 
 public class FloorLayersSystem extends BaseEntitySystem {
 
@@ -33,7 +38,7 @@ public class FloorLayersSystem extends BaseEntitySystem {
 		super.initialize();
 		this.drawableZones = new HashMap<Integer, FloorDrawableZone>();
 		EntitiesCollections.iterate(subscription).forEach(this::inserted);
-		this.getWorld().getSystem(Graphics2DSystem.class).addLayer(new DL());
+//		this.getWorld().getSystem(Graphics2DSystem.class).addLayer(new DL());
 	}
 
 	@Override
@@ -47,32 +52,39 @@ public class FloorLayersSystem extends BaseEntitySystem {
 
 	public void addLayer(FloorDrawableLayer layer)
 	{
-		this.getWorld().getSystem(Graphics2DSystem.class).addLayer(layer);
+//		this.getWorld().getSystem(Graphics2DSystem.class).addLayer(layer);
 	}
 
 	public static abstract class FloorDrawableLayer
-			extends DrawableLayer<FloorDrawableZone> {
+			extends CanvasLayer<FloorDrawableZone> {
 
-		public FloorDrawableLayer(boolean enabled)
+		public FloorDrawableLayer(FloorDrawableZone drawable, String name)
 		{
-			super(enabled);
+			super(drawable, name);
 		}
 	}
 
 	private class DL extends FloorDrawableLayer {
 
-		public DL()
+		private Map<GraphicsContext,FXGraphics2D> graphics;
+		
+		public DL(FloorDrawableZone fdz)
 		{
-			super(true);
+			super(fdz,"Default Layer test");
+			this.graphics=new HashMap<>();
 		}
 
 		@Override
-		public String getName()
+		protected void draw(FloorDrawableZone model, GraphicsContext gc)
 		{
-			return "Default Layer test";
+			FXGraphics2D gr = this.graphics.get(gc);
+			if (gr==null){
+				gr=new FXGraphics2D(gc);
+				this.graphics.put(gc, gr);
+			}
+			this.draw(model,gr);
+			
 		}
-
-		@Override
 		public void draw(FloorDrawableZone dz, Graphics2D g)
 		{
 			System.out.println("Drawing");
@@ -93,17 +105,24 @@ public class FloorLayersSystem extends BaseEntitySystem {
 
 		}
 
+
+
+		
+
 	}
 
-	public static class FloorDrawableZone implements DrawableZone {
+	public static class FloorDrawableZone
+			implements CanvasDrawable<Pair<Integer, World>> {
 
-		private int entityId;
-		protected World world;
+		Pair<Integer, World> model;
+		private Integer entityId;
+		private World world;
 
 		public FloorDrawableZone(World world, int entityId)
 		{
-			this.entityId = entityId;
-			this.world = world;
+			this.model = new Pair<Integer, World>(entityId, world);
+			this.entityId = this.model.getKey();
+			this.world = this.model.getValue();
 		}
 
 		public Floor getFloor()
@@ -113,28 +132,28 @@ public class FloorLayersSystem extends BaseEntitySystem {
 		}
 
 		@Override
-		public float getMaxX()
+		public double getMaxX()
 		{
 			return world.getEntity(entityId).getComponent(Floor.class)
 					.getMaxX();
 		}
 
 		@Override
-		public float getMaxY()
+		public double getMaxY()
 		{
 			return world.getEntity(entityId).getComponent(Floor.class)
 					.getMaxY();
 		}
 
 		@Override
-		public float getMinX()
+		public double getMinX()
 		{
 			return world.getEntity(entityId).getComponent(Floor.class)
 					.getMinX();
 		}
 
 		@Override
-		public float getMinY()
+		public double getMinY()
 		{
 			return world.getEntity(entityId).getComponent(Floor.class)
 					.getMinY();
@@ -145,6 +164,12 @@ public class FloorLayersSystem extends BaseEntitySystem {
 		{
 			return world.getEntity(entityId).getComponent(NameComponent.class)
 					.get();
+		}
+
+		@Override
+		public Pair<Integer, World> getModel()
+		{
+			return this.model;
 		}
 
 	}
