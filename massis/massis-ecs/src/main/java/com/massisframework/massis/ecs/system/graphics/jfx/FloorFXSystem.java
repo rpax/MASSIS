@@ -1,23 +1,26 @@
 package com.massisframework.massis.ecs.system.graphics.jfx;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.artemis.Aspect;
-import com.artemis.Entity;
 import com.artemis.systems.IteratingSystem;
 import com.massisframework.massis.ecs.components.Floor;
 import com.massisframework.massis.ecs.components.NameComponent;
-import com.massisframework.massis.ecs.system.location.LocationSystem;
-import com.massisframework.massis.ecs.util.SimulationObjects;
-
-import static com.massisframework.massis.ecs.util.EntitiesCollections.*;
 import com.massisframework.massis.javafx.canvas2d.CanvasTabbedPane;
 
+import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Tab;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 public class FloorFXSystem extends IteratingSystem {
 
 	private CanvasTabbedPane canvasTabbedPane;
+	private Map<Integer, Group> floorTabs;
 
 	public FloorFXSystem()
 	{
@@ -34,6 +37,7 @@ public class FloorFXSystem extends IteratingSystem {
 	protected void initialize()
 	{
 		super.initialize();
+		this.floorTabs = new HashMap<>();
 		world.getSystem(JavaFXSystem.class).runOnJFXThread(() -> {
 			Stage mainStage = new Stage();
 			this.canvasTabbedPane = new CanvasTabbedPane();
@@ -50,26 +54,27 @@ public class FloorFXSystem extends IteratingSystem {
 		String name = world.getEntity(entityId)
 				.getComponent(NameComponent.class).get();
 		world.getSystem(JavaFXSystem.class).runOnJFXThread(() -> {
-			this.canvasTabbedPane.addTab(name, (gc) -> {
-				drawItemsInFloor(entityId, gc);
-			});
+			Group tab = this.canvasTabbedPane.addTab(name);
+			
+			AnchorPane content = new AnchorPane();
+			Rectangle r = new Rectangle(10, 10);
+			r.setFill(Color.BLUE);
+			r.setTranslateX(10);
+			r.setTranslateY(10);
+			content.getChildren().add(r);
+			tab.getChildren().add(content);
+			this.floorTabs.put(entityId, tab);
 		});
 	}
 
-	private void drawItemsInFloor(int floorId, GraphicsContext gc)
+	@Override
+	protected void removed(int entityId)
 	{
-		LocationSystem locationSystem = world.getSystem(LocationSystem.class);
-		// Get linked items from floor to doors etc.
-		for (int entityId : iterate(locationSystem.getItemsInFloor(floorId)))
-		{
-			Entity entity = world.getEntity(entityId);
-			
-			if (SimulationObjects.isWall(entity))
-			{
-				//
-			}
-
-		}
+		super.removed(entityId);
+		world.getSystem(JavaFXSystem.class).runOnJFXThread(() -> {
+			Group tab = this.floorTabs.remove(entityId);
+			this.canvasTabbedPane.removeTab(tab);
+		});
 
 	}
 
