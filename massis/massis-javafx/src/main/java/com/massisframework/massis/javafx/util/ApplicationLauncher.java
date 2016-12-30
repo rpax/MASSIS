@@ -16,6 +16,11 @@ public class ApplicationLauncher extends Application {
 	private static Application application;
 	private static AtomicInteger active = new AtomicInteger(0);
 
+	private static void initialize()
+	{
+		
+	}
+
 	public static void main(String[] args)
 	{
 		for (int i = 0; i < 3; i++)

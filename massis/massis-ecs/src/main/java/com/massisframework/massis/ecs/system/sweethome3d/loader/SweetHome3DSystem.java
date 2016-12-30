@@ -20,8 +20,8 @@ import com.massisframework.massis.ecs.components.PolygonComponent;
 import com.massisframework.massis.ecs.components.RoomComponent;
 import com.massisframework.massis.ecs.components.Rotation;
 import com.massisframework.massis.ecs.components.SweetHome3DComponent;
+import com.massisframework.massis.ecs.components.SweetHome3DLevelComponent;
 import com.massisframework.massis.ecs.components.WallComponent;
-import com.massisframework.massis.ecs.system.sweethome3d.SweetHome3DLevelComponent;
 
 import straightedge.geom.KPoint;
 import straightedge.geom.KPolygon;

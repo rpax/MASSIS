@@ -15,7 +15,7 @@ import com.massisframework.massis.ecs.components.Floor;
 import com.massisframework.massis.ecs.components.NameComponent;
 import com.massisframework.massis.ecs.components.PolygonComponent;
 import com.massisframework.massis.ecs.components.SweetHome3DComponent;
-import com.massisframework.massis.ecs.system.sweethome3d.SweetHome3DLevelComponent;
+import com.massisframework.massis.ecs.components.SweetHome3DLevelComponent;
 
 public class FloorLevelsSystem extends BaseEntitySystem {
 
