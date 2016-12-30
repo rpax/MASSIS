@@ -4,8 +4,10 @@ import com.artemis.Aspect;
 import com.artemis.Entity;
 import com.artemis.systems.IteratingSystem;
 import com.massisframework.massis.ecs.components.BuildingLocation;
+import com.massisframework.massis.ecs.components.DoorOrWindowComponent;
 import com.massisframework.massis.ecs.components.PolygonComponent;
 import com.massisframework.massis.ecs.components.RoomComponent;
+import com.massisframework.massis.ecs.components.StaticObstacle;
 import com.massisframework.massis.ecs.components.WallComponent;
 import com.massisframework.massis.ecs.components.g2d.JFXShapeComponent;
 import com.massisframework.massis.ecs.util.SimulationObjects;
@@ -17,11 +19,11 @@ public class HomeObjectsFXSystem extends IteratingSystem {
 
 	public HomeObjectsFXSystem()
 	{
-		super(Aspect.all(BuildingLocation.class).one(
-				RoomComponent.class,
-				WallComponent.class,
-				F
-				));
+		super(Aspect.all(BuildingLocation.class, StaticObstacle.class)
+				.one(
+						RoomComponent.class,
+						WallComponent.class,
+						DoorOrWindowComponent.class));
 
 	}
 
@@ -48,11 +50,14 @@ public class HomeObjectsFXSystem extends IteratingSystem {
 		if (SimulationObjects.isWall(entity))
 		{
 			//
-			jfxPoly.setFill(Color.GREEN);
+			jfxPoly.setFill(Color.BLUE);
 
 		} else if (SimulationObjects.isRoom(entity))
 		{
 			jfxPoly.setFill(Color.GRAY);
+		} else if (SimulationObjects.isDoor(entity))
+		{
+			jfxPoly.setFill(Color.GREEN);
 		}
 		Entity nodeEntity = world.createEntity();
 		nodeEntity.edit().add(jfxNode);

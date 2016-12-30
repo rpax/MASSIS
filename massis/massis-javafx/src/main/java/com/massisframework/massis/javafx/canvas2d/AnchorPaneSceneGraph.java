@@ -40,19 +40,19 @@ public class AnchorPaneSceneGraph extends AnchorPane implements JFXSceneGraph {
 		// and node position
 		dragContext.mouseAnchorX = evt.getX();
 		dragContext.mouseAnchorY = evt.getY();
-		dragContext.initialTranslateX = innerGroup
+		dragContext.initialTranslateX = sceneGroup
 				.getTranslateX();
-		dragContext.initialTranslateY = innerGroup
+		dragContext.initialTranslateY = sceneGroup
 				.getTranslateY();
 	}
 
 	private void onMouseDragged(MouseEvent evt)
 	{
-		innerGroup.setTranslateX(
+		sceneGroup.setTranslateX(
 				dragContext.initialTranslateX
 						+ evt.getX()
 						- dragContext.mouseAnchorX);
-		innerGroup.setTranslateY(
+		sceneGroup.setTranslateY(
 				dragContext.initialTranslateY
 						+ evt.getY()
 						- dragContext.mouseAnchorY);
@@ -68,8 +68,8 @@ public class AnchorPaneSceneGraph extends AnchorPane implements JFXSceneGraph {
 		double scaleFactor = (evt.getDeltaY() > 0)
 				? SCALE_DELTA
 				: 1 / SCALE_DELTA;
-		innerGroup.setScaleX(innerGroup.getScaleX() * scaleFactor);
-		innerGroup.setScaleY(innerGroup.getScaleY() * scaleFactor);
+		sceneGroup.setScaleX(sceneGroup.getScaleX() * scaleFactor);
+		sceneGroup.setScaleY(sceneGroup.getScaleY() * scaleFactor);
 	}
 
 	public void addChild(Node node)

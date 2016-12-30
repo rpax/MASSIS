@@ -5,7 +5,6 @@ import com.artemis.World;
 import com.massisframework.massis.ecs.components.DoorOrWindowComponent;
 import com.massisframework.massis.ecs.components.DynamicObstacle;
 import com.massisframework.massis.ecs.components.FurnitureComponent;
-import com.massisframework.massis.ecs.components.MovableInfo;
 import com.massisframework.massis.ecs.components.RoomComponent;
 import com.massisframework.massis.ecs.components.WallComponent;
 
@@ -65,11 +64,5 @@ public final class SimulationObjects {
 		return isFurniture(world.getEntity(eid));
 	}
 
-	public static boolean isMovable(Entity e)
-	{
-		MovableInfo mi = e.getComponent(MovableInfo.class);
-		if (mi != null)
-			return mi.isMovable();
-		return false;
-	}
+	
 }
