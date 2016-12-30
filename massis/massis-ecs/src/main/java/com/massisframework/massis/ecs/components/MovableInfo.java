@@ -4,6 +4,15 @@ import com.artemis.Component;
 
 public class MovableInfo extends Component {
 
+	public MovableInfo()
+	{
+	}
+
+	public MovableInfo(boolean movable)
+	{
+		this.movable = movable;
+	}
+
 	/**
 	 * @treatAsPrivate
 	 */

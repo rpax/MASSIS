@@ -16,6 +16,7 @@ import com.eteks.sweethome3d.model.Wall;
 import com.massisframework.massis.ecs.components.BuildingLocation;
 import com.massisframework.massis.ecs.components.DoorOrWindowComponent;
 import com.massisframework.massis.ecs.components.FurnitureComponent;
+import com.massisframework.massis.ecs.components.MovableInfo;
 import com.massisframework.massis.ecs.components.PolygonComponent;
 import com.massisframework.massis.ecs.components.RoomComponent;
 import com.massisframework.massis.ecs.components.Rotation;
@@ -81,23 +82,33 @@ public class SweetHome3DSystem extends BaseSystem {
 		e.getComponent(BuildingLocation.class).set(center);
 		e.getComponent(SweetHome3DComponent.class).set(ho);
 		e.getComponent(SweetHome3DLevelComponent.class).set(ho.getLevel());
+
 		// TODO better code
 		if (ho instanceof Room)
 		{
+			e.edit().add(new MovableInfo(false));
 			e.edit().add(new RoomComponent());
 		}
 		if (ho instanceof Wall)
 		{
+			e.edit().add(new MovableInfo(false));
 			e.edit().add(new WallComponent());
 		}
 		if (ho instanceof HomePieceOfFurniture)
 		{
 			e.edit().add(new FurnitureComponent());
+			boolean isDynamic = "dyn"
+					.equals(((HomePieceOfFurniture) ho).getName());
+			e.edit().add(new MovableInfo(isDynamic));
 			if (((HomePieceOfFurniture) ho).isDoorOrWindow())
 			{
 				e.edit().add(new DoorOrWindowComponent());
+			} else if (isDynamic)
+			{
+				/*ALGO PARA QUE SE MUEVA YOQUESE*/
 			}
 		}
+		// Check if is Dynamic...etc
 		return e;
 	}
 

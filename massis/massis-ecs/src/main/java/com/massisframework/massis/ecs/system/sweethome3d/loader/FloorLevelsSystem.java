@@ -70,7 +70,6 @@ public class FloorLevelsSystem extends BaseEntitySystem {
 		world.getEntity(floorEntitId)
 				.getComponent(Floor.class)
 				.expand(homeObjectBounds);
-		
 		homeEntity
 				.getComponent(BuildingLocation.class)
 				.setFloor(floorEntitId);

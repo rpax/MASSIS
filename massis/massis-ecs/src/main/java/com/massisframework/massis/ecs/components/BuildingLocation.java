@@ -13,7 +13,7 @@ public class BuildingLocation extends Component {
 	 * @treatAsPrivate
 	 */
 	@EntityId
-	public int floorId;
+	public int floorId=-1;
 	/**
 	 * @treatAsPrivate
 	 */

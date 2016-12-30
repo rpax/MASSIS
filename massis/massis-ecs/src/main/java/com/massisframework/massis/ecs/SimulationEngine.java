@@ -15,7 +15,8 @@ import com.eteks.sweethome3d.model.Home;
 import com.eteks.sweethome3d.model.RecorderException;
 import com.massisframework.massis.ecs.system.Loggable;
 import com.massisframework.massis.ecs.system.ai.AISystem;
-import com.massisframework.massis.ecs.system.graphics.jfx.FloorFXSystem;
+import com.massisframework.massis.ecs.system.graphics.jfx.FloorSceneGraphSystem;
+import com.massisframework.massis.ecs.system.graphics.jfx.HomeObjectsFXSystem;
 import com.massisframework.massis.ecs.system.graphics.jfx.JavaFXSystem;
 import com.massisframework.massis.ecs.system.location.LocationSystem;
 import com.massisframework.massis.ecs.system.sweethome3d.loader.FloorLevelsSystem;
@@ -39,7 +40,8 @@ public class SimulationEngine implements Loggable {
 				.with(new LocationSystem())
 				.with(new AISystem())
 				.with(new JavaFXSystem())
-					.with(new FloorFXSystem())
+					.with(new FloorSceneGraphSystem())
+					.with(new HomeObjectsFXSystem())
 //				.with(new Graphics2DSystem())
 //					.with(new FloorLayersSystem())
 				.build();
@@ -104,6 +106,17 @@ public class SimulationEngine implements Loggable {
 		SimulationEngine engine = new SimulationEngine();
 		engine.start();
 		Scanner sc = new Scanner(System.in);
+		new Thread(() -> {
+			try
+			{
+				Thread.sleep(60000);
+			} catch (InterruptedException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.exit(0);
+		}).start();
 		while (!sc.nextLine().trim().toLowerCase().equals("quit"))
 		{
 		}
