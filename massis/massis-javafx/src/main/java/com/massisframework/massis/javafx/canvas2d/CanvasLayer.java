@@ -2,54 +2,13 @@ package com.massisframework.massis.javafx.canvas2d;
 
 import javafx.scene.canvas.GraphicsContext;
 
-public abstract class CanvasLayer<Model> {
+public interface CanvasLayer {
 
-	private String name;
-	private boolean enabled;
-	private Model model;
+	public void draw(GraphicsContext g2d);
 
-	public <T extends CanvasDrawable<Model>> CanvasLayer(T drawable,
-			String name)
-	{
-		this(drawable.getModel(), name);
-	}
+	public String getName();
 
-	public CanvasLayer(Model model,
-			String name)
-	{
-		this.name = name;
-		this.enabled = true;
-		this.model = model;
-	}
+	public boolean isEnabled();
 
-	public final void draw(GraphicsContext gc)
-	{
-		if (this.enabled)
-		{
-			this.draw(this.model, gc);
-		}
-	}
-
-	protected abstract void draw(Model model, GraphicsContext gc);
-
-	public String getName()
-	{
-		return this.name;
-	}
-
-	public boolean isEnabled()
-	{
-		return enabled;
-	}
-
-	public void setEnabled(boolean enabled)
-	{
-		this.enabled = enabled;
-	}
-
-	public void setName(String name)
-	{
-		this.name = name;
-	}
-
+	public void setEnabled(boolean selected);
 }

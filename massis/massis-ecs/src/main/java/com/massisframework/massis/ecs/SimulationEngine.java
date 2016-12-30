@@ -15,8 +15,8 @@ import com.eteks.sweethome3d.model.Home;
 import com.eteks.sweethome3d.model.RecorderException;
 import com.massisframework.massis.ecs.system.Loggable;
 import com.massisframework.massis.ecs.system.ai.AISystem;
-import com.massisframework.massis.ecs.system.graphics.FloorLayersSystem;
-import com.massisframework.massis.ecs.system.graphics.Graphics2DSystem;
+import com.massisframework.massis.ecs.system.graphics.jfx.FloorFXSystem;
+import com.massisframework.massis.ecs.system.graphics.jfx.JavaFXSystem;
 import com.massisframework.massis.ecs.system.location.LocationSystem;
 import com.massisframework.massis.ecs.system.sweethome3d.loader.FloorLevelsSystem;
 import com.massisframework.massis.ecs.system.sweethome3d.loader.SweetHome3DSystem;
@@ -38,8 +38,10 @@ public class SimulationEngine implements Loggable {
 					.with(new FloorLevelsSystem())
 				.with(new LocationSystem())
 				.with(new AISystem())
-				.with(new Graphics2DSystem())
-					.with(new FloorLayersSystem())
+				.with(new JavaFXSystem())
+					.with(new FloorFXSystem())
+//				.with(new Graphics2DSystem())
+//					.with(new FloorLayersSystem())
 				.build();
 		/**
 		 * @formatter:on
@@ -82,6 +84,7 @@ public class SimulationEngine implements Loggable {
 			throw new RuntimeException(e);
 		}
 		this.executor = null;
+		this.world.dispose();
 	}
 
 	private void update()

@@ -14,30 +14,6 @@ public class Floor extends Component {
 	 */
 	public Level level;
 	/**
-	 * @treatAsPrivate
-	 */
-	public @EntityId IntBag walls = new IntBag();
-	/**
-	 * @treatAsPrivate
-	 */
-
-	public @EntityId IntBag rooms = new IntBag();
-	/**
-	 * @treatAsPrivate
-	 */
-	public @EntityId IntBag doors = new IntBag();
-	/**
-	 * @treatAsPrivate
-	 */
-	public @EntityId IntBag dynamicEntities = new IntBag();
-	/**
-	 * @treatAsPrivate
-	 */
-	public @EntityId IntBag furniture = new IntBag();
-	/*
-	 * 
-	 */
-	/**
 	 * Bounds
 	 * 
 	 * @treatAsPrivate
@@ -138,74 +114,4 @@ public class Floor extends Component {
 		this.ylength = this.maxY - this.minY;
 	}
 
-	public void addWall(int entityId)
-	{
-		this.walls.add(entityId);
-	}
-
-	public void addRoom(int entityId)
-	{
-		this.rooms.add(entityId);
-	}
-
-	public void addDoor(int entityId)
-	{
-		this.doors.add(entityId);
-	}
-
-	public void addDynamicEntity(int entityId)
-	{
-		this.dynamicEntities.add(entityId);
-	}
-
-	public void addFurniture(int entityId)
-	{
-		this.furniture.add(entityId);
-	}
-
-	public void removeWall(int entityId)
-	{
-		this.walls.removeValue(entityId);
-	}
-
-	public void removeFurniture(int entityId)
-	{
-		this.furniture.removeValue(entityId);
-	}
-
-	public void removeDynamicEntity(int entityId)
-	{
-		this.dynamicEntities.removeValue(entityId);
-	}
-
-	public void removeRoom(int entityId)
-	{
-		this.rooms.removeValue(entityId);
-	}
-
-	public IntBag getWalls()
-	{
-		return walls;
-	}
-
-	public IntBag getRooms()
-	{
-		System.out.println("Returning rooms: "+rooms);
-		return rooms;
-	}
-
-	public IntBag getDoors()
-	{
-		return doors;
-	}
-
-	public IntBag getDynamicEntities()
-	{
-		return dynamicEntities;
-	}
-
-	public IntBag getFurniture()
-	{
-		return furniture;
-	}
 }

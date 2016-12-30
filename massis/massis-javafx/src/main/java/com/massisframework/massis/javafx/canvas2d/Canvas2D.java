@@ -136,9 +136,8 @@ public class Canvas2D extends AnchorPane implements JFXController {
 		}
 	}
 
-	public void draw(Consumer<GraphicsContext> action)
+	private void draw(Consumer<GraphicsContext> action)
 	{
-
 		GraphicsContext gc = this.canvas.getGraphicsContext2D();
 		Affine transform = gc.getTransform(drawShapes_transform_TL.get());
 		gc.setTransform(IDENTITY);
