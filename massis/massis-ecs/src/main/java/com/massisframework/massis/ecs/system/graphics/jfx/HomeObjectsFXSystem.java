@@ -15,6 +15,7 @@ import com.massisframework.massis.ecs.util.SimulationObjects;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 
+@SuppressWarnings("unchecked")
 public class HomeObjectsFXSystem extends IteratingSystem {
 
 	public HomeObjectsFXSystem()
@@ -25,7 +26,6 @@ public class HomeObjectsFXSystem extends IteratingSystem {
 						WallComponent.class,
 						DoorOrWindowComponent.class,
 						FurnitureComponent.class));
-
 	}
 
 	@Override

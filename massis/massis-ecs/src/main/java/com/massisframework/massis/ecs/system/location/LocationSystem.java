@@ -92,6 +92,7 @@ public class LocationSystem extends BaseEntitySystem {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private boolean containsFloorItem(int floorId, int floorItemId)
 	{
 		return getItemsInFloor(floorId).contains(floorItemId);
@@ -118,7 +119,6 @@ public class LocationSystem extends BaseEntitySystem {
 		{
 			return items;
 		}
-
 	}
 
 	private Map<Integer, IntBag> getFloorItemsMap()
