@@ -18,7 +18,6 @@ import com.massisframework.massis.ecs.system.ai.AISystem;
 import com.massisframework.massis.ecs.system.graphics.jfx.FloorSceneGraphSystem;
 import com.massisframework.massis.ecs.system.graphics.jfx.HomeObjectsFXSystem;
 import com.massisframework.massis.ecs.system.graphics.jfx.JavaFXSystem;
-import com.massisframework.massis.ecs.system.graphics.jfx.LayersSystem;
 import com.massisframework.massis.ecs.system.location.LocationSystem;
 import com.massisframework.massis.ecs.system.sweethome3d.loader.FloorLevelsSystem;
 import com.massisframework.massis.ecs.system.sweethome3d.loader.SweetHome3DSystem;
@@ -41,7 +40,6 @@ public class SimulationEngine implements Loggable {
 				.with(new LocationSystem())
 				.with(new AISystem())
 				.with(new JavaFXSystem())
-					.with(new LayersSystem())
 					.with(new FloorSceneGraphSystem())
 					.with(new HomeObjectsFXSystem())
 //				.with(new Graphics2DSystem())
