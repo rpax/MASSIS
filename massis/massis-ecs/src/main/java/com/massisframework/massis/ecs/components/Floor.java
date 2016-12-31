@@ -3,8 +3,6 @@ package com.massisframework.massis.ecs.components;
 import java.awt.Rectangle;
 
 import com.artemis.Component;
-import com.artemis.annotations.EntityId;
-import com.artemis.utils.IntBag;
 import com.eteks.sweethome3d.model.Level;
 
 public class Floor extends Component {

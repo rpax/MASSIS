@@ -3,7 +3,6 @@ package com.massisframework.massis.ecs.util;
 import com.artemis.Entity;
 import com.artemis.World;
 import com.massisframework.massis.ecs.components.DoorOrWindowComponent;
-import com.massisframework.massis.ecs.components.DynamicObstacle;
 import com.massisframework.massis.ecs.components.FurnitureComponent;
 import com.massisframework.massis.ecs.components.RoomComponent;
 import com.massisframework.massis.ecs.components.StaticObstacle;
