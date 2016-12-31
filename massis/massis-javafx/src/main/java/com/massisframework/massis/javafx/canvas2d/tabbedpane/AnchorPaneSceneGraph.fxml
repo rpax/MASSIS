@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<fx:root minHeight="-Infinity" minWidth="-Infinity" type="AnchorPane"
+	xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+	<children>
+		<BorderPane fx:id="mainPane" layoutX="194.0" layoutY="171.0"
+			AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+			AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+			<left>
+				<GridPane BorderPane.alignment="CENTER">
+					<columnConstraints>
+						<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+					</columnConstraints>
+					<rowConstraints>
+						<RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+					</rowConstraints>
+					<children>
+						<TableView fx:id="layerTable" prefWidth="150.0"
+							GridPane.vgrow="ALWAYS">
+							<columns>
+								<TableColumn fx:id="layerNameCol" editable="false"
+									prefWidth="75.0" sortable="false" text="Name" />
+								<TableColumn fx:id="enabledCol" editable="false"
+									prefWidth="75.0" sortable="false" text="Enabled" />
+							</columns>
+						</TableView>
+					</children>
+				</GridPane>
+			</left>
+			<center>
+				<AnchorPane BorderPane.alignment="CENTER">
+					<children>
+						<GridPane AnchorPane.bottomAnchor="0.0"
+							AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+							AnchorPane.topAnchor="0.0">
+							<columnConstraints>
+								<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
+									prefWidth="100.0" />
+							</columnConstraints>
+							<rowConstraints>
+								<RowConstraints minHeight="10.0" prefHeight="30.0"
+									vgrow="SOMETIMES" />
+							</rowConstraints>
+							<children>
+								<ScrollPane hbarPolicy="NEVER" prefHeight="200.0"
+									prefWidth="200.0" vbarPolicy="NEVER" GridPane.hgrow="ALWAYS"
+									GridPane.vgrow="ALWAYS"
+									fx:id="scrollContainer"
+									>
+									<content>
+										<AnchorPane minHeight="0.0" minWidth="0.0"
+											prefHeight="200.0" prefWidth="200.0"
+											fx:id="groupContainer"
+											>
+											<children>
+												<Group fx:id="innerGroup" AnchorPane.bottomAnchor="0.0"
+													AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+													AnchorPane.topAnchor="0.0">
+													<children>
+														<Group fx:id="sceneGroup" />
+													</children>
+												</Group>
+											</children>
+										</AnchorPane>
+									</content>
+								</ScrollPane>
+							</children>
+						</GridPane>
+					</children>
+				</AnchorPane>
+			</center>
+		</BorderPane>
+	</children>
+</fx:root>

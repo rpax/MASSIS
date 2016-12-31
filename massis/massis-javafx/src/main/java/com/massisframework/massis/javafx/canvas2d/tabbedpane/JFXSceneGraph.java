@@ -1,4 +1,4 @@
-package com.massisframework.massis.javafx.canvas2d;
+package com.massisframework.massis.javafx.canvas2d.tabbedpane;
 
 import javafx.scene.Node;
 

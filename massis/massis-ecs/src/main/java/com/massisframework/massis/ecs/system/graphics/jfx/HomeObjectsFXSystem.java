@@ -5,11 +5,13 @@ import com.artemis.Entity;
 import com.artemis.systems.IteratingSystem;
 import com.massisframework.massis.ecs.components.BuildingLocation;
 import com.massisframework.massis.ecs.components.DoorOrWindowComponent;
+import com.massisframework.massis.ecs.components.DynamicObstacle;
+import com.massisframework.massis.ecs.components.FurnitureComponent;
 import com.massisframework.massis.ecs.components.PolygonComponent;
 import com.massisframework.massis.ecs.components.RoomComponent;
 import com.massisframework.massis.ecs.components.StaticObstacle;
 import com.massisframework.massis.ecs.components.WallComponent;
-import com.massisframework.massis.ecs.components.g2d.JFXShapeComponent;
+import com.massisframework.massis.ecs.components.g2d.shape.JFXShapeComponent;
 import com.massisframework.massis.ecs.util.SimulationObjects;
 
 import javafx.scene.paint.Color;
@@ -19,11 +21,12 @@ public class HomeObjectsFXSystem extends IteratingSystem {
 
 	public HomeObjectsFXSystem()
 	{
-		super(Aspect.all(BuildingLocation.class, StaticObstacle.class)
+		super(Aspect.all(BuildingLocation.class)
 				.one(
 						RoomComponent.class,
 						WallComponent.class,
-						DoorOrWindowComponent.class));
+						DoorOrWindowComponent.class,
+						FurnitureComponent.class));
 
 	}
 
@@ -50,14 +53,21 @@ public class HomeObjectsFXSystem extends IteratingSystem {
 		if (SimulationObjects.isWall(entity))
 		{
 			//
+			jfxPoly.getProperties().put("LAYER", "WALL");
 			jfxPoly.setFill(Color.BLUE);
 
 		} else if (SimulationObjects.isRoom(entity))
 		{
+			jfxPoly.getProperties().put("LAYER", "ROOM");
 			jfxPoly.setFill(Color.GRAY);
 		} else if (SimulationObjects.isDoor(entity))
 		{
+			jfxPoly.getProperties().put("LAYER", "DOOR");
 			jfxPoly.setFill(Color.GREEN);
+		} else if (SimulationObjects.isFurniture(entity))
+		{
+			jfxPoly.getProperties().put("LAYER", "FURNITURE");
+			jfxPoly.setFill(Color.BROWN);
 		}
 		Entity nodeEntity = world.createEntity();
 		nodeEntity.edit().add(jfxNode);

@@ -6,6 +6,7 @@ import com.massisframework.massis.ecs.components.DoorOrWindowComponent;
 import com.massisframework.massis.ecs.components.DynamicObstacle;
 import com.massisframework.massis.ecs.components.FurnitureComponent;
 import com.massisframework.massis.ecs.components.RoomComponent;
+import com.massisframework.massis.ecs.components.StaticObstacle;
 import com.massisframework.massis.ecs.components.WallComponent;
 
 public final class SimulationObjects {
@@ -46,7 +47,7 @@ public final class SimulationObjects {
 
 	public static boolean isDynamic(Entity e)
 	{
-		return e.getComponent(DynamicObstacle.class) != null;
+		return e.getComponent(StaticObstacle.class) == null;
 	}
 
 	public static boolean isDynamic(int eid, World world)

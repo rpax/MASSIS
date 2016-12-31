@@ -1,4 +1,4 @@
-package com.massisframework.massis.ecs.components.g2d;
+package com.massisframework.massis.ecs.components.g2d.shape;
 
 import com.artemis.Component;
 import com.artemis.annotations.EntityId;
@@ -8,7 +8,7 @@ import javafx.scene.shape.Shape;
 public class JFXShapeComponent extends Component {
 	Shape node;
 	@EntityId public int parent=-1;
-
+	
 	public Shape getShape()
 	{
 		return node;

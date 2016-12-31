@@ -6,14 +6,16 @@ import java.util.Map;
 import com.artemis.Aspect;
 import com.artemis.Entity;
 import com.artemis.link.EntityLinkManager;
+import com.artemis.link.LinkAdapter;
 import com.artemis.link.LinkListener;
 import com.artemis.systems.IteratingSystem;
 import com.massisframework.massis.ecs.components.BuildingLocation;
 import com.massisframework.massis.ecs.components.Floor;
 import com.massisframework.massis.ecs.components.NameComponent;
-import com.massisframework.massis.ecs.components.g2d.JFXShapeComponent;
-import com.massisframework.massis.javafx.canvas2d.CanvasTabbedPane;
-import com.massisframework.massis.javafx.canvas2d.JFXSceneGraph;
+import com.massisframework.massis.ecs.components.g2d.shape.JFXShapeComponent;
+import com.massisframework.massis.ecs.components.g2d.shape.LayerAttachment;
+import com.massisframework.massis.javafx.canvas2d.tabbedpane.CanvasTabbedPane;
+import com.massisframework.massis.javafx.canvas2d.tabbedpane.JFXSceneGraph;
 
 import javafx.scene.Scene;
 import javafx.scene.shape.Shape;
@@ -23,7 +25,8 @@ public class FloorSceneGraphSystem extends IteratingSystem {
 
 	private CanvasTabbedPane canvasTabbedPane;
 	private Map<Integer, JFXSceneGraph> floorTabs;
-	private LinkListener jfxShapeListener;
+	private LinkListener jfxShapeLinkListener;
+	private LinkListener layerLinkListener;
 
 	public FloorSceneGraphSystem()
 	{
@@ -48,29 +51,17 @@ public class FloorSceneGraphSystem extends IteratingSystem {
 			mainStage.setScene(mainScene);
 			mainStage.show();
 		});
-		this.jfxShapeListener = createJFXShapeListener();
+		this.jfxShapeLinkListener = createJFXShapeListener();
 		this.world.getSystem(EntityLinkManager.class)
-				.register(JFXShapeComponent.class, this.jfxShapeListener);
+				.register(JFXShapeComponent.class, this.jfxShapeLinkListener);
+		this.layerLinkListener = createLayerListener();
+		this.world.getSystem(EntityLinkManager.class)
+				.register(LayerAttachment.class, this.layerLinkListener);
 	}
 
 	private LinkListener createJFXShapeListener()
 	{
-		return new LinkListener() {
-			@Override
-			public void onTargetDead(int sourceId,
-					int deadTargetId)
-			{
-				// Entity simulationEntity = world.getEntity(deadTargetId);
-				// BuildingLocation loc = simulationEntity
-				// .getComponent(BuildingLocation.class);
-				// int floorId = loc.getFloorId();
-				// JFXSceneGraph floorTab = floorTabs.get(floorId);
-				// Entity shapeEntity = world.getEntity(sourceId);
-				// JFXShapeComponent shapeNode = shapeEntity
-				// .getComponent(JFXShapeComponent.class);
-				// floorTab.removeChild(shapeNode.getShape());
-			}
-
+		return new LinkAdapter() {
 			@Override
 			public void onLinkEstablished(
 					int sourceId,
@@ -89,22 +80,19 @@ public class FloorSceneGraphSystem extends IteratingSystem {
 					floorTab.addChild(shape);
 				});
 			}
+		};
+	}
 
+	private LinkListener createLayerListener()
+	{
+		return new LinkAdapter() {
 			@Override
-			public void onTargetChanged(
+			public void onLinkEstablished(
 					int sourceId,
-					int targetId,
-					int oldTargetId)
+					int targetId)
 			{
 
 			}
-
-			@Override
-			public void onLinkKilled(int sourceId, int targetId)
-			{
-
-			}
-
 		};
 	}
 
