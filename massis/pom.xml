@@ -14,7 +14,6 @@
 	<modules>
 		<module>massis-utils</module>
 		<module>massis-core</module>
-		<module>massis-ai-sposh</module>
 		<module>testdata</module>
 		<module>massis-app</module>
 		<module>massis-archetypes</module>
