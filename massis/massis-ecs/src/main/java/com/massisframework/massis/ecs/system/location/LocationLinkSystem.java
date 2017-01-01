@@ -11,11 +11,11 @@ import com.massisframework.massis.ecs.components.BuildingLocation;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 
-public class LocationSystem extends BaseEntitySystem {
+public class LocationLinkSystem extends BaseEntitySystem {
 
 	Map<Integer, IntBag> floorItems;
 
-	public LocationSystem()
+	public LocationLinkSystem()
 	{
 		super(Aspect.all(BuildingLocation.class));
 	}
