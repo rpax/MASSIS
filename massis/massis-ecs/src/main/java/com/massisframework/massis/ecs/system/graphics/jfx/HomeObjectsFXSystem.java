@@ -5,12 +5,14 @@ import com.artemis.Entity;
 import com.artemis.systems.IteratingSystem;
 import com.massisframework.massis.ecs.components.BuildingLocation;
 import com.massisframework.massis.ecs.components.DoorOrWindowComponent;
+import com.massisframework.massis.ecs.components.DynamicObstacle;
 import com.massisframework.massis.ecs.components.FurnitureComponent;
 import com.massisframework.massis.ecs.components.PolygonComponent;
 import com.massisframework.massis.ecs.components.RoomComponent;
 import com.massisframework.massis.ecs.components.WallComponent;
 import com.massisframework.massis.ecs.components.g2d.shape.JFXShapeComponent;
 import com.massisframework.massis.ecs.util.SimulationObjects;
+import com.massisframework.massis.javafx.util.Geometries;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
@@ -25,7 +27,8 @@ public class HomeObjectsFXSystem extends IteratingSystem {
 						RoomComponent.class,
 						WallComponent.class,
 						DoorOrWindowComponent.class,
-						FurnitureComponent.class));
+						FurnitureComponent.class,
+						DynamicObstacle.class));
 	}
 
 	@Override
@@ -41,31 +44,48 @@ public class HomeObjectsFXSystem extends IteratingSystem {
 		Entity entity = world.getEntity(entityId);
 		JFXShapeComponent jfxNode = new JFXShapeComponent();
 		Polygon jfxPoly = new Polygon();
-		entity.getComponent(PolygonComponent.class).get().getPoints()
-				.forEach(kp -> {
-					jfxPoly.getPoints().add(kp.x);
-					jfxPoly.getPoints().add(kp.y);
-				});
 		jfxNode.setParent(entityId);
 		jfxNode.setShape(jfxPoly);
+		if (SimulationObjects.isDynamic(entity))
+		{
+			Geometries.createRegularPolygon(3, entity
+					.getComponent(PolygonComponent.class).get().getRadius(),
+					jfxPoly);
+			jfxPoly.setFill(Color.YELLOW);
+			jfxPoly.setScaleX(1);
+			jfxPoly.setScaleY(0.6);
+
+		} else
+		{
+			entity.getComponent(PolygonComponent.class).get().getPoints()
+					.forEach(kp -> {
+						jfxPoly.getPoints().add(kp.x);
+						jfxPoly.getPoints().add(kp.y);
+					});
+		}
+
+		double x = entity.getComponent(BuildingLocation.class).getX();
+		double z = entity.getComponent(BuildingLocation.class).getZ();
+		jfxPoly.setTranslateX(x);
+		jfxPoly.setTranslateY(z);
+
 		if (SimulationObjects.isWall(entity))
 		{
-			//
-			jfxPoly.getProperties().put("LAYER", "WALL");
-			jfxPoly.setFill(Color.BLUE);
+			jfxNode.setGroup("WALL");
+			jfxNode.setFill(Color.BLUE);
 
 		} else if (SimulationObjects.isRoom(entity))
 		{
-			jfxPoly.getProperties().put("LAYER", "ROOM");
-			jfxPoly.setFill(Color.GRAY);
+			jfxNode.setGroup("ROOM");
+			jfxNode.setFill(Color.GRAY);
 		} else if (SimulationObjects.isDoor(entity))
 		{
-			jfxPoly.getProperties().put("LAYER", "DOOR");
-			jfxPoly.setFill(Color.GREEN);
+			jfxNode.setGroup("DOOR");
+			jfxNode.setFill(Color.GREEN);
 		} else if (SimulationObjects.isFurniture(entity))
 		{
-			jfxPoly.getProperties().put("LAYER", "FURNITURE");
-			jfxPoly.setFill(Color.BROWN);
+			jfxNode.setGroup("FURNITURE");
+			jfxNode.setFill(Color.BROWN);
 		}
 		Entity nodeEntity = world.createEntity();
 		nodeEntity.edit().add(jfxNode);

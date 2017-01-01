@@ -1,6 +1,9 @@
 package com.massisframework.massis.ecs.system.sweethome3d.loader;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 
 import com.artemis.Archetype;
 import com.artemis.ArchetypeBuilder;
@@ -8,6 +11,8 @@ import com.artemis.BaseSystem;
 import com.artemis.Entity;
 import com.eteks.sweethome3d.model.Elevatable;
 import com.eteks.sweethome3d.model.Home;
+import com.eteks.sweethome3d.model.HomeFurnitureGroup;
+import com.eteks.sweethome3d.model.HomeLight;
 import com.eteks.sweethome3d.model.HomeObject;
 import com.eteks.sweethome3d.model.HomePieceOfFurniture;
 import com.eteks.sweethome3d.model.Room;
@@ -67,19 +72,32 @@ public class SweetHome3DSystem extends BaseSystem {
 
 	private void createEntities()
 	{
+
 		this.home.getWalls().forEach(this::createHomeObjectEntity);
-		this.home.getFurniture().forEach(this::createHomeObjectEntity);
+		this.home.getFurniture().stream()
+				.filter(f -> !(f instanceof HomeLight))
+				.forEach(this::createHomeObjectEntity);
 		this.home.getRooms().forEach(this::createHomeObjectEntity);
 	}
 
-	private <HO extends HomeObject & Selectable & Elevatable> Entity createHomeObjectEntity(
+	private <HO extends HomeObject & Selectable & Elevatable> void createHomeObjectEntity(
 			HO ho)
 	{
+		if (ho instanceof HomeFurnitureGroup)
+		{
+			for (HomePieceOfFurniture h : ((HomeFurnitureGroup) ho)
+					.getAllFurniture())
+			{
+				createHomeObjectEntity(h);
+			}
+			return;
+		}
 		Entity e = this.world.createEntity(this.wallArchetype);
 		KPolygon poly = toKPolygon(ho);
-		e.getComponent(PolygonComponent.class).set(toKPolygon(ho));
+		KPoint center = poly.getCenter().copy();
+		poly.translateTo(0, 0);
+		e.getComponent(PolygonComponent.class).set(poly);
 		e.getComponent(Rotation.class).setAngle(0);
-		KPoint center = poly.getCenter();
 		e.getComponent(BuildingLocation.class).set(center);
 		e.getComponent(SweetHome3DComponent.class).set(ho);
 		e.getComponent(SweetHome3DLevelComponent.class).set(ho.getLevel());
@@ -116,7 +134,6 @@ public class SweetHome3DSystem extends BaseSystem {
 			}
 		}
 		// Check if is Dynamic...etc
-		return e;
 	}
 
 	private static KPolygon toKPolygon(Selectable homePieceOfFurniture)

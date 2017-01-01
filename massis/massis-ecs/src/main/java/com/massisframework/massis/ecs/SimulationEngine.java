@@ -58,7 +58,7 @@ public class SimulationEngine implements Loggable {
 		try
 		{
 			return new HomeFileRecorder()
-					.readHome("/ramstorage-ram/data/git/massis3-2/massis3-assets/src/main/sweethome3d/Faculty1/Faculty1.sh3d");
+					.readHome("/ramstorage-ram/data/git/MASSIS/massis/massis-ecs/src/main/resources/square.sh3d");
 
 		} catch (RecorderException e)
 		{
@@ -108,17 +108,17 @@ public class SimulationEngine implements Loggable {
 		SimulationEngine engine = new SimulationEngine();
 		engine.start();
 		Scanner sc = new Scanner(System.in);
-		new Thread(() -> {
-			try
-			{
-				Thread.sleep(60000);
-			} catch (InterruptedException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			System.exit(0);
-		}).start();
+//		new Thread(() -> {
+//			try
+//			{
+//				Thread.sleep(600000);
+//			} catch (InterruptedException e)
+//			{
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			System.exit(0);
+//		}).start();
 		while (!sc.nextLine().trim().toLowerCase().equals("quit"))
 		{
 		}

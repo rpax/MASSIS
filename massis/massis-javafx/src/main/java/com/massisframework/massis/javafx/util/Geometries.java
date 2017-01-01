@@ -1,5 +1,7 @@
 package com.massisframework.massis.javafx.util;
 
+import javafx.collections.ObservableList;
+import javafx.scene.shape.Polygon;
 import javafx.scene.transform.Transform;
 
 public final class Geometries {
@@ -40,4 +42,43 @@ public final class Geometries {
 		return s.getMyx() * x + s.getMyy() * y + s.getTy();
 	}
 
+	public static void createRegularPolygon(int numPoints,
+			double distFromCenterToPoints, ObservableList<Double> store)
+	{
+		store.clear();
+		if (numPoints < 3)
+		{
+			throw new IllegalArgumentException(
+					"numPoints must be 3 or more, it can not be " + numPoints
+							+ ".");
+		}
+		double angleIncrement = Math.PI * 2f / (numPoints);
+		double radius = distFromCenterToPoints;
+		double currentAngle = 0;
+		for (int k = 0; k < numPoints; k++)
+		{
+			double x = radius * Math.cos(currentAngle);
+			double y = radius * Math.sin(currentAngle);
+			store.add(x);
+			store.add(y);
+			currentAngle += angleIncrement;
+		}
+	}
+
+	public static Polygon createRegularPolygon(int numPoints,
+			double distFromCenterToPoints, Polygon store)
+	{
+		createRegularPolygon(numPoints, distFromCenterToPoints,
+				store.getPoints());
+		return store;
+	}
+
+	public static Polygon createRegularPolygon(int numPoints,
+			double distFromCenterToPoints)
+	{
+
+		return Geometries.createRegularPolygon(numPoints,
+				distFromCenterToPoints,
+				new Polygon());
+	}
 }

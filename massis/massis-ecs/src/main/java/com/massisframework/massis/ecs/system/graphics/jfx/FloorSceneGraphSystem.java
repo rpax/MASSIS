@@ -13,7 +13,6 @@ import com.massisframework.massis.ecs.components.BuildingLocation;
 import com.massisframework.massis.ecs.components.Floor;
 import com.massisframework.massis.ecs.components.NameComponent;
 import com.massisframework.massis.ecs.components.g2d.shape.JFXShapeComponent;
-import com.massisframework.massis.ecs.components.g2d.shape.LayerAttachment;
 import com.massisframework.massis.javafx.canvas2d.tabbedpane.CanvasTabbedPane;
 import com.massisframework.massis.javafx.canvas2d.tabbedpane.JFXSceneGraph;
 
@@ -26,7 +25,6 @@ public class FloorSceneGraphSystem extends IteratingSystem {
 	private CanvasTabbedPane canvasTabbedPane;
 	private Map<Integer, JFXSceneGraph> floorTabs;
 	private LinkListener jfxShapeLinkListener;
-	private LinkListener layerLinkListener;
 
 	public FloorSceneGraphSystem()
 	{
@@ -54,9 +52,6 @@ public class FloorSceneGraphSystem extends IteratingSystem {
 		this.jfxShapeLinkListener = createJFXShapeListener();
 		this.world.getSystem(EntityLinkManager.class)
 				.register(JFXShapeComponent.class, this.jfxShapeLinkListener);
-		this.layerLinkListener = createLayerListener();
-		this.world.getSystem(EntityLinkManager.class)
-				.register(LayerAttachment.class, this.layerLinkListener);
 	}
 
 	private LinkListener createJFXShapeListener()
@@ -83,18 +78,6 @@ public class FloorSceneGraphSystem extends IteratingSystem {
 		};
 	}
 
-	private LinkListener createLayerListener()
-	{
-		return new LinkAdapter() {
-			@Override
-			public void onLinkEstablished(
-					int sourceId,
-					int targetId)
-			{
-
-			}
-		};
-	}
 
 	@Override
 	protected void inserted(int entityId)

@@ -126,15 +126,15 @@ public class AnchorPaneSceneGraph extends AnchorPane
 			boolean visible = layer.enabledProperty().get();
 			this.sceneGroup.getChildren()
 					.stream()
-					.filter(c -> getLayerName(c).equals(layerName))
+					.filter(c -> JFXSceneGraph.getGroup(c).equals(layerName))
 					.forEach(c -> c.setVisible(visible));
 
 			layerOrder.put(layerName, i);
 		}
 		List<Node> sorted = new ArrayList<>(sceneGroup.getChildren());
 		sorted.sort((c1, c2) -> {
-			String l1 = getLayerName(c1);
-			String l2 = getLayerName(c2);
+			String l1 = JFXSceneGraph.getGroup(c1);
+			String l2 = JFXSceneGraph.getGroup(c2);
 			Integer v1 = layerOrder.get(l1);
 			Integer v2 = layerOrder.get(l2);
 			if (v1 == null || v2 == null)
@@ -231,8 +231,7 @@ public class AnchorPaneSceneGraph extends AnchorPane
 
 	public void addChild(Node node)
 	{
-		this.addLayerIfNotExists(
-				String.valueOf(node.getProperties().get("LAYER")));
+		this.addLayerIfNotExists(JFXSceneGraph.getGroup(node));
 		this.sceneGroup.getChildren().add(node);
 	}
 
@@ -244,11 +243,6 @@ public class AnchorPaneSceneGraph extends AnchorPane
 		{
 			this.layers.add(new FXSceneGroup(name, true));
 		}
-	}
-
-	private String getLayerName(Node n)
-	{
-		return String.valueOf(n.getProperties().get("LAYER"));
 	}
 
 	public void removeChild(Node node)
