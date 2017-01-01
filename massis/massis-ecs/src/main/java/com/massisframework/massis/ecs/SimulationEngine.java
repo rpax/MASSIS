@@ -58,7 +58,7 @@ public class SimulationEngine implements Loggable {
 		try
 		{
 			return new HomeFileRecorder()
-					.readHome("/ramstorage-ram/data/git/MASSIS/massis/massis-ecs/src/main/resources/square.sh3d");
+					.readHome("src/main/resources/square.sh3d");
 
 		} catch (RecorderException e)
 		{
