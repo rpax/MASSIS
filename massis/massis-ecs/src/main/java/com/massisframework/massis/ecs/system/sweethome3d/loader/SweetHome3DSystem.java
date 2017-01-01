@@ -77,7 +77,7 @@ public class SweetHome3DSystem extends BaseSystem {
 		this.home.getRooms().forEach(this::createHomeObjectEntity);
 	}
 
-	private <HO extends HomeObject & Selectable & Elevatable> void createHomeObjectEntity(
+	private <HO extends HomeObject> void createHomeObjectEntity(
 			HO ho)
 	{
 		if (ho instanceof HomeFurnitureGroup)
@@ -90,14 +90,14 @@ public class SweetHome3DSystem extends BaseSystem {
 			return;
 		}
 		Entity e = this.world.createEntity(this.wallArchetype);
-		KPolygon poly = toKPolygon(ho);
+		KPolygon poly = toKPolygon((Selectable)ho);
 		KPoint center = poly.getCenter().copy();
 		poly.translateTo(0, 0);
 		e.getComponent(PolygonComponent.class).set(poly);
 		e.getComponent(Rotation.class).setAngle(0);
 		e.getComponent(BuildingLocation.class).set(center);
 		e.getComponent(SweetHome3DComponent.class).set(ho);
-		e.getComponent(SweetHome3DLevelComponent.class).set(ho.getLevel());
+		e.getComponent(SweetHome3DLevelComponent.class).set(((Elevatable)ho).getLevel());
 
 		// TODO better code
 		if (ho instanceof Room)
