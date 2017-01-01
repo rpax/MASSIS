@@ -15,8 +15,8 @@
 		</dependency>
 		<dependency>
 			<groupId>com.massisframework</groupId>
-			<artifactId>pluginsloader</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<artifactId>sweethome3d</artifactId>
+			<version>5.3.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.massisframework</groupId>
