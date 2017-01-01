@@ -46,7 +46,7 @@ public class FloorLevelsSystem extends BaseEntitySystem {
 		Level level = this.world.getEntity(entityId)
 				.getComponent(SweetHome3DLevelComponent.class)
 				.getLevel();
-		
+
 		Integer floorEntitId = homeLevels.get(level);
 		if (floorEntitId == null)
 		{

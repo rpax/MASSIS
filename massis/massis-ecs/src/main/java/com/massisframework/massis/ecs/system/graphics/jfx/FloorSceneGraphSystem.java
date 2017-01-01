@@ -78,7 +78,6 @@ public class FloorSceneGraphSystem extends IteratingSystem {
 		};
 	}
 
-
 	@Override
 	protected void inserted(int entityId)
 	{

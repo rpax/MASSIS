@@ -108,17 +108,17 @@ public class SimulationEngine implements Loggable {
 		SimulationEngine engine = new SimulationEngine();
 		engine.start();
 		Scanner sc = new Scanner(System.in);
-//		new Thread(() -> {
-//			try
-//			{
-//				Thread.sleep(600000);
-//			} catch (InterruptedException e)
-//			{
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//			System.exit(0);
-//		}).start();
+		// new Thread(() -> {
+		// try
+		// {
+		// Thread.sleep(600000);
+		// } catch (InterruptedException e)
+		// {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+		// System.exit(0);
+		// }).start();
 		while (!sc.nextLine().trim().toLowerCase().equals("quit"))
 		{
 		}

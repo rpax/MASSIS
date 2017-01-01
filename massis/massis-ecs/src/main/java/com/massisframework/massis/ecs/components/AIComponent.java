@@ -17,5 +17,5 @@ public class AIComponent extends Component {
 	{
 		this.executor = executor;
 	}
-	
+
 }

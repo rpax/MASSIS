@@ -4,7 +4,7 @@ import com.artemis.Component;
 
 public class NameComponent extends Component {
 
-	private String name="";
+	private String name = "";
 
 	public NameComponent()
 	{

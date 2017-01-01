@@ -64,5 +64,4 @@ public final class SimulationObjects {
 		return isFurniture(world.getEntity(eid));
 	}
 
-	
 }
