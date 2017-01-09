@@ -6,6 +6,7 @@ import com.artemis.Archetype;
 import com.artemis.ArchetypeBuilder;
 import com.artemis.BaseSystem;
 import com.artemis.Entity;
+import com.artemis.World;
 import com.eteks.sweethome3d.model.Elevatable;
 import com.eteks.sweethome3d.model.Home;
 import com.eteks.sweethome3d.model.HomeFurnitureGroup;
@@ -15,6 +16,8 @@ import com.eteks.sweethome3d.model.HomePieceOfFurniture;
 import com.eteks.sweethome3d.model.Room;
 import com.eteks.sweethome3d.model.Selectable;
 import com.eteks.sweethome3d.model.Wall;
+import com.massisframework.massis.ecs.components.AIComponent;
+import com.massisframework.massis.ecs.components.AIExecutor;
 import com.massisframework.massis.ecs.components.BuildingLocation;
 import com.massisframework.massis.ecs.components.DoorOrWindowComponent;
 import com.massisframework.massis.ecs.components.DynamicObstacle;
@@ -26,6 +29,7 @@ import com.massisframework.massis.ecs.components.StaticObstacle;
 import com.massisframework.massis.ecs.components.SweetHome3DComponent;
 import com.massisframework.massis.ecs.components.SweetHome3DLevelComponent;
 import com.massisframework.massis.ecs.components.WallComponent;
+import com.massisframework.massis.ecs.util.SimulationObjects;
 
 import straightedge.geom.KPoint;
 import straightedge.geom.KPolygon;
@@ -90,14 +94,15 @@ public class SweetHome3DSystem extends BaseSystem {
 			return;
 		}
 		Entity e = this.world.createEntity(this.wallArchetype);
-		KPolygon poly = toKPolygon((Selectable)ho);
+		KPolygon poly = toKPolygon((Selectable) ho);
 		KPoint center = poly.getCenter().copy();
 		poly.translateTo(0, 0);
 		e.getComponent(PolygonComponent.class).set(poly);
 		e.getComponent(Rotation.class).setAngle(0);
 		e.getComponent(BuildingLocation.class).set(center);
 		e.getComponent(SweetHome3DComponent.class).set(ho);
-		e.getComponent(SweetHome3DLevelComponent.class).set(((Elevatable)ho).getLevel());
+		e.getComponent(SweetHome3DLevelComponent.class)
+				.set(((Elevatable) ho).getLevel());
 
 		// TODO better code
 		if (ho instanceof Room)
@@ -127,7 +132,13 @@ public class SweetHome3DSystem extends BaseSystem {
 				e.edit().add(new DoorOrWindowComponent());
 			} else if (isDynamic)
 			{
+				e.edit().add(new AIComponent().setExecutor(new AIExecutor() {
 
+					@Override
+					public void execute(int entityId, World world)
+					{
+					}
+				}));
 			}
 		}
 		// Check if is Dynamic...etc

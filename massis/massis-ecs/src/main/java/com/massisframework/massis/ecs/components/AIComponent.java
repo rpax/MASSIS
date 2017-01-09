@@ -13,9 +13,10 @@ public class AIComponent extends Component {
 		return executor;
 	}
 
-	public void setExecutor(AIExecutor executor)
+	public AIComponent setExecutor(AIExecutor executor)
 	{
 		this.executor = executor;
+		return this;
 	}
 
 }

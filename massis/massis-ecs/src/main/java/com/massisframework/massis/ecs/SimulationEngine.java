@@ -15,6 +15,7 @@ import com.eteks.sweethome3d.model.Home;
 import com.eteks.sweethome3d.model.RecorderException;
 import com.massisframework.massis.ecs.system.Loggable;
 import com.massisframework.massis.ecs.system.ai.AISystem;
+import com.massisframework.massis.ecs.system.graphics.jfx.FXUpdateSystem;
 import com.massisframework.massis.ecs.system.graphics.jfx.FloorSceneGraphSystem;
 import com.massisframework.massis.ecs.system.graphics.jfx.HomeObjectsFXSystem;
 import com.massisframework.massis.ecs.system.graphics.jfx.JavaFXSystem;
@@ -26,7 +27,7 @@ import com.massisframework.massis.ecs.system.sweethome3d.loader.SweetHome3DSyste
 public class SimulationEngine implements Loggable {
 
 	private ScheduledExecutorService executor;
-	private long framerate = 1;
+	private long framerate = 50;
 	private World world;
 
 	public SimulationEngine()
@@ -44,6 +45,7 @@ public class SimulationEngine implements Loggable {
 				.with(new JavaFXSystem())
 					.with(new FloorSceneGraphSystem())
 					.with(new HomeObjectsFXSystem())
+					.with(new FXUpdateSystem())
 //				.with(new Graphics2DSystem())
 //					.with(new FloorLayersSystem())
 				.build();

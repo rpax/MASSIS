@@ -34,7 +34,7 @@ public class HomeObjectsFXSystem extends IteratingSystem {
 	@Override
 	protected void process(int entityId)
 	{
-
+		
 	}
 
 	@Override
