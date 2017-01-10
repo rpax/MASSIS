@@ -73,12 +73,11 @@ public class SweetHome3DSystem extends BaseSystem {
 
 	private void createEntities()
 	{
-
+		this.home.getRooms().forEach(this::createHomeObjectEntity);
 		this.home.getWalls().forEach(this::createHomeObjectEntity);
 		this.home.getFurniture().stream()
 				.filter(f -> !(f instanceof HomeLight))
 				.forEach(this::createHomeObjectEntity);
-		this.home.getRooms().forEach(this::createHomeObjectEntity);
 	}
 
 	private <HO extends HomeObject> void createHomeObjectEntity(
