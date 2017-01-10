@@ -29,7 +29,6 @@ import com.massisframework.massis.ecs.components.StaticObstacle;
 import com.massisframework.massis.ecs.components.SweetHome3DComponent;
 import com.massisframework.massis.ecs.components.SweetHome3DLevelComponent;
 import com.massisframework.massis.ecs.components.WallComponent;
-import com.massisframework.massis.ecs.util.SimulationObjects;
 
 import straightedge.geom.KPoint;
 import straightedge.geom.KPolygon;
