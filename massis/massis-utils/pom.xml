@@ -40,20 +40,11 @@
 			<version>0.11.1</version>
 		</dependency>
 		<dependency>
-			<groupId>fr.irit.smac.thirdparty.edu.gmu.cs</groupId>
-			<artifactId>mason</artifactId>
-			<version>18</version>
-		</dependency>
-		<dependency>
-			<groupId>org.openjdk.jmh</groupId>
-			<artifactId>jmh-core</artifactId>
-			<version>1.11</version>
-		</dependency>
-		<dependency>
-			<groupId>com.massisframework</groupId>
-			<artifactId>sweethome3d</artifactId>
-			<version>5.1.7</version>
-		</dependency>
+    <groupId>net.sf.sociaal</groupId>
+    <artifactId>mason</artifactId>
+    <version>16</version>
+</dependency>
+
 		<dependency>
 			<groupId>com.badlogicgames.gdx</groupId>
 			<artifactId>gdx</artifactId>

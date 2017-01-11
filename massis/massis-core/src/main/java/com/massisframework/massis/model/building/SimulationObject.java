@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.location.SimLocation;
@@ -17,7 +18,6 @@ import com.massisframework.massis.model.managers.AnimationManager;
 import com.massisframework.massis.model.managers.EnvironmentManager;
 import com.massisframework.massis.model.managers.movement.MovementManager;
 import com.massisframework.massis.model.managers.pathfinding.PathFindingManager;
-import com.massisframework.massis.util.SimObjectProperty;
 import com.massisframework.massis.util.io.JsonState;
 import com.massisframework.massis.util.io.Restorable;
 import com.massisframework.massis.util.io.RestorableObserver;
@@ -52,7 +52,10 @@ public abstract class SimulationObject implements ISimulationObject {
 	 */
 	private final SimLocation location;
 
-	private final ArrayList<RestorableObserver> restorableObservers = new ArrayList<>();
+	private final List<RestorableObserver> restorableObservers = new ArrayList<>();
+	private List<MassisComponent> components;
+
+	static final AtomicInteger tmp_id_gen = new AtomicInteger();
 
 	/**
 	 * Main constructor
@@ -74,10 +77,10 @@ public abstract class SimulationObject implements ISimulationObject {
 	public SimulationObject(final Map<String, String> metadata,
 			SimLocation location, MovementManager movementManager,
 			AnimationManager animationManager, EnvironmentManager environment,
-			PathFindingManager pathManager) {
+			PathFindingManager pathManager)
+	{
 
-		this.id = Integer
-				.parseInt(metadata.get(SimObjectProperty.ID.toString()));
+		this.id = tmp_id_gen.incrementAndGet();
 		this.movement = movementManager;
 		this.animation = animationManager;
 		this.environment = environment;
@@ -86,27 +89,39 @@ public abstract class SimulationObject implements ISimulationObject {
 		this.getLocation().attach(this);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.ISimulationObject#getLocation()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.massisframework.massis.model.building.ISimulationObject#getLocation()
 	 */
 	@Override
-	public final SimLocation getLocation() {
+	public final SimLocation getLocation()
+	{
 		return this.location;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.massisframework.massis.model.building.ISimulationObject#getID()
 	 */
 	@Override
-	public final int getID() {
+	public final int getID()
+	{
 		return this.id;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.ISimulationObject#moveTo(com.massisframework.massis.model.location.Location)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.massisframework.massis.model.building.ISimulationObject#moveTo(com.
+	 * massisframework.massis.model.location.Location)
 	 */
 	@Override
-	public void moveTo(Location other) {
+	public void moveTo(Location other)
+	{
 		this.location.translateTo(other);
 		this.animate();
 		//
@@ -114,75 +129,108 @@ public abstract class SimulationObject implements ISimulationObject {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.ISimulationObject#addRestorableObserver(com.massisframework.massis.util.io.RestorableObserver)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.massisframework.massis.model.building.ISimulationObject#
+	 * addRestorableObserver(com.massisframework.massis.util.io.
+	 * RestorableObserver)
 	 */
 	@Override
-	public void addRestorableObserver(RestorableObserver obs) {
+	public void addRestorableObserver(RestorableObserver obs)
+	{
 		this.restorableObservers.add(obs);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.ISimulationObject#removeRestorableObserver(com.massisframework.massis.util.io.RestorableObserver)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.massisframework.massis.model.building.ISimulationObject#
+	 * removeRestorableObserver(com.massisframework.massis.util.io.
+	 * RestorableObserver)
 	 */
 	@Override
-	public void removeRestorableObserver(RestorableObserver obs) {
+	public void removeRestorableObserver(RestorableObserver obs)
+	{
 		this.restorableObservers.remove(obs);
 	}
 
-	protected final void notifyChanged() {
-		for (final RestorableObserver restorableObserver : this.restorableObservers) {
+	protected final void notifyChanged()
+	{
+		for (final RestorableObserver restorableObserver : this.restorableObservers)
+		{
 			restorableObserver.notifyChange(this, this.getState());
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.ISimulationObject#animate()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.massisframework.massis.model.building.ISimulationObject#animate()
 	 */
 	@Override
-	public void animate() {
+	public void animate()
+	{
 		this.animation.animate(this);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.massisframework.massis.model.building.ISimulationObject#getX()
 	 */
 	@Override
-	public final double getX() {
+	public final double getX()
+	{
 		return this.location.getX();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.massisframework.massis.model.building.ISimulationObject#getY()
 	 */
 	@Override
-	public final double getY() {
+	public final double getY()
+	{
 		return this.location.getY();
 	}
 
-//	@Override
-	/* (non-Javadoc)
+	// @Override
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.massisframework.massis.model.building.ISimulationObject#getXY()
 	 */
 	@Override
-	public final KPoint getXY() {
+	public final KPoint getXY()
+	{
 
 		return this.getPolygon().center;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.ISimulationObject#getPolygon()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.massisframework.massis.model.building.ISimulationObject#getPolygon()
 	 */
 	@Override
-	public final KPolygon getPolygon() {
+	public final KPolygon getPolygon()
+	{
 		return this.location.getPolygon();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.ISimulationObject#getRoomsConnectorsInSameFloor()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.massisframework.massis.model.building.ISimulationObject#
+	 * getRoomsConnectorsInSameFloor()
 	 */
 	@Override
-	public List<RoomConnector> getRoomsConnectorsInSameFloor() {
+	public List<RoomConnector> getRoomsConnectorsInSameFloor()
+	{
 		return this.getLocation().getFloor().getRoomConnectors();
 	}
 
@@ -194,97 +242,142 @@ public abstract class SimulationObject implements ISimulationObject {
 	// public void stop()
 	// {
 	// }
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.ISimulationObject#getProperty(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.massisframework.massis.model.building.ISimulationObject#getProperty(
+	 * java.lang.String)
 	 */
 	@Override
-	public Object getProperty(String propertyName) {
-		if (!this.properties.containsKey(propertyName)) {
+	public Object getProperty(String propertyName)
+	{
+		if (!this.properties.containsKey(propertyName))
+		{
 			return null;
 		}
 		return this.properties.get(propertyName);
 	}
+
 	@Override
-	public Collection<String> getPropertyNames() {
+	public Collection<String> getPropertyNames()
+	{
 		return Collections.unmodifiableCollection(this.properties.keySet());
 	}
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.ISimulationObject#hasProperty(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.massisframework.massis.model.building.ISimulationObject#hasProperty(
+	 * java.lang.String)
 	 */
 	@Override
-	public boolean hasProperty(String propertyName) {
+	public boolean hasProperty(String propertyName)
+	{
 		return this.properties.containsKey(propertyName);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.ISimulationObject#setProperty(java.lang.String, java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.massisframework.massis.model.building.ISimulationObject#setProperty(
+	 * java.lang.String, java.lang.Object)
 	 */
 	@Override
-	public void setProperty(String propertyName, Object value) {
+	public void setProperty(String propertyName, Object value)
+	{
 		this.properties.put(propertyName, value);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.ISimulationObject#removeProperty(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.massisframework.massis.model.building.ISimulationObject#
+	 * removeProperty(java.lang.String)
 	 */
 	@Override
-	public void removeProperty(String propertyName) {
+	public void removeProperty(String propertyName)
+	{
 		this.properties.remove(propertyName);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.ISimulationObject#toString()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.massisframework.massis.model.building.ISimulationObject#toString()
 	 */
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "[SimulationObject#" + this.getID() + " {" + this.location
 				+ "}]";
 	}
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.ISimulationObject#getAngle()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.massisframework.massis.model.building.ISimulationObject#getAngle()
 	 */
 	@Override
-	public double getAngle() {
+	public double getAngle()
+	{
 		return this.location.getAngle();
 	}
 
-	
-
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.ISimulationObject#getState()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.massisframework.massis.model.building.ISimulationObject#getState()
 	 */
 	@Override
-	public JsonState<Building> getState() {
+	public JsonState<Building> getState()
+	{
 		return new SimulationObjectState(this);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.ISimulationObject#hashCode()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.massisframework.massis.model.building.ISimulationObject#hashCode()
 	 */
 	@Override
-	public int hashCode() {
+	public int hashCode()
+	{
 		return this.id;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.ISimulationObject#equals(java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.massisframework.massis.model.building.ISimulationObject#equals(java.
+	 * lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+		{
 			return true;
 		}
-		if (obj == null) {
+		if (obj == null)
+		{
 			return false;
 		}
-		if (!(obj instanceof Restorable)) {
+		if (!(obj instanceof Restorable))
+		{
 			return false;
 		}
 
 		final ISimulationObject other = (ISimulationObject) obj;
-		if (this.id != other.getID()) {
+		if (this.id != other.getID())
+		{
 			return false;
 		}
 		return true;
@@ -296,21 +389,25 @@ public abstract class SimulationObject implements ISimulationObject {
 		protected HashMap<String, Object> properties;
 		protected JsonState<Building> locationState;
 
-		public SimulationObjectState(ISimulationObject obj) {
+		public SimulationObjectState(ISimulationObject obj)
+		{
 			this.id = obj.getID();
 			this.properties = new HashMap<>();
 			for (String name : obj.getPropertyNames())
 			{
 				this.properties.put(name, obj.getProperty(name));
 			}
-			//TODO temporary
+			// TODO temporary
 			this.locationState = ((SimLocation) obj.getLocation()).getState();
 		}
 
 		@Override
-		public Restorable restore(Building building) {
-			final ISimulationObject simObj = building.getSimulationObject(this.id);
-			for (final Entry<String, Object> entry : this.properties.entrySet()) {
+		public Restorable restore(Building building)
+		{
+			final ISimulationObject simObj = building
+					.getSimulationObject(this.id);
+			for (final Entry<String, Object> entry : this.properties.entrySet())
+			{
 				simObj.setProperty(entry.getKey(), entry.getValue());
 			}
 			this.locationState.restore(building);
@@ -319,27 +416,60 @@ public abstract class SimulationObject implements ISimulationObject {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.ISimulationObject#getMovementManager()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.massisframework.massis.model.building.ISimulationObject#
+	 * getMovementManager()
 	 */
 	@Override
-	public MovementManager getMovementManager() {
+	public MovementManager getMovementManager()
+	{
 		return this.movement;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.ISimulationObject#getEnvironment()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.massisframework.massis.model.building.ISimulationObject#
+	 * getEnvironment()
 	 */
 	@Override
-	public EnvironmentManager getEnvironment() {
+	public EnvironmentManager getEnvironment()
+	{
 		return this.environment;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.ISimulationObject#getPathManager()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.massisframework.massis.model.building.ISimulationObject#
+	 * getPathManager()
 	 */
 	@Override
-	public PathFindingManager getPathManager() {
+	public PathFindingManager getPathManager()
+	{
 		return this.pathManager;
+	}
+
+	@Override
+	public void addComponent(MassisComponent c)
+	{
+		this.components.add(c);
+	}
+
+	@Override
+	public <T extends MassisComponent> void removeComponent(Class<T> type)
+	{
+		this.components.removeIf(type::isInstance);
+	}
+
+	@Override
+	public <T extends MassisComponent> T getComponent(Class<T> type)
+	{
+		return this.components.stream()
+				.filter(type::isInstance)
+				.map(type::cast)
+				.findAny().orElse(null);
 	}
 }

@@ -6,13 +6,11 @@ import java.util.Arrays;
 
 import com.eteks.sweethome3d.io.HomeFileRecorder;
 import com.eteks.sweethome3d.model.Home;
+import com.eteks.sweethome3d.model.HomeRecorder;
 import com.eteks.sweethome3d.model.RecorderException;
 import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.BuildingProgressMonitor;
 import com.massisframework.massis.model.building.impl.BuildingImpl;
-import com.massisframework.sweethome3d.additionaldata.AdditionalDataHomeRecorder;
-import com.massisframework.sweethome3d.additionaldata.AdditionalDataReader;
-import com.massisframework.sweethome3d.metadata.HomeMetadataLoader;
 
 import sim.engine.MakesSimState;
 import sim.engine.SimState;
@@ -111,8 +109,7 @@ public abstract class AbstractSimulation extends SimState {
 	}
 
 	protected Building createBuilding() throws RecorderException {
-		final HomeFileRecorder recorder = new AdditionalDataHomeRecorder(
-				(AdditionalDataReader) new HomeMetadataLoader());
+		final HomeRecorder recorder = new HomeFileRecorder();
 		final Home home = recorder.readHome(this.buildingFile.getAbsolutePath());
 		if (this.buildingProgress != null) {
 			return new BuildingImpl(home, this.resourcesPath, this.buildingProgress);

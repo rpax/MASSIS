@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.eteks.sweethome3d.model.Home;
+import com.eteks.sweethome3d.model.HomeObject;
 import com.eteks.sweethome3d.model.HomePieceOfFurniture;
 import com.eteks.sweethome3d.model.Level;
 import com.eteks.sweethome3d.model.Selectable;
@@ -80,7 +81,7 @@ public interface Building {
 
 	String getResourcesFolder();
 
-	Map<String, String> getMetadata(Selectable f);
+	
 
 	Collection<HighLevelController> getScheduledControllers();
 

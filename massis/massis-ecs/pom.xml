@@ -15,11 +15,6 @@
 		</dependency>
 		<dependency>
 			<groupId>com.massisframework</groupId>
-			<artifactId>sweethome3d</artifactId>
-			<version>5.3.0.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.massisframework</groupId>
 			<artifactId>straightedge</artifactId>
 			<version>0.8</version>
 		</dependency>

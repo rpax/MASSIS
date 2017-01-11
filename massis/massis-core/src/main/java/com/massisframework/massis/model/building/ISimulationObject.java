@@ -15,8 +15,8 @@ import com.massisframework.massis.util.io.RestorableObserver;
 import straightedge.geom.KPoint;
 import straightedge.geom.KPolygon;
 
-public interface ISimulationObject extends Restorable,CoordinateHolder,Indexable,Movable,LocationHolder{
-
+public interface ISimulationObject extends Restorable, CoordinateHolder,
+		Indexable, Movable, LocationHolder {
 
 	void addRestorableObserver(RestorableObserver obs);
 
@@ -24,9 +24,8 @@ public interface ISimulationObject extends Restorable,CoordinateHolder,Indexable
 
 	void animate();
 
-	//	@Override
+	// @Override
 	KPoint getXY();
-
 
 	KPolygon getPolygon();
 
@@ -38,13 +37,14 @@ public interface ISimulationObject extends Restorable,CoordinateHolder,Indexable
 	List<RoomConnector> getRoomsConnectorsInSameFloor();
 
 	Object getProperty(String propertyName);
+
 	public Collection<String> getPropertyNames();
+
 	boolean hasProperty(String propertyName);
 
 	void setProperty(String propertyName, Object value);
 
 	void removeProperty(String propertyName);
-
 
 	double getAngle();
 
@@ -56,4 +56,9 @@ public interface ISimulationObject extends Restorable,CoordinateHolder,Indexable
 
 	PathFindingManager getPathManager();
 
+	public void addComponent(MassisComponent c);
+
+	public <T extends MassisComponent> T getComponent(Class<T> type);
+
+	public <T extends MassisComponent> void removeComponent(Class<T> type);
 }

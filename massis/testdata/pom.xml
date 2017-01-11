@@ -19,11 +19,6 @@
 			<version>2.4</version>
 		</dependency>
 		<dependency>
-			<groupId>com.massisframework.sweethome3d</groupId>
-			<artifactId>sh3d-additionaldata-app</artifactId>
-			<version>1.1</version>
-		</dependency>
-		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 			<version>2.2.4</version>
