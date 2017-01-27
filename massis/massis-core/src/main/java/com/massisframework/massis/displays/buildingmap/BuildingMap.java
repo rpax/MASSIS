@@ -9,7 +9,7 @@ import com.massisframework.massis.displays.SimulationDisplay;
 import com.massisframework.massis.displays.floormap.layers.DrawableFloor;
 import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.Floor;
-import com.massisframework.massis.model.building.ISimulationObject;
+import com.massisframework.massis.model.building.SimulationObject;
 
 public class BuildingMap extends DrawableTabbedFrame implements SimulationDisplay {
 
@@ -23,7 +23,7 @@ public class BuildingMap extends DrawableTabbedFrame implements SimulationDispla
 	}
 
 	@Override
-	public void animate(ISimulationObject obj) {
+	public void animate(SimulationObject obj) {
 		this.refresh();
 
 	}

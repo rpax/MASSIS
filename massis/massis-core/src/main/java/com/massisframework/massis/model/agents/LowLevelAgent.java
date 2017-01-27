@@ -7,7 +7,7 @@ package com.massisframework.massis.model.agents;
 import java.awt.Shape;
 import java.util.Collection;
 
-import com.massisframework.massis.model.building.ISimulationObject;
+import com.massisframework.massis.model.building.SimulationObject;
 import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.location.SimLocation;
@@ -27,7 +27,7 @@ import straightedge.geom.vision.Occluder;
  *
  * @author Rafael Pax
  */
-public interface LowLevelAgent extends  PathFollower,Indexable,SteeringCapable,ISimulationObject {
+public interface LowLevelAgent extends  PathFollower,Indexable,SteeringCapable,SimulationObject {
 
     /**
      * Tries to approach to an specific {@link Location} in the building.

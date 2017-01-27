@@ -15,7 +15,7 @@ import com.eteks.sweethome3d.swing.FileContentManager;
 import com.eteks.sweethome3d.swing.SwingViewFactory;
 import com.massisframework.massis.displays.SimulationDisplay;
 import com.massisframework.massis.model.building.Building;
-import com.massisframework.massis.model.building.ISimulationObject;
+import com.massisframework.massis.model.building.SimulationObject;
 
 public class HomeDisplay3D extends JFrame implements SimulationDisplay {
 
@@ -36,7 +36,7 @@ public class HomeDisplay3D extends JFrame implements SimulationDisplay {
     }
 
     @Override
-    public void animate(ISimulationObject obj)
+    public void animate(SimulationObject obj)
     {
         if (!this.initiated)
         {

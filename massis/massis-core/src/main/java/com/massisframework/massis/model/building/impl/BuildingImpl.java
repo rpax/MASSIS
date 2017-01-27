@@ -22,7 +22,7 @@ import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.BuildingProgressMonitor;
 import com.massisframework.massis.model.building.Floor;
-import com.massisframework.massis.model.building.ISimulationObject;
+import com.massisframework.massis.model.building.SimulationObject;
 import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.Teleport;
 import com.massisframework.massis.model.location.Location;
@@ -54,9 +54,9 @@ public class BuildingImpl implements Building {
 	 */
 	protected HashMap<Level, Floor> levelsFloors;
 	/**
-	 * Map linking MASSIS {@link ISimulationObject}s with SweetHome3D furniture.
+	 * Map linking MASSIS {@link SimulationObject}s with SweetHome3D furniture.
 	 */
-	private final HashMap<ISimulationObject, HomePieceOfFurniture> representationMap;
+	private final HashMap<SimulationObject, HomePieceOfFurniture> representationMap;
 	/**
 	 * List of the building's floors
 	 */
@@ -167,7 +167,7 @@ public class BuildingImpl implements Building {
 	 * com.eteks.sweethome3d.model.HomePieceOfFurniture)
 	 */
 	@Override
-	public void addSH3DRepresentation(ISimulationObject simulationObject,
+	public void addSH3DRepresentation(SimulationObject simulationObject,
 			HomePieceOfFurniture representation)
 	{
 		this.representationMap.put(simulationObject, representation);
@@ -415,7 +415,7 @@ public class BuildingImpl implements Building {
 	 * int)
 	 */
 	@Override
-	public ISimulationObject getSimulationObject(int simObjId)
+	public SimulationObject getSimulationObject(int simObjId)
 	{
 		for (final Floor f : this.getFloors())
 		{

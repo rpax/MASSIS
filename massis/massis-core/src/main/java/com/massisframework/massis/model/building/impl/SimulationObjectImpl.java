@@ -13,7 +13,7 @@ import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.massisframework.massis.model.building.Building;
-import com.massisframework.massis.model.building.ISimulationObject;
+import com.massisframework.massis.model.building.SimulationObject;
 import com.massisframework.massis.model.building.MassisComponent;
 import com.massisframework.massis.model.building.RoomConnector;
 import com.massisframework.massis.model.location.Location;
@@ -36,7 +36,7 @@ import straightedge.geom.KPolygon;
  * @author rpax
  *
  */
-public abstract class SimulationObjectImpl implements ISimulationObject {
+public abstract class SimulationObjectImpl implements SimulationObject {
 
 	/**
 	 * The id of this object
@@ -379,7 +379,7 @@ public abstract class SimulationObjectImpl implements ISimulationObject {
 			return false;
 		}
 
-		final ISimulationObject other = (ISimulationObject) obj;
+		final SimulationObject other = (SimulationObject) obj;
 		if (this.id != other.getID())
 		{
 			return false;
@@ -393,7 +393,7 @@ public abstract class SimulationObjectImpl implements ISimulationObject {
 		protected HashMap<String, Object> properties;
 		protected JsonState<Building> locationState;
 
-		public SimulationObjectState(ISimulationObject obj)
+		public SimulationObjectState(SimulationObject obj)
 		{
 			this.id = obj.getID();
 			this.properties = new HashMap<>();
@@ -408,7 +408,7 @@ public abstract class SimulationObjectImpl implements ISimulationObject {
 		@Override
 		public Restorable restore(Building building)
 		{
-			final ISimulationObject simObj = building
+			final SimulationObject simObj = building
 					.getSimulationObject(this.id);
 			for (final Entry<String, Object> entry : this.properties.entrySet())
 			{

@@ -15,7 +15,7 @@ import com.massisframework.massis.util.io.RestorableObserver;
 import straightedge.geom.KPoint;
 import straightedge.geom.KPolygon;
 
-public interface ISimulationObject extends Restorable, CoordinateHolder,
+public interface SimulationObject extends Restorable, CoordinateHolder,
 		Indexable, Movable, LocationHolder {
 
 	void addRestorableObserver(RestorableObserver obs);
