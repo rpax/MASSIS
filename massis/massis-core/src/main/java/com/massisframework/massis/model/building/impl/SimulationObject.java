@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.massisframework.massis.model.building;
+package com.massisframework.massis.model.building.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,6 +12,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.massisframework.massis.model.building.Building;
+import com.massisframework.massis.model.building.ISimulationObject;
+import com.massisframework.massis.model.building.MassisComponent;
+import com.massisframework.massis.model.building.RoomConnector;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.location.SimLocation;
 import com.massisframework.massis.model.managers.AnimationManager;
