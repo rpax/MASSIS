@@ -20,7 +20,7 @@ import com.massisframework.massis.util.io.JsonState;
  * @author rpax
  *
  */
-public class SimWallImpl extends SimulationObject implements SimWall {
+public class SimWallImpl extends SimulationObjectImpl implements SimWall {
 
 	public SimWallImpl(Map<String, String> metadata, SimLocation location,
 			MovementManager movementManager, AnimationManager animationManager,

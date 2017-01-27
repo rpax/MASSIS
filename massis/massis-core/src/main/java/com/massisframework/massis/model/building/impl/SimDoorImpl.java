@@ -27,7 +27,7 @@ import straightedge.geom.KPoint;
  * @author rpax
  *
  */
-public class SimDoorImpl extends SimulationObject implements SimDoor {
+public class SimDoorImpl extends SimulationObjectImpl implements SimDoor {
 
 	/**
 	 * The rooms connected by this Door

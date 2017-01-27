@@ -36,7 +36,7 @@ import straightedge.geom.KPolygon;
  * @author rpax
  *
  */
-public abstract class SimulationObject implements ISimulationObject {
+public abstract class SimulationObjectImpl implements ISimulationObject {
 
 	/**
 	 * The id of this object
@@ -78,7 +78,7 @@ public abstract class SimulationObject implements ISimulationObject {
 	 * @param pathManager
 	 *            the pathfinding manager
 	 */
-	public SimulationObject(final Map<String, String> metadata,
+	public SimulationObjectImpl(final Map<String, String> metadata,
 			SimLocation location, MovementManager movementManager,
 			AnimationManager animationManager, EnvironmentManager environment,
 			PathFindingManager pathManager)

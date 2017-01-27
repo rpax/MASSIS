@@ -42,7 +42,7 @@ import straightedge.geom.KPoint;
  * @author rpax
  *
  */
-public class SimRoomImpl extends SimulationObject
+public class SimRoomImpl extends SimulationObjectImpl
 		implements  SimRoom {
 
 	private static final long serialVersionUID = 1L;

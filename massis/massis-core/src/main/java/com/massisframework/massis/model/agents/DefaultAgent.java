@@ -16,7 +16,7 @@ import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.WayPoint;
-import com.massisframework.massis.model.building.impl.SimulationObject;
+import com.massisframework.massis.model.building.impl.SimulationObjectImpl;
 import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.location.SimLocation;
 import com.massisframework.massis.model.managers.AnimationManager;
@@ -47,7 +47,7 @@ import straightedge.geom.vision.Occluder;
  * @author rpax
  *
  */
-public class DefaultAgent extends SimulationObject implements LowLevelAgent {
+public class DefaultAgent extends SimulationObjectImpl implements LowLevelAgent {
 
 	/**
 	 * Current velocity

@@ -41,7 +41,7 @@ import com.massisframework.massis.util.io.JsonState;
  * @author rpax
  *
  */
-public class TeleportImpl extends SimulationObject
+public class TeleportImpl extends SimulationObjectImpl
 		implements  Teleport {
 
 	//

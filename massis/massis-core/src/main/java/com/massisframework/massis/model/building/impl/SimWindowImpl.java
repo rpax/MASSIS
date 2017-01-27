@@ -15,7 +15,7 @@ import com.massisframework.massis.model.managers.pathfinding.PathFindingManager;
  * @author rpax
  *
  */
-public class SimWindowImpl extends SimulationObject implements ISimulationObject{
+public class SimWindowImpl extends SimulationObjectImpl implements ISimulationObject{
 
 
     public SimWindowImpl(Map<String, String> metadata, SimLocation location,
