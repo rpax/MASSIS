@@ -3,13 +3,10 @@ package com.massisframework.massis.model.building;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.eteks.sweethome3d.model.Home;
-import com.eteks.sweethome3d.model.HomeObject;
 import com.eteks.sweethome3d.model.HomePieceOfFurniture;
 import com.eteks.sweethome3d.model.Level;
-import com.eteks.sweethome3d.model.Selectable;
 import com.massisframework.massis.displays.SimulationDisplay;
 import com.massisframework.massis.model.agents.HighLevelController;
 import com.massisframework.massis.model.location.Location;
