@@ -2,6 +2,7 @@ package com.massisframework.massis.sim.ecs;
 
 import java.util.List;
 
+
 public interface SimulationEngine {
 
 	public int createEntity();
@@ -20,4 +21,6 @@ public interface SimulationEngine {
 
 	public List<SimulationEntity> getEntitiesFor(ComponentFilter filter,
 			List<SimulationEntity> store);
+
+	public <T extends SimulationSystem> T getSystem(Class<T> type);
 }

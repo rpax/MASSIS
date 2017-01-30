@@ -20,14 +20,15 @@ import com.google.inject.Inject;
 import com.massisframework.massis.model.components.DoorComponent;
 import com.massisframework.massis.model.components.FloorReference;
 import com.massisframework.massis.model.components.Metadata;
+import com.massisframework.massis.model.components.Orientation;
 import com.massisframework.massis.model.components.Position2D;
 import com.massisframework.massis.model.components.RoomComponent;
-import com.massisframework.massis.model.components.ShapeComponent;
-import com.massisframework.massis.model.components.SteeringComponent;
 import com.massisframework.massis.model.components.Velocity;
 import com.massisframework.massis.model.components.VisionArea;
 import com.massisframework.massis.model.components.WallComponent;
 import com.massisframework.massis.model.components.WindowComponent;
+import com.massisframework.massis.model.components.impl.ShapeComponentImpl;
+import com.massisframework.massis.sim.ecs.SimulationComponent;
 import com.massisframework.massis.sim.ecs.SimulationEngine;
 import com.massisframework.massis.sim.ecs.SimulationEntity;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
@@ -60,9 +61,6 @@ public class BuildingSystem implements SimulationSystem {
 				this.createLevel(null);
 			}
 			home.getLevels().forEach(this::createLevel);
-			home.getWalls().forEach(this::createWall);
-			home.getRooms().forEach(this::createRoom);
-			home.getFurniture().forEach(this::createFurniture);
 
 		} catch (RecorderException e)
 		{
@@ -100,12 +98,12 @@ public class BuildingSystem implements SimulationSystem {
 	private void createFurnitureComponent(int floorId, HomePieceOfFurniture f)
 	{
 		SimulationEntity e = createEntity(floorId, f);
+		e.addComponent(SweetHome3DFurniture.class).setFurniture(f);
+		e.addComponent(Orientation.class).setAngle(f.getAngle());
 		if (f instanceof HomeDoorOrWindow)
 		{
 			// Comprobar si es ventana o no
-			if (f.getName() != null
-					&& f.getName().toUpperCase().contains(
-							SimObjectProperty.WINDOW.toString()))
+			if (isWindow(f))
 			{
 				e.addComponent(WindowComponent.class);
 
@@ -115,34 +113,31 @@ public class BuildingSystem implements SimulationSystem {
 			}
 		} else
 		{
+
 			e.addComponent(Velocity.class);
-			e.addComponent(SteeringComponent.class);
 			e.addComponent(VisionArea.class);
-			// TODO falta meter la IA
+			String className = getMetadata(f)
+					.get(SimObjectProperty.CLASSNAME.toString());
+			if (className != null)
+			{
+				try
+				{
+					e.addComponent((Class<? extends SimulationComponent>) Class
+							.forName(className));
+				} catch (ClassNotFoundException e1)
+				{
+					throw new RuntimeException(e1);
+				}
+			}
 		}
 
 	}
 
-	private void createWall(Wall lvl)
+	private boolean isWindow(HomePieceOfFurniture f)
 	{
-		int eid = this.engine.createEntity();
-		this.engine.asSimulationEntity(eid).addComponent(SweetHome3DWall.class)
-				.setWall(lvl);
-	}
-
-	private void createRoom(Room lvl)
-	{
-		int eid = this.engine.createEntity();
-		this.engine.asSimulationEntity(eid).addComponent(SweetHome3DRoom.class)
-				.setRoom(lvl);
-	}
-
-	private void createFurniture(HomePieceOfFurniture lvl)
-	{
-		int eid = this.engine.createEntity();
-		this.engine.asSimulationEntity(eid)
-				.addComponent(SweetHome3DFurniture.class)
-				.setFurniture(lvl);
+		return f.getName() != null
+				&& f.getName().toUpperCase().contains(
+						SimObjectProperty.WINDOW.toString());
 	}
 
 	@Override
@@ -160,7 +155,9 @@ public class BuildingSystem implements SimulationSystem {
 		e.addComponent(FloorReference.class).setFloorId(floorId);
 		e.addComponent(Metadata.class).set(getMetadata((HomeObject) w));
 		e.addComponent(Position2D.class).set(center.x, center.y);
-		e.addComponent(ShapeComponent.class).setShape(shape);
+		e.addComponent(ShapeComponentImpl.class).setShape(shape);
+		e.addComponent(Orientation.class);
+
 		return e;
 	}
 
@@ -184,4 +181,10 @@ public class BuildingSystem implements SimulationSystem {
 		}
 		return metadata;
 	}
+
+	public Home getHome()
+	{
+		return home;
+	}
+
 }

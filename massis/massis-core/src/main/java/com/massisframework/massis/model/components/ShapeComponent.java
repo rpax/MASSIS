@@ -7,6 +7,6 @@ import straightedge.geom.KPolygon;
 public interface ShapeComponent extends SimulationComponent {
 
 	public KPolygon getShape();
-	public void setShape(KPolygon polygon);
+
 	public double getRadius();
 }

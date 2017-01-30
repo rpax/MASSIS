@@ -1,45 +1,21 @@
 package com.massisframework.massis.model.building;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
 import com.eteks.sweethome3d.model.Home;
-import com.eteks.sweethome3d.model.HomePieceOfFurniture;
 import com.eteks.sweethome3d.model.Level;
 import com.massisframework.massis.displays.SimulationDisplay;
-import com.massisframework.massis.model.agents.HighLevelController;
+import com.massisframework.massis.model.components.Floor;
 import com.massisframework.massis.model.managers.AnimationManager;
 import com.massisframework.massis.model.managers.EnvironmentManager;
+import com.massisframework.massis.sim.ecs.SimulationEntity;
 import com.massisframework.massis.util.Indexable;
 import com.massisframework.massis.util.geom.CoordinateHolder;
-import com.massisframework.massis.util.io.Restorable;
 
 public interface Building {
 
-	/**
-	 * Links a simulationObject with its corresponding sweethome3d furniture
-	 * element
-	 *
-	 * @param simulationObject
-	 *            the simulation object to be linked
-	 * @param representation
-	 *            the furniture element of sweethome3d that represents it
-	 */
-	void addSH3DRepresentation(SimulationObject simulationObject,
-			HomePieceOfFurniture representation);
-
-	/**
-	 * Adds a teleport element to the building
-	 *
-	 * @param teleport
-	 *            the teleport element
-	 */
-	void addTeleport(Teleport teleport);
-
-	HomePieceOfFurniture getSH3DRepresentation(Restorable obj);
-
-	List<Floor> getFloors();
+	List<SimulationEntity> getFloors();
 
 	Home getHome();
 
@@ -49,25 +25,14 @@ public interface Building {
 
 	Floor getFloorById(int floorId);
 
-
 	CoordinateHolder getRandomRoom();
 
 	AnimationManager getAnimationManager();
 
 	EnvironmentManager getEnvironmentManager();
 
-	
-
-	void addNamedRoom(String name, SimRoom simRoom);
-
 	void registerDisplays(SimulationDisplay... displays);
 
 	String getResourcesFolder();
 
-	
-
-	Collection<HighLevelController> getScheduledControllers();
-
-
-	public void addToSchedule(HighLevelController hlc);
 }

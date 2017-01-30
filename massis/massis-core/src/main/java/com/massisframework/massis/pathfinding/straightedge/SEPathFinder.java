@@ -3,19 +3,26 @@ package com.massisframework.massis.pathfinding.straightedge;
 import java.awt.geom.Area;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import com.massisframework.massis.model.agents.LowLevelAgent;
-import com.massisframework.massis.model.building.Floor;
-import com.massisframework.massis.model.building.SimDoor;
-import com.massisframework.massis.model.building.Teleport;
-import com.massisframework.massis.model.location.Location;
-import com.massisframework.massis.model.managers.movement.Path;
+import com.google.inject.Provider;
+import com.massisframework.massis.model.components.DoorComponent;
+import com.massisframework.massis.model.components.Floor;
+import com.massisframework.massis.model.components.FloorReference;
+import com.massisframework.massis.model.components.RoomComponent;
+import com.massisframework.massis.model.components.ShapeComponent;
+import com.massisframework.massis.model.components.WallComponent;
+import com.massisframework.massis.sim.ecs.ComponentFilter;
+import com.massisframework.massis.sim.ecs.ComponentFilterBuilder;
+import com.massisframework.massis.sim.ecs.SimulationEngine;
+import com.massisframework.massis.sim.ecs.SimulationEntity;
 import com.massisframework.massis.util.PathFindingUtils;
+import com.massisframework.massis.util.geom.CoordinateHolder;
 import com.massisframework.massis.util.geom.KPolygonUtils;
+import com.massisframework.massis.util.geom.KVector;
 
 import straightedge.geom.KPoint;
 import straightedge.geom.KPolygon;
-import straightedge.geom.PolygonHolder;
 import straightedge.geom.path.MASSISPathFinder;
 import straightedge.geom.path.MNodeConnector;
 import straightedge.geom.path.PathBlockingObstacleImpl;
@@ -60,10 +67,7 @@ public class SEPathFinder {
 	 * MASSIS Pathfinder, based on SE pathfinder
 	 */
 	private MASSISPathFinder pathFinder;
-	/**
-	 * IFloor of this pathfinder
-	 */
-	private final Floor floor;
+
 	/**
 	 * Allowed walkable polygons
 	 */
@@ -72,41 +76,77 @@ public class SEPathFinder {
 	 * Initialization flag
 	 */
 	private boolean initialized = false;
+	private int floorId;
+	private SimulationEngine engine;
+	private List<SimulationEntity> walls;
+	private ArrayList<SimulationEntity> doors;
+	private ArrayList<SimulationEntity> rooms;
 
+	private ComponentFilter wallFilter;
 	/**
 	 * Main constructor. Does not build the pathfinder data, that must be done
 	 * with {@link #initialize()}
 	 *
 	 * @param floor
 	 */
-	public SEPathFinder(Floor floor) {
-		this.floor = floor;
+	private Provider<ComponentFilterBuilder> cfBuilder;
+
+	private ComponentFilter doorFilter;
+	private ComponentFilter roomFilter;
+
+	public SEPathFinder(Provider<ComponentFilterBuilder> cFBuilder,
+			SimulationEngine engine, int floorId)
+	{
+		this.floorId = floorId;
+		this.engine = engine;
+		this.cfBuilder = cFBuilder;
+		this.walls = new ArrayList<>();
+		this.doors = new ArrayList<>();
+		this.rooms=new ArrayList<>();
+		this.wallFilter = cfBuilder.get().all(WallComponent.class).get();
+		this.doorFilter = cfBuilder.get().all(DoorComponent.class).get();
+		this.roomFilter=cfBuilder.get().all(RoomComponent.class).get();
 	}
 
 	/**
 	 * Recomputes the pathfinder data
 	 */
-	private void recomputeMesh() {
+	private void recomputeMesh()
+	{
 
 		this.stationaryObstacles = new ArrayList<PathBlockingObstacleImpl>();
 		List<KPolygon> obstPolys = new ArrayList<KPolygon>();
-		for (PolygonHolder so : floor.getWalls()) {
+		engine.getEntitiesFor(wallFilter, walls);
+		engine.getEntitiesFor(doorFilter, doors);
+		for (SimulationEntity wallEntity : walls)
+		{
+			if (wallEntity.getComponent(FloorReference.class)
+					.getFloorId() != this.floorId)
+				continue;
 			/*
 			 * Substraction of the doors area to the walls area
 			 */
-			Area area = new Area(so.getPolygon());
-			for (SimDoor d : floor.getDoors()) {
-
-				if (d.isOpened()) {
-					area.subtract(new Area(d.getPolygon()));
+			Area area = new Area(
+					wallEntity.getComponent(ShapeComponent.class).getShape());
+			for (SimulationEntity doorEntity : doors)
+			{
+				boolean open = doorEntity.getComponent(DoorComponent.class)
+						.isOpen();
+				KPolygon shape = doorEntity.getComponent(ShapeComponent.class)
+						.getShape();
+				if (open)
+				{
+					area.subtract(new Area(shape));
 				}
 			}
 			/*
 			 * It is possible that the area to be splitted in two
 			 */
-			for (Area a : PathFindingUtils.getAreas(area)) {
+			for (Area a : PathFindingUtils.getAreas(area))
+			{
 				KPolygon poly = PathFindingUtils.createKPolygonFromShape(a);
-				if (poly == null) {
+				if (poly == null)
+				{
 					continue;
 				}
 				obstPolys.add(poly);
@@ -117,7 +157,8 @@ public class SEPathFinder {
 		 * Debugging stuff
 		 */
 		int nlines1 = 0;
-		for (KPolygon kPolygon : obstPolys) {
+		for (KPolygon kPolygon : obstPolys)
+		{
 			nlines1 += KPolygonUtils.getLines(kPolygon).size();
 		}
 
@@ -128,25 +169,32 @@ public class SEPathFinder {
 
 		int afterReduction = obstPolys.size();
 		int nlines2 = 0;
-		for (KPolygon kPolygon : obstPolys) {
+		for (KPolygon kPolygon : obstPolys)
+		{
 			nlines2 += KPolygonUtils.getLines(kPolygon).size();
 		}
 		/*
 		 * Inflation
 		 */
-		for (KPolygon kPolygon : obstPolys) {
+		for (KPolygon kPolygon : obstPolys)
+		{
 			this.stationaryObstacles.add(
-					PathFindingUtils.createObstacleFromInnerPolygon(kPolygon, BUFFER_AMOUNT, NUM_POINTS_IN_A_QUADRANT));
+					PathFindingUtils.createObstacleFromInnerPolygon(kPolygon,
+							BUFFER_AMOUNT, NUM_POINTS_IN_A_QUADRANT));
 		}
 
-		System.out.println("Before/After Reduction : " + beforeReduction + "/" + afterReduction + ",[" + nlines1 + "=>"
+		System.out.println("Before/After Reduction : " + beforeReduction + "/"
+				+ afterReduction + ",[" + nlines1 + "=>"
 				+ nlines2 + "] took " + (end - start) + " ms");
-		for (LowLevelAgent v : floor.getAgents()) {
-			if (v.isObstacle() && !v.isDynamic()) {
-				this.stationaryObstacles.add(PathFindingUtils.createObstacleFromInnerPolygon(v.getPolygon(),
-						BUFFER_AMOUNT, NUM_POINTS_IN_A_QUADRANT));
-			}
-		}
+		// for (LowLevelAgent v : floor.getAgents())
+		// {
+		// if (v.isObstacle() && !v.isDynamic())
+		// {
+		// this.stationaryObstacles.add(PathFindingUtils
+		// .createObstacleFromInnerPolygon(v.getPolygon(),
+		// BUFFER_AMOUNT, NUM_POINTS_IN_A_QUADRANT));
+		// }
+		// }
 		// =================================================================================
 		// ahora se relacionan los Room con los obstaculos que intersectan con
 		// el, dejando el poligono libre de obstaculos
@@ -154,16 +202,21 @@ public class SEPathFinder {
 
 		walkAblePolys = new ArrayList<>();
 
-		for (PolygonHolder sr : this.floor.getRooms()) {
-			Area walkAble = new Area(sr.getPolygon());
+		for (SimulationEntity sr : this.engine.getEntitiesFor(roomFilter, this.rooms))
+		{
+			Area walkAble = new Area(sr.getComponent(ShapeComponent.class).getShape());
 
-			walkAblePolys.add(PathFindingUtils.createKPolygonFromShape(walkAble));
+			walkAblePolys
+					.add(PathFindingUtils.createKPolygonFromShape(walkAble));
 
 		}
 		// Connect the obstacles' nodes so that the PathFinder can do its work:
-
-		nodeConnector = new MNodeConnector(stationaryObstacles, maxConnectionDistanceBetweenObstacles, AABB_Expansion,
-				floor.getMinX(), floor.getMaxX(), floor.getMinY(), floor.getMaxY());
+		Floor floor = this.engine.asSimulationEntity(this.floorId)
+				.getComponent(Floor.class);
+		nodeConnector = new MNodeConnector(stationaryObstacles,
+				maxConnectionDistanceBetweenObstacles, AABB_Expansion,
+				floor.getMinX(), floor.getMaxX(), floor.getMinY(),
+				floor.getMaxY());
 
 		pathFinder = new MASSISPathFinder();
 		// ////////
@@ -172,7 +225,8 @@ public class SEPathFinder {
 
 	//
 
-	public KPoint getNearestPointOutsideOfObstacles(KPoint point) {
+	public KPoint getNearestPointOutsideOfObstacles(KPoint point)
+	{
 		checkForInitialization();
 
 		// // check that the target point isn't inside any obstacles.
@@ -180,14 +234,18 @@ public class SEPathFinder {
 		KPoint movedPoint = point.copy();
 		boolean targetIsInsideObstacle = false;
 		int count = 0;
-		while (true) {
-			for (PathBlockingObstacleImpl obst : stationaryObstacles) {
-				if (obst.getOuterPolygon().contains(movedPoint)) {
+		while (true)
+		{
+			for (PathBlockingObstacleImpl obst : stationaryObstacles)
+			{
+				if (obst.getOuterPolygon().contains(movedPoint))
+				{
 
 					targetIsInsideObstacle = true;
 					KPolygon poly = obst.getOuterPolygon();
 					KPoint p = poly.getBoundaryPointClosestTo(movedPoint);
-					if (p != null) {
+					if (p != null)
+					{
 
 						movedPoint.x = p.x;
 						movedPoint.y = p.y;
@@ -197,7 +255,8 @@ public class SEPathFinder {
 				}
 			}
 			count++;
-			if (targetIsInsideObstacle == false || count >= 3) {
+			if (targetIsInsideObstacle == false || count >= 3)
+			{
 				break;
 			}
 			targetIsInsideObstacle = false;
@@ -209,7 +268,8 @@ public class SEPathFinder {
 	 *
 	 * @return the obstacles used in this pathfinder
 	 */
-	public Iterable<PathBlockingObstacleImpl> getStationaryObstacles() {
+	public Iterable<PathBlockingObstacleImpl> getStationaryObstacles()
+	{
 		checkForInitialization();
 		return this.stationaryObstacles;
 	}
@@ -218,7 +278,8 @@ public class SEPathFinder {
 	 *
 	 * @return the walkable areas
 	 */
-	public Iterable<KPolygon> getWalkableAreas() {
+	public Iterable<KPolygon> getWalkableAreas()
+	{
 		checkForInitialization();
 		return this.walkAblePolys;
 	}
@@ -226,8 +287,10 @@ public class SEPathFinder {
 	/**
 	 * Recomputes mesh if necessary
 	 */
-	private void checkForInitialization() {
-		if (!this.initialized) {
+	private void checkForInitialization()
+	{
+		if (!this.initialized)
+		{
 			this.recomputeMesh();
 			this.initialized = true;
 		}
@@ -237,7 +300,8 @@ public class SEPathFinder {
 	 * Initializes the pathfinder. <strong>Note:</strong> it will be only
 	 * initialized once.
 	 */
-	public void initialize() {
+	public void initialize()
+	{
 		this.checkForInitialization();
 	}
 
@@ -250,33 +314,57 @@ public class SEPathFinder {
 	 *            goal
 	 * @return the path between them, noll if it does not exist
 	 */
-	public void findPath(Location fromLocation, Location toLocation,Teleport targetTeleport, FindPathResult callback) {
-		if (this.floor != fromLocation.getFloor()) {
-			callback.onError(FindPathResult.PathFinderErrorReason.DIFFERENT_FLOORS);
+	public List<CoordinateHolder> findPath(
+			CoordinateHolder fromLocation,
+			CoordinateHolder toLocation)
+	{
+		// if (this.floor != fromLocation.getFloor())
+		// {
+		// callback.onError(
+		// FindPathResult.PathFinderErrorReason.DIFFERENT_FLOORS);
+		// }
+		//
+		PathData pathData = this.findPath(
+				new KPoint(fromLocation.getX(), fromLocation.getY()),
+				new KPoint(toLocation.getX(), toLocation.getY()), null);
+		if (pathData.getResult().isError())
+		{
+			System.err.println(
+					"ERROR in pathf: " + pathData.getResult().getMessage());
+			return null;
+		} else
+		{
+			return pathData.getPoints().stream().map(kp -> new KVector(kp))
+					.collect(Collectors.toList());
 		}
 
-		PathData pathData = this.findPath(fromLocation.getXY(), toLocation.getXY(), null);
-		switch (pathData.getResult()) {
-		case ERROR2:
-			callback.onError(FindPathResult.PathFinderErrorReason.INVALID_START_LOCATION);
-			break;
-		case ERROR3:
-			callback.onError(FindPathResult.PathFinderErrorReason.INVALID_END_LOCATION);
-			break;
-		case ERROR4:
-		case NO_RESULT:
-			callback.onError(FindPathResult.PathFinderErrorReason.UNREACHABLE_TARGET);
-			break;
-		case SUCCESS:
-			callback.onSuccess(new Path(pathData.getPoints(),targetTeleport));
-			break;
-		case ERROR1:
-		default:
-			throw new UnsupportedOperationException();
-		}
+		// switch (pathData.getResult())
+		// {
+		// case ERROR2:
+		// callback.onError(
+		// FindPathResult.PathFinderErrorReason.INVALID_START_LOCATION);
+		// break;
+		// case ERROR3:
+		// callback.onError(
+		// FindPathResult.PathFinderErrorReason.INVALID_END_LOCATION);
+		// break;
+		// case ERROR4:
+		// case NO_RESULT:
+		// callback.onError(
+		// FindPathResult.PathFinderErrorReason.UNREACHABLE_TARGET);
+		// break;
+		// case SUCCESS:
+		// callback.onSuccess(new Path(pathData.getPoints(), targetTeleport));
+		// break;
+		// case ERROR1:
+		// default:
+		// throw new UnsupportedOperationException();
+		// }
 	}
 
-	private PathData findPath(KPoint from, KPoint to, Occluder restrictionPolygon) {
+	private PathData findPath(KPoint from, KPoint to,
+			Occluder restrictionPolygon)
+	{
 		checkForInitialization();
 
 		KPoint pos = getNearestPointOutsideOfObstacles(from);
@@ -284,7 +372,8 @@ public class SEPathFinder {
 
 		PathData pathData = null;
 
-		pathData = pathFinder.calc(pos, targetAdjusted, maxConnectionDistanceBetweenObstacles, nodeConnector,
+		pathData = pathFinder.calc(pos, targetAdjusted,
+				maxConnectionDistanceBetweenObstacles, nodeConnector,
 				this.stationaryObstacles, restrictionPolygon);
 		return pathData;
 	}

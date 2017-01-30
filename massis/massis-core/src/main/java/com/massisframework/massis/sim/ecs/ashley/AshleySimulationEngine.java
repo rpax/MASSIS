@@ -220,4 +220,15 @@ public class AshleySimulationEngine
 		}
 		return store;
 	}
+
+	@Override
+	public <T extends SimulationSystem> T getSystem(Class<T> type)
+	{
+		return running
+				.stream()
+				.filter(s -> type.isInstance(s)).findAny()
+				.map(type::cast)
+				.orElse(null);
+
+	}
 }

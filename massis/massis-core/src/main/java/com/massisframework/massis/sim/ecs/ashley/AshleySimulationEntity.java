@@ -6,6 +6,7 @@ import com.google.inject.Inject;
 import com.massisframework.massis.sim.ecs.SimulationComponent;
 import com.massisframework.massis.sim.ecs.SimulationEntity;
 import com.massisframework.massis.sim.ecs.UIDProvider;
+import com.massisframework.massis.sim.ecs.injection.SimulationConfiguration;
 import com.massisframework.massis.sim.ecs.injection.components.ComponentCreator;
 
 public class AshleySimulationEntity
@@ -16,13 +17,17 @@ public class AshleySimulationEntity
 	private Entity entity;
 	private EventBus evtBus;
 
+	private SimulationConfiguration config;
+
 	@Inject
 	public AshleySimulationEntity(
+			SimulationConfiguration config,
 			ComponentCreator componentCreator,
 			UIDProvider uidProvider,
 			EventBus evtBus)
 	{
 		this.evtBus = evtBus;
+		this.config = config;
 		this.id = uidProvider.getNewUID();
 		this.entity = new Entity();
 		this.componentCreator = componentCreator;
@@ -101,7 +106,7 @@ public class AshleySimulationEntity
 	@Override
 	public <T extends SimulationComponent> T getComponent(Class<T> type)
 	{
-		return this.entity.getComponent(type);
+		return this.entity.getComponent(config.getBinding(type, true));
 	}
 
 }

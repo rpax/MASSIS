@@ -1,8 +1,5 @@
 package com.massisframework.massis.sim.ecs;
 
-import com.badlogic.ashley.core.Component;
-import com.massisframework.massis.model.components.SteeringComponent;
-
 public interface SimulationEntity {
 
 	public int getId();

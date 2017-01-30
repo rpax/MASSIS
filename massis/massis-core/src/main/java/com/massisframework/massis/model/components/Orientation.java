@@ -2,8 +2,10 @@ package com.massisframework.massis.model.components;
 
 import com.massisframework.massis.sim.ecs.SimulationComponent;
 
-public interface DoorComponent extends SimulationComponent {
+public interface Orientation extends SimulationComponent {
 
-	boolean isOpen();
+	double getAngle();
+
+	Orientation setAngle(float angle);
 
 }

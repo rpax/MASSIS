@@ -2,7 +2,8 @@ package com.massisframework.massis.model.building;
 
 import java.util.List;
 
-import straightedge.geom.vision.Occluder;
+import com.massisframework.massis.sim.ecs.SimulationComponent;
+import com.massisframework.massis.sim.ecs.SimulationEntity;
 
 /**
  * Connects one or more rooms
@@ -10,8 +11,8 @@ import straightedge.geom.vision.Occluder;
  * @author rpax
  *
  */
-public interface RoomConnector extends Occluder{
+public interface RoomConnector extends SimulationComponent{
 
-    public List<SimRoom> getConnectedRooms();
+    public List<SimulationEntity> getConnectedRooms();
     
 }

@@ -1,10 +1,14 @@
 package com.massisframework.massis.model.managers;
 
-import com.massisframework.massis.model.agents.LowLevelAgent;
-import com.massisframework.massis.model.building.Building;
-import com.massisframework.massis.model.location.Location;
-import com.massisframework.massis.util.collections.filters.Filters;
-import com.massisframework.massis.util.geom.CoordinateHolder;
+import java.util.stream.StreamSupport;
+
+import com.google.inject.Inject;
+import com.massisframework.massis.model.components.Floor;
+import com.massisframework.massis.model.components.FloorReference;
+import com.massisframework.massis.model.components.Position2D;
+import com.massisframework.massis.sim.ecs.SimulationEngine;
+import com.massisframework.massis.sim.ecs.SimulationEntity;
+import com.massisframework.massis.sim.ecs.SimulationSystem;
 
 /**
  * Manages the environment information of an agent
@@ -12,36 +16,62 @@ import com.massisframework.massis.util.geom.CoordinateHolder;
  * @author rpax
  *
  */
-public class EnvironmentManager {
+public class EnvironmentManager implements SimulationSystem {
 
-    protected Building building;
+	@Inject
+	private SimulationEngine engine;
 
-    public EnvironmentManager(Building building)
-    {
-        this.building = building;
-    }
+	@Override
+	public void initialize()
+	{
 
-    public Iterable<LowLevelAgent> getAgentsInRange(Location l, double range)
-    {
-        return l.getFloor().getAgentsInRange((int) (l.getX() - range),
-                (int) (l.getY() - range), (int) (l.getX() + range),
-                (int) (l.getY() + range));
+	}
 
-    }
+	public Iterable<SimulationEntity> getAgentsInRange(SimulationEntity entity,
+			double radius)
+	{
+		int floorId = entity.getComponent(FloorReference.class).getFloorId();
+		return StreamSupport
+				.stream(engine.asSimulationEntity(floorId)
+						.getComponent(Floor.class).getEntitiesIn()
+						.spliterator(),
+						false)
+				.filter(other -> other != this)
+				.filter(other -> other.getComponent(Position2D.class).distance(
+						entity.getComponent(
+								Position2D.class)) < radius)::iterator;
+	}
 
-    public Iterable<LowLevelAgent> getAgentsInRange(LowLevelAgent a, double range)
-    {
-        return Filters.allExcept(this.getAgentsInRange(a.getLocation(), range),
-                a);
-    }
+	@Override
+	public void update(float deltaTime)
+	{
 
-    public CoordinateHolder getRandomRoom()
-    {
-        return this.building.getRandomRoom();
-    }
+	}
+	//
+	// public Iterable<SimulationEntity> getAgentsInRange(CoordinateHolder l,
+	// double range)
+	// {
+	// return l.getFloor().getAgentsInRange((int) (l.getX() - range),
+	// (int) (l.getY() - range), (int) (l.getX() + range),
+	// (int) (l.getY() + range));
+	//
+	// }
+	//
+	// public Iterable<LowLevelAgent> getAgentsInRange(LowLevelAgent a,
+	// double range)
+	// {
+	// return Filters.allExcept(this.getAgentsInRange(a.getLocation(), range),
+	// a);
+	// }
+	//
+	// public CoordinateHolder getRandomRoom()
+	// {
+	// return this.building.getRandomRoom();
+	// }
+	//
+	// public Location getNamedLocation(String name)
+	// {
+	// return this.building.getNamedLocation(name);
+	// }
 
-    public Location getNamedLocation(String name)
-    {
-        return this.building.getNamedLocation(name);
-    }
 }

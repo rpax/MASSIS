@@ -3,12 +3,21 @@ package com.massisframework.massis.displays.floormap.layers;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.google.inject.Inject;
 import com.massisframework.gui.DrawableLayer;
-import com.massisframework.massis.model.building.Floor;
+import com.massisframework.massis.model.DrawableFloor;
+import com.massisframework.massis.model.components.StationaryObstacle;
+import com.massisframework.massis.sim.FilterParams;
+import com.massisframework.massis.sim.ecs.ComponentFilter;
+import com.massisframework.massis.sim.ecs.SimulationEngine;
+import com.massisframework.massis.sim.ecs.SimulationEntity;
 
 import straightedge.geom.path.KNode;
 import straightedge.geom.path.KNodeOfObstacle;
+import straightedge.geom.path.PathBlockingObstacle;
 import straightedge.geom.path.PathBlockingObstacleImpl;
 
 /**
@@ -19,36 +28,52 @@ import straightedge.geom.path.PathBlockingObstacleImpl;
  */
 public class ConnectionsLayer extends DrawableLayer<DrawableFloor> {
 
-    public ConnectionsLayer(boolean enabled)
-    {
-        super(enabled);
-    }
+	@Inject
+	SimulationEngine engine;
 
-    @Override
+	@FilterParams(all = {
+			StationaryObstacle.class
+	})
+	private ComponentFilter stationaryFilter;
+
+	private List<SimulationEntity> stationaryObstacles;
+
+	@Inject
+	public ConnectionsLayer(boolean enabled)
+	{
+		super(enabled);
+		stationaryObstacles = new ArrayList<>();
+	}
+
+	@Override
 	public void draw(DrawableFloor dfloor, Graphics2D g)
-    {
+	{
 
-    	final Floor f = dfloor.getFloor();
-        g.setColor(Color.DARK_GRAY);
-        for (PathBlockingObstacleImpl obst : f.getStationaryObstacles())
-        {
-            for (KNodeOfObstacle currentNode : obst.getNodes())
-            {
-                for (KNode n : currentNode.getConnectedNodes())
-                {
+		final SimulationEntity f = dfloor.getFloor();
+		g.setColor(Color.DARK_GRAY);
 
-                    g.draw(new Line2D.Double(currentNode.getPoint().x,
-                            currentNode.getPoint().y, n.getPoint().getX(), n
-                            .getPoint().getY()));
-                }
-            }
-        }
+		for (SimulationEntity se : engine
+				.getEntitiesFor(stationaryFilter, stationaryObstacles))
+		{
+			PathBlockingObstacle obst = se
+					.getComponent(StationaryObstacle.class).getObstacle();
+			for (KNodeOfObstacle currentNode : obst.getNodes())
+			{
+				for (KNode n : currentNode.getConnectedNodes())
+				{
 
-    }
+					g.draw(new Line2D.Double(currentNode.getPoint().x,
+							currentNode.getPoint().y, n.getPoint().getX(), n
+									.getPoint().getY()));
+				}
+			}
+		}
 
-    @Override
-    public String getName()
-    {
-        return "Connections";
-    }
+	}
+
+	@Override
+	public String getName()
+	{
+		return "Connections";
+	}
 }

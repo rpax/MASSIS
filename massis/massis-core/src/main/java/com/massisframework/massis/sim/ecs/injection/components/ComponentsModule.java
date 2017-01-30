@@ -2,6 +2,7 @@ package com.massisframework.massis.sim.ecs.injection.components;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
+import com.google.inject.matcher.Matchers;
 import com.massisframework.massis.sim.ecs.injection.SimulationConfiguration;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -23,6 +24,7 @@ public class ComponentsModule extends AbstractModule {
 				.to(ComponentCreatorImpl.class)
 				.in(Singleton.class);
 		bind(SimulationConfiguration.class).toInstance(config);
+		bindListener(Matchers.any(), new ComponentFilterListener(config));
 	}
 
 }

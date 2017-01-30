@@ -127,12 +127,14 @@ import com.eteks.sweethome3d.model.Selectable;
 import com.eteks.sweethome3d.model.UserPreferences;
 import com.eteks.sweethome3d.model.Wall;
 import com.eteks.sweethome3d.swing.FileContentManager;
+import com.eteks.sweethome3d.swing.HomeComponent3D;
 import com.eteks.sweethome3d.swing.SwingTools;
 import com.eteks.sweethome3d.swing.SwingViewFactory;
 import com.eteks.sweethome3d.tools.OperatingSystem;
 import com.eteks.sweethome3d.viewcontroller.HomeController3D;
 import com.eteks.sweethome3d.viewcontroller.Object3DFactory;
 import com.eteks.sweethome3d.viewcontroller.PhotoController;
+import com.sun.j3d.exp.swing.JCanvas3D;
 import com.sun.j3d.utils.geometry.GeometryInfo;
 import com.sun.j3d.utils.universe.SimpleUniverse;
 import com.sun.j3d.utils.universe.Viewer;
@@ -2947,5 +2949,22 @@ public class HomeComponentDisplay3D extends JComponent implements com.eteks.swee
                 TransparencyAttributes.NICEST, 0.7f));
         shadow.setAppearance(shadowAppearance);
         homeRoot.addChild(shadow);
+    }
+    /**
+     * A <code>JCanvas</code> canvas that displays the navigation panel of a home component 3D upon it.
+     */
+    private static class JCanvas3DWithNavigationPanel extends JCanvas3D {
+      private final HomeComponentDisplay3D homeComponent3D;
+
+      public JCanvas3DWithNavigationPanel(HomeComponentDisplay3D homeComponent3D,
+                                          GraphicsConfigTemplate3D template) {
+        super(template);
+        this.homeComponent3D = homeComponent3D;
+      }
+
+      public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+       // g.drawImage(this.homeComponent3D.navigationPanelImage, 0, 0, this);
+      }
     }
 }

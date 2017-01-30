@@ -6,9 +6,7 @@ import java.util.List;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.massisframework.massis.model.components.Position2D;
-import com.massisframework.massis.model.components.SteeringComponent;
 import com.massisframework.massis.model.components.Velocity;
-import com.massisframework.massis.model.managers.movement.steering.SteeringBehavior;
 import com.massisframework.massis.sim.ecs.ComponentFilter;
 import com.massisframework.massis.sim.ecs.ComponentFilterBuilder;
 import com.massisframework.massis.sim.ecs.SimulationEngine;
@@ -31,7 +29,6 @@ public class MovementSystem implements SimulationSystem {
 	{
 		this.filter = cfBuilderProvider.get().all(
 				Position2D.class,
-				SteeringComponent.class,
 				Velocity.class).get();
 	}
 
@@ -42,17 +39,25 @@ public class MovementSystem implements SimulationSystem {
 
 		for (SimulationEntity se : entities)
 		{
-			final SteeringBehavior steeringBeh = se
-					.getComponent(SteeringComponent.class)
-					.getSteeringBehavior();
+			// final SteeringBehavior steeringBeh = se
+			// .getComponent(SteeringComponent.class)
+			// .getSteeringBehavior();
 			/*
 			 * Get forces
 			 */
-			final KVector force = steeringBeh.steer();
+			// final KVector force = steeringBeh.steer();
 			/*
 			 * Apply them and proceed to move
 			 */
-			applySteeringForcesAndMove(se, force);
+			// applySteeringForcesAndMove(se, force);
+			Position2D pos = se.getComponent(Position2D.class);
+			Velocity vel = se.getComponent(Velocity.class);
+			
+			KVector newPos = vel
+					.getValue()
+					.copy().mult(deltaTime)
+					.add(pos.getXY());
+			pos.set(newPos.x, newPos.y);
 		}
 	}
 	// private void fixInvalidLocation(DefaultAgent agent, Location toLoc) {
@@ -93,26 +98,26 @@ public class MovementSystem implements SimulationSystem {
 			KVector forces)
 	{
 
-		SteeringComponent s = vehicle.getComponent(SteeringComponent.class);
-		Velocity velC = vehicle.getComponent(Velocity.class);
-		Position2D position2D = vehicle.getComponent(Position2D.class);
-
-		forces.mult(s.getMaxForce());
-		final KVector steering = KVector.limit(forces, s.getMaxForce());
-		// steering = steering / mass
-		s.setAcceleration(steering);
-		final KVector velocity = KVector.limit(
-				KVector.add(steering, velC.getValue()),
-				s.getMaxSpeed());
-		velC.setValue(velocity);
-
-		final KVector position = new KVector(position2D.getX(),
-				position2D.getY()).add(velC.getValue());
-
-		// final Location newLocation = new Location(position,
-		// vehicle.getLocation().getFloor());
-
-		position2D.set(position.x, position.y);
+		// SteeringComponent s = vehicle.getComponent(SteeringComponent.class);
+		// Velocity velC = vehicle.getComponent(Velocity.class);
+		// Position2D position2D = vehicle.getComponent(Position2D.class);
+		//
+		// forces.mult(s.getMaxForce());
+		// final KVector steering = KVector.limit(forces, s.getMaxForce());
+		// // steering = steering / mass
+		// s.setAcceleration(steering);
+		// final KVector velocity = KVector.limit(
+		// KVector.add(steering, velC.getValue()),
+		// s.getMaxSpeed());
+		// velC.setValue(velocity);
+		//
+		// final KVector position = new KVector(position2D.getX(),
+		// position2D.getY()).add(velC.getValue());
+		//
+		// // final Location newLocation = new Location(position,
+		// // vehicle.getLocation().getFloor());
+		//
+		// position2D.set(position.x, position.y);
 
 		// vehicle.moveTo(newLocation);
 

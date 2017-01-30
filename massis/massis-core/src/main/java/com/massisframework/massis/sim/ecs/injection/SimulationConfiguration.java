@@ -44,12 +44,21 @@ public class SimulationConfiguration {
 	{
 		return this.engine;
 	}
-
+	public <I extends SimulationComponent, C extends I> Class<C> getBinding(
+			Class<I> type){
+		return getBinding(type,false);
+	}
 	@SuppressWarnings("unchecked")
 	public <I extends SimulationComponent, C extends I> Class<C> getBinding(
-			Class<I> type)
+			Class<I> type, boolean loadDefaultIfNotExists)
 	{
-		return (Class<C>) this.bindings.get(type);
+		if (loadDefaultIfNotExists)
+		{
+			return (Class<C>) this.bindings.getOrDefault(type, type);
+		} else
+		{
+			return (Class<C>) this.bindings.get(type);
+		}
 	}
 
 	public interface SimulationConfigurationBuilder {

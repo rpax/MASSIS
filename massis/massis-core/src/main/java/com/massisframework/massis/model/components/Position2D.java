@@ -5,8 +5,14 @@ import com.massisframework.massis.util.geom.CoordinateHolder;
 
 import straightedge.geom.KPoint;
 
-public interface Position2D extends SimulationComponent,CoordinateHolder {
+public interface Position2D extends SimulationComponent, CoordinateHolder {
 
 	public void set(double x, double y);
+
 	public KPoint getXY();
+
+	public default double distance(Position2D other)
+	{
+		return this.getXY().distance(other.getXY());
+	}
 }

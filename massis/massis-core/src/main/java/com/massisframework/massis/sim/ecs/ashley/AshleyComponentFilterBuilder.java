@@ -13,7 +13,6 @@ import com.massisframework.massis.sim.ecs.ComponentFilterBuilder;
 import com.massisframework.massis.sim.ecs.SimulationComponent;
 import com.massisframework.massis.sim.ecs.injection.SimulationConfiguration;
 
-//@Singleton
 public class AshleyComponentFilterBuilder implements ComponentFilterBuilder {
 
 	private SimulationConfiguration config;
@@ -22,6 +21,13 @@ public class AshleyComponentFilterBuilder implements ComponentFilterBuilder {
 
 	@Inject
 	public AshleyComponentFilterBuilder(SimulationConfiguration config)
+	{
+		this(config, false);
+	}
+
+	public AshleyComponentFilterBuilder(
+			SimulationConfiguration config,
+			boolean dummy)
 	{
 		this.config = config;
 		Constructor<Builder> constructor;
@@ -37,6 +43,7 @@ public class AshleyComponentFilterBuilder implements ComponentFilterBuilder {
 		{
 			throw new RuntimeException(e);
 		}
+
 	}
 
 	public void reset()
@@ -88,12 +95,12 @@ public class AshleyComponentFilterBuilder implements ComponentFilterBuilder {
 		ComponentFilter cf = fmap.get(f);
 		if (cf == null)
 		{
-			cf = (se) -> f.matches(((AshleySimulationEntity) se).getEntity());
+			cf = new AshleyComponentFilter(f);
 			fmap.put(f, cf);
 		}
 		return cf;
 	}
-	
+
 	// TODO optimize
 	@SuppressWarnings("unchecked")
 	private Class<? extends SimulationComponent>[] replacement(
@@ -103,7 +110,8 @@ public class AshleyComponentFilterBuilder implements ComponentFilterBuilder {
 		Class[] replacement = new Class[componentTypes.length];
 		for (int i = 0; i < replacement.length; i++)
 		{
-			replacement[i] = config.getBinding(componentTypes[i]);
+			replacement[i] = config.getBinding(componentTypes[i], true);
+
 		}
 		return replacement;
 	}

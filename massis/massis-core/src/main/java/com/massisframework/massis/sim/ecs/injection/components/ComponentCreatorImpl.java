@@ -52,12 +52,12 @@ public class ComponentCreatorImpl implements ComponentCreator {
 	{
 		for (Field f : getFieldsByAnnotation(sc.getClass(), EntityId.class))
 		{
-			setFieldValue(f, sc.getClass(), e.getId());
+			setFieldValue(f, sc, e.getId());
 		}
 		for (Field f : getFieldsByAnnotation(sc.getClass(),
 				EntityReference.class))
 		{
-			setFieldValue(f, sc.getClass(), e);
+			setFieldValue(f,sc,e);
 		}
 	}
 
