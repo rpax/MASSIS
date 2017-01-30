@@ -1,9 +1,7 @@
 package com.massisframework.massis.model.building;
 
-import java.util.Collection;
 import java.util.List;
 
-import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.util.geom.CoordinateHolder;
 import com.massisframework.massis.util.io.JsonState;
 
