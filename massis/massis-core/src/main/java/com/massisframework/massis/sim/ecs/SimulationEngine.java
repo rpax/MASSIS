@@ -1,5 +1,7 @@
 package com.massisframework.massis.sim.ecs;
 
+import java.util.List;
+
 public interface SimulationEngine {
 
 	public int createEntity();
@@ -16,5 +18,6 @@ public interface SimulationEngine {
 
 	public void stop();
 
-	public void getEntitiesFor(ComponentFilter filter);
+	public List<SimulationEntity> getEntitiesFor(ComponentFilter filter,
+			List<SimulationEntity> store);
 }

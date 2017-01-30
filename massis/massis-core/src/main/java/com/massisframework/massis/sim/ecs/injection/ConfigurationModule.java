@@ -3,72 +3,51 @@ package com.massisframework.massis.sim.ecs.injection;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.massisframework.massis.sim.SimulationScheduler;
-import com.massisframework.massis.sim.ecs.ComponentConfiguration;
-import com.massisframework.massis.sim.ecs.ComponentConfigurationBuilder;
-import com.massisframework.massis.sim.ecs.SimulationComponent;
+import com.massisframework.massis.sim.ecs.ComponentFilterBuilder;
 import com.massisframework.massis.sim.ecs.SimulationEngine;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
 import com.massisframework.massis.sim.ecs.UIDProvider;
-import com.massisframework.massis.sim.ecs.ashley.AshleySimulationEngine;
-import com.massisframework.massis.sim.ecs.mason.MasonScheduler;
+import com.massisframework.massis.sim.ecs.ashley.AshleyComponentFilterBuilder;
+import com.massisframework.massis.sim.ecs.injection.components.ComponentsModule;
 
 public class ConfigurationModule extends AbstractModule {
 
-	private ComponentConfiguration[] configurations;
+	private SimulationConfiguration config;
 
-	public ConfigurationModule(ComponentConfiguration[] configurations)
+	public ConfigurationModule(SimulationConfiguration config)
 	{
-		this.configurations = configurations;
+		this.config = config;
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	protected void configure()
 	{
-		ComponentConfigurationBuilder builder = ComponentConfigurationBuilder
-				.builder();
-		for (int i = 0; i < configurations.length; i++)
-		{
-			for (Class<? extends SimulationComponent> itf : configurations[i]
-					.getRegisteredComponents())
-			{
-				builder.bind(itf, (Class) configurations[i].getMapping(itf));
-			}
-		}
-		ComponentConfiguration config = builder.build();
-		bind(ComponentConfiguration.class).toInstance(config);
-		for (Class<? extends SimulationComponent> itf : config
-				.getRegisteredComponents())
-		{
-			bind(itf).to((Class) config.getMapping(itf));
-		}
-		bind(SystemCreator.class).to(DefaultSystemCreator.class);
-		bind(ComponentCreator.class).to(DefaultComponentCreator.class);
 
-		this.configureEngines();
+		install(new ComponentsModule(config));
+		install(new EventBusModule());
+
+		bind(SystemCreator.class)
+				.to(DefaultSystemCreator.class)
+				.in(Singleton.class);
+
+		bind(UIDProvider.class)
+				.to(AtomicUIDProvider.class)
+				.in(Singleton.class);
+
+		// TODO remove from here
+		bind(ComponentFilterBuilder.class)
+				.to(AshleyComponentFilterBuilder.class);
+
+		bind(SimulationScheduler.class).to(config.getShedulerType())
+				.in(Singleton.class);
+
+		bind(SimulationEngine.class).to(config.getEngineType())
+				.in(Singleton.class);
 
 	}
 
-	@Singleton
-	@Provides
-	public UIDProvider getUIDProvider()
-	{
-		return new AtomicUIDProvider();
-	}
-
-	private void configureEngines()
-	{
-		// TODO
-		this.bind(SimulationEngine.class)
-				.to(AshleySimulationEngine.class);
-		this.bind(SimulationScheduler.class)
-				.to(MasonScheduler.class);
-	}
-
-	@Singleton
 	private static class DefaultSystemCreator implements SystemCreator {
 		@Inject
 		private Injector injector;
@@ -80,15 +59,4 @@ public class ConfigurationModule extends AbstractModule {
 		}
 	}
 
-	@Singleton
-	private static class DefaultComponentCreator implements ComponentCreator {
-		@Inject
-		private Injector injector;
-
-		@Override
-		public <T extends SimulationComponent> T createComponent(Class<T> type)
-		{
-			return injector.getInstance(type);
-		}
-	}
 }

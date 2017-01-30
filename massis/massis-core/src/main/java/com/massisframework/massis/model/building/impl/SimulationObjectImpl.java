@@ -9,10 +9,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.MassisComponent;
 import com.massisframework.massis.model.building.RoomConnector;
 import com.massisframework.massis.model.building.SimulationObject;
@@ -20,9 +18,7 @@ import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.location.SimLocation;
 import com.massisframework.massis.model.managers.AnimationManager;
 import com.massisframework.massis.model.managers.EnvironmentManager;
-import com.massisframework.massis.model.managers.movement.MovementManager;
 import com.massisframework.massis.model.managers.pathfinding.PathFindingManager;
-import com.massisframework.massis.util.io.JsonState;
 import com.massisframework.massis.util.io.Restorable;
 import com.massisframework.massis.util.io.RestorableObserver;
 
@@ -46,8 +42,6 @@ public abstract class SimulationObjectImpl implements SimulationObject {
 	 * Properties of this element.
 	 */
 	private final Map<String, Object> properties = new HashMap<>();
-	// Managers
-	private final MovementManager movement;
 	private final AnimationManager animation;
 	private final EnvironmentManager environment;
 	protected final PathFindingManager pathManager;
@@ -78,14 +72,16 @@ public abstract class SimulationObjectImpl implements SimulationObject {
 	 * @param pathManager
 	 *            the pathfinding manager
 	 */
-	public SimulationObjectImpl(final Map<String, String> metadata,
-			SimLocation location, MovementManager movementManager,
-			AnimationManager animationManager, EnvironmentManager environment,
+	public SimulationObjectImpl(
+			final Map<String, String> metadata,
+			SimLocation location,
+			AnimationManager animationManager,
+			EnvironmentManager environment,
 			PathFindingManager pathManager)
 	{
 
+		System.out.println("METADATA: " + metadata);
 		this.id = tmp_id_gen.incrementAndGet();
-		this.movement = movementManager;
 		this.animation = animationManager;
 		this.environment = environment;
 		this.location = location;
@@ -133,38 +129,9 @@ public abstract class SimulationObjectImpl implements SimulationObject {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.massisframework.massis.model.building.ISimulationObject#
-	 * addRestorableObserver(com.massisframework.massis.util.io.
-	 * RestorableObserver)
-	 */
-	@Override
-	public void addRestorableObserver(RestorableObserver obs)
-	{
-		this.restorableObservers.add(obs);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.massisframework.massis.model.building.ISimulationObject#
-	 * removeRestorableObserver(com.massisframework.massis.util.io.
-	 * RestorableObserver)
-	 */
-	@Override
-	public void removeRestorableObserver(RestorableObserver obs)
-	{
-		this.restorableObservers.remove(obs);
-	}
-
 	protected final void notifyChanged()
 	{
-		for (final RestorableObserver restorableObserver : this.restorableObservers)
-		{
-			restorableObserver.notifyChange(this, this.getState());
-		}
+
 	}
 
 	/*
@@ -336,18 +303,6 @@ public abstract class SimulationObjectImpl implements SimulationObject {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.massisframework.massis.model.building.ISimulationObject#getState()
-	 */
-	@Override
-	public JsonState<Building> getState()
-	{
-		return new SimulationObjectState(this);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
 	 * com.massisframework.massis.model.building.ISimulationObject#hashCode()
 	 */
 	@Override
@@ -385,51 +340,6 @@ public abstract class SimulationObjectImpl implements SimulationObject {
 			return false;
 		}
 		return true;
-	}
-
-	private static class SimulationObjectState implements JsonState<Building> {
-
-		protected int id;
-		protected HashMap<String, Object> properties;
-		protected JsonState<Building> locationState;
-
-		public SimulationObjectState(SimulationObject obj)
-		{
-			this.id = obj.getID();
-			this.properties = new HashMap<>();
-			for (String name : obj.getPropertyNames())
-			{
-				this.properties.put(name, obj.getProperty(name));
-			}
-			// TODO temporary
-			this.locationState = ((SimLocation) obj.getLocation()).getState();
-		}
-
-		@Override
-		public Restorable restore(Building building)
-		{
-			final SimulationObject simObj = building
-					.getSimulationObject(this.id);
-			for (final Entry<String, Object> entry : this.properties.entrySet())
-			{
-				simObj.setProperty(entry.getKey(), entry.getValue());
-			}
-			this.locationState.restore(building);
-			simObj.animate();
-			return simObj;
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.massisframework.massis.model.building.ISimulationObject#
-	 * getMovementManager()
-	 */
-	@Override
-	public MovementManager getMovementManager()
-	{
-		return this.movement;
 	}
 
 	/*

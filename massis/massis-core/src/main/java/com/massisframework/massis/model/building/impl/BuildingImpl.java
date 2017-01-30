@@ -18,19 +18,17 @@ import com.eteks.sweethome3d.model.Room;
 import com.eteks.sweethome3d.model.Wall;
 import com.massisframework.massis.displays.SimulationDisplay;
 import com.massisframework.massis.model.agents.HighLevelController;
-import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.building.Building;
 import com.massisframework.massis.model.building.BuildingProgressMonitor;
 import com.massisframework.massis.model.building.Floor;
 import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.SimulationObject;
 import com.massisframework.massis.model.building.Teleport;
-import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.managers.AnimationManager;
 import com.massisframework.massis.model.managers.EnvironmentManager;
-import com.massisframework.massis.model.managers.movement.MovementManager;
 import com.massisframework.massis.model.managers.pathfinding.PathFindingManager;
 import com.massisframework.massis.sim.AbstractSimulation;
+import com.massisframework.massis.sim.ecs.SimulationEngine;
 import com.massisframework.massis.util.Indexable;
 import com.massisframework.massis.util.SH3DUtils;
 import com.massisframework.massis.util.geom.CoordinateHolder;
@@ -76,21 +74,17 @@ public class BuildingImpl implements Building {
 	 */
 	private final HashMap<String, Teleport> teleportMap = new HashMap<>();
 	// Managers
-	private final MovementManager movement;
+
 	private final AnimationManager animation;
 	private final EnvironmentManager environment;
-	private final PathFindingManager pathManager;
-	//
-	/**
-	 * Map of the named locations of the building. POI & more
-	 */
-	private final Map<String, Location> namedLocations = new HashMap<>();
+
 	/**
 	 * Map with the rooms names . It is useful for making an agent to go to an
 	 * specific room
 	 */
 	private final Map<String, SimRoom> namedRooms = new HashMap<>();
 	private final Collection<HighLevelController> scheduledControllers = new ArrayList<>();
+	private SimulationEngine engine;
 
 	/**
 	 *
@@ -101,9 +95,11 @@ public class BuildingImpl implements Building {
 	 *            a progress monitor which tracks the progress of the loading of
 	 *            the building
 	 */
-	public BuildingImpl(Home home, String resourcesFolder,
+	public BuildingImpl(SimulationEngine engine, Home home,
+			String resourcesFolder,
 			BuildingProgressMonitor progressMonitor)
 	{
+		this.engine = engine;
 		this.resourcesFolder = resourcesFolder;
 		// Initial message
 		progressMonitor.onUpdate(0, "Loading building");
@@ -119,16 +115,19 @@ public class BuildingImpl implements Building {
 		 */
 		this.representationMap = new HashMap<>();
 		this.floors = new ArrayList<>();
-		this.movement = new MovementManager();
 		this.animation = new AnimationManager();
 		this.environment = new EnvironmentManager(this);
-		this.pathManager = new PathFindingManager();
 		// Initial message
 		progressMonitor.onUpdate(1, "Building loaded");
 		/*
 		 * Transform SH3D home into MASSIS Representation
 		 */
 		this.build(progressMonitor);
+	}
+
+	public SimulationEngine getSimulationEngine()
+	{
+		return this.engine;
 	}
 
 	/**
@@ -141,10 +140,10 @@ public class BuildingImpl implements Building {
 	 * @param resourcesFolder
 	 * @throws RecorderException
 	 */
-	public BuildingImpl(Home home,
+	public BuildingImpl(SimulationEngine engine, Home home,
 			String resourcesFolder) throws RecorderException
 	{
-		this(home, resourcesFolder,
+		this(engine, home, resourcesFolder,
 				new BuildingProgressMonitor() {
 					@Override
 					public void onFinished()
@@ -410,30 +409,6 @@ public class BuildingImpl implements Building {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * com.massisframework.massis.model.building.IBuilding#getSimulationObject(
-	 * int)
-	 */
-	@Override
-	public SimulationObject getSimulationObject(int simObjId)
-	{
-		for (final Floor f : this.getFloors())
-		{
-			for (final LowLevelAgent p : f.getAgents())
-			{
-				if (p.getID() == simObjId)
-				{
-					return p;
-				}
-			}
-		}
-		return null;
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see com.massisframework.massis.model.building.IBuilding#getRandomRoom()
 	 */
 	@Override
@@ -470,44 +445,6 @@ public class BuildingImpl implements Building {
 		return this.environment;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.massisframework.massis.model.building.IBuilding#getNamedLocation(java
-	 * .lang.String)
-	 */
-	@Override
-	public Location getNamedLocation(String name)
-	{
-		return this.namedLocations.get(name);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.massisframework.massis.model.building.IBuilding#addNamedLocation(java
-	 * .lang.String, com.massisframework.massis.model.location.Location)
-	 */
-	@Override
-	public void addNamedLocation(String name, Location location)
-	{
-		this.namedLocations.put(name, location);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.massisframework.massis.model.building.IBuilding#getMovementManager()
-	 */
-	@Override
-	public MovementManager getMovementManager()
-	{
-		return this.movement;
-	}
-
 	@Override
 	public void addNamedRoom(String name, SimRoom simRoom)
 	{
@@ -539,8 +476,6 @@ public class BuildingImpl implements Building {
 		return this.resourcesFolder;
 	}
 
-	
-
 	@Override
 	public void addToSchedule(HighLevelController hlc)
 	{
@@ -559,14 +494,6 @@ public class BuildingImpl implements Building {
 		return this.scheduledControllers;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.massisframework.massis.model.building.IBuilding#getPathManager()
-	 */
-	@Override
-	public PathFindingManager getPathManager()
-	{
-		return this.pathManager;
-	}
+	
+
 }

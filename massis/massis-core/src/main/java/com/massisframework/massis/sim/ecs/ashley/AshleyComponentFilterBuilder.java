@@ -8,20 +8,20 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.core.Family.Builder;
 import com.google.inject.Inject;
-import com.massisframework.massis.sim.ecs.ComponentConfiguration;
 import com.massisframework.massis.sim.ecs.ComponentFilter;
 import com.massisframework.massis.sim.ecs.ComponentFilterBuilder;
 import com.massisframework.massis.sim.ecs.SimulationComponent;
+import com.massisframework.massis.sim.ecs.injection.SimulationConfiguration;
 
 //@Singleton
 public class AshleyComponentFilterBuilder implements ComponentFilterBuilder {
 
-	private ComponentConfiguration config;
+	private SimulationConfiguration config;
 	private Builder builder;
 	private static Map<Family, ComponentFilter> fmap = new ConcurrentHashMap<>();
 
 	@Inject
-	public AshleyComponentFilterBuilder(ComponentConfiguration config)
+	public AshleyComponentFilterBuilder(SimulationConfiguration config)
 	{
 		this.config = config;
 		Constructor<Builder> constructor;
@@ -44,8 +44,10 @@ public class AshleyComponentFilterBuilder implements ComponentFilterBuilder {
 		this.builder.reset();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
 	public ComponentFilterBuilder exclude(
-			Class<? extends SimulationComponent>[] componentTypes)
+			Class... componentTypes)
 	{
 		Class<? extends SimulationComponent>[] r = replacement(componentTypes);
 
@@ -54,8 +56,11 @@ public class AshleyComponentFilterBuilder implements ComponentFilterBuilder {
 		return this;
 	}
 
-	public ComponentFilterBuilder one(
-			Class<? extends SimulationComponent>[] componentTypes)
+	@SuppressWarnings("unchecked")
+	@SafeVarargs
+	@Override
+	public final ComponentFilterBuilder one(
+			Class... componentTypes)
 	{
 		Class<? extends SimulationComponent>[] r = replacement(componentTypes);
 
@@ -64,8 +69,10 @@ public class AshleyComponentFilterBuilder implements ComponentFilterBuilder {
 		return this;
 	}
 
-	public ComponentFilterBuilder all(
-			Class<? extends SimulationComponent>... componentTypes)
+	@Override
+	@SafeVarargs
+	public final ComponentFilterBuilder all(
+			Class... componentTypes)
 	{
 		Class<? extends SimulationComponent>[] r = replacement(componentTypes);
 
@@ -73,7 +80,8 @@ public class AshleyComponentFilterBuilder implements ComponentFilterBuilder {
 
 		return this;
 	}
-	
+
+	@Override
 	public ComponentFilter get()
 	{
 		Family f = builder.get();
@@ -85,7 +93,7 @@ public class AshleyComponentFilterBuilder implements ComponentFilterBuilder {
 		}
 		return cf;
 	}
-
+	
 	// TODO optimize
 	@SuppressWarnings("unchecked")
 	private Class<? extends SimulationComponent>[] replacement(
@@ -95,7 +103,7 @@ public class AshleyComponentFilterBuilder implements ComponentFilterBuilder {
 		Class[] replacement = new Class[componentTypes.length];
 		for (int i = 0; i < replacement.length; i++)
 		{
-			replacement[i] = config.getMapping(componentTypes[i]);
+			replacement[i] = config.getBinding(componentTypes[i]);
 		}
 		return replacement;
 	}

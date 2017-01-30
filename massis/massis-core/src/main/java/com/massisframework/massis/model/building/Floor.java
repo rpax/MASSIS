@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.eteks.sweethome3d.model.Level;
-import com.massisframework.massis.model.agents.LowLevelAgent;
-import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.pathfinding.straightedge.FindPathResult;
+import com.massisframework.massis.sim.ecs.SimulationEntity;
 import com.massisframework.massis.util.Indexable;
 import com.massisframework.massis.util.geom.ContainmentPolygon;
 import com.massisframework.massis.util.geom.CoordinateHolder;
@@ -16,7 +15,7 @@ import straightedge.geom.KPoint;
 import straightedge.geom.KPolygon;
 import straightedge.geom.path.PathBlockingObstacleImpl;
 
-public interface Floor extends Indexable{
+public interface Floor extends Indexable {
 
 	void initializePathFinder();
 
@@ -28,8 +27,6 @@ public interface Floor extends Indexable{
 	 */
 	CoordinateHolder getRandomRoom();
 
-	List<SimDoor> getDoors();
-
 	int getMinX();
 
 	int getMaxX();
@@ -37,16 +34,12 @@ public interface Floor extends Indexable{
 	int getMinY();
 
 	int getMaxY();
-	
+
 	public int getXlength();
 
 	public int getYlength();
 
-	List<SimWall> getWalls();
-
-	List<SimRoom> getRooms();
-
-	Iterable<LowLevelAgent> getAgents();
+	public Iterable<SimulationEntity> getAgents();
 
 	int hashCode();
 
@@ -73,7 +66,7 @@ public interface Floor extends Indexable{
 	 *
 	 * @param simObj
 	 */
-	void addPerson(Restorable simObj);
+	public void addPerson(SimulationEntity se);
 
 	/**
 	 * Finds a path in this floor. If the
@@ -84,7 +77,7 @@ public interface Floor extends Indexable{
 	 *            the desired location
 	 * @return the path.
 	 */
-	void findPath(Location fromLoc, Location to,
+	void findPath(CoordinateHolder fromLoc, CoordinateHolder to,
 			FindPathResult callback);
 
 	/**
@@ -121,7 +114,8 @@ public interface Floor extends Indexable{
 	 * @param ymax
 	 * @return The agents inside the rectangle defined by xmin,ymin,xmax,ymax
 	 */
-	Iterable<LowLevelAgent> getAgentsInRange(int xmin, int ymin, int xmax,
+	public Iterable<SimulationEntity> getAgentsInRange(int xmin, int ymin,
+			int xmax,
 			int ymax);
 
 }

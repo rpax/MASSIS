@@ -1,6 +1,7 @@
 package com.massisframework.massis.sim.ecs;
 
-import org.omg.CosNaming.NameComponent;
+import com.badlogic.ashley.core.Component;
+import com.massisframework.massis.model.components.SteeringComponent;
 
 public interface SimulationEntity {
 
@@ -27,4 +28,11 @@ public interface SimulationEntity {
 	public <T extends SimulationComponent> T addComponent(Class<T> type);
 
 	public <T extends SimulationComponent> void deleteComponent(Class<T> type);
+
+	public  <T extends SimulationComponent> T getComponent(Class<T> type);
+
+	public Iterable<? extends SimulationComponent> getComponents();
+
+	public void sendMessage(Object msg);
+
 }

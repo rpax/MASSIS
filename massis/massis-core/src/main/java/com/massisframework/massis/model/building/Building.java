@@ -9,11 +9,8 @@ import com.eteks.sweethome3d.model.HomePieceOfFurniture;
 import com.eteks.sweethome3d.model.Level;
 import com.massisframework.massis.displays.SimulationDisplay;
 import com.massisframework.massis.model.agents.HighLevelController;
-import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.managers.AnimationManager;
 import com.massisframework.massis.model.managers.EnvironmentManager;
-import com.massisframework.massis.model.managers.movement.MovementManager;
-import com.massisframework.massis.model.managers.pathfinding.PathFindingManager;
 import com.massisframework.massis.util.Indexable;
 import com.massisframework.massis.util.geom.CoordinateHolder;
 import com.massisframework.massis.util.io.Restorable;
@@ -52,13 +49,6 @@ public interface Building {
 
 	Floor getFloorById(int floorId);
 
-	/**
-	 * Only used for recovering the state. <i>Do not use</i>
-	 *
-	 * @param simObjId
-	 * @return
-	 */
-	SimulationObject getSimulationObject(int simObjId);
 
 	CoordinateHolder getRandomRoom();
 
@@ -66,11 +56,7 @@ public interface Building {
 
 	EnvironmentManager getEnvironmentManager();
 
-	Location getNamedLocation(String name);
-
-	void addNamedLocation(String name, Location location);
-
-	MovementManager getMovementManager();
+	
 
 	void addNamedRoom(String name, SimRoom simRoom);
 
@@ -82,7 +68,6 @@ public interface Building {
 
 	Collection<HighLevelController> getScheduledControllers();
 
-	PathFindingManager getPathManager();
 
 	public void addToSchedule(HighLevelController hlc);
 }

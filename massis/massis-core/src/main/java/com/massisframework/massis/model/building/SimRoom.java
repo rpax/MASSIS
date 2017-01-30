@@ -36,11 +36,7 @@ public interface SimRoom extends Occluder, Steppable, Stoppable,CoordinateHolder
 
 	
 
-	/**
-	 *
-	 * @return the people in this room (Agents)
-	 */
-	Collection<LowLevelAgent> getPeopleIn();
+	
 
 	void step(SimState s);
 

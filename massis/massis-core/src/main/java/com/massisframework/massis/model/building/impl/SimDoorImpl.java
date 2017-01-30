@@ -8,16 +8,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import com.massisframework.massis.model.building.Building;
-import com.massisframework.massis.model.building.RoomConnector;
 import com.massisframework.massis.model.building.SimDoor;
 import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.location.SimLocation;
 import com.massisframework.massis.model.managers.AnimationManager;
 import com.massisframework.massis.model.managers.EnvironmentManager;
-import com.massisframework.massis.model.managers.movement.MovementManager;
 import com.massisframework.massis.model.managers.pathfinding.PathFindingManager;
-import com.massisframework.massis.util.io.JsonState;
 
 import straightedge.geom.KPoint;
 
@@ -39,9 +35,9 @@ public class SimDoorImpl extends SimulationObjectImpl implements SimDoor {
 	private boolean open = true;
 
 	public SimDoorImpl(Map<String, String> metadata, SimLocation location,
-			MovementManager movementManager, AnimationManager animationManager,
+			 AnimationManager animationManager,
 			EnvironmentManager environment, PathFindingManager pathManager) {
-		super(metadata, location, movementManager, animationManager,
+		super(metadata, location, animationManager,
 				environment, pathManager);
 	}
 
@@ -116,30 +112,4 @@ public class SimDoorImpl extends SimulationObjectImpl implements SimDoor {
 		this.notifyChanged();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.ISimDoor#getState()
-	 */
-	@Override
-	public SimDoorState getState() {
-		return new SimDoorState(this, super.getState());
-	}
-
-	public static class SimDoorState implements JsonState<Building> {
-
-		private final boolean isOpen;
-		private final JsonState<Building> data;
-
-		public SimDoorState(SimDoor d,
-				JsonState<Building> simulationObjectData) {
-			this.data = simulationObjectData;
-			this.isOpen = d.isOpened();
-		}
-
-		@Override
-		public RoomConnector restore(Building building) {
-			SimDoor d = (SimDoor) data.restore(building);
-			d.setOpen(this.isOpen);
-			return d;
-		}
-	}
 }

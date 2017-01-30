@@ -6,14 +6,16 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.massisframework.massis.sim.SimulationScheduler;
 import com.massisframework.massis.sim.SimulationSteppable;
-import com.massisframework.massis.sim.ecs.ComponentConfiguration;
 import com.massisframework.massis.sim.ecs.ComponentFilter;
 import com.massisframework.massis.sim.ecs.SimulationEngine;
 import com.massisframework.massis.sim.ecs.SimulationEntity;
@@ -29,6 +31,8 @@ public class AshleySimulationEngine
 	private Engine ashleyEngine;
 
 	private Map<Integer, AshleySimulationEntity> entityIdMap;
+
+	private Queue<Runnable> taskQueue = new ConcurrentLinkedDeque<>();
 	private SimulationScheduler scheduler;
 
 	private List<SimulationSystem> waiting;
@@ -44,7 +48,6 @@ public class AshleySimulationEngine
 
 	@Inject
 	public AshleySimulationEngine(
-			ComponentConfiguration config,
 			SimulationScheduler scheduler,
 			SystemCreator systemCreator)
 	{
@@ -58,7 +61,6 @@ public class AshleySimulationEngine
 		this.paused = new ArrayList<>();
 		this.terminating = new ArrayList<>();
 
-		System.out.println("Created " + this.getClass());
 	}
 
 	@Override
@@ -74,6 +76,12 @@ public class AshleySimulationEngine
 				.getInstance(AshleySimulationEntity.class);
 		this.entityIdMap.put(simEntity.getId(), simEntity);
 		this.ashleyEngine.addEntity(simEntity.getEntity());
+
+		for (SimulationSystem ss : this.running)
+		{
+			ss.onEntityAdded(simEntity.getId());
+		}
+
 		return simEntity.getId();
 	}
 
@@ -84,7 +92,12 @@ public class AshleySimulationEngine
 		if (sE != null)
 		{
 			this.ashleyEngine.removeEntity(sE.getEntity());
+			for (SimulationSystem ss : this.running)
+			{
+				ss.onEntityRemoved(eId);
+			}
 		}
+
 	}
 
 	private static Map<Integer, AshleySimulationEntity> createEntityIdMap()
@@ -109,13 +122,6 @@ public class AshleySimulationEngine
 		return c.stream().filter(type::isInstance).findAny().isPresent();
 	}
 
-	private static Optional<? extends SimulationSystem> getOfType(
-			Collection<? extends SimulationSystem> c,
-			Class<? extends SimulationSystem> type)
-	{
-		return c.stream().filter(type::isInstance).findAny();
-	}
-
 	public boolean containsSystem(Class<? extends SimulationSystem> type)
 	{
 		return containsType(this.waiting, type)
@@ -131,7 +137,7 @@ public class AshleySimulationEngine
 			if (!containsSystem(type))
 			{
 				system = this.systemCreator.createSystem(type);
-				system.addedToEngine(this);
+				system.onAdded();
 			} else
 			{
 				throw new IllegalArgumentException(
@@ -154,15 +160,15 @@ public class AshleySimulationEngine
 		SimulationSystem[] systems = this.waiting
 				.toArray(new SimulationSystem[] {});
 		this.waiting.clear();
-		Arrays.stream(systems).forEach(this.running::add);
 		Arrays.stream(systems).forEach(SimulationSystem::initialize);
+		Arrays.stream(systems).forEach(this.running::add);
 	}
 
 	private void terminatingToDeleted()
 	{
 		if (terminating.size() == 0)
 			return;
-		this.terminating.forEach(s -> s.removedFromEngine(this));
+		this.terminating.forEach(s -> s.onRemoved());
 		this.terminating.clear();
 	}
 
@@ -190,6 +196,8 @@ public class AshleySimulationEngine
 		this.waitingToRunning();
 		for (SimulationSystem s : running)
 		{
+			while (!this.taskQueue.isEmpty())
+				this.taskQueue.poll().run();
 			s.update(deltaTime);
 			// Needed due to Ashley's architecture
 			this.ashleyEngine.update(-1);
@@ -197,14 +205,19 @@ public class AshleySimulationEngine
 	}
 
 	@Override
-	public void getEntitiesFor(ComponentFilter filter)
+	public List<SimulationEntity> getEntitiesFor(ComponentFilter filter,
+			List<SimulationEntity> store)
 	{
-		this.ashleyEngine.getEntities().forEach(e -> {
-			int id = e.getComponent(AshleyEntityIdReference.class).ashleyId;
-			boolean m = filter.matches(this.asSimulationEntity(id));
-			System.out.println("Entity #" + id + ",matches(" + m
-					+ "), with components " + e.getComponents() + "");
-		});
-
+		if (store == null)
+			store = new ArrayList<>();
+		else
+			store.clear();
+		for (Entity e : this.ashleyEngine
+				.getEntitiesFor(((AshleyComponentFilter) filter).getFamily()))
+		{
+			store.add(e.getComponent(AshleySimulationEntityReference.class)
+					.getReference());
+		}
+		return store;
 	}
 }

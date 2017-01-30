@@ -6,7 +6,6 @@ import com.massisframework.massis.model.building.SimulationObject;
 import com.massisframework.massis.model.location.SimLocation;
 import com.massisframework.massis.model.managers.AnimationManager;
 import com.massisframework.massis.model.managers.EnvironmentManager;
-import com.massisframework.massis.model.managers.movement.MovementManager;
 import com.massisframework.massis.model.managers.pathfinding.PathFindingManager;
 
 /**
@@ -15,13 +14,14 @@ import com.massisframework.massis.model.managers.pathfinding.PathFindingManager;
  * @author rpax
  *
  */
-public class SimWindowImpl extends SimulationObjectImpl implements SimulationObject{
+public class SimWindowImpl extends SimulationObjectImpl
+		implements SimulationObject {
 
+	public SimWindowImpl(Map<String, String> metadata, SimLocation location,
+			AnimationManager animationManager,
+			EnvironmentManager environment, PathFindingManager pathManager)
+	{
+		super(metadata, location, animationManager, environment, pathManager);
+	}
 
-    public SimWindowImpl(Map<String, String> metadata, SimLocation location,
-            MovementManager movementManager, AnimationManager animationManager,
-            EnvironmentManager environment,PathFindingManager pathManager)
-    {
-        super(metadata, location, movementManager, animationManager, environment,pathManager);
-    }
 }

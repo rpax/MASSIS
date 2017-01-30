@@ -8,16 +8,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
-
-import org.apache.commons.collections15.Predicate;
-import org.apache.commons.collections15.iterators.FilterIterator;
 
 import com.massisframework.massis.model.agents.LowLevelAgent;
 import com.massisframework.massis.model.building.Building;
@@ -27,7 +23,6 @@ import com.massisframework.massis.model.location.Location;
 import com.massisframework.massis.model.location.SimLocation;
 import com.massisframework.massis.model.managers.AnimationManager;
 import com.massisframework.massis.model.managers.EnvironmentManager;
-import com.massisframework.massis.model.managers.movement.MovementManager;
 import com.massisframework.massis.model.managers.pathfinding.PathFindingManager;
 import com.massisframework.massis.util.geom.CoordinateHolder;
 import com.massisframework.massis.util.geom.KPolygonUtils;
@@ -59,9 +54,9 @@ public class SimRoomImpl extends SimulationObjectImpl
 	private boolean vehiclesInThisRoomComputed = false;
 
 	public SimRoomImpl(Map<String, String> metadata, SimLocation location,
-			MovementManager movementManager, AnimationManager animationManager,
+			AnimationManager animationManager,
 			EnvironmentManager environment, PathFindingManager pathManager) {
-		super(metadata, location, movementManager, animationManager,
+		super(metadata, location, animationManager,
 				environment, pathManager);
 	}
 
@@ -158,24 +153,8 @@ public class SimRoomImpl extends SimulationObjectImpl
 
 	}
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.ISimRoom#getPeopleInIterator()
-	 */
-	@Deprecated
-	private Iterator<LowLevelAgent> getPeopleInIterator() {
-		return new FilterIterator<LowLevelAgent>(
-				this.getLocation().getFloor().getAgents().iterator(),
-				new PeopleInThisRoomPredicate());
-	}
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.building.ISimRoom#getPeopleIn()
-	 */
-	@Override
-	public Collection<LowLevelAgent> getPeopleIn() {
-		cacheVehiclesInThisRoom();
-		return this.vehiclesInThisRoomCached;
-	}
+	
 
 	/* (non-Javadoc)
 	 * @see com.massisframework.massis.model.building.ISimRoom#step(sim.engine.SimState)
@@ -189,34 +168,13 @@ public class SimRoomImpl extends SimulationObjectImpl
 		this.vehiclesInThisRoomComputed = false;
 	}
 
-	/**
-	 * TODO rpax why the quadtree is not being used here?? Caches the people in
-	 * this room
-	 */
-	private void cacheVehiclesInThisRoom() {
-		if (!this.vehiclesInThisRoomComputed) {
-			this.vehiclesInThisRoomCached.clear();
-			Iterator<LowLevelAgent> it = this.getPeopleInIterator();
-			while (it.hasNext()) {
-				this.vehiclesInThisRoomCached.add(it.next());
-			}
-			this.vehiclesInThisRoomComputed = true;
-		}
-	}
+	
 
 	/* (non-Javadoc)
 	 * @see com.massisframework.massis.model.building.ISimRoom#stop()
 	 */
 	@Override
 	public void stop() {
-	}
-
-	private class PeopleInThisRoomPredicate implements Predicate<LowLevelAgent> {
-
-		@Override
-		public boolean evaluate(LowLevelAgent person) {
-			return (SimRoomImpl.this == person.getRoom());
-		}
 	}
 
 	/* (non-Javadoc)

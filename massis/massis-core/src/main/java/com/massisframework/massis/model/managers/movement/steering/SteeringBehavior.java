@@ -6,37 +6,42 @@ import org.apache.commons.collections15.Predicate;
 import org.apache.commons.collections15.iterators.FilterIterator;
 
 import com.massisframework.massis.model.agents.LowLevelAgent;
+import com.massisframework.massis.model.components.EntitiesInRange;
+import com.massisframework.massis.model.components.Velocity;
+import com.massisframework.massis.sim.ecs.SimulationEntity;
 import com.massisframework.massis.util.geom.KVector;
 
 public abstract class SteeringBehavior {
 
-    protected LowLevelAgent v;
+    protected SimulationEntity v;
 
-    public SteeringBehavior(LowLevelAgent v)
+    public SteeringBehavior(SimulationEntity v)
     {
         this.v = v;
     }
 
     public abstract KVector steer();
 
-    protected static Iterable<LowLevelAgent> getActiveAgentsInRange(
-            final LowLevelAgent v, final double range)
+    protected static Iterable<SimulationEntity> getActiveAgentsInRange(
+            final SimulationEntity v, final double range)
     {
-        return new Iterable<LowLevelAgent>() {
+        return new Iterable<SimulationEntity>() {
             @Override
-            public Iterator<LowLevelAgent> iterator()
+            public Iterator<SimulationEntity> iterator()
             {
                 return new FilterIterator<>(
-                        v.getAgentsInRange(range).iterator(),
-                        new Predicate<LowLevelAgent>() {
+                        v.getComponent(EntitiesInRange.class).get().iterator(),
+                        new Predicate<SimulationEntity>() {
                     @Override
-                    public boolean evaluate(LowLevelAgent other)
+                    public boolean evaluate(SimulationEntity other)
                     {
-                        return !(
-                                   !other.isDynamic()
-                                || !other.isObstacle()
-                                || other == v
-                                || other.getRoom() != v.getRoom());
+                    	return other.getComponent(Velocity.class)!=null;
+                    	//&& other.getComponent(CurrentRoom.class)==v.getComponent(CurrentRoomId.class)
+								// return !(
+								// !other.isDynamic()
+								// || !other.isObstacle()
+								// || other == v
+								// || other.getRoom() != v.getRoom());
                     }
                 });
 

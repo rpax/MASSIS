@@ -22,7 +22,6 @@ import com.massisframework.massis.model.location.SimLocation;
 import com.massisframework.massis.model.managers.AnimationManager;
 import com.massisframework.massis.model.managers.EnvironmentManager;
 import com.massisframework.massis.model.managers.movement.ApproachCallback;
-import com.massisframework.massis.model.managers.movement.MovementManager;
 import com.massisframework.massis.model.managers.movement.Path;
 import com.massisframework.massis.model.managers.movement.steering.CollisionAvoidance;
 import com.massisframework.massis.model.managers.movement.steering.Containment;
@@ -47,7 +46,8 @@ import straightedge.geom.vision.Occluder;
  * @author rpax
  *
  */
-public class DefaultAgent extends SimulationObjectImpl implements LowLevelAgent {
+public class DefaultAgent extends SimulationObjectImpl
+		implements LowLevelAgent {
 
 	/**
 	 * Current velocity
@@ -104,10 +104,10 @@ public class DefaultAgent extends SimulationObjectImpl implements LowLevelAgent 
 	}
 
 	public DefaultAgent(Map<String, String> metadata, SimLocation location,
-			MovementManager movementManager, AnimationManager animationManager,
+			AnimationManager animationManager,
 			EnvironmentManager environment, PathFindingManager pathManager)
 	{
-		super(metadata, location, movementManager, animationManager,
+		super(metadata, location, animationManager,
 				environment, pathManager);
 		this.peopleInVisionArea = new ArrayList<>();
 		this.createVisionRadioPolygon();
@@ -561,20 +561,20 @@ public class DefaultAgent extends SimulationObjectImpl implements LowLevelAgent 
 		if (nearestPoint.x != currentXY.x || nearestPoint.y != currentXY.y)
 		{
 
-//			// Get the direction to the nearest point.
-//			// move the agent to the nearest point + its radius
-//
-//			//
-//			final KVector displacement = KVector
-//					.sub(nearestPoint, currentXY)
-//					.normalize()
-//					.mult(this.getMaxForce());
-//			// final KPoint nextLocXY = KVector.add(currentXY,displacement);
-//			this.applySteeringForcesAndMove(displacement);
-//			// this.moveTo(new Location(nextLocXY, currentFloor));
+			// // Get the direction to the nearest point.
+			// // move the agent to the nearest point + its radius
+			//
+			// //
+			// final KVector displacement = KVector
+			// .sub(nearestPoint, currentXY)
+			// .normalize()
+			// .mult(this.getMaxForce());
+			// // final KPoint nextLocXY = KVector.add(currentXY,displacement);
+			// this.applySteeringForcesAndMove(displacement);
+			// // this.moveTo(new Location(nextLocXY, currentFloor));
 			this.pathManager.removeFromCache(DefaultAgent.this);
 			this.clearCache();
-//			return;
+			// return;
 		}
 
 		// 1. getPath

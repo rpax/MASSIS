@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
+import java.util.stream.StreamSupport;
 
 import com.eteks.sweethome3d.model.HomeDoorOrWindow;
 import com.eteks.sweethome3d.model.HomeObject;
@@ -20,6 +21,8 @@ import com.eteks.sweethome3d.model.HomePieceOfFurniture;
 import com.eteks.sweethome3d.model.Level;
 import com.eteks.sweethome3d.model.Room;
 import com.eteks.sweethome3d.model.Wall;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.massisframework.massis.model.agents.DefaultAgent;
 import com.massisframework.massis.model.agents.HighLevelController;
 import com.massisframework.massis.model.agents.LowLevelAgent;
@@ -30,10 +33,22 @@ import com.massisframework.massis.model.building.SimDoor;
 import com.massisframework.massis.model.building.SimRoom;
 import com.massisframework.massis.model.building.SimWall;
 import com.massisframework.massis.model.building.Teleport;
-import com.massisframework.massis.model.location.Location;
-import com.massisframework.massis.model.location.SimLocation;
+import com.massisframework.massis.model.components.DoorComponent;
+import com.massisframework.massis.model.components.FloorReference;
+import com.massisframework.massis.model.components.Metadata;
+import com.massisframework.massis.model.components.Position2D;
+import com.massisframework.massis.model.components.RoomComponent;
+import com.massisframework.massis.model.components.ShapeComponent;
+import com.massisframework.massis.model.components.SteeringComponent;
+import com.massisframework.massis.model.components.TeleportComponent;
+import com.massisframework.massis.model.components.Velocity;
+import com.massisframework.massis.model.components.VisionArea;
+import com.massisframework.massis.model.components.WindowComponent;
+import com.massisframework.massis.model.components.impl.MetadataComponentImpl;
 import com.massisframework.massis.pathfinding.straightedge.FindPathResult;
 import com.massisframework.massis.pathfinding.straightedge.SEPathFinder;
+import com.massisframework.massis.sim.ecs.SimulationEngine;
+import com.massisframework.massis.sim.ecs.SimulationEntity;
 import com.massisframework.massis.util.Indexable;
 import com.massisframework.massis.util.SH3DUtils;
 import com.massisframework.massis.util.SimObjectProperty;
@@ -41,10 +56,8 @@ import com.massisframework.massis.util.field.grid.quadtree.array.ArrayQuadTree;
 import com.massisframework.massis.util.field.grid.quadtree.array.ArrayQuadTreeCallback;
 import com.massisframework.massis.util.geom.ContainmentPolygon;
 import com.massisframework.massis.util.geom.CoordinateHolder;
+import com.massisframework.massis.util.geom.KPolygonUtils;
 import com.massisframework.massis.util.io.Restorable;
-import com.massisframework.sweethome3d.javafx.FXHome;
-import com.massisframework.sweethome3d.javafx.properties.KnownMetadataHeader;
-import com.massisframework.sweethome3d.javafx.properties.MapMetadataSection;
 
 import straightedge.geom.KPoint;
 import straightedge.geom.KPolygon;
@@ -89,7 +102,6 @@ public class FloorImpl implements Floor {
 	 * Rooms & doors
 	 */
 	private final List<SimDoor> doors = new ArrayList<>();
-	private final List<SimWindowImpl> windows = new ArrayList<>();
 	private final ArrayList<RoomConnector> roomConnectors = new ArrayList<>();
 	/**
 	 * Teleports linking to other floors
@@ -98,7 +110,7 @@ public class FloorImpl implements Floor {
 	/**
 	 * MASSIS Walls
 	 */
-	private final ArrayList<SimWallImpl> walls;
+	private final ArrayList<SimulationEntity> walls;
 	/**
 	 * MASSIS Rooms
 	 */
@@ -118,7 +130,8 @@ public class FloorImpl implements Floor {
 	/**
 	 * QuadTree
 	 */
-	private final ArrayQuadTree<LowLevelAgent> quadPilu;
+	private final ArrayQuadTree<ArrayQuadTreeComponent> quadPilu;
+	private SimulationEngine engine;
 
 	/**
 	 * Creates a floor with all the elements of a Level
@@ -134,9 +147,10 @@ public class FloorImpl implements Floor {
 	 */
 	public FloorImpl(com.eteks.sweethome3d.model.Level level3D,
 			ArrayList<Room> rooms3D, ArrayList<Wall> walls3D,
-			ArrayList<HomePieceOfFurniture> furniture3D, Building building)
+			ArrayList<HomePieceOfFurniture> furniture3D, BuildingImpl building)
 	{
 
+		this.engine = building.getSimulationEngine();
 		this.id = getNewUID();
 		this.building = building;
 		this.level3D = level3D;
@@ -198,7 +212,7 @@ public class FloorImpl implements Floor {
 		// Then walls
 		initializeWalls();
 		// Once the walls are built, the containment polygons
-		initializeContainmentPolygons();
+		// initializeContainmentPolygons();
 		// finally the furniture
 		initializeSimFurniture();
 	}
@@ -214,43 +228,49 @@ public class FloorImpl implements Floor {
 			/*
 			 * Creation of the location of the new element
 			 */
-			final SimLocation location = new SimLocation(f, this);
+			// final SimLocation location = new SimLocation(f, this);
+
+			int entityId = this.engine.createEntity();
+			SimulationEntity entity = this.engine.asSimulationEntity(entityId);
 			/*
 			 * Has metadata?
 			 */
 			Map<String, String> metadata = getMetadata(f);
-			/*
-			 * Resources folder
-			 */
-			final String resourcesFolder = this.building.getResourcesFolder();
+
+			entity.addComponent(Metadata.class).set(metadata);
+			entity.addComponent(Position2D.class).set(f.getX(), f.getY());
+			entity.addComponent(Metadata.class);
+			entity.addComponent(ShapeComponent.class)
+					.setShape(SH3DUtils.createKPolygonFromSH3DObj(f));
+			entity.addComponent(FloorReference.class).setFloorId(this.id);
 			/*
 			 * Special case: teleports
 			 */
 			if (metadata.containsKey(SimObjectProperty.TELEPORT.toString()))
 			{
 
-				final TeleportImpl teleport = new TeleportImpl(metadata,
-						location,
-						this.building.getMovementManager(),
-						this.building.getAnimationManager(),
-						this.building.getEnvironmentManager(),
-						this.building.getPathManager());
-				this.building.addTeleport(teleport);
-				this.teleports.add(teleport);
-				this.roomConnectors.add(teleport);
-				f.setVisible(true);
+				// entity.addComponent(TeleportComponent.class);
+				// final TeleportImpl teleport = new TeleportImpl(metadata,
+				// location,
+				// this.building.getAnimationManager(),
+				// this.building.getEnvironmentManager(),
+				// this.building.getPathManager());
+				// this.building.addTeleport(teleport);
+				// this.teleports.add(teleport);
+				// this.roomConnectors.add(teleport);
+				// f.setVisible(true);
 
 			} else
 			{
 				if (metadata.containsKey(
 						SimObjectProperty.POINT_OF_INTEREST.toString()))
 				{
-					/*
-					 * Is it an special place?
-					 */
-					this.building.addNamedLocation(
-							metadata.get(SimObjectProperty.NAME.toString()),
-							new Location(f.getX(), f.getY(), this));
+					// /*
+					// * Is it an special place?
+					// */
+					// this.building.addNamedLocation(
+					// metadata.get(SimObjectProperty.NAME.toString()),
+					// new Location(f.getX(), f.getY(), this));
 				} else
 				{
 					if (f instanceof HomeDoorOrWindow)
@@ -264,26 +284,11 @@ public class FloorImpl implements Floor {
 								&& f.getName().toUpperCase().contains(
 										SimObjectProperty.WINDOW.toString()))
 						{
-							final SimWindowImpl window = new SimWindowImpl(
-									metadata, location,
-									this.building.getMovementManager(),
-									this.building.getAnimationManager(),
-									this.building.getEnvironmentManager(),
-									this.building.getPathManager());
-							this.building.addSH3DRepresentation(window, f);
-							this.windows.add(window);
+							entity.addComponent(WindowComponent.class);
 
 						} else
 						{
-							final SimDoorImpl door = new SimDoorImpl(metadata,
-									location,
-									this.building.getMovementManager(),
-									this.building.getAnimationManager(),
-									this.building.getEnvironmentManager(),
-									this.building.getPathManager());
-							this.building.addSH3DRepresentation(door, f);
-							this.doors.add(door);
-							this.roomConnectors.add(door);
+							entity.addComponent(DoorComponent.class);
 						}
 					} else /* Should be an agent then */
 
@@ -291,25 +296,25 @@ public class FloorImpl implements Floor {
 						/*
 						 * Tries to build an agent, by its metadata.
 						 */
+						//////////////////////////////
 
-						final LowLevelAgent person = new DefaultAgent(metadata,
-								location, this.building.getMovementManager(),
-								this.building.getAnimationManager(),
-								this.building.getEnvironmentManager(),
-								this.building.getPathManager());
+						// final LowLevelAgent person = new
+						// DefaultAgent(metadata,
+						// location,
+						// this.building.getAnimationManager(),
+						// this.building.getEnvironmentManager(),
+						// this.building.getPathManager());
 
-						final HighLevelController hlc = createHLController(
-								person,
-								metadata, resourcesFolder);
-						// What if it is only a chair?
-						// Should be treated differently?
-						this.building.addToSchedule(hlc);
-						/*
-						 * If the furniture parameters were right, add the agent
-						 */
+						entity.addComponent(Velocity.class);
+						entity.addComponent(SteeringComponent.class);
+						entity.addComponent(VisionArea.class);
 
-						this.building.addSH3DRepresentation(person, f);
-						this.addPerson(person);
+						//////////////////////////////
+						// final HighLevelController hlc = createHLController(
+						// person,
+						// metadata, resourcesFolder);
+						//
+						// this.addPerson(person);
 
 					}
 				}
@@ -320,17 +325,21 @@ public class FloorImpl implements Floor {
 
 	private Map<String, String> getMetadata(HomeObject f)
 	{
-		// TODO metadata key is made private, hardcoded meanhile
-		String METADATA_KEY = "__MASSIS_METADATA_v" + FXHome.VERSION;
-		String json = f.getProperty(METADATA_KEY);
+		// TODO temporary
 		Map<String, String> metadata = new HashMap<>();
+		JsonObject[] json = new Gson().fromJson(
+				f.getProperty("__MASSIS_METADATA_v1000"), JsonObject[].class);
 		if (json != null)
 		{
-			MapMetadataSection mmds = new MapMetadataSection(
-					KnownMetadataHeader.COMMON_METADATA);
-			mmds.entriesProperty().get().stream().forEach(entry -> {
-				metadata.put(entry.getKey(), entry.getValue());
-			});
+
+			for (int i = 0; i < json.length; i++)
+			{
+				json[i].get("attributes").getAsJsonArray().forEach(item -> {
+					metadata.put(
+							item.getAsJsonObject().get("key").getAsString(),
+							item.getAsJsonObject().get("value").getAsString());
+				});
+			}
 		}
 		return metadata;
 	}
@@ -342,15 +351,23 @@ public class FloorImpl implements Floor {
 	{
 		for (final Wall w : this.walls3D)
 		{
-			final SimLocation location = new SimLocation(w, this);
-			final Map<String, String> metadata = getMetadata(w);
-			final SimWallImpl simWall = new SimWallImpl(metadata, location,
-					this.building.getMovementManager(),
-					this.building.getAnimationManager(),
-					this.building.getEnvironmentManager(),
-					this.building.getPathManager());
+			// final SimLocation location = new SimLocation(w, this);
+			// final Map<String, String> metadata = getMetadata(w);
+			// final SimWallImpl simWall = new SimWallImpl(metadata, location,
+			//
+			// this.building.getAnimationManager(),
+			// this.building.getEnvironmentManager(),
+			// this.building.getPathManager());
+			//
+			// this.walls.add(simWall);
 
-			this.walls.add(simWall);
+			int entityId = engine.createEntity();
+			SimulationEntity e = engine.asSimulationEntity(entityId);
+			e.addComponent(Metadata.class);
+			e.addComponent(Position2D.class);
+			e.addComponent(ShapeComponent.class)
+					.setShape(SH3DUtils.createKPolygonFromSH3DObj(w));
+			this.walls.add(e);
 		}
 
 	}
@@ -362,37 +379,32 @@ public class FloorImpl implements Floor {
 	{
 		for (final Room r : this.rooms3D)
 		{
-			final SimLocation location = new SimLocation(r, this);
+			// final SimLocation location = new SimLocation(r, this);
+			//
+			// final Map<String, String> metadata = getMetadata(r);
+			//
+			// final SimRoomImpl simRoom = new SimRoomImpl(metadata, location,
+			// this.building.getAnimationManager(),
+			// this.building.getEnvironmentManager(),
+			// this.building.getPathManager());
+			// /*
+			// * If has a name, must be added to the named rooms section
+			// */
+			// if (r.getName() != null)
+			// {
+			// this.building.addNamedRoom(r.getName(), simRoom);
+			// }
+			// this.rooms.add(simRoom);
 
-			final Map<String, String> metadata = getMetadata(r);
-
-			final SimRoomImpl simRoom = new SimRoomImpl(metadata, location,
-					this.building.getMovementManager(),
-					this.building.getAnimationManager(),
-					this.building.getEnvironmentManager(),
-					this.building.getPathManager());
-			/*
-			 * If has a name, must be added to the named rooms section
-			 */
-			if (r.getName() != null)
-			{
-				this.building.addNamedRoom(r.getName(), simRoom);
-			}
-			this.rooms.add(simRoom);
-		}
-
-	}
-
-	/**
-	 * Creation of the containment polygons
-	 */
-	private void initializeContainmentPolygons()
-	{
-		this.containmentPolygons = new ArrayList<>();
-		for (final SimWallImpl w : this.walls)
-		{
-			this.containmentPolygons.add(new ContainmentPolygon(
-					new PolygonBufferer().buffer(w.getPolygon(), 50, 1)));
+			int entityId = engine.createEntity();
+			SimulationEntity e = engine.asSimulationEntity(entityId);
+			e.addComponent(Metadata.class);
+			e.addComponent(Position2D.class).set(r.getXCenter(),
+					r.getYCenter());
+			e.addComponent(RoomComponent.class);
+			e.addComponent(ShapeComponent.class)
+					.setShape(SH3DUtils.createKPolygonFromSH3DObj(r));
+			this.walls.add(e);
 		}
 
 	}
@@ -485,16 +497,6 @@ public class FloorImpl implements Floor {
 		return room;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.massisframework.massis.model.building.IFloor#getDoors()
-	 */
-	@Override
-	public List<SimDoor> getDoors()
-	{
-		return Collections.unmodifiableList(this.doors);
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -540,37 +542,25 @@ public class FloorImpl implements Floor {
 		return this.maxY;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.massisframework.massis.model.building.IFloor#getWalls()
-	 */
-	@Override
-	public List<SimWall> getWalls()
-	{
-		return Collections.unmodifiableList(this.walls);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.massisframework.massis.model.building.IFloor#getRooms()
-	 */
-	@Override
-	public final List<SimRoom> getRooms()
-	{
-		return this.rooms;
-	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see com.massisframework.massis.model.building.IFloor#getAgents()
 	 */
 	@Override
-	public Iterable<LowLevelAgent> getAgents()
+	public Iterable<SimulationEntity> getAgents()
 	{
-		return this.quadPilu.getElementsIn();
+		return toEntities(this.quadPilu.getElementsIn());
+	}
+
+	private Iterable<SimulationEntity> toEntities(
+			Iterable<ArrayQuadTreeComponent> qts)
+	{
+		return StreamSupport
+				.stream(qts.spliterator(), false)
+				.map(c -> this.engine
+						.asSimulationEntity(c.getEntityId()))::iterator;
 	}
 
 	/*
@@ -681,12 +671,13 @@ public class FloorImpl implements Floor {
 	 * massisframework.massis.model.building.SimulationObject)
 	 */
 	@Override
-	public void addPerson(Restorable simObj)
+	public void addPerson(SimulationEntity simObj)
 	{
-		if (simObj instanceof LowLevelAgent)
+		if (simObj.getComponent(ArrayQuadTreeComponent.class) == null)
 		{
-			this.quadPilu.insert((LowLevelAgent) simObj);
+			simObj.addComponent(ArrayQuadTreeComponent.class);
 		}
+		this.quadPilu.insert(simObj.getComponent(ArrayQuadTreeComponent.class));
 
 	}
 
@@ -844,14 +835,14 @@ public class FloorImpl implements Floor {
 	 * int, int, int)
 	 */
 	@Override
-	public Iterable<LowLevelAgent> getAgentsInRange(int xmin, int ymin,
+	public Iterable<SimulationEntity> getAgentsInRange(int xmin, int ymin,
 			int xmax,
 			int ymax)
 	{
 
 		final SearchRangeCallback rangeCallback = new SearchRangeCallback();
 		this.quadPilu.searchInRange(xmin, ymin, xmax, ymax, rangeCallback);
-		return rangeCallback.agents;
+		return toEntities(rangeCallback.agents);
 
 	}
 
@@ -860,10 +851,14 @@ public class FloorImpl implements Floor {
 			Map<String, String> metadata, String resourcesFolder)
 	{
 
+		String absResFolder = null;
 		/*
 		 * Avoid relative paths issues
 		 */
-		final String absResFolder = new File(resourcesFolder).getAbsolutePath();
+		if (resourcesFolder != null)
+		{
+			absResFolder = new File(resourcesFolder).getAbsolutePath();
+		}
 		final String className = metadata
 				.get(SimObjectProperty.CLASSNAME.toString());
 
@@ -896,12 +891,12 @@ public class FloorImpl implements Floor {
 	 *
 	 */
 	private static class SearchRangeCallback
-			implements ArrayQuadTreeCallback<LowLevelAgent> {
+			implements ArrayQuadTreeCallback<ArrayQuadTreeComponent> {
 
-		private final ArrayList<LowLevelAgent> agents = new ArrayList<>();
+		private final ArrayList<ArrayQuadTreeComponent> agents = new ArrayList<>();
 
 		@Override
-		public void query(LowLevelAgent element)
+		public void query(ArrayQuadTreeComponent element)
 		{
 			this.agents.add(element);
 		}

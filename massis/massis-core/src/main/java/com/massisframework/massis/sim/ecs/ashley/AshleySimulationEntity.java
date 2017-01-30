@@ -1,11 +1,12 @@
 package com.massisframework.massis.sim.ecs.ashley;
 
 import com.badlogic.ashley.core.Entity;
+import com.google.common.eventbus.EventBus;
 import com.google.inject.Inject;
 import com.massisframework.massis.sim.ecs.SimulationComponent;
 import com.massisframework.massis.sim.ecs.SimulationEntity;
 import com.massisframework.massis.sim.ecs.UIDProvider;
-import com.massisframework.massis.sim.ecs.injection.ComponentCreator;
+import com.massisframework.massis.sim.ecs.injection.components.ComponentCreator;
 
 public class AshleySimulationEntity
 		implements SimulationEntity {
@@ -13,16 +14,20 @@ public class AshleySimulationEntity
 	private ComponentCreator componentCreator;
 	private int id;
 	private Entity entity;
+	private EventBus evtBus;
 
 	@Inject
 	public AshleySimulationEntity(
 			ComponentCreator componentCreator,
-			UIDProvider uidProvider)
+			UIDProvider uidProvider,
+			EventBus evtBus)
 	{
+		this.evtBus = evtBus;
 		this.id = uidProvider.getNewUID();
 		this.entity = new Entity();
-		entity.add(new AshleyEntityIdReference(this.id));
 		this.componentCreator = componentCreator;
+		entity.add(new AshleyEntityIdReference(this.id));
+		entity.add(new AshleySimulationEntityReference(this));
 	}
 
 	public Entity getEntity()
@@ -68,15 +73,35 @@ public class AshleySimulationEntity
 	public <T extends SimulationComponent> T addComponent(Class<T> type)
 	{
 		return (T) this.entity
-				.addAndReturn(this.componentCreator.createComponent(type));
-		
+				.addAndReturn(
+						this.componentCreator.createComponent(this, type));
+
 	}
 
 	@Override
 	public <T extends SimulationComponent> void deleteComponent(Class<T> type)
 	{
 		this.entity.remove(type);
+	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public Iterable<? extends SimulationComponent> getComponents()
+	{
+		return (Iterable) this.entity.getComponents();
+	}
+
+	@Override
+	public void sendMessage(Object msg)
+	{
+		System.out.println("Posting " + msg);
+		this.evtBus.post(msg);
+	}
+
+	@Override
+	public <T extends SimulationComponent> T getComponent(Class<T> type)
+	{
+		return this.entity.getComponent(type);
 	}
 
 }

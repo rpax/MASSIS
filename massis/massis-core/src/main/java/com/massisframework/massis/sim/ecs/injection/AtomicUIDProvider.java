@@ -11,7 +11,7 @@ public class AtomicUIDProvider implements UIDProvider {
 	@Override
 	public int getNewUID()
 	{
-		return id_gen.incrementAndGet();
+		return id_gen.getAndIncrement();
 	}
 
 }
