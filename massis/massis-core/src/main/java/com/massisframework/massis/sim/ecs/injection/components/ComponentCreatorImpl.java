@@ -33,21 +33,6 @@ public class ComponentCreatorImpl implements ComponentCreator {
 		// ArrayList<>();
 		T rootComponent = injector.getInstance(type);
 
-		// componentAndDependencies.add(rootComponent);
-		//
-		// for (Class<? extends SimulationComponent> dep : this
-		// .getAllDependencies(type))
-		// {
-		// if (e.getComponent(dep) == null)
-		// {
-		// componentAndDependencies.add(injector.getInstance(type));
-		// }
-		// }
-
-		// for (SimulationComponent sc : componentAndDependencies)
-		// {
-		// setEntityIdField(e, sc);
-		// }
 		setEntityIdField(e, rootComponent);
 		if (SimulationSteppable.class.isAssignableFrom(type))
 		{
