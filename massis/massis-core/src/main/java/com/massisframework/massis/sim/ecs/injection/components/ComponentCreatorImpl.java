@@ -34,10 +34,9 @@ public class ComponentCreatorImpl implements ComponentCreator {
 		T rootComponent = injector.getInstance(type);
 
 		setEntityIdField(e, rootComponent);
-		if (SimulationSteppable.class.isAssignableFrom(type))
+		if (SimulationSteppable.class.isAssignableFrom(rootComponent.getClass()))
 		{
-			this.scheduler
-					.scheduleRepeating((SimulationSteppable) rootComponent);
+			this.scheduler.scheduleRepeating((SimulationSteppable) rootComponent);
 		}
 		return rootComponent;
 	}

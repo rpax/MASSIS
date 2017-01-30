@@ -18,6 +18,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.inject.Inject;
 import com.massisframework.massis.model.components.DoorComponent;
+import com.massisframework.massis.model.components.EntityRangeFinder;
+import com.massisframework.massis.model.components.Floor;
 import com.massisframework.massis.model.components.FloorReference;
 import com.massisframework.massis.model.components.Metadata;
 import com.massisframework.massis.model.components.Orientation;
@@ -74,6 +76,7 @@ public class BuildingSystem implements SimulationSystem {
 		SimulationEntity floorEntity = this.engine.asSimulationEntity(floorId);
 		floorEntity.addComponent(SweetHome3DLevel.class)
 				.setLevel(lvl);
+		floorEntity.addComponent(Floor.class);
 		this.home.getWalls()
 				.stream()
 				.filter(w -> w.getLevel() == lvl)
@@ -116,6 +119,8 @@ public class BuildingSystem implements SimulationSystem {
 
 			e.addComponent(Velocity.class);
 			e.addComponent(VisionArea.class);
+			e.addComponent(EntityRangeFinder.class);
+
 			String className = getMetadata(f)
 					.get(SimObjectProperty.CLASSNAME.toString());
 			if (className != null)

@@ -36,10 +36,9 @@ public class EnvironmentManager implements SimulationSystem {
 						.getComponent(Floor.class).getEntitiesIn()
 						.spliterator(),
 						false)
-				.filter(other -> other != this)
+				.filter(other -> other != entity)
 				.filter(other -> other.getComponent(Position2D.class).distance(
-						entity.getComponent(
-								Position2D.class)) < radius)::iterator;
+						entity.getComponent(Position2D.class)) < radius)::iterator;
 	}
 
 	@Override
