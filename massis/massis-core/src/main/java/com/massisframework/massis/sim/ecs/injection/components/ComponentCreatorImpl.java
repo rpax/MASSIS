@@ -2,17 +2,17 @@ package com.massisframework.massis.sim.ecs.injection.components;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.massisframework.massis.sim.SimulationScheduler;
+import com.massisframework.massis.sim.SimulationSteppable;
 import com.massisframework.massis.sim.ecs.SimulationComponent;
 import com.massisframework.massis.sim.ecs.SimulationEntity;
 
@@ -20,6 +20,9 @@ public class ComponentCreatorImpl implements ComponentCreator {
 
 	@Inject
 	private Injector injector;
+
+	@Inject
+	private SimulationScheduler scheduler;
 
 	@Override
 	public <T extends SimulationComponent> T createComponent(
@@ -29,6 +32,7 @@ public class ComponentCreatorImpl implements ComponentCreator {
 		// List<SimulationComponent> componentAndDependencies = new
 		// ArrayList<>();
 		T rootComponent = injector.getInstance(type);
+
 		// componentAndDependencies.add(rootComponent);
 		//
 		// for (Class<? extends SimulationComponent> dep : this
@@ -45,6 +49,11 @@ public class ComponentCreatorImpl implements ComponentCreator {
 		// setEntityIdField(e, sc);
 		// }
 		setEntityIdField(e, rootComponent);
+		if (SimulationSteppable.class.isAssignableFrom(type))
+		{
+			this.scheduler
+					.scheduleRepeating((SimulationSteppable) rootComponent);
+		}
 		return rootComponent;
 	}
 
@@ -57,7 +66,7 @@ public class ComponentCreatorImpl implements ComponentCreator {
 		for (Field f : getFieldsByAnnotation(sc.getClass(),
 				EntityReference.class))
 		{
-			setFieldValue(f,sc,e);
+			setFieldValue(f, sc, e);
 		}
 	}
 

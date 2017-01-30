@@ -147,45 +147,46 @@ public class HomeDisplay3D extends JFrame implements SimulationSystem {
 			return;
 		}
 		
-//		for (SimulationEntity obj : this.engine.getEntitiesFor(furnitureFilter,entities))
-//		{
-//
-//			final HomePieceOfFurniture hpof = obj
-//					.getComponent(SweetHome3DFurniture.class).getFurniture();
-//
-//			final int floorId = obj.getComponent(FloorReference.class)
-//					.getFloorId();
-//
-//			final Level floorLevel = engine.asSimulationEntity(floorId)
-//					.getComponent(SweetHome3DLevel.class).getLevel();
-//
-//			if (hpof == null)
-//			{
-//				System.err.println(obj + " has no representation");
-//				return;
-//			}
-//			if (hpof.getLevel() != floorLevel)
-//			{
-//				hpof.setLevel(floorLevel);
-//			}
-//			hpof.setAngle(
-//					(float) (obj.getComponent(Orientation.class).getAngle()
-//							- Math.PI / 2));
-//			hpof.setY((float) obj.getComponent(Position2D.class).getY());
-//			hpof.setX((float) obj.getComponent(Position2D.class).getY());
-//			final HomePieceOfFurniture3D hpof3D = ((HomePieceOfFurniture3D) this.homeComponent3D.homeObjects
-//					.get(hpof));
-//			// si todavia no se ha cargado, fuera
-//			if (hpof3D == null)
-//			{
-//				return;
-//			}
-//			// animateFurniture3D(hpof3D);
-//			final Transform3D pieceTransform = getPieceOFFurnitureNormalizedModelTransformation(
-//					hpof);
-//			// Change model transformation
-//			((TransformGroup) hpof3D.getChild(0)).setTransform(pieceTransform);
-//		}
+		for (SimulationEntity obj : this.engine.getEntitiesFor(furnitureFilter,
+				entities))
+		{
+
+			final HomePieceOfFurniture hpof = obj
+					.getComponent(SweetHome3DFurniture.class).getFurniture();
+
+			final int floorId = obj.getComponent(FloorReference.class)
+					.getFloorId();
+
+			final Level floorLevel = engine.asSimulationEntity(floorId)
+					.getComponent(SweetHome3DLevel.class).getLevel();
+
+			if (hpof == null)
+			{
+				System.err.println(obj + " has no representation");
+				return;
+			}
+			if (hpof.getLevel() != floorLevel)
+			{
+				hpof.setLevel(floorLevel);
+			}
+			hpof.setAngle(
+					(float) (obj.getComponent(Orientation.class).getAngle()
+							- Math.PI / 2));
+			hpof.setX((float) obj.getComponent(Position2D.class).getX());
+			hpof.setY((float) obj.getComponent(Position2D.class).getY());
+			final HomePieceOfFurniture3D hpof3D = ((HomePieceOfFurniture3D) this.homeComponent3D.homeObjects
+					.get(hpof));
+			// si todavia no se ha cargado, fuera
+			if (hpof3D == null)
+			{
+				return;
+			}
+			// animateFurniture3D(hpof3D);
+			final Transform3D pieceTransform = getPieceOFFurnitureNormalizedModelTransformation(
+					hpof);
+			// Change model transformation
+			((TransformGroup) hpof3D.getChild(0)).setTransform(pieceTransform);
+		}
 
 	}
 }
