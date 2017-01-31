@@ -1,14 +1,10 @@
 package com.massisframework.massis.sim.ecs.injection.components;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Inject;
-import com.google.inject.Injector;
-import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.matcher.Matchers;
 import com.google.inject.util.Types;
-import com.massisframework.massis.sim.ecs.SimulationEngine;
 import com.massisframework.massis.sim.ecs.SimulationEntity;
 import com.massisframework.massis.sim.ecs.injection.SimulationConfiguration;
 import com.massisframework.massis.sim.ecs.injection.TypeLiterals;

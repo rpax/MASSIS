@@ -1,15 +1,9 @@
 package com.massisframework.massis.sim.ecs.injection;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.List;
-
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
-import com.google.inject.TypeLiteral;
-import com.google.inject.util.Types;
 import com.massisframework.massis.sim.SimulationScheduler;
 import com.massisframework.massis.sim.ecs.ComponentFilterBuilder;
 import com.massisframework.massis.sim.ecs.SimulationEngine;
