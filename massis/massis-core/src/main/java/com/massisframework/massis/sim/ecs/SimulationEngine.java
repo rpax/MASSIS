@@ -18,7 +18,7 @@ public interface SimulationEngine<E extends SimulationEntity<E>> {
 
 	public void stop();
 
-	public List<SimulationEntity<?>> getEntitiesFor(ComponentFilter filter,
+	public List<SimulationEntity<?>> getEntitiesFor(ComponentFilter<?> filter,
 			List<SimulationEntity<?>> store);
 
 	public <T extends SimulationSystem> T getSystem(Class<T> type);

@@ -32,7 +32,7 @@ public class ComponentFilterListener implements TypeListener {
 				if (field.getType() == ComponentFilter.class &&
 						field.isAnnotationPresent(FilterParams.class))
 				{
-					
+
 					typeEncounter.register(
 							new ComponentFilterMembersInjector<T>(field,
 									config));
@@ -51,10 +51,10 @@ public class ComponentFilterListener implements TypeListener {
 				SimulationConfiguration config)
 		{
 			this.field = field;
-
+			// TODO
 			ComponentFilterBuilder builder = new AshleyComponentFilterBuilder(
-					config,false);
-			
+					config, false);
+
 			FilterParams ann = field.getAnnotation(FilterParams.class);
 			if (ann.all() != null)
 				builder = builder.all(ann.all());
@@ -65,9 +65,8 @@ public class ComponentFilterListener implements TypeListener {
 			if (ann.one() != null)
 				builder = builder.one(ann.one());
 
-			
 			this.filter = builder.get();
-		
+
 			field.setAccessible(true);
 		}
 

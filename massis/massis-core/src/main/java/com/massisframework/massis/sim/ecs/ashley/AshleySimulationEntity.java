@@ -1,5 +1,8 @@
 package com.massisframework.massis.sim.ecs.ashley;
 
+import java.util.Collections;
+import java.util.Set;
+
 import com.badlogic.ashley.core.Entity;
 import com.google.common.eventbus.EventBus;
 import com.google.inject.Inject;
@@ -12,17 +15,18 @@ import com.massisframework.massis.sim.ecs.injection.components.ComponentCreator;
 public class AshleySimulationEntity
 		implements SimulationEntity<AshleySimulationEntity> {
 
-	private ComponentCreator componentCreator;
+	private ComponentCreator<AshleySimulationEntity> componentCreator;
 	private int id;
 	private Entity entity;
 	private EventBus evtBus;
-
+	private AshleySimulationEntity parent;
+	private Set<AshleySimulationEntity> children;
 	private SimulationConfiguration config;
 
 	@Inject
 	public AshleySimulationEntity(
 			SimulationConfiguration config,
-			ComponentCreator componentCreator,
+			ComponentCreator<AshleySimulationEntity> componentCreator,
 			UIDProvider uidProvider,
 			EventBus evtBus)
 	{
@@ -112,29 +116,37 @@ public class AshleySimulationEntity
 	@Override
 	public Iterable<AshleySimulationEntity> getChildren()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		if (this.children == null)
+		{
+			return Collections.emptySet();
+		}
+		return this.children;
 	}
 
 	@Override
 	public void addChild(AshleySimulationEntity e)
 	{
-		// TODO Auto-generated method stub
-		
+		if (e.parent != null)
+		{
+			e.parent.removeChild(e);
+		}
+		e.parent = this;
+		this.children.add(e);
 	}
 
 	@Override
 	public void removeChild(AshleySimulationEntity e)
 	{
-		// TODO Auto-generated method stub
-		
+		if (this.children.remove(e))
+		{
+			e.parent = null;
+		}
 	}
 
 	@Override
 	public AshleySimulationEntity getParent()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return parent;
 	}
 
 }

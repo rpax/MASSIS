@@ -1,13 +1,11 @@
 package com.massisframework.massis.sim.ecs.injection.components;
 
-import java.util.List;
-
 import com.massisframework.massis.sim.ecs.SimulationComponent;
 import com.massisframework.massis.sim.ecs.SimulationEntity;;
 
-public interface ComponentCreator {
+public interface ComponentCreator<E extends SimulationEntity<E>> {
 
 	public <T extends SimulationComponent> T createComponent(
-			SimulationEntity e,
+			E e,
 			Class<T> type);
 }

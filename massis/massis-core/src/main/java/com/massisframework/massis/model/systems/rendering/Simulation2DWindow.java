@@ -1,4 +1,4 @@
-package com.massisframework.massis.model.systems.swing;
+package com.massisframework.massis.model.systems.rendering;
 
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;

@@ -42,8 +42,8 @@ public class HomeDisplay3D extends JFrame implements SimulationSystem {
 			SweetHome3DFurniture.class,
 			Position2D.class
 	})
-	private ComponentFilter furnitureFilter;
-	
+	private ComponentFilter<?> furnitureFilter;
+
 	private Home home;
 	private boolean ready = false;
 
@@ -79,6 +79,8 @@ public class HomeDisplay3D extends JFrame implements SimulationSystem {
 
 	private void init()
 	{
+		if (engine.getSystem(BuildingSystem.class) == null)
+			return;
 		System.setProperty("com.eteks.sweethome3d.j3d.useOffScreen3DView",
 				"true");
 		this.initiated = true;
@@ -129,7 +131,6 @@ public class HomeDisplay3D extends JFrame implements SimulationSystem {
 		setTitle("HomeDisplay3D");
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setVisible(true);
-
 	}
 
 	private List<SimulationEntity<?>> entities = new ArrayList<>();
@@ -137,7 +138,7 @@ public class HomeDisplay3D extends JFrame implements SimulationSystem {
 	@Override
 	public void update(float deltaTime)
 	{
-		
+
 		if (this.isVisible() && !this.initiated)
 		{
 			init();
@@ -146,8 +147,9 @@ public class HomeDisplay3D extends JFrame implements SimulationSystem {
 		{
 			return;
 		}
-		
-		for (SimulationEntity<?> obj : this.engine.getEntitiesFor(furnitureFilter,
+
+		for (SimulationEntity<?> obj : this.engine.getEntitiesFor(
+				furnitureFilter,
 				entities))
 		{
 

@@ -16,7 +16,7 @@ import com.massisframework.massis.sim.SimulationSteppable;
 import com.massisframework.massis.sim.ecs.SimulationComponent;
 import com.massisframework.massis.sim.ecs.SimulationEntity;
 
-public class ComponentCreatorImpl implements ComponentCreator {
+public class ComponentCreatorImpl<E extends SimulationEntity<E>> implements ComponentCreator<E> {
 
 	@Inject
 	private Injector injector;
@@ -26,7 +26,7 @@ public class ComponentCreatorImpl implements ComponentCreator {
 
 	@Override
 	public <T extends SimulationComponent> T createComponent(
-			SimulationEntity e,
+			E e,
 			Class<T> type)
 	{
 		// List<SimulationComponent> componentAndDependencies = new

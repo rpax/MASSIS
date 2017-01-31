@@ -13,6 +13,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Singleton;
 import com.massisframework.massis.sim.SimulationScheduler;
 import com.massisframework.massis.sim.SimulationSteppable;
 import com.massisframework.massis.sim.ecs.ComponentFilter;
@@ -24,8 +25,10 @@ import com.massisframework.massis.sim.ecs.injection.SystemCreator;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenCustomHashMap;
 import it.unimi.dsi.fastutil.ints.IntHash.Strategy;
 
+@Singleton
 public class AshleySimulationEngine
-		implements SimulationEngine<AshleySimulationEntity>, SimulationSteppable {
+		implements SimulationEngine<AshleySimulationEntity>,
+		SimulationSteppable {
 
 	private Engine ashleyEngine;
 
@@ -135,19 +138,21 @@ public class AshleySimulationEngine
 	@Override
 	public void addSystem(Class<? extends SimulationSystem> type)
 	{
+		System.out.println(type);
 		synchronized (this.running)
 		{
 			SimulationSystem system = null;
 			if (!containsSystem(type))
 			{
 				system = this.systemCreator.createSystem(type);
+				this.waiting.add(system);
 				system.onAdded();
 			} else
 			{
 				throw new IllegalArgumentException(
 						"System already in the engine");
 			}
-			this.waiting.add(system);
+
 		}
 	}
 
@@ -164,8 +169,8 @@ public class AshleySimulationEngine
 		SimulationSystem[] systems = this.waiting
 				.toArray(new SimulationSystem[] {});
 		this.waiting.clear();
-		Arrays.stream(systems).forEach(SimulationSystem::initialize);
 		Arrays.stream(systems).forEach(this.running::add);
+		Arrays.stream(systems).forEach(SimulationSystem::initialize);
 	}
 
 	private void terminatingToDeleted()
@@ -209,7 +214,7 @@ public class AshleySimulationEngine
 	}
 
 	@Override
-	public List<SimulationEntity<?>> getEntitiesFor(ComponentFilter filter,
+	public List<SimulationEntity<?>> getEntitiesFor(ComponentFilter<?> filter,
 			List<SimulationEntity<?>> store)
 	{
 		if (store == null)
@@ -228,6 +233,7 @@ public class AshleySimulationEngine
 	@Override
 	public <T extends SimulationSystem> T getSystem(Class<T> type)
 	{
+
 		return running
 				.stream()
 				.filter(s -> type.isInstance(s)).findAny()

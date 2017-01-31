@@ -16,7 +16,7 @@ public class SimulationConfiguration {
 
 	private Map<Class<? extends SimulationComponent>, Class<? extends SimulationComponent>> bindings = new HashMap<>();
 	private Class<? extends SimulationScheduler> scheduler;
-	private Class<? extends SimulationEngine> engine;
+	private Class<? extends SimulationEngine<?>> engine;
 	private Collection<Class<? extends SimulationSystem>> systems = new HashSet<>();
 	private File buildingFile;
 
@@ -40,7 +40,7 @@ public class SimulationConfiguration {
 		return this.scheduler;
 	}
 
-	public Class<? extends SimulationEngine> getEngineType()
+	public Class<? extends SimulationEngine<?>> getEngineType()
 	{
 		return this.engine;
 	}
@@ -67,7 +67,7 @@ public class SimulationConfiguration {
 				Class<I> source);
 
 		SimulationConfigurationBuilder withEngine(
-				Class<? extends SimulationEngine> type);
+				Class<? extends SimulationEngine<?>> type);
 
 		SimulationConfigurationBuilder withScheduler(
 				Class<? extends SimulationScheduler> type);
@@ -99,7 +99,7 @@ public class SimulationConfiguration {
 
 		@Override
 		public SimulationConfigurationBuilder withEngine(
-				Class<? extends SimulationEngine> type)
+				Class<? extends SimulationEngine<?>> type)
 		{
 
 			config.engine = type;

@@ -18,26 +18,23 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 
 public class MessageMapperSystem implements SimulationSystem {
 
-	private Map<Class<?>, Map<Class<?>, Method>> methodMap;
+	private Map<Class<?>, Map<Class<?>, Method>> methodMap = new HashMap<>();
 
 	@Inject
 	private EventBus eventBus;
 	@Inject
-	private SimulationEngine engine;
+	private SimulationEngine<?> engine;
 
-	private Map<Integer, EntityMessageHandler> handlerMap;
+	private Map<Integer, EntityMessageHandler> handlerMap = new Int2ObjectOpenHashMap<>();
 
 	@Override
 	public void initialize()
 	{
-		this.methodMap = new HashMap<>();
-		this.handlerMap = new Int2ObjectOpenHashMap<>();
 	}
 
 	@Override
 	public void update(float deltaTime)
 	{
-		// TODO Auto-generated method stub
 
 	}
 

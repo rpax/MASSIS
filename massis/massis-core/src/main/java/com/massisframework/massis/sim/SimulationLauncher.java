@@ -18,7 +18,7 @@ public class SimulationLauncher {
 	{
 		Injector injector = Guice.createInjector(
 				new ConfigurationModule(config));
-		SimulationEngine engine = injector
+		SimulationEngine<?> engine = injector
 				.getInstance(SimulationEngine.class);
 		// add default systems:
 		config.getSystems().forEach(engine::addSystem);

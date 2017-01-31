@@ -1,4 +1,4 @@
-package com.massisframework.massis.model.systems.swing;
+package com.massisframework.massis.model.systems.rendering;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,22 +24,19 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
-public class SwingDisplaySystem implements SimulationSystem {
+public class JFXDisplaySystem implements SimulationSystem {
 
 	// TODO
 	@FilterParams(all = LayerComponent.class)
-	private ComponentFilter layersFilter;
+	private ComponentFilter<?> layersFilter;
 	@FilterParams(all = Floor.class)
-	private ComponentFilter floorFilter;
+	private ComponentFilter<?> floorFilter;
 
-	private List<SimulationEntity> entities;
+	private List<SimulationEntity<?>> entities;
 	private Set<Integer> added;
 	private Map<Integer, EngineDrawableZone> floorMap;
 	@Inject
-	private SimulationEngine engine;
-
-	@Inject
-	private Provider<ComponentFilterBuilder> cFBuilder;
+	private SimulationEngine<?> engine;
 
 	@Override
 	public void initialize()
@@ -50,7 +47,8 @@ public class SwingDisplaySystem implements SimulationSystem {
 			try
 			{
 				Parent root = FXMLLoader
-						.load(getClass().getResource("Simulation2DWindow.fxml"));
+						.load(getClass()
+								.getResource("Simulation2DWindow.fxml"));
 				stage.setScene(new Scene(root, 800, 600));
 				stage.show();
 			} catch (IOException e)

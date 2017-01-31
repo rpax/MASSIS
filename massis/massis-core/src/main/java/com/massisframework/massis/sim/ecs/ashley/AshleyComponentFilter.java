@@ -2,9 +2,8 @@ package com.massisframework.massis.sim.ecs.ashley;
 
 import com.badlogic.ashley.core.Family;
 import com.massisframework.massis.sim.ecs.ComponentFilter;
-import com.massisframework.massis.sim.ecs.SimulationEntity;
 
-public class AshleyComponentFilter implements ComponentFilter {
+public class AshleyComponentFilter implements ComponentFilter<AshleySimulationEntity> {
 
 	private Family family;
 
@@ -14,10 +13,10 @@ public class AshleyComponentFilter implements ComponentFilter {
 	}
 
 	@Override
-	public boolean matches(SimulationEntity entity)
+	public boolean matches(AshleySimulationEntity entity)
 	{
 		return this.family
-				.matches(((AshleySimulationEntity) entity).getEntity());
+				.matches(entity.getEntity());
 	}
 
 	public Family getFamily()
