@@ -27,28 +27,28 @@ public class PeopleLayer extends DrawableLayer<DrawableFloor> {
 	@Override
 	public void draw(DrawableFloor dfloor, Graphics2D g)
 	{
-		final Floor f = dfloor.getFloor().getComponent(Floor.class);
+		final Floor f = dfloor.getFloor().get(Floor.class);
 		g.setColor(Color.red);
 
 		for (SimulationEntity p : f.getEntitiesIn())
 		{
-			if (p.getComponent(DynamicObstacle.class) != null)
+			if (p.get(DynamicObstacle.class) != null)
 			{
 				g.setColor(new Color(165, 42, 42));
-				g.fill(p.getComponent(ShapeComponent.class).getShape());
+				g.fill(p.get(ShapeComponent.class).getShape());
 			}
 		}
 		for (SimulationEntity p : f.getEntitiesIn())
 		{
-			if (p.getComponent(DynamicObstacle.class) != null)
+			if (p.get(DynamicObstacle.class) != null)
 			{
 				KPolygon poly = KPolygon.createRegularPolygon(3,
-						p.getComponent(ShapeComponent.class).getShape()
+						p.get(ShapeComponent.class).getShape()
 								.getRadius());
 				poly.scale(1, 0.6);
 
-				Position2D pos = p.getComponent(Position2D.class);
-				poly.rotate(p.getComponent(Orientation.class).getAngle());
+				Position2D pos = p.get(Position2D.class);
+				poly.rotate(p.get(Orientation.class).getAngle());
 				poly.translateTo(pos.getX(), pos.getY());
 
 				g.setColor(DEFAULT_PERSON_FILL_COLOR);

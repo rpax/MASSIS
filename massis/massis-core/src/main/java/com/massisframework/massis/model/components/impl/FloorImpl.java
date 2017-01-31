@@ -108,7 +108,7 @@ public class FloorImpl implements Floor, SimulationSteppable {
 	public void step(SimulationScheduler scheduler, float deltaTime)
 	{
 		this.engine.getEntitiesFor(this.referenceFilter, this.entitiesIn);
-		this.entitiesIn.removeIf(c -> c.getComponent(FloorReference.class)
+		this.entitiesIn.removeIf(c -> c.get(FloorReference.class)
 				.getFloorId() != this.entity.getId());
 	}
 

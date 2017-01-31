@@ -45,7 +45,7 @@ public class CrowdDensityLayer extends DrawableLayer<DrawableFloor> {
 	public void draw(DrawableFloor dfloor, Graphics2D g)
 	{
 		final SimulationEntity se = dfloor.getFloor();
-		final Floor f = se.getComponent(Floor.class);
+		final Floor f = se.get(Floor.class);
 		/**
 		 * The factor with wich this floor must be scaled in order to fit in the
 		 * image
@@ -103,11 +103,11 @@ public class CrowdDensityLayer extends DrawableLayer<DrawableFloor> {
 			/*
 			 * Furniture should not be counted in the occupation.
 			 */
-			if (a.getComponent(DynamicObstacle.class) == null)
+			if (a.get(DynamicObstacle.class) == null)
 			{
 				continue;
 			}
-			Position2D pos = a.getComponent(Position2D.class);
+			Position2D pos = a.get(Position2D.class);
 			/*
 			 * Translation of the real coordinates of the agent into the images'
 			 * coordinates

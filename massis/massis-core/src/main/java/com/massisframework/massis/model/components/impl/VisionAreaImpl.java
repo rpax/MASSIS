@@ -39,7 +39,7 @@ public class VisionAreaImpl implements VisionArea {
 	@Override
 	public Iterable<SimulationEntity> getEntitiesInRange()
 	{
-		return this.entity.getComponent(EntityRangeFinder.class)
+		return this.entity.get(EntityRangeFinder.class)
 				.getEntitiesInRange(this.visionRadioPolygon.getRadius());
 	}
 

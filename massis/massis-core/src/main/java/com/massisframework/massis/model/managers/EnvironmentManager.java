@@ -30,15 +30,15 @@ public class EnvironmentManager implements SimulationSystem {
 	public Iterable<SimulationEntity> getAgentsInRange(SimulationEntity entity,
 			double radius)
 	{
-		int floorId = entity.getComponent(FloorReference.class).getFloorId();
+		int floorId = entity.get(FloorReference.class).getFloorId();
 		return StreamSupport
 				.stream(engine.asSimulationEntity(floorId)
-						.getComponent(Floor.class).getEntitiesIn()
+						.get(Floor.class).getEntitiesIn()
 						.spliterator(),
 						false)
 				.filter(other -> other != entity)
-				.filter(other -> other.getComponent(Position2D.class).distance(
-						entity.getComponent(Position2D.class)) < radius)::iterator;
+				.filter(other -> other.get(Position2D.class).distance(
+						entity.get(Position2D.class)) < radius)::iterator;
 	}
 
 	@Override

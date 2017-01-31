@@ -84,7 +84,7 @@ public class AshleySimulationEntity
 	}
 
 	@Override
-	public <T extends SimulationComponent> void deleteComponent(Class<T> type)
+	public <T extends SimulationComponent> void remove(Class<T> type)
 	{
 		this.entity.remove(type);
 	}
@@ -104,7 +104,7 @@ public class AshleySimulationEntity
 	}
 
 	@Override
-	public <T extends SimulationComponent> T getComponent(Class<T> type)
+	public <T extends SimulationComponent> T get(Class<T> type)
 	{
 		return this.entity.getComponent(config.getBinding(type, true));
 	}

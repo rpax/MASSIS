@@ -56,7 +56,7 @@ public class ConnectionsLayer extends DrawableLayer<DrawableFloor> {
 				.getEntitiesFor(stationaryFilter, stationaryObstacles))
 		{
 			PathBlockingObstacle obst = se
-					.getComponent(StationaryObstacle.class).getObstacle();
+					.get(StationaryObstacle.class).getObstacle();
 			for (KNodeOfObstacle currentNode : obst.getNodes())
 			{
 				for (KNode n : currentNode.getConnectedNodes())

@@ -16,31 +16,31 @@ public class DrawableFloor implements DrawableZone {
 	@Override
 	public float getMaxX()
 	{
-		return this.floor.getComponent(Floor.class).getMaxX();
+		return this.floor.get(Floor.class).getMaxX();
 	}
 
 	@Override
 	public float getMaxY()
 	{
-		return this.floor.getComponent(Floor.class).getMaxY();
+		return this.floor.get(Floor.class).getMaxY();
 	}
 
 	@Override
 	public float getMinX()
 	{
-		return this.floor.getComponent(Floor.class).getMinX();
+		return this.floor.get(Floor.class).getMinX();
 	}
 
 	@Override
 	public float getMinY()
 	{
-		return this.floor.getComponent(Floor.class).getMinY();
+		return this.floor.get(Floor.class).getMinY();
 	}
 
 	@Override
 	public String getName()
 	{
-		return this.floor.getComponent(NameComponent.class).get();
+		return this.floor.get(NameComponent.class).get();
 	}
 
 	public SimulationEntity getFloor()

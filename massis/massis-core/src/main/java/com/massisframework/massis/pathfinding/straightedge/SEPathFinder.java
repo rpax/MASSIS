@@ -120,19 +120,19 @@ public class SEPathFinder {
 		engine.getEntitiesFor(doorFilter, doors);
 		for (SimulationEntity wallEntity : walls)
 		{
-			if (wallEntity.getComponent(FloorReference.class)
+			if (wallEntity.get(FloorReference.class)
 					.getFloorId() != this.floorId)
 				continue;
 			/*
 			 * Substraction of the doors area to the walls area
 			 */
 			Area area = new Area(
-					wallEntity.getComponent(ShapeComponent.class).getShape());
+					wallEntity.get(ShapeComponent.class).getShape());
 			for (SimulationEntity doorEntity : doors)
 			{
-				boolean open = doorEntity.getComponent(DoorComponent.class)
+				boolean open = doorEntity.get(DoorComponent.class)
 						.isOpen();
-				KPolygon shape = doorEntity.getComponent(ShapeComponent.class)
+				KPolygon shape = doorEntity.get(ShapeComponent.class)
 						.getShape();
 				if (open)
 				{
@@ -204,7 +204,7 @@ public class SEPathFinder {
 
 		for (SimulationEntity sr : this.engine.getEntitiesFor(roomFilter, this.rooms))
 		{
-			Area walkAble = new Area(sr.getComponent(ShapeComponent.class).getShape());
+			Area walkAble = new Area(sr.get(ShapeComponent.class).getShape());
 
 			walkAblePolys
 					.add(PathFindingUtils.createKPolygonFromShape(walkAble));
@@ -212,7 +212,7 @@ public class SEPathFinder {
 		}
 		// Connect the obstacles' nodes so that the PathFinder can do its work:
 		Floor floor = this.engine.asSimulationEntity(this.floorId)
-				.getComponent(Floor.class);
+				.get(Floor.class);
 		nodeConnector = new MNodeConnector(stationaryObstacles,
 				maxConnectionDistanceBetweenObstacles, AABB_Expansion,
 				floor.getMinX(), floor.getMaxX(), floor.getMinY(),
