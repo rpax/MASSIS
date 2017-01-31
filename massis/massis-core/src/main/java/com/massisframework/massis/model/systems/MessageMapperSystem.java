@@ -90,7 +90,7 @@ public class MessageMapperSystem implements SimulationSystem {
 		public void onMessage(Object message)
 		{
 
-			SimulationEntity se = engine.asSimulationEntity(entityId);
+			SimulationEntity<?> se = engine.asSimulationEntity(entityId);
 			Class<?> messageClass = message.getClass();
 			for (SimulationComponent sc : se.getComponents())
 			{

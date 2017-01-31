@@ -15,10 +15,10 @@ public class VisionAreaImpl implements VisionArea {
 	private KPolygon visionRadioPolygon;
 
 	@Inject
-	SimulationEngine engine;
+	SimulationEngine<?> engine;
 
 	@EntityReference
-	SimulationEntity entity;
+	SimulationEntity<?> entity;
 
 	public VisionAreaImpl()
 	{
@@ -37,7 +37,7 @@ public class VisionAreaImpl implements VisionArea {
 	}
 
 	@Override
-	public Iterable<SimulationEntity> getEntitiesInRange()
+	public Iterable<SimulationEntity<?>> getEntitiesInRange()
 	{
 		return this.entity.get(EntityRangeFinder.class)
 				.getEntitiesInRange(this.visionRadioPolygon.getRadius());

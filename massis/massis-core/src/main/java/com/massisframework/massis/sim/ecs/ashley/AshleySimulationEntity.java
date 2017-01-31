@@ -10,7 +10,7 @@ import com.massisframework.massis.sim.ecs.injection.SimulationConfiguration;
 import com.massisframework.massis.sim.ecs.injection.components.ComponentCreator;
 
 public class AshleySimulationEntity
-		implements SimulationEntity {
+		implements SimulationEntity<AshleySimulationEntity> {
 
 	private ComponentCreator componentCreator;
 	private int id;
@@ -91,7 +91,7 @@ public class AshleySimulationEntity
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Iterable<? extends SimulationComponent> getComponents()
+	public Iterable<SimulationComponent> getComponents()
 	{
 		return (Iterable) this.entity.getComponents();
 	}
@@ -107,6 +107,34 @@ public class AshleySimulationEntity
 	public <T extends SimulationComponent> T get(Class<T> type)
 	{
 		return this.entity.getComponent(config.getBinding(type, true));
+	}
+
+	@Override
+	public Iterable<AshleySimulationEntity> getChildren()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void addChild(AshleySimulationEntity e)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeChild(AshleySimulationEntity e)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public AshleySimulationEntity getParent()
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

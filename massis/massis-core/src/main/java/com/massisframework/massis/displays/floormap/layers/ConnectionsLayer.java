@@ -28,24 +28,21 @@ import straightedge.geom.path.PathBlockingObstacle;
 public class ConnectionsLayer extends AbstractDrawableLayer {
 
 	@Inject
-	SimulationEngine engine;
+	SimulationEngine<?> engine;
 
 	@FilterParams(all = {
 			StationaryObstacle.class
 	})
 	private ComponentFilter stationaryFilter;
 
-	
-	
-	
-	private List<SimulationEntity> stationaryObstacles = new ArrayList<>();
+	private List<SimulationEntity<?>> stationaryObstacles = new ArrayList<>();
 
 	@Override
 	public void draw(EngineDrawableZone drawableZone, Graphics2D g)
 	{
 
 		g.setColor(Color.DARK_GRAY);
-		for (SimulationEntity se : engine
+		for (SimulationEntity<?> se : engine
 				.getEntitiesFor(stationaryFilter, stationaryObstacles))
 		{
 			PathBlockingObstacle obst = se

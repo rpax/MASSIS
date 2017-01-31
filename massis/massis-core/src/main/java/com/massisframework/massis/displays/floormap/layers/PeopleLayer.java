@@ -26,7 +26,7 @@ public class PeopleLayer extends AbstractDrawableLayer {
 		final Floor f = dz.getFloor().get(Floor.class);
 		g.setColor(Color.red);
 
-		for (SimulationEntity p : f.getEntitiesIn())
+		for (SimulationEntity<?> p : f.getEntitiesIn())
 		{
 			if (p.get(RoomComponent.class) != null)
 				continue;
@@ -36,13 +36,12 @@ public class PeopleLayer extends AbstractDrawableLayer {
 				g.fill(p.get(ShapeComponent.class).getShape());
 			}
 		}
-		for (SimulationEntity p : f.getEntitiesIn())
+		for (SimulationEntity<?> p : f.getEntitiesIn())
 		{
 			if (p.get(DynamicObstacle.class) != null)
 			{
 				KPolygon poly = KPolygon.createRegularPolygon(3,
-						p.get(ShapeComponent.class).getShape()
-								.getRadius());
+						p.get(ShapeComponent.class).getRadius());
 				poly.scale(1, 0.6);
 
 				Position2D pos = p.get(Position2D.class);

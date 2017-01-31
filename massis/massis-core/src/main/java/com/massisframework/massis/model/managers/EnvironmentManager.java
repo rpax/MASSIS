@@ -19,7 +19,7 @@ import com.massisframework.massis.sim.ecs.SimulationSystem;
 public class EnvironmentManager implements SimulationSystem {
 
 	@Inject
-	private SimulationEngine engine;
+	private SimulationEngine<?> engine;
 
 	@Override
 	public void initialize()
@@ -27,7 +27,7 @@ public class EnvironmentManager implements SimulationSystem {
 
 	}
 
-	public Iterable<SimulationEntity> getAgentsInRange(SimulationEntity entity,
+	public Iterable<SimulationEntity<?>> getAgentsInRange(SimulationEntity<?> entity,
 			double radius)
 	{
 		int floorId = entity.get(FloorReference.class).getFloorId();

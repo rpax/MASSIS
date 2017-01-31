@@ -20,9 +20,9 @@ public class MovementSystem implements SimulationSystem {
 	@FilterParams(all = { MovingTo.class, Velocity.class, Position2D.class })
 	private ComponentFilter movingFilter;
 
-	private List<SimulationEntity> entities;
+	private List<SimulationEntity<?>> entities;
 	@Inject
-	SimulationEngine engine;
+	SimulationEngine<?> engine;
 
 	@Override
 	public void initialize()
@@ -33,7 +33,7 @@ public class MovementSystem implements SimulationSystem {
 	@Override
 	public void update(float deltaTime)
 	{
-		for (SimulationEntity e : this.engine.getEntitiesFor(movingFilter,
+		for (SimulationEntity<?> e : this.engine.getEntitiesFor(movingFilter,
 				this.entities))
 		{
 

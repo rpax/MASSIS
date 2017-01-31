@@ -4,9 +4,14 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
 
+import com.massisframework.massis.javafx.canvas2d.Canvas2D;
+
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -18,37 +23,44 @@ public class ApplicationLauncher extends Application {
 
 	private static void initialize()
 	{
-		
+
 	}
 
 	public static void main(String[] args)
 	{
-		for (int i = 0; i < 3; i++)
-		{
-			launchWrappedApplication((stage, app) -> {
-				Scene scene = new Scene(new AnchorPane());
-				stage.setScene(scene);
-				stage.show();
-			});
+		// for (int i = 0; i < 3; i++)
+		// {
+		// launchWrappedApplication((stage, app) -> {
+		// Scene scene = new Scene(new AnchorPane());
+		// stage.setScene(scene);
+		// stage.show();
+		// });
+		//
+		// }
+		// System.err.println("--------Sleeping");
+		// try
+		// {
+		// Thread.sleep(10000);
+		// } catch (InterruptedException e)
+		// {
+		// e.printStackTrace();
+		// }
+		// System.err.println("Running again");
+		// for (int i = 0; i < 3; i++)
+		// {
+		// launchWrappedApplication((stage, app) -> {
+		// Scene scene = new Scene(new AnchorPane());
+		// stage.setScene(scene);
+		// stage.show();
+		// });
+		// }
+		
+	}
 
-		}
-		System.err.println("--------Sleeping");
-		try
-		{
-			Thread.sleep(10000);
-		} catch (InterruptedException e)
-		{
-			e.printStackTrace();
-		}
-		System.err.println("Running again");
-		for (int i = 0; i < 3; i++)
-		{
-			launchWrappedApplication((stage, app) -> {
-				Scene scene = new Scene(new AnchorPane());
-				stage.setScene(scene);
-				stage.show();
-			});
-		}
+	private static void drawShapes(GraphicsContext gc)
+	{
+		// TODO Auto-generated method stub
+		
 	}
 
 	public static <T extends Application> void launchWrappedApplication(

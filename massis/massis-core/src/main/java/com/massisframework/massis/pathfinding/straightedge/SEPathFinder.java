@@ -35,7 +35,6 @@ import straightedge.geom.vision.Occluder;
  * @author rpax
  *
  */
-@SuppressWarnings({ "unchecked", "rawtypes" })
 public class SEPathFinder {
 
 	/**
@@ -58,7 +57,7 @@ public class SEPathFinder {
 	/**
 	 * Connector of the pathfinder noder
 	 */
-	private MNodeConnector nodeConnector;
+	private MNodeConnector<?> nodeConnector;
 	/**
 	 * ...
 	 */
@@ -77,10 +76,10 @@ public class SEPathFinder {
 	 */
 	private boolean initialized = false;
 	private int floorId;
-	private SimulationEngine engine;
-	private List<SimulationEntity> walls;
-	private ArrayList<SimulationEntity> doors;
-	private ArrayList<SimulationEntity> rooms;
+	private SimulationEngine<?> engine;
+	private List<SimulationEntity<?>> walls;
+	private ArrayList<SimulationEntity<?>> doors;
+	private ArrayList<SimulationEntity<?>> rooms;
 
 	private ComponentFilter wallFilter;
 	/**
@@ -95,17 +94,17 @@ public class SEPathFinder {
 	private ComponentFilter roomFilter;
 
 	public SEPathFinder(Provider<ComponentFilterBuilder> cFBuilder,
-			SimulationEngine engine, int floorId)
+			SimulationEngine<?> engine, int floorId)
 	{
 		this.floorId = floorId;
 		this.engine = engine;
 		this.cfBuilder = cFBuilder;
 		this.walls = new ArrayList<>();
 		this.doors = new ArrayList<>();
-		this.rooms=new ArrayList<>();
+		this.rooms = new ArrayList<>();
 		this.wallFilter = cfBuilder.get().all(WallComponent.class).get();
 		this.doorFilter = cfBuilder.get().all(DoorComponent.class).get();
-		this.roomFilter=cfBuilder.get().all(RoomComponent.class).get();
+		this.roomFilter = cfBuilder.get().all(RoomComponent.class).get();
 	}
 
 	/**
@@ -118,8 +117,9 @@ public class SEPathFinder {
 		List<KPolygon> obstPolys = new ArrayList<KPolygon>();
 		engine.getEntitiesFor(wallFilter, walls);
 		engine.getEntitiesFor(doorFilter, doors);
-		for (SimulationEntity wallEntity : walls)
+		for (SimulationEntity<?> wallEntity : walls)
 		{
+			
 			if (wallEntity.get(FloorReference.class)
 					.getFloorId() != this.floorId)
 				continue;
@@ -128,12 +128,13 @@ public class SEPathFinder {
 			 */
 			Area area = new Area(
 					wallEntity.get(ShapeComponent.class).getShape());
-			for (SimulationEntity doorEntity : doors)
+			for (SimulationEntity<?> doorEntity : doors)
 			{
 				boolean open = doorEntity.get(DoorComponent.class)
 						.isOpen();
-				KPolygon shape = doorEntity.get(ShapeComponent.class)
-						.getShape();
+				KPolygon shape = PathFindingUtils.createKPolygonFromShape(
+						doorEntity.get(ShapeComponent.class).getShape());
+
 				if (open)
 				{
 					area.subtract(new Area(shape));
@@ -202,7 +203,8 @@ public class SEPathFinder {
 
 		walkAblePolys = new ArrayList<>();
 
-		for (SimulationEntity sr : this.engine.getEntitiesFor(roomFilter, this.rooms))
+		for (SimulationEntity<?> sr : this.engine.getEntitiesFor(roomFilter,
+				this.rooms))
 		{
 			Area walkAble = new Area(sr.get(ShapeComponent.class).getShape());
 
@@ -213,7 +215,7 @@ public class SEPathFinder {
 		// Connect the obstacles' nodes so that the PathFinder can do its work:
 		Floor floor = this.engine.asSimulationEntity(this.floorId)
 				.get(Floor.class);
-		nodeConnector = new MNodeConnector(stationaryObstacles,
+		nodeConnector = new MNodeConnector<>(stationaryObstacles,
 				maxConnectionDistanceBetweenObstacles, AABB_Expansion,
 				floor.getMinX(), floor.getMaxX(), floor.getMinY(),
 				floor.getMaxY());

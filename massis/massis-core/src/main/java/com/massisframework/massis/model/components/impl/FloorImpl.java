@@ -20,21 +20,21 @@ import com.massisframework.massis.sim.ecs.injection.components.EntityReference;
 public class FloorImpl implements Floor {
 
 	@Inject
-	private SimulationEngine engine;
+	private SimulationEngine<?> engine;
 	@FilterParams(all = { FloorReference.class })
 	private ComponentFilter referenceFilter;
 
 	@EntityReference
-	SimulationEntity entity;
+	SimulationEntity<?> entity;
 
-	private List<SimulationEntity> entities = new ArrayList<>();
+	private List<SimulationEntity<?>> entities = new ArrayList<>();
 	/*
 	 * Bounds
 	 */
 	public int minX, maxX, minY, maxY, xlength, ylength;
 
 	@Override
-	public Iterable<SimulationEntity> getEntitiesIn()
+	public Iterable<SimulationEntity<?>> getEntitiesIn()
 	{
 		return engine.getEntitiesFor(referenceFilter, entities).stream()
 				.filter(e -> e.get(FloorReference.class)

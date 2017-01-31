@@ -37,7 +37,7 @@ public class VelocitySystem implements SimulationSystem {
 	{
 		engine.getEntitiesFor(filter, entities);
 
-		for (SimulationEntity se : entities)
+		for (SimulationEntity<?> se : entities)
 		{
 			// final SteeringBehavior steeringBeh = se
 			// .getComponent(SteeringComponent.class)
@@ -94,7 +94,7 @@ public class VelocitySystem implements SimulationSystem {
 	 *            the forces applied to that agent
 	 */
 	private void applySteeringForcesAndMove(
-			SimulationEntity vehicle,
+			SimulationEntity<?> vehicle,
 			KVector forces)
 	{
 

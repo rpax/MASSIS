@@ -9,5 +9,5 @@ public interface VisionArea extends SimulationComponent {
 
 	public KPolygon getVisionRadioPolygon();
 	
-	public Iterable<SimulationEntity> getEntitiesInRange();
+	public Iterable<SimulationEntity<?>> getEntitiesInRange();
 }

@@ -40,7 +40,7 @@ public class CrowdDensityLayer extends AbstractDrawableLayer {
 	@Override
 	public void draw(EngineDrawableZone dfloor, Graphics2D g)
 	{
-		final SimulationEntity se = dfloor.getFloor();
+		final SimulationEntity<?> se = dfloor.getFloor();
 		final Floor f = se.get(Floor.class);
 		/**
 		 * The factor with wich this floor must be scaled in order to fit in the
@@ -94,7 +94,7 @@ public class CrowdDensityLayer extends AbstractDrawableLayer {
 		 */
 		int max = Integer.MIN_VALUE;
 
-		for (SimulationEntity a : f.getEntitiesIn())
+		for (SimulationEntity<?> a : f.getEntitiesIn())
 		{
 			/*
 			 * Furniture should not be counted in the occupation.

@@ -29,8 +29,8 @@ public class PathFindingSystem implements SimulationSystem {
 	private Map<Integer, SEPathFinder> pathFinders;
 
 	@Inject
-	private SimulationEngine engine;
-	private List<SimulationEntity> entities = new ArrayList<>();
+	private SimulationEngine<?> engine;
+	private List<SimulationEntity<?>> entities = new ArrayList<>();
 	@FilterParams(all = Floor.class)
 	private ComponentFilter floorFilter;
 	@FilterParams(
@@ -53,7 +53,7 @@ public class PathFindingSystem implements SimulationSystem {
 	@Override
 	public void update(float deltaTime)
 	{
-		for (SimulationEntity e : this.engine.getEntitiesFor(floorFilter,
+		for (SimulationEntity<?> e : this.engine.getEntitiesFor(floorFilter,
 				entities))
 		{
 			int floorId = e.getId();
@@ -64,7 +64,7 @@ public class PathFindingSystem implements SimulationSystem {
 			}
 
 		}
-		for (SimulationEntity e : this.engine.getEntitiesFor(followersFilter,
+		for (SimulationEntity<?> e : this.engine.getEntitiesFor(followersFilter,
 				entities))
 		{
 

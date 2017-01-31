@@ -10,13 +10,13 @@ import com.massisframework.massis.sim.ecs.injection.components.EntityReference;
 public class EntityRangeFinderImpl implements EntityRangeFinder {
 
 	@EntityReference
-	private SimulationEntity entity;
+	private SimulationEntity<?> entity;
 
 	@Inject
-	private SimulationEngine engine;
+	private SimulationEngine<?> engine;
 
 	@Override
-	public Iterable<SimulationEntity> getEntitiesInRange(double radius)
+	public Iterable<SimulationEntity<?>> getEntitiesInRange(double radius)
 	{
 		return this.engine.getSystem(EnvironmentManager.class)
 				.getAgentsInRange(this.entity, radius);

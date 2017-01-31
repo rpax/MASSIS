@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
@@ -26,7 +25,7 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectOpenCustomHashMap;
 import it.unimi.dsi.fastutil.ints.IntHash.Strategy;
 
 public class AshleySimulationEngine
-		implements SimulationEngine, SimulationSteppable {
+		implements SimulationEngine<AshleySimulationEntity>, SimulationSteppable {
 
 	private Engine ashleyEngine;
 
@@ -64,7 +63,7 @@ public class AshleySimulationEngine
 	}
 
 	@Override
-	public SimulationEntity asSimulationEntity(int id)
+	public AshleySimulationEntity asSimulationEntity(int id)
 	{
 		return this.entityIdMap.get(id);
 	}
@@ -104,9 +103,14 @@ public class AshleySimulationEngine
 	{
 		return new Int2ObjectOpenCustomHashMap<>(new Strategy() {
 			@Override
-			public int hashCode(int e)
+			public int hashCode(int h)
 			{
-				return SimulationEntity.fmix32(e);
+				h ^= h >>> 16;
+				h *= 0x85ebca6b;
+				h ^= h >>> 13;
+				h *= 0xc2b2ae35;
+				h ^= h >>> 16;
+				return h;
 			}
 
 			@Override
@@ -205,8 +209,8 @@ public class AshleySimulationEngine
 	}
 
 	@Override
-	public List<SimulationEntity> getEntitiesFor(ComponentFilter filter,
-			List<SimulationEntity> store)
+	public List<SimulationEntity<?>> getEntitiesFor(ComponentFilter filter,
+			List<SimulationEntity<?>> store)
 	{
 		if (store == null)
 			store = new ArrayList<>();

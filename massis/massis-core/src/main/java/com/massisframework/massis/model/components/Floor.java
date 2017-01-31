@@ -17,6 +17,6 @@ public interface Floor extends SimulationComponent {
 
 	public int getMaxX();
 
-	Iterable<SimulationEntity> getEntitiesIn();
+	Iterable<SimulationEntity<?>> getEntitiesIn();
 
 }

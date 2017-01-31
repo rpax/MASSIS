@@ -37,7 +37,7 @@ public class HomeDisplay3D extends JFrame implements SimulationSystem {
 	HomeComponentDisplay3D homeComponent3D;
 	private boolean initiated = false;
 	@Inject
-	private SimulationEngine engine;
+	private SimulationEngine<?> engine;
 	@FilterParams(all = {
 			SweetHome3DFurniture.class,
 			Position2D.class
@@ -132,7 +132,7 @@ public class HomeDisplay3D extends JFrame implements SimulationSystem {
 
 	}
 
-	private List<SimulationEntity> entities = new ArrayList<>();
+	private List<SimulationEntity<?>> entities = new ArrayList<>();
 
 	@Override
 	public void update(float deltaTime)
@@ -147,7 +147,7 @@ public class HomeDisplay3D extends JFrame implements SimulationSystem {
 			return;
 		}
 		
-		for (SimulationEntity obj : this.engine.getEntitiesFor(furnitureFilter,
+		for (SimulationEntity<?> obj : this.engine.getEntitiesFor(furnitureFilter,
 				entities))
 		{
 

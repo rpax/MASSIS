@@ -46,7 +46,7 @@ import straightedge.geom.KPolygon;
 public class BuildingSystem implements SimulationSystem {
 
 	@Inject
-	SimulationEngine engine;
+	SimulationEngine<?> engine;
 	@Inject
 	SimulationConfiguration configuration;
 	private Home home;
@@ -75,7 +75,7 @@ public class BuildingSystem implements SimulationSystem {
 	private void createLevel(Level lvl)
 	{
 		int floorId = this.engine.createEntity();
-		SimulationEntity floorEntity = this.engine.asSimulationEntity(floorId);
+		SimulationEntity<?> floorEntity = this.engine.asSimulationEntity(floorId);
 		floorEntity.addComponent(SweetHome3DLevel.class)
 				.setLevel(lvl);
 		floorEntity.addComponent(Floor.class);
@@ -109,7 +109,7 @@ public class BuildingSystem implements SimulationSystem {
 
 	private void createFurnitureComponent(int floorId, HomePieceOfFurniture f)
 	{
-		SimulationEntity e = createEntity(floorId, f);
+		SimulationEntity<?> e = createEntity(floorId, f);
 		e.addComponent(SweetHome3DFurniture.class).setFurniture(f);
 		e.addComponent(Orientation.class).setAngle(f.getAngle());
 		if (f instanceof HomeDoorOrWindow)
@@ -164,12 +164,12 @@ public class BuildingSystem implements SimulationSystem {
 
 	}
 
-	private SimulationEntity createEntity(int floorId, Selectable w)
+	private SimulationEntity<?> createEntity(int floorId, Selectable w)
 	{
 		KPolygon shape = SH3DUtils.createKPolygonFromSH3DObj(w);
 		KPoint center = shape.getCenter();
 		int entityId = engine.createEntity();
-		SimulationEntity e = engine.asSimulationEntity(entityId);
+		SimulationEntity<?> e = engine.asSimulationEntity(entityId);
 		e.addComponent(FloorReference.class).setFloorId(floorId);
 		e.addComponent(Metadata.class).set(getMetadata((HomeObject) w));
 		e.addComponent(Position2D.class).set(center.x, center.y);

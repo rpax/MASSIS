@@ -11,11 +11,11 @@ public class EngineDrawableZone implements DrawableZone {
 
 	private int floorId;
 	private Provider<ComponentFilterBuilder> cFBuilderProv;
-	private SimulationEngine engine;
+	private SimulationEngine<?> engine;
 
 	public EngineDrawableZone(int floorId,
 			Provider<ComponentFilterBuilder> cFBuilderProv,
-			SimulationEngine engine)
+			SimulationEngine<?> engine)
 	{
 		this.floorId = floorId;
 		this.cFBuilderProv = cFBuilderProv;
@@ -57,7 +57,7 @@ public class EngineDrawableZone implements DrawableZone {
 				.get();
 	}
 
-	public SimulationEntity getFloor()
+	public SimulationEntity<?> getFloor()
 	{
 		return this.engine.asSimulationEntity(floorId);
 	}
