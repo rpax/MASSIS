@@ -1,10 +1,15 @@
 package com.massisframework.massis.sim.ecs.injection;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.List;
+
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
+import com.google.inject.util.Types;
 import com.massisframework.massis.sim.SimulationScheduler;
 import com.massisframework.massis.sim.ecs.ComponentFilterBuilder;
 import com.massisframework.massis.sim.ecs.SimulationEngine;
@@ -44,19 +49,17 @@ public class ConfigurationModule extends AbstractModule {
 
 		bind(SimulationScheduler.class).to(config.getShedulerType())
 				.in(Singleton.class);
+		TypeLiterals.bindWild(SimulationEngine.class, config.getEngineType(),
+				this.binder());
 
-		bind(new TypeLiteral<SimulationEngine<?>>() {
-		}).to(config.getEngineType())
-				.in(Singleton.class);
-		bind(new TypeLiteral<SimulationEngine>() {
-		}).to(config.getEngineType())
-				.in(Singleton.class);
-		bind(new TypeLiteral<SimulationEngine<? extends SimulationEntity>>() {
-		}).to(config.getEngineType())
-				.in(Singleton.class);
+		bind(SimulationEntity.class).to(config.getSimulationEntityType());
+		// bind(SimulationEntity.class).to(simulationEntityType);
 
 	}
 
+	// public static ParameterizedType listOf(Type elementType) {
+	// return newParameterizedType(List.class, elementType);
+	// }
 	private static class DefaultSystemCreator implements SystemCreator {
 		@Inject
 		private Injector injector;

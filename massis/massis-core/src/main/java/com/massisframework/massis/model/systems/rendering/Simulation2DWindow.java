@@ -24,7 +24,6 @@ public class Simulation2DWindow {
 	private void configureCanvasPane()
 	{
 
-		
 		updateCanvasSize();
 		// AnchorPane.setLeftAnchor(canvasPane, 0D);
 		// AnchorPane.setRightAnchor(canvasPane, 0D);
@@ -45,7 +44,7 @@ public class Simulation2DWindow {
 	{
 		canvas.setWidth(mainAnchorPane.getWidth());
 		canvas.setHeight(mainAnchorPane.getHeight());
-		drawShapes(canvas.getGraphicsContext2D());
+	//	drawShapes(canvas.getGraphicsContext2D());
 	}
 
 	private void drawShapes(GraphicsContext gc)
@@ -72,6 +71,11 @@ public class Simulation2DWindow {
 				new double[] { 210, 210, 240, 240 }, 4);
 		gc.strokePolyline(new double[] { 110, 140, 110, 140 },
 				new double[] { 210, 210, 240, 240 }, 4);
+	}
+
+	public Canvas getCanvas()
+	{
+		return this.canvas;
 	}
 
 }

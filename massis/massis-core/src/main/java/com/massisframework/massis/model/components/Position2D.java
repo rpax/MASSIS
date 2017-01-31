@@ -11,6 +11,8 @@ public interface Position2D extends SimulationComponent, CoordinateHolder {
 
 	public KPoint getXY();
 
+	public KPoint getWorldPosition();
+
 	public default double distance(Position2D other)
 	{
 		return this.getXY().distance(other.getXY());

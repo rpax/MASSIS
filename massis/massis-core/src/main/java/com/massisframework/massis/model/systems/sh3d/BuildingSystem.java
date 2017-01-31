@@ -24,6 +24,7 @@ import com.massisframework.massis.model.components.Metadata;
 import com.massisframework.massis.model.components.NameComponent;
 import com.massisframework.massis.model.components.Orientation;
 import com.massisframework.massis.model.components.Position2D;
+import com.massisframework.massis.model.components.RenderComponent;
 import com.massisframework.massis.model.components.RoomComponent;
 import com.massisframework.massis.model.components.Velocity;
 import com.massisframework.massis.model.components.VisionArea;
@@ -38,6 +39,7 @@ import com.massisframework.massis.sim.ecs.injection.SimulationConfiguration;
 import com.massisframework.massis.util.SH3DUtils;
 import com.massisframework.massis.util.SimObjectProperty;
 
+import javafx.scene.paint.Color;
 import straightedge.geom.KPoint;
 import straightedge.geom.KPolygon;
 
@@ -73,7 +75,8 @@ public class BuildingSystem implements SimulationSystem {
 	private void createLevel(Level lvl)
 	{
 		int floorId = this.engine.createEntity();
-		SimulationEntity<?> floorEntity = this.engine.asSimulationEntity(floorId);
+		SimulationEntity<?> floorEntity = this.engine
+				.asSimulationEntity(floorId);
 		floorEntity.addComponent(SweetHome3DLevel.class)
 				.setLevel(lvl);
 		floorEntity.addComponent(Floor.class);
@@ -88,7 +91,16 @@ public class BuildingSystem implements SimulationSystem {
 				.stream()
 				.filter(w -> w.getLevel() == lvl)
 				.forEach(w -> {
-					createEntity(floorId, w).addComponent(WallComponent.class);
+					SimulationEntity<?> wallEntity = createEntity(floorId, w);
+					wallEntity.addComponent(WallComponent.class);
+					wallEntity.addComponent(RenderComponent.class)
+							.setRenderer((se, gc) -> {
+								KPoint pos = se.get(Position2D.class)
+										.getWorldPosition();
+								gc.setFill(Color.BLACK);
+								gc.fillRect(pos.x, pos.y, 100, 100);
+							});
+
 				});
 
 		this.home.getRooms()
@@ -127,7 +139,7 @@ public class BuildingSystem implements SimulationSystem {
 			e.addComponent(Velocity.class);
 			e.addComponent(VisionArea.class);
 			e.addComponent(EntityRangeFinder.class);
-			
+
 			String className = getMetadata(f)
 					.get(SimObjectProperty.CLASSNAME.toString());
 			if (className != null)
@@ -141,9 +153,9 @@ public class BuildingSystem implements SimulationSystem {
 				{
 					throw new RuntimeException(e1);
 				}
-			}
-			else{
-				
+			} else
+			{
+
 			}
 		}
 

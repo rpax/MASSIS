@@ -74,8 +74,7 @@ public class AshleySimulationEngine
 	@Override
 	public int createEntity()
 	{
-		AshleySimulationEntity simEntity = injector
-				.getInstance(AshleySimulationEntity.class);
+		AshleySimulationEntity simEntity = injector.getInstance(AshleySimulationEntity.class);
 		this.entityIdMap.put(simEntity.getId(), simEntity);
 		this.ashleyEngine.addEntity(simEntity.getEntity());
 

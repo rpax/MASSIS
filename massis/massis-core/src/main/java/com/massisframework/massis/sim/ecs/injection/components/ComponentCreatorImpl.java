@@ -41,7 +41,7 @@ public class ComponentCreatorImpl<E extends SimulationEntity<E>> implements Comp
 		return rootComponent;
 	}
 
-	private void setEntityIdField(SimulationEntity e, SimulationComponent sc)
+	private void setEntityIdField(SimulationEntity<?> e, SimulationComponent sc)
 	{
 		for (Field f : getFieldsByAnnotation(sc.getClass(), EntityId.class))
 		{

@@ -8,7 +8,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.massisframework.massis.model.systems.swing.Simulation2DWindow">
+<VBox prefHeight="400.0" prefWidth="640.0"
+	xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="com.massisframework.massis.model.systems.rendering.Simulation2DWindow">
 	<children>
 		<MenuBar VBox.vgrow="NEVER">
 			<menus>
@@ -49,9 +51,11 @@
 				</Menu>
 			</menus>
 		</MenuBar>
-		<AnchorPane fx:id="mainAnchorPane" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-         <children>
-            <Canvas fx:id="canvas" height="371.0" width="640.0" />
-         </children></AnchorPane>
+		<AnchorPane fx:id="mainAnchorPane" prefHeight="200.0"
+			prefWidth="200.0" VBox.vgrow="ALWAYS">
+			<children>
+				<Canvas fx:id="canvas" height="371.0" width="640.0" />
+			</children>
+		</AnchorPane>
 	</children>
 </VBox>

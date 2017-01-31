@@ -19,7 +19,7 @@ public class FloorImpl implements Floor {
 	@Inject
 	private SimulationEngine<?> engine;
 	@FilterParams(all = { FloorReference.class })
-	private ComponentFilter referenceFilter;
+	private ComponentFilter<?> referenceFilter;
 
 	@EntityReference
 	SimulationEntity<?> entity;

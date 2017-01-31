@@ -1,6 +1,7 @@
 package com.massisframework.massis.sim.ecs.injection;
 
 import java.io.File;
+import java.lang.reflect.ParameterizedType;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -10,6 +11,7 @@ import java.util.Map;
 import com.massisframework.massis.sim.SimulationScheduler;
 import com.massisframework.massis.sim.ecs.SimulationComponent;
 import com.massisframework.massis.sim.ecs.SimulationEngine;
+import com.massisframework.massis.sim.ecs.SimulationEntity;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
 
 public class SimulationConfiguration {
@@ -44,10 +46,20 @@ public class SimulationConfiguration {
 	{
 		return this.engine;
 	}
+
 	public <I extends SimulationComponent, C extends I> Class<C> getBinding(
-			Class<I> type){
-		return getBinding(type,false);
+			Class<I> type)
+	{
+		return getBinding(type, false);
 	}
+
+	public Class<? extends SimulationEntity<?>> getSimulationEntityType()
+	{
+		Class entityClass = (Class) ((ParameterizedType) this.getEngineType()
+				.getGenericInterfaces()[0]).getActualTypeArguments()[0];
+		return entityClass;
+	}
+
 	@SuppressWarnings("unchecked")
 	public <I extends SimulationComponent, C extends I> Class<C> getBinding(
 			Class<I> type, boolean loadDefaultIfNotExists)
