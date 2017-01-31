@@ -2,6 +2,7 @@ package com.massisframework.massis.model.systems.rendering;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.massisframework.massis.model.components.Position2D;
 import com.massisframework.massis.model.components.RenderComponent;
@@ -24,6 +25,7 @@ public class Simulation2DWindow {
 	@FXML
 	public void initialize()
 	{
+		// System.setProperty("javafx.animation.fullspeed", "true");
 		configureCanvasPane();
 
 	}
@@ -39,17 +41,6 @@ public class Simulation2DWindow {
 		AnchorPane.setTopAnchor(canvas, 0D);
 		AnchorPane.setBottomAnchor(canvas, 0D);
 
-		mainAnchorPane.prefHeightProperty().addListener((obs, o, n) -> {
-			System.out.println("Pref h changed");
-		});
-		mainAnchorPane.widthProperty().addListener((obs, o, n) -> {
-
-			updateCanvasSize();
-		});
-		mainAnchorPane.heightProperty().addListener((obs, o, n) -> {
-
-			updateCanvasSize();
-		});
 		configureDrawingTimer();
 
 	}
@@ -65,6 +56,8 @@ public class Simulation2DWindow {
 			public void handle(long now)
 			{
 
+				if (!updated.getAndSet(false))
+					return;
 				Canvas canvas = window.getCanvas();
 				GraphicsContext g2c = canvas.getGraphicsContext2D();
 
@@ -93,7 +86,7 @@ public class Simulation2DWindow {
 					}
 
 					double scale = Math.min(canvas.getWidth() / (maxX - minX),
-							canvas.getHeight() / (maxY - minY)) * 0.9;
+							canvas.getHeight() / (maxY - minY));
 					double translateX = -minX;
 					double translateY = -minY;
 
@@ -110,6 +103,8 @@ public class Simulation2DWindow {
 		}.start();
 	}
 
+	AtomicBoolean updated = new AtomicBoolean(false);
+
 	public void setEntities(Iterable<SimulationEntity<?>> entities)
 	{
 		synchronized (this.entities)
@@ -119,6 +114,8 @@ public class Simulation2DWindow {
 			{
 				this.entities.add(simulationEntity);
 			}
+			updated.set(true);
+
 		}
 	}
 
