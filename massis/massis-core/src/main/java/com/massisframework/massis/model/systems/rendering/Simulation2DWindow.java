@@ -19,9 +19,6 @@ public class Simulation2DWindow {
 	@FXML
 	private AnchorPane mainAnchorPane;
 	private Canvas canvas;
-	private double scale;
-	private double translateX;
-	private double translateY;
 	private Collection<SimulationEntity<?>> entities = new ArrayList<SimulationEntity<?>>();
 
 	@FXML

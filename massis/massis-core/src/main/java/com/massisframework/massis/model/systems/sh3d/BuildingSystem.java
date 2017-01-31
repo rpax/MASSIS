@@ -43,7 +43,6 @@ import com.massisframework.massis.sim.ecs.injection.SimulationConfiguration;
 import com.massisframework.massis.util.SH3DUtils;
 import com.massisframework.massis.util.SimObjectProperty;
 
-import javafx.scene.paint.Color;
 import straightedge.geom.KPoint;
 import straightedge.geom.KPolygon;
 
