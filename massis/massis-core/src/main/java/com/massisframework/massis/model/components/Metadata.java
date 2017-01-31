@@ -3,7 +3,6 @@ package com.massisframework.massis.model.components;
 import java.util.Map;
 
 import com.massisframework.massis.sim.ecs.SimulationComponent;
-import com.massisframework.massis.util.SimObjectProperty;
 
 public interface Metadata extends SimulationComponent {
 

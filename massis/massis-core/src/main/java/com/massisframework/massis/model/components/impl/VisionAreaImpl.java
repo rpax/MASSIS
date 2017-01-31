@@ -8,7 +8,6 @@ import com.massisframework.massis.sim.ecs.SimulationEntity;
 import com.massisframework.massis.sim.ecs.injection.components.EntityReference;
 
 import straightedge.geom.KPolygon;
-import straightedge.geom.vision.VisionFinder;
 
 public class VisionAreaImpl implements VisionArea {
 

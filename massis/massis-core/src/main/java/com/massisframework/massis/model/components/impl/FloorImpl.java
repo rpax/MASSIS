@@ -1,7 +1,6 @@
 package com.massisframework.massis.model.components.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.StreamSupport;
 
@@ -10,8 +9,6 @@ import com.massisframework.massis.model.components.Floor;
 import com.massisframework.massis.model.components.FloorReference;
 import com.massisframework.massis.model.components.Position2D;
 import com.massisframework.massis.sim.FilterParams;
-import com.massisframework.massis.sim.SimulationScheduler;
-import com.massisframework.massis.sim.SimulationSteppable;
 import com.massisframework.massis.sim.ecs.ComponentFilter;
 import com.massisframework.massis.sim.ecs.SimulationEngine;
 import com.massisframework.massis.sim.ecs.SimulationEntity;

@@ -6,14 +6,12 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.massisframework.gui.EngineDrawableZone;
 import com.massisframework.massis.displays.floormap.layers.LayerComponent;
 import com.massisframework.massis.javafx.util.ApplicationLauncher;
 import com.massisframework.massis.model.components.Floor;
 import com.massisframework.massis.sim.FilterParams;
 import com.massisframework.massis.sim.ecs.ComponentFilter;
-import com.massisframework.massis.sim.ecs.ComponentFilterBuilder;
 import com.massisframework.massis.sim.ecs.SimulationEngine;
 import com.massisframework.massis.sim.ecs.SimulationEntity;
 import com.massisframework.massis.sim.ecs.SimulationSystem;

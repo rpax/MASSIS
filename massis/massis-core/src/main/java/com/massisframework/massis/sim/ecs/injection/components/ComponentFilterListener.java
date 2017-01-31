@@ -1,15 +1,16 @@
 package com.massisframework.massis.sim.ecs.injection.components;
 
-import com.google.inject.spi.*;
+import java.lang.reflect.Field;
+
+import com.google.inject.MembersInjector;
+import com.google.inject.TypeLiteral;
+import com.google.inject.spi.TypeEncounter;
+import com.google.inject.spi.TypeListener;
 import com.massisframework.massis.sim.FilterParams;
 import com.massisframework.massis.sim.ecs.ComponentFilter;
 import com.massisframework.massis.sim.ecs.ComponentFilterBuilder;
 import com.massisframework.massis.sim.ecs.ashley.AshleyComponentFilterBuilder;
 import com.massisframework.massis.sim.ecs.injection.SimulationConfiguration;
-
-import java.lang.reflect.*;
-
-import com.google.inject.*;
 
 public class ComponentFilterListener implements TypeListener {
 
