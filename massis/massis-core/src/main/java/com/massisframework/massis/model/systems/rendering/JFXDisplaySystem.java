@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.inject.Inject;
-import com.massisframework.massis.displays.floormap.layers.LayerComponent;
 import com.massisframework.massis.javafx.util.ApplicationLauncher;
 import com.massisframework.massis.model.components.Floor;
 import com.massisframework.massis.model.components.RenderComponent;
@@ -22,8 +21,6 @@ import javafx.scene.Scene;
 public class JFXDisplaySystem implements SimulationSystem {
 
 	// TODO
-	@FilterParams(all = LayerComponent.class)
-	private ComponentFilter<?> layersFilter;
 	@FilterParams(all = Floor.class)
 	private ComponentFilter<?> floorFilter;
 	@FilterParams(all = RenderComponent.class)
