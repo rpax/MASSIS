@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.JCheckBoxMenuItem;
 
@@ -32,7 +33,7 @@ public class DrawableTabbedFrame extends javax.swing.JFrame {
 	 */
 	private final HashMap<DrawableZone, Integer> drawableZoneTabsMap = new HashMap<>();
 	private String welcomeHTMLText = "";
-	private Collection<? extends DrawableLayer<?>> layers;
+	private List<DrawableLayer> layers;
 
 	/**
 	 * Creates new form BuildingMap
@@ -93,40 +94,18 @@ public class DrawableTabbedFrame extends javax.swing.JFrame {
 			final Collection<? extends DrawableZone> drawableZones,
 			final Collection<? extends DrawableLayer<?>> layers)
 	{
+		this.layers=new ArrayList<>();
 		/*
 		 * Basic components initialization
 		 */
 		initComponents();
-		this.layers = layers;
+		this.layers.addAll((Collection) layers);
 		/*
 		 * Configuration of every layer in this map
 		 */
 		for (final DrawableLayer<?> layer : layers)
 		{
-			/*
-			 * Checkbox for enabling/disabling the layer
-			 */
-			JCheckBoxMenuItem layerCheckbox = new JCheckBoxMenuItem(
-					layer.getName());
-			if (layer.isEnabled())
-			{
-				layerCheckbox.setSelected(true);
-
-			}
-			layerMenu.add(layerCheckbox);
-			layerCheckbox.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e)
-				{
-					if (layer.isEnabled())
-					{
-						layer.setEnabled(false);
-					} else
-					{
-						layer.setEnabled(true);
-					}
-				}
-			});
+			addDrawableLayer(layer);
 		}
 		/*
 		 * Iterates over every drawable zone, assigning a JPanel to it.
@@ -140,19 +119,55 @@ public class DrawableTabbedFrame extends javax.swing.JFrame {
 
 	}
 
+	public void addDrawableLayer(final DrawableLayer<?> layer)
+	{
+		/*
+		 * Checkbox for enabling/disabling the layer
+		 */
+		JCheckBoxMenuItem layerCheckbox = new JCheckBoxMenuItem(
+				layer.getName());
+		if (layer.isEnabled())
+		{
+			layerCheckbox.setSelected(true);
+
+		}
+		layerMenu.add(layerCheckbox);
+		layerCheckbox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				if (layer.isEnabled())
+				{
+					layer.setEnabled(false);
+				} else
+				{
+					layer.setEnabled(true);
+				}
+			}
+		});
+		if (this.layers==null){
+			this.layers=new ArrayList<>();
+		}
+		layers.add(layer);
+		
+	}
+
 	public void addDrawableZone(final DrawableZone drawableZone)
 	{
-//		if (!SwingUtilities.isEventDispatchThread())
-//		{
-//			SwingUtilities.invokeLater(new Runnable() {
-//
-//				@Override
-//				public void run()
-//				{
-//					addDrawableZone(drawableZone);
-//				}
-//			});
-//		}
+		if (this.layers==null){
+			this.layers=new ArrayList<>();
+		}
+		// if (!SwingUtilities.isEventDispatchThread())
+		// {
+		// SwingUtilities.invokeLater(new Runnable() {
+		//
+		// @Override
+		// public void run()
+		// {
+		// addDrawableZone(drawableZone);
+		// }
+		// });
+		// }
 		/*
 		 * Creation of the panel
 		 */
@@ -167,9 +182,9 @@ public class DrawableTabbedFrame extends javax.swing.JFrame {
 		 */
 		Component panel = panAndZoomJPanel;
 		this.tabbedPane
-		.addTab(
-				drawableZone.getName(),
-				panel);
+				.addTab(
+						drawableZone.getName(),
+						panel);
 		this.drawableZoneTabsMap.put(drawableZone,
 				this.tabbedPane.getTabCount() - 1);
 		panAndZoomJPanel.addMouseWheelListener(new MouseWheelListener() {

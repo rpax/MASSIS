@@ -2,6 +2,8 @@ package com.massisframework.massis.sim;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.massisframework.massis.displays.floormap.layers.LayerComponent;
+import com.massisframework.massis.displays.floormap.layers.PeopleLayer;
 import com.massisframework.massis.sim.ecs.SimulationEngine;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
 import com.massisframework.massis.sim.ecs.injection.ConfigurationModule;
@@ -23,6 +25,8 @@ public class SimulationLauncher {
 				.getInstance(SimulationEngine.class);
 		// add default systems:
 		config.getSystems().forEach(engine::addSystem);
+		engine.asSimulationEntity(engine.createEntity())
+				.addComponent(LayerComponent.class).setLayer(new PeopleLayer());
 		engine.start();
 	}
 

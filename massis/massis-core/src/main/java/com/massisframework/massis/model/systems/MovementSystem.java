@@ -45,7 +45,6 @@ public class MovementSystem implements SimulationSystem {
 					e.get(Position2D.class).getXY())
 					.normalize()
 					.mult(100);
-			System.out.println("vel: " + newVel);
 			e.get(Velocity.class).setValue(newVel);
 		}
 	}

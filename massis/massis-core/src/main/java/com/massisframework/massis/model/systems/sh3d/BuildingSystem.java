@@ -18,10 +18,12 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.inject.Inject;
 import com.massisframework.massis.model.components.DoorComponent;
+import com.massisframework.massis.model.components.DynamicObstacle;
 import com.massisframework.massis.model.components.EntityRangeFinder;
 import com.massisframework.massis.model.components.Floor;
 import com.massisframework.massis.model.components.FloorReference;
 import com.massisframework.massis.model.components.Metadata;
+import com.massisframework.massis.model.components.NameComponent;
 import com.massisframework.massis.model.components.Orientation;
 import com.massisframework.massis.model.components.Position2D;
 import com.massisframework.massis.model.components.RoomComponent;
@@ -77,6 +79,13 @@ public class BuildingSystem implements SimulationSystem {
 		floorEntity.addComponent(SweetHome3DLevel.class)
 				.setLevel(lvl);
 		floorEntity.addComponent(Floor.class);
+		String floorName = "NONAME";
+		if (lvl != null && lvl.getName() != null)
+		{
+			floorName = lvl.getName();
+		}
+		floorEntity.addComponent(NameComponent.class).set(floorName);
+
 		this.home.getWalls()
 				.stream()
 				.filter(w -> w.getLevel() == lvl)
@@ -120,11 +129,12 @@ public class BuildingSystem implements SimulationSystem {
 			e.addComponent(Velocity.class);
 			e.addComponent(VisionArea.class);
 			e.addComponent(EntityRangeFinder.class);
-
+			
 			String className = getMetadata(f)
 					.get(SimObjectProperty.CLASSNAME.toString());
 			if (className != null)
 			{
+				e.addComponent(DynamicObstacle.class);
 				try
 				{
 					e.addComponent((Class<? extends SimulationComponent>) Class
@@ -133,6 +143,9 @@ public class BuildingSystem implements SimulationSystem {
 				{
 					throw new RuntimeException(e1);
 				}
+			}
+			else{
+				
 			}
 		}
 

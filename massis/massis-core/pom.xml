@@ -36,11 +36,7 @@
 			<artifactId>massis-utils</artifactId>
 			<version>1.2.23-SNAPSHOT</version>
 		</dependency>
-		<dependency>
-			<groupId>com.massisframework</groupId>
-			<artifactId>massis-gui</artifactId>
-			<version>1.2.23-SNAPSHOT</version>
-		</dependency>
+		
 		<!-- -->
 		<dependency>
 			<groupId>org.xerial</groupId>

@@ -3,10 +3,12 @@ package com.massisframework.massis.model.components.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.StreamSupport;
 
 import com.google.inject.Inject;
 import com.massisframework.massis.model.components.Floor;
 import com.massisframework.massis.model.components.FloorReference;
+import com.massisframework.massis.model.components.Position2D;
 import com.massisframework.massis.sim.FilterParams;
 import com.massisframework.massis.sim.SimulationScheduler;
 import com.massisframework.massis.sim.SimulationSteppable;
@@ -15,7 +17,7 @@ import com.massisframework.massis.sim.ecs.SimulationEngine;
 import com.massisframework.massis.sim.ecs.SimulationEntity;
 import com.massisframework.massis.sim.ecs.injection.components.EntityReference;
 
-public class FloorImpl implements Floor, SimulationSteppable {
+public class FloorImpl implements Floor {
 
 	@Inject
 	private SimulationEngine engine;
@@ -25,28 +27,25 @@ public class FloorImpl implements Floor, SimulationSteppable {
 	@EntityReference
 	SimulationEntity entity;
 
-	private List<SimulationEntity> entitiesIn = new ArrayList<>();
+	private List<SimulationEntity> entities = new ArrayList<>();
 	/*
 	 * Bounds
 	 */
 	public int minX, maxX, minY, maxY, xlength, ylength;
 
-	public void setEntitiesIn(Collection<SimulationEntity> entities)
-	{
-		this.entitiesIn.clear();
-		this.entitiesIn.addAll(entities);
-	}
-
 	@Override
 	public Iterable<SimulationEntity> getEntitiesIn()
 	{
-		// return this.entitiesIn;
-		return this.entitiesIn;
+		return engine.getEntitiesFor(referenceFilter, entities).stream()
+				.filter(e -> e.get(FloorReference.class)
+						.getFloorId() == this.entity.getId())::iterator;
 	}
 
 	public int getMinX()
 	{
-		return minX;
+		return StreamSupport.stream(getEntitiesIn().spliterator(), false)
+				.map(e -> e.get(Position2D.class)).filter(p -> p != null)
+				.mapToInt(p -> (int) p.getX()).min().orElseGet(() -> 0);
 	}
 
 	public void setMinX(int minX)
@@ -56,7 +55,9 @@ public class FloorImpl implements Floor, SimulationSteppable {
 
 	public int getMaxX()
 	{
-		return maxX;
+		return StreamSupport.stream(getEntitiesIn().spliterator(), false)
+				.map(e -> e.get(Position2D.class)).filter(p -> p != null)
+				.mapToInt(p -> (int) p.getX()).max().orElseGet(() -> 0);
 	}
 
 	public void setMaxX(int maxX)
@@ -66,7 +67,9 @@ public class FloorImpl implements Floor, SimulationSteppable {
 
 	public int getMinY()
 	{
-		return minY;
+		return StreamSupport.stream(getEntitiesIn().spliterator(), false)
+				.map(e -> e.get(Position2D.class)).filter(p -> p != null)
+				.mapToInt(p -> (int) p.getY()).min().orElseGet(() -> 0);
 	}
 
 	public void setMinY(int minY)
@@ -76,7 +79,9 @@ public class FloorImpl implements Floor, SimulationSteppable {
 
 	public int getMaxY()
 	{
-		return maxY;
+		return StreamSupport.stream(getEntitiesIn().spliterator(), false)
+				.map(e -> e.get(Position2D.class)).filter(p -> p != null)
+				.mapToInt(p -> (int) p.getY()).max().orElseGet(() -> 0);
 	}
 
 	public void setMaxY(int maxY)
@@ -96,20 +101,12 @@ public class FloorImpl implements Floor, SimulationSteppable {
 
 	public int getYlength()
 	{
-		return ylength;
+		return getMaxY() - getMinY();
 	}
 
 	public void setYlength(int ylength)
 	{
 		this.ylength = ylength;
-	}
-
-	@Override
-	public void step(SimulationScheduler scheduler, float deltaTime)
-	{
-		this.engine.getEntitiesFor(this.referenceFilter, this.entitiesIn);
-		this.entitiesIn.removeIf(c -> c.get(FloorReference.class)
-				.getFloorId() != this.entity.getId());
 	}
 
 }

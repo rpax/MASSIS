@@ -20,6 +20,5 @@
 	</properties>
 	<modules>
 		<module>massisframework-datastructures</module>
-		<module>massis-gui</module>
 	</modules>
 </project>

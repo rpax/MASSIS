@@ -3,36 +3,34 @@ package com.massisframework.massis.displays.floormap.layers;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import com.massisframework.gui.DrawableLayer;
-import com.massisframework.massis.model.DrawableFloor;
+import com.massisframework.gui.AbstractDrawableLayer;
+import com.massisframework.gui.EngineDrawableZone;
 import com.massisframework.massis.model.components.DynamicObstacle;
 import com.massisframework.massis.model.components.Floor;
 import com.massisframework.massis.model.components.Orientation;
 import com.massisframework.massis.model.components.Position2D;
+import com.massisframework.massis.model.components.RoomComponent;
 import com.massisframework.massis.model.components.ShapeComponent;
 import com.massisframework.massis.sim.ecs.SimulationEntity;
 
 import straightedge.geom.KPolygon;
 
-public class PeopleLayer extends DrawableLayer<DrawableFloor> {
-
-	public PeopleLayer(boolean enabled)
-	{
-		super(enabled);
-	}
+public class PeopleLayer extends AbstractDrawableLayer {
 
 	private static Color DEFAULT_PERSON_FILL_COLOR = Color.WHITE;
 	private static Color DEFAULT_PERSON_DRAW_COLOR = Color.BLUE;
 
 	@Override
-	public void draw(DrawableFloor dfloor, Graphics2D g)
+	public void draw(EngineDrawableZone dz, Graphics2D g)
 	{
-		final Floor f = dfloor.getFloor().get(Floor.class);
+		final Floor f = dz.getFloor().get(Floor.class);
 		g.setColor(Color.red);
 
 		for (SimulationEntity p : f.getEntitiesIn())
 		{
-			if (p.get(DynamicObstacle.class) != null)
+			if (p.get(RoomComponent.class) != null)
+				continue;
+			if (p.get(DynamicObstacle.class) == null)
 			{
 				g.setColor(new Color(165, 42, 42));
 				g.fill(p.get(ShapeComponent.class).getShape());

@@ -9,8 +9,8 @@ import java.awt.image.DataBufferInt;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import com.massisframework.gui.DrawableLayer;
-import com.massisframework.massis.model.DrawableFloor;
+import com.massisframework.gui.AbstractDrawableLayer;
+import com.massisframework.gui.EngineDrawableZone;
 import com.massisframework.massis.model.components.DynamicObstacle;
 import com.massisframework.massis.model.components.Floor;
 import com.massisframework.massis.model.components.Position2D;
@@ -22,7 +22,7 @@ import com.massisframework.massis.sim.ecs.SimulationEntity;
  * @author rpax
  *
  */
-public class CrowdDensityLayer extends DrawableLayer<DrawableFloor> {
+public class CrowdDensityLayer extends AbstractDrawableLayer {
 
 	/**
 	 * An arbitrary image size. It must be a tradeoff between resolution, CPU
@@ -30,11 +30,7 @@ public class CrowdDensityLayer extends DrawableLayer<DrawableFloor> {
 	 */
 	private static double IMG_MAX_SIZE = 512;
 
-	public CrowdDensityLayer(boolean enabled)
-	{
-		super(enabled);
-
-	}
+	
 
 	/**
 	 * Map linking the layers with their corresponding floors
@@ -42,7 +38,7 @@ public class CrowdDensityLayer extends DrawableLayer<DrawableFloor> {
 	private final HashMap<Floor, BufferedImage> densityImages = new HashMap<>();
 
 	@Override
-	public void draw(DrawableFloor dfloor, Graphics2D g)
+	public void draw(EngineDrawableZone dfloor, Graphics2D g)
 	{
 		final SimulationEntity se = dfloor.getFloor();
 		final Floor f = se.get(Floor.class);
