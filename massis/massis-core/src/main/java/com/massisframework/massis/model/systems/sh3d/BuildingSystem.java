@@ -31,6 +31,10 @@ import com.massisframework.massis.model.components.VisionArea;
 import com.massisframework.massis.model.components.WallComponent;
 import com.massisframework.massis.model.components.WindowComponent;
 import com.massisframework.massis.model.components.impl.ShapeComponentImpl;
+import com.massisframework.massis.model.systems.rendering.renderers.AgentArrowRenderer;
+import com.massisframework.massis.model.systems.rendering.renderers.DoorRenderer;
+import com.massisframework.massis.model.systems.rendering.renderers.RoomRenderer;
+import com.massisframework.massis.model.systems.rendering.renderers.WallRenderer;
 import com.massisframework.massis.sim.ecs.SimulationComponent;
 import com.massisframework.massis.sim.ecs.SimulationEngine;
 import com.massisframework.massis.sim.ecs.SimulationEntity;
@@ -94,12 +98,7 @@ public class BuildingSystem implements SimulationSystem {
 					SimulationEntity<?> wallEntity = createEntity(floorId, w);
 					wallEntity.addComponent(WallComponent.class);
 					wallEntity.addComponent(RenderComponent.class)
-							.setRenderer((se, gc) -> {
-								KPoint pos = se.get(Position2D.class)
-										.getWorldPosition();
-								gc.setFill(Color.BLACK);
-								gc.fillRect(pos.x, pos.y, 100, 100);
-							});
+							.setRenderer(WallRenderer.renderer);
 
 				});
 
@@ -107,7 +106,11 @@ public class BuildingSystem implements SimulationSystem {
 				.stream()
 				.filter(w -> w.getLevel() == lvl)
 				.forEach(w -> {
-					createEntity(floorId, w).addComponent(RoomComponent.class);
+					SimulationEntity<?> roomEntity = createEntity(floorId, w);
+					roomEntity.addComponent(RoomComponent.class);
+					roomEntity.addComponent(RenderComponent.class)
+							.setRenderer(RoomRenderer.renderer);
+
 				});
 		this.home.getFurniture()
 				.stream()
@@ -132,6 +135,7 @@ public class BuildingSystem implements SimulationSystem {
 			} else
 			{
 				e.addComponent(DoorComponent.class);
+				e.addComponent(RenderComponent.class).setRenderer(DoorRenderer.renderer);
 			}
 		} else
 		{
@@ -139,7 +143,7 @@ public class BuildingSystem implements SimulationSystem {
 			e.addComponent(Velocity.class);
 			e.addComponent(VisionArea.class);
 			e.addComponent(EntityRangeFinder.class);
-
+			e.addComponent(RenderComponent.class).setRenderer(AgentArrowRenderer.renderer);
 			String className = getMetadata(f)
 					.get(SimObjectProperty.CLASSNAME.toString());
 			if (className != null)

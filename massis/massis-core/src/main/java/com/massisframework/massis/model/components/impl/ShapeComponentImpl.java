@@ -25,4 +25,34 @@ public class ShapeComponentImpl implements ShapeComponent {
 		return this.polygon.getRadius();
 	}
 
+	@Override
+	public int getNumPoints()
+	{
+		return this.polygon.points.size();
+	}
+
+	@Override
+	public double centerX()
+	{
+		return this.polygon.getCenter().x;
+	}
+
+	@Override
+	public double centerY()
+	{
+		return this.polygon.getCenter().y;
+	}
+
+	@Override
+	public double getX(int i)
+	{
+		return this.polygon.getPoint(i).x;
+	}
+
+	@Override
+	public double getY(int i)
+	{
+		return this.polygon.getPoint(i).y;
+	}
+
 }

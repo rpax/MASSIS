@@ -6,5 +6,5 @@ import javafx.scene.canvas.GraphicsContext;
 
 public interface JFXRenderer {
 
-	public void render(SimulationEntity<?> e, GraphicsContext g2c);
+	public void render(SimulationEntity<?> e, GraphicsContext gc);
 }

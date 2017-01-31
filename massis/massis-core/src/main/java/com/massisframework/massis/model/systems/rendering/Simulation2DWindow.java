@@ -1,5 +1,6 @@
 package com.massisframework.massis.model.systems.rendering;
 
+import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -11,40 +12,55 @@ public class Simulation2DWindow {
 
 	@FXML
 	private AnchorPane mainAnchorPane;
-	@FXML
 	private Canvas canvas;
+	private double scale;
+	private double translateX;
+	private double translateY;
 
 	@FXML
 	public void initialize()
 	{
 		configureCanvasPane();
-		drawShapes(canvas.getGraphicsContext2D());
 	}
 
 	private void configureCanvasPane()
 	{
 
+		this.canvas = new ResizableCanvas();
+		this.mainAnchorPane.getChildren().add(this.canvas);
 		updateCanvasSize();
-		// AnchorPane.setLeftAnchor(canvasPane, 0D);
-		// AnchorPane.setRightAnchor(canvasPane, 0D);
-		// AnchorPane.setTopAnchor(canvasPane, 0D);
-		// AnchorPane.setBottomAnchor(canvasPane, 0D);
+		AnchorPane.setLeftAnchor(canvas, 0D);
+		AnchorPane.setRightAnchor(canvas, 0D);
+		AnchorPane.setTopAnchor(canvas, 0D);
+		AnchorPane.setBottomAnchor(canvas, 0D);
 
+		mainAnchorPane.prefHeightProperty().addListener((obs, o, n) -> {
+			System.out.println("Pref h changed");
+		});
 		mainAnchorPane.widthProperty().addListener((obs, o, n) -> {
-			System.out.println(mainAnchorPane.getWidth());
+
 			updateCanvasSize();
 		});
 		mainAnchorPane.heightProperty().addListener((obs, o, n) -> {
+
 			updateCanvasSize();
 		});
 
 	}
 
+	public void refresh()
+	{
+		// canvas.autosize();
+	}
+
 	private void updateCanvasSize()
 	{
+		// canvas.resize(mainAnchorPane.getWidth(),mainAnchorPane.getHeight());
 		canvas.setWidth(mainAnchorPane.getWidth());
 		canvas.setHeight(mainAnchorPane.getHeight());
-	//	drawShapes(canvas.getGraphicsContext2D());
+		// canvas.autosize();
+		// refresh();
+		// drawShapes(canvas.getGraphicsContext2D());
 	}
 
 	private void drawShapes(GraphicsContext gc)
@@ -76,6 +92,77 @@ public class Simulation2DWindow {
 	public Canvas getCanvas()
 	{
 		return this.canvas;
+	}
+
+	private static class ResizableCanvas extends Canvas {
+
+		double _tmp_width = 64;
+		double _tmp_heigth = 64;
+
+		public ResizableCanvas()
+		{
+			new AnimationTimer() {
+
+				@Override
+				public void handle(long now)
+				{
+					if (ResizableCanvas.this.getWidth() != _tmp_width)
+					{
+						ResizableCanvas.this.setWidth(_tmp_width);
+					}
+					if (ResizableCanvas.this.getHeight() != _tmp_heigth)
+					{
+						ResizableCanvas.this.setHeight(_tmp_heigth);
+					}
+				}
+			}.start();
+		}
+
+		@Override
+		public double minHeight(double width)
+		{
+			return 64;
+		}
+
+		@Override
+		public double maxHeight(double width)
+		{
+			return 1000;
+		}
+
+		@Override
+		public double prefHeight(double width)
+		{
+			return minHeight(width);
+		}
+
+		@Override
+		public double minWidth(double height)
+		{
+			return 0;
+		}
+
+		@Override
+		public double maxWidth(double height)
+		{
+			return 10000;
+		}
+
+		@Override
+		public boolean isResizable()
+		{
+			return true;
+		}
+
+		@Override
+		public void resize(double width, double height)
+		{
+//			super.setWidth(width);
+//			super.setHeight(height);
+			_tmp_width = width;
+			_tmp_heigth = height;
+			// repaint?
+		}
 	}
 
 }
