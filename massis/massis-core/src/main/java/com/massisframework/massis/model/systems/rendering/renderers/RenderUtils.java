@@ -3,7 +3,6 @@ package com.massisframework.massis.model.systems.rendering.renderers;
 import com.massisframework.massis.model.components.ShapeComponent;
 
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import straightedge.geom.KPolygon;
 
