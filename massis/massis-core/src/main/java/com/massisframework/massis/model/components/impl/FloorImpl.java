@@ -1,50 +1,53 @@
 package com.massisframework.massis.model.components.impl;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.StreamSupport;
 
 import com.google.inject.Inject;
 import com.massisframework.massis.model.components.Floor;
 import com.massisframework.massis.model.components.FloorReference;
-import com.massisframework.massis.model.components.Position2D;
-import com.massisframework.massis.sim.FilterParams;
-import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
-import com.massisframework.massis.sim.ecs.SimulationEngine;
+import com.massisframework.massis.model.components.TransformComponent;
 import com.massisframework.massis.sim.ecs.injection.components.EntityReference;
-import com.simsilica.es.ComponentFilter;
+import com.massisframework.massis.sim.ecs.zayes.SimulationEntity;
+import com.massisframework.massis.sim.ecs.zayes.SimulationEntityData;
+import com.massisframework.massis.sim.ecs.zayes.SimulationEntitySet;
 
 public class FloorImpl implements Floor {
 
 	@Inject
-	private SimulationEngine<?> engine;
-	@FilterParams(all = { FloorReference.class })
-	private ComponentFilter<?> referenceFilter;
+	private SimulationEntityData entityData;
+
+	private SimulationEntitySet entities;
 
 	@EntityReference
-	OLDSimulationEntity<?> entity;
+	private SimulationEntity entity;
 
-	private List<OLDSimulationEntity<?>> entities = new ArrayList<>();
+	@Inject
+	public FloorImpl()
+	{
+		this.entities = entityData.createEntitySet(FloorReference.class);
+	}
+
 	/*
 	 * Bounds
 	 */
 	public int minX, maxX, minY, maxY, xlength, ylength;
 
 	@Override
-	public Iterable<OLDSimulationEntity<?>> getEntitiesIn()
+	public Iterable<SimulationEntity> getEntitiesIn()
 	{
-		return engine.getEntitiesFor(referenceFilter, entities).stream()
-				.filter(e -> e.get(FloorReference.class)
-						.getFloorId() == this.entity.getId())::iterator;
+		this.entities.applyChanges();
+		return StreamSupport.stream(this.entities.spliterator(), false)
+				.filter(e -> e.getC(FloorReference.class)
+						.getFloorId() == this.entity.getId().getId())::iterator;
 	}
 
 	public int getMinX()
 	{
 		return StreamSupport.stream(getEntitiesIn().spliterator(), false)
-				.map(e -> e.get(Position2D.class)).filter(p -> p != null)
+				.map(e -> e.getC(TransformComponent.class))
 				.mapToInt(p -> (int) p.getX()).min().orElseGet(() -> 0);
 	}
-
+	
 	public void setMinX(int minX)
 	{
 		this.minX = minX;
@@ -53,7 +56,7 @@ public class FloorImpl implements Floor {
 	public int getMaxX()
 	{
 		return StreamSupport.stream(getEntitiesIn().spliterator(), false)
-				.map(e -> e.get(Position2D.class)).filter(p -> p != null)
+				.map(e -> e.getC(TransformComponent.class))
 				.mapToInt(p -> (int) p.getX()).max().orElseGet(() -> 0);
 	}
 
@@ -65,7 +68,7 @@ public class FloorImpl implements Floor {
 	public int getMinY()
 	{
 		return StreamSupport.stream(getEntitiesIn().spliterator(), false)
-				.map(e -> e.get(Position2D.class)).filter(p -> p != null)
+				.map(e -> e.getC(TransformComponent.class))
 				.mapToInt(p -> (int) p.getY()).min().orElseGet(() -> 0);
 	}
 
@@ -77,8 +80,8 @@ public class FloorImpl implements Floor {
 	public int getMaxY()
 	{
 		return StreamSupport.stream(getEntitiesIn().spliterator(), false)
-				.map(e -> e.get(Position2D.class)).filter(p -> p != null)
-				.mapToInt(p -> (int) p.getY()).max().orElseGet(() -> 0);
+				.map(e -> e.getC(TransformComponent.class))
+				.mapToInt(p -> (int) p.getX()).max().orElseGet(() -> 0);
 	}
 
 	public void setMaxY(int maxY)
