@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import com.massisframework.massis.model.components.Position2D;
 import com.massisframework.massis.model.components.RenderComponent;
-import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
+import com.massisframework.massis.model.components.TransformComponent;
+import com.massisframework.massis.sim.ecs.zayes.SimulationEntity;
 
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
@@ -20,7 +20,7 @@ public class Simulation2DWindow {
 	@FXML
 	private AnchorPane mainAnchorPane;
 	private Canvas canvas;
-	private Collection<OLDSimulationEntity<?>> entities = new ArrayList<OLDSimulationEntity<?>>();
+	private Collection<SimulationEntity> entities = new ArrayList<>();
 
 	@FXML
 	public void initialize()
@@ -72,17 +72,15 @@ public class Simulation2DWindow {
 						minY = Double.MAX_VALUE, maxY = Double.MIN_VALUE;
 				synchronized (entities)
 				{
-					for (OLDSimulationEntity<?> se : entities)
+					for (SimulationEntity se : entities)
 					{
-						Position2D position = se.get(Position2D.class);
-						if (position != null)
-						{
-							minX = Math.min(minX, position.getX());
-							minY = Math.min(minY, position.getY());
+						TransformComponent tr = se
+								.getC(TransformComponent.class);
+						minX = Math.min(minX, tr.getX());
+						minY = Math.min(minY, tr.getY());
 
-							maxX = Math.max(maxX, position.getX());
-							maxY = Math.max(maxY, position.getY());
-						}
+						maxX = Math.max(maxX, tr.getX());
+						maxY = Math.max(maxY, tr.getY());
 					}
 
 					double scale = Math.min(canvas.getWidth() / (maxX - minX),
@@ -93,9 +91,9 @@ public class Simulation2DWindow {
 					tr.appendScale(scale, scale);
 					tr.appendTranslation(translateX, translateY);
 					g2c.transform(tr);
-					for (OLDSimulationEntity<?> se : entities)
+					for (SimulationEntity se : entities)
 					{
-						se.get(RenderComponent.class).getRenderer().render(se,
+						se.getC(RenderComponent.class).getRenderer().render(se,
 								g2c);
 					}
 				}
@@ -105,17 +103,13 @@ public class Simulation2DWindow {
 
 	AtomicBoolean updated = new AtomicBoolean(false);
 
-	public void setEntities(Iterable<OLDSimulationEntity<?>> entities)
+	public void setEntities(Iterable<SimulationEntity> entities)
 	{
 		synchronized (this.entities)
 		{
 			this.entities.clear();
-			for (OLDSimulationEntity<?> simulationEntity : entities)
-			{
-				this.entities.add(simulationEntity);
-			}
+			entities.forEach(this.entities::add);
 			updated.set(true);
-
 		}
 	}
 

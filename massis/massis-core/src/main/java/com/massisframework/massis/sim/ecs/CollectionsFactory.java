@@ -7,34 +7,50 @@ import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Supplier;
 
+import it.unimi.dsi.fastutil.doubles.DoubleArrayList;
+import it.unimi.dsi.fastutil.floats.FloatArrayList;
 import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
 import it.unimi.dsi.fastutil.ints.Int2LongOpenHashMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.longs.Long2IntOpenHashMap;
 import it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap;
+import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.longs.LongArrayList;
+import it.unimi.dsi.fastutil.shorts.ShortArrayList;
 
-public class MapsFactory {
+@SuppressWarnings({ "unchecked", "rawtypes" })
+public class CollectionsFactory {
 
-	private static final List<MapFactory> FACTORY_LIST;
+	private static final List<MapFactory> MAP_FACTORIES;
+	private static final Map<Class, Supplier<List>> LIST_FACTORIES;
 
 	static
 	{
-		FACTORY_LIST = MapFactory.builder()
+		MAP_FACTORIES = MapFactory.builder()
 				// ints
 				.add(Integer.class, Integer.class, Int2IntOpenHashMap::new)
 				.add(Integer.class, Long.class, Int2LongOpenHashMap::new)
 				.add(Integer.class, Object.class, Int2ObjectOpenHashMap::new)
 				// longs
-				.add(Integer.class, Integer.class, Int2IntOpenHashMap::new)
-				.add(Integer.class, Long.class, Int2LongOpenHashMap::new)
-				.add(Integer.class, Object.class, Int2ObjectOpenHashMap::new)
+				.add(Long.class, Integer.class, Long2IntOpenHashMap::new)
+				.add(Long.class, Long.class, Long2LongOpenHashMap::new)
+				.add(Long.class, Object.class, Long2ObjectOpenHashMap::new)
 
 				.get();
+
+		LIST_FACTORIES = new HashMap<>();
+		LIST_FACTORIES.put(Short.class, ShortArrayList::new);
+		LIST_FACTORIES.put(Integer.class, IntArrayList::new);
+		LIST_FACTORIES.put(Long.class, LongArrayList::new);
+		LIST_FACTORIES.put(Float.class, FloatArrayList::new);
+		LIST_FACTORIES.put(Double.class, DoubleArrayList::new);
+
 	}
 
-	public static <K, V> Map<K, V> get(Class<K> a, Class<V> b)
+	public static <K, V> Map<K, V> newMap(Class<K> a, Class<V> b)
 	{
-		for (MapFactory f : FACTORY_LIST)
+		for (MapFactory f : MAP_FACTORIES)
 		{
 			Map<K, V> map = f.get(a, b);
 			if (map != null)
@@ -45,35 +61,14 @@ public class MapsFactory {
 		return new HashMap<K, V>();
 	}
 
-	public static void main(String[] args)
+	public static <E> List<E> newList(Class<E> a)
 	{
-		Map<Integer, Long> m = MapsFactory.get(Integer.class,
-				Long.class);
-
-		m.put(1, 2L);
-		m.get(7);
-
-	}
-
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private static <V> Map createLongMap(Class<V> value)
-	{
-
-		if (value == int.class)
+		Supplier<List> supplier = LIST_FACTORIES.get(a);
+		if (supplier == null)
 		{
-			return new Long2IntOpenHashMap();
+			return new ArrayList<>();
 		}
-		if (value == long.class)
-		{
-			return new Long2LongOpenHashMap();
-		}
-		return new HashMap<Long, V>();
-	}
-
-	private static <A, B> MapFactory<A, B> c(Class<A> a,
-			Class<B> b, Supplier<Map<A, B>> supplier)
-	{
-		return new MapFactory<>(a, b, supplier);
+		return supplier.get();
 	}
 
 	private static class MapFactory<A, B> {

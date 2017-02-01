@@ -2,7 +2,6 @@ package com.massisframework.massis.sim.ecs.zayes;
 
 import java.util.Arrays;
 
-import com.simsilica.es.EntityComponent;
 import com.simsilica.es.EntityId;
 import com.simsilica.es.base.DefaultEntity;
 
@@ -10,16 +9,12 @@ public class DefaultInterfaceEntity extends DefaultEntity
 		implements SimulationEntity {
 
 	private InterfaceEntityData ed;
+
 	private EntityId id;
+
 	private SimulationComponent[] components;
-	private static ThreadLocal<ObjectPool<EntityEditImpl>> entityEditPool_TL = ThreadLocal
-			.withInitial(() -> {
-				return ObjectPool.create(EntityEditImpl.class,
-						() -> new EntityEditImpl());
-			});
-	private Class<? extends SimulationComponent>[] types; // temporarily for
-															// validating
-															// component types
+
+	private Class<? extends SimulationComponent>[] types;
 
 	public DefaultInterfaceEntity(InterfaceEntityData ed, EntityId id,
 			SimulationComponent[] components, Class[] types)
@@ -134,9 +129,9 @@ public class DefaultInterfaceEntity extends DefaultEntity
 		T cmp = getComponent_internal(c);
 		if (cmp == null)
 		{
-			cmp = this.ed.add(id, c);
+			return this.ed.add(id, c);
 		}
-		return getEntityEdit(cmp);
+		return this.ed.getEntityEdit(this, cmp);
 
 	}
 
@@ -151,7 +146,7 @@ public class DefaultInterfaceEntity extends DefaultEntity
 			Class<T> type)
 	{
 		T cmp = this.getC(type);
-		return getEntityEdit(cmp);
+		return ed.getEntityEdit(this,cmp);
 	}
 
 	private <T extends SimulationComponent> T getComponent_internal(Class<T> c)
@@ -172,16 +167,71 @@ public class DefaultInterfaceEntity extends DefaultEntity
 		this.ed.removeComponent(id, type);
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private <T extends SimulationComponent> EntityEdit<T> getEntityEdit(T cmp)
+	@Override
+	public SimulationEntity getParent()
 	{
-		ObjectPool<EntityEditImpl> objectPool = entityEditPool_TL.get();
-		EntityEditImpl<T> entityEdit = objectPool.get();
-		entityEdit.setObjectPool(objectPool);
-		entityEdit.setCmp(cmp);
-		entityEdit.setEd(ed);
-		entityEdit.setSe(this);
-		return entityEdit;
+		EntityId pId = this.getC(ParentComponent.class).getParentId();
+		if (pId == null)
+			return null;
+		return this.ed.getSimulationEntity(pId);
+	}
+
+	@Override
+	public Iterable<SimulationEntity> getChildren()
+	{
+		return this.getC(ChildrenComponent.class)
+				.getChildren()
+				.stream()
+				.map(this.ed::getSimulationEntity)::iterator;
+	}
+
+	private void setRelationship(EntityId child, EntityId parent)
+	{
+
+		EntityId oldPId = this.ed.getSimulationEntity(child)
+				.getC(ParentComponent.class).getParentId();
+		if (oldPId != null)
+		{
+			this.ed.getSimulationEntity(oldPId)
+					.editC(ChildrenComponent.class)
+					.set(ChildrenComponent::remove, child)
+					.commit();
+		}
+		if (parent != null)
+		{
+			this.ed.getSimulationEntity(parent)
+					.editC(ChildrenComponent.class)
+					.set(ChildrenComponent::add, child)
+					.commit();
+		}
+		this.ed.getSimulationEntity(child)
+				.editC(ParentComponent.class)
+				.set(ParentComponent::setParentId, parent)
+				.commit();
+	}
+
+	@Override
+	public void addChild(EntityId child)
+	{
+		setRelationship(child, this.id);
+	}
+
+	@Override
+	public void setParent(EntityId parent)
+	{
+		setRelationship(this.id, parent);
+	}
+
+	@Override
+	public void setParent(SimulationEntity se)
+	{
+		this.setParent(se.getId());
+	}
+
+	@Override
+	public void removeFromParent()
+	{
+		this.setRelationship(this.id, null);
 	}
 
 }

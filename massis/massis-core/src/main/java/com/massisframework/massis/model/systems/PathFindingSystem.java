@@ -1,87 +1,91 @@
 package com.massisframework.massis.model.systems;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.massisframework.massis.model.components.Floor;
 import com.massisframework.massis.model.components.FloorReference;
 import com.massisframework.massis.model.components.FollowTarget;
 import com.massisframework.massis.model.components.MovingTo;
-import com.massisframework.massis.model.components.Position2D;
+import com.massisframework.massis.model.components.TransformComponent;
 import com.massisframework.massis.pathfinding.straightedge.SEPathFinder;
-import com.massisframework.massis.sim.FilterParams;
-import com.massisframework.massis.sim.ecs.ComponentFilter;
-import com.massisframework.massis.sim.ecs.ComponentFilterBuilder;
-import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
-import com.massisframework.massis.sim.ecs.SimulationEngine;
+import com.massisframework.massis.sim.ecs.CollectionsFactory;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
+import com.massisframework.massis.sim.ecs.zayes.SimulationEntity;
+import com.massisframework.massis.sim.ecs.zayes.SimulationEntityData;
+import com.massisframework.massis.sim.ecs.zayes.SimulationEntitySet;
 import com.massisframework.massis.util.geom.CoordinateHolder;
 import com.massisframework.massis.util.geom.KVector;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-import straightedge.geom.KPoint;
 
 public class PathFindingSystem implements SimulationSystem {
 
-	private Map<Integer, SEPathFinder> pathFinders;
+	private Map<Long, SEPathFinder> pathFinders;
 
 	@Inject
-	private SimulationEngine<?> engine;
-	private List<OLDSimulationEntity<?>> entities = new ArrayList<>();
-	@FilterParams(all = Floor.class)
-	private ComponentFilter floorFilter;
-	@FilterParams(
-			all = { FollowTarget.class,
-					FloorReference.class,
-					Position2D.class })
+	private SimulationEntityData ed;
+	// @FilterParams(all = Floor.class)
+	private SimulationEntitySet floors;
 
-	private ComponentFilter followersFilter;
+	// @FilterParams(
+	// all = { FollowTarget.class,
+	// FloorReference.class,
+	// Position2D.class })
 
-	@Inject
-	private Provider<ComponentFilterBuilder> cFBuilder;
+	private SimulationEntitySet followers;
 
 	@Override
 	public void initialize()
 	{
-		this.pathFinders = new Int2ObjectOpenHashMap<>();
-
+		this.pathFinders = CollectionsFactory.newMap(Long.class,
+				SEPathFinder.class);
+		this.floors = this.ed.createEntitySet(Floor.class);
+		this.followers = this.ed.createEntitySet(FollowTarget.class,
+				FloorReference.class,
+				TransformComponent.class);
 	}
 
 	@Override
 	public void update(float deltaTime)
 	{
-		for (OLDSimulationEntity<?> e : this.engine.getEntitiesFor(floorFilter,
-				entities))
+		if (this.floors.applyChanges())
 		{
-			int floorId = e.getId();
-			if (!this.pathFinders.containsKey(e.getId()))
+			for (SimulationEntity e : this.floors.getAddedEntities())
 			{
-				SEPathFinder pF = new SEPathFinder(cFBuilder, engine, floorId);
-				this.pathFinders.put(floorId, pF);
+				this.pathFinders.put(e.getId().getId(),
+						new SEPathFinder(this.ed, e.getId()));
+
 			}
-
 		}
-		for (OLDSimulationEntity<?> e : this.engine.getEntitiesFor(followersFilter,
-				entities))
+
+		if (this.followers.applyChanges())
 		{
+			for (SimulationEntity e : this.followers.getAddedEntities())
+			{
 
-			CoordinateHolder target = e.get(FollowTarget.class)
-					.getTarget();
+				CoordinateHolder target = e.getC(FollowTarget.class)
+						.getTarget();
 
-			long floorId = e.get(FloorReference.class)
-					.getFloorId();
-			SEPathFinder pF = this.pathFinders.get(floorId);
-			e.get(FollowTarget.class)
-					.setTarget(new KVector(pF.getNearestPointOutsideOfObstacles(
-							new KPoint(target.getX(), target.getY()))));
+				long floorId = e.getC(FloorReference.class).getFloorId();
+				SEPathFinder pF = this.pathFinders.get(floorId);
+				if (pF == null)
+				{
+					Logger.getLogger(getClass().getName())
+							.warning("Pathfinder not ready");
+					continue;
+				}
 
-			List<CoordinateHolder> path = pF.findPath(
-					new KVector(e.get(Position2D.class).getXY()),
-					target);
-			e.addComponent(MovingTo.class).setTarget(path.get(1));
+				TransformComponent tr = e.getC(TransformComponent.class);
+				List<CoordinateHolder> path = pF
+						.findPath(new KVector(tr.getX(), tr.getY()), target);
+
+				e.addC(MovingTo.class)
+						.set(MovingTo::setTarget, path.get(1))
+						.commit();
+			}
 		}
 
 	}

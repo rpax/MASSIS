@@ -1,125 +1,49 @@
 package com.massisframework.massis.model.systems;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.massisframework.massis.model.components.Position2D;
+import com.jme3.math.Vector2f;
+import com.jme3.util.TempVars;
+import com.massisframework.massis.model.components.TransformComponent;
 import com.massisframework.massis.model.components.Velocity;
-import com.massisframework.massis.sim.ecs.ComponentFilter;
-import com.massisframework.massis.sim.ecs.ComponentFilterBuilder;
-import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
-import com.massisframework.massis.sim.ecs.SimulationEngine;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
-import com.massisframework.massis.util.geom.KVector;
+import com.massisframework.massis.sim.ecs.zayes.SimulationEntity;
+import com.massisframework.massis.sim.ecs.zayes.SimulationEntityData;
+import com.massisframework.massis.sim.ecs.zayes.SimulationEntitySet;
 
 public class VelocitySystem implements SimulationSystem {
 
 	@Inject
-	private Provider<ComponentFilterBuilder> cfBuilderProvider;
-	@Inject
-	private SimulationEngine engine;
+	private SimulationEntityData ed;
 
-	private ComponentFilter filter;
-	private List<OLDSimulationEntity> entities = new ArrayList<>();
+	private SimulationEntitySet entities;
 
 	@Override
 	public void initialize()
 	{
-		this.filter = cfBuilderProvider.get().all(
-				Position2D.class,
-				Velocity.class).get();
+		this.entities = this.ed.createEntitySet(Velocity.class,
+				TransformComponent.class);
 	}
 
 	@Override
 	public void update(float deltaTime)
 	{
-		engine.getEntitiesFor(filter, entities);
-
-		for (OLDSimulationEntity<?> se : entities)
+		if (this.entities.applyChanges())
 		{
-			// final SteeringBehavior steeringBeh = se
-			// .getComponent(SteeringComponent.class)
-			// .getSteeringBehavior();
-			/*
-			 * Get forces
-			 */
-			// final KVector force = steeringBeh.steer();
-			/*
-			 * Apply them and proceed to move
-			 */
-			// applySteeringForcesAndMove(se, force);
-			Position2D pos = se.get(Position2D.class);
-			Velocity vel = se.get(Velocity.class);
-			
-			KVector newPos = vel
-					.getValue()
-					.copy().mult(deltaTime)
-					.add(pos.getXY());
-			pos.set(newPos.x, newPos.y);
+			for (SimulationEntity e : this.entities.getAddedEntities())
+			{
+				TransformComponent transform = e.getC(TransformComponent.class);
+				TempVars tmp = TempVars.get();
+				Vector2f pos = transform.getPosition(tmp.vect2d);
+				Vector2f newPos = e.getC(Velocity.class)
+						.getValue(tmp.vect2d2)
+						.multLocal(deltaTime)
+						.addLocal(pos);
+				e.editC(TransformComponent.class)
+						.set(TransformComponent::setLocalTranslation, newPos);
+				tmp.release();
+
+			}
 		}
-	}
-	// private void fixInvalidLocation(DefaultAgent agent, Location toLoc) {
-	// logger.log(Level.INFO, "Fixing location for {0}.", agent);
-	// // 1. Quitamos todo.vehicle.getVelocity().limit(vehicle.getMaxSpeed());
-	// removeFromCache(agent);
-	// // 2. Se busca la localizacion valida mas cercana
-	// SimRoom sr = agent.getRoom();
-	// if (sr == null) {
-	// System.err.println("Last Known room not found for agent " + agent);
-	// } else {
-	// // A boleo. Un punto cualquiera de la habitacion, y le mandamos
-	// // hacia alla.
-	// // System.err.println("Path finding error fix " + agent);
-	// Path path = agent.getLocation().getFloor()
-	// .findPath(agent.getRoom().getRandomLoc(), toLoc);
-	// if (path != null) {
-	// path.getPoints().add(0, agent.getXY());
-	// }
-	// this.paths.put(agent, path);
-	// this.targets.put(agent, new Location(toLoc));
-	// }
-	//
-	// }
-
-	/**
-	 * Applies the forces given to the current position and velocity of the
-	 * agent, producing a new position and a new velocity. The agent is updated
-	 * and moved accordingly
-	 *
-	 * @param vehicle
-	 *            the agent to move
-	 * @param forces
-	 *            the forces applied to that agent
-	 */
-	private void applySteeringForcesAndMove(
-			OLDSimulationEntity<?> vehicle,
-			KVector forces)
-	{
-
-		// SteeringComponent s = vehicle.getComponent(SteeringComponent.class);
-		// Velocity velC = vehicle.getComponent(Velocity.class);
-		// Position2D position2D = vehicle.getComponent(Position2D.class);
-		//
-		// forces.mult(s.getMaxForce());
-		// final KVector steering = KVector.limit(forces, s.getMaxForce());
-		// // steering = steering / mass
-		// s.setAcceleration(steering);
-		// final KVector velocity = KVector.limit(
-		// KVector.add(steering, velC.getValue()),
-		// s.getMaxSpeed());
-		// velC.setValue(velocity);
-		//
-		// final KVector position = new KVector(position2D.getX(),
-		// position2D.getY()).add(velC.getValue());
-		//
-		// // final Location newLocation = new Location(position,
-		// // vehicle.getLocation().getFloor());
-		//
-		// position2D.set(position.x, position.y);
-
-		// vehicle.moveTo(newLocation);
 
 	}
 

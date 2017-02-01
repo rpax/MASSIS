@@ -1,16 +1,13 @@
 package com.massisframework.massis.model.systems.sh3d;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.eteks.sweethome3d.io.HomeFileRecorder;
 import com.eteks.sweethome3d.model.Home;
 import com.eteks.sweethome3d.model.HomeDoorOrWindow;
 import com.eteks.sweethome3d.model.HomeObject;
 import com.eteks.sweethome3d.model.HomePieceOfFurniture;
 import com.eteks.sweethome3d.model.Level;
-import com.eteks.sweethome3d.model.RecorderException;
 import com.eteks.sweethome3d.model.Selectable;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -22,10 +19,9 @@ import com.massisframework.massis.model.components.Floor;
 import com.massisframework.massis.model.components.FloorReference;
 import com.massisframework.massis.model.components.Metadata;
 import com.massisframework.massis.model.components.NameComponent;
-import com.massisframework.massis.model.components.Orientation;
-import com.massisframework.massis.model.components.Position2D;
 import com.massisframework.massis.model.components.RenderComponent;
 import com.massisframework.massis.model.components.RoomComponent;
+import com.massisframework.massis.model.components.TransformComponent;
 import com.massisframework.massis.model.components.Velocity;
 import com.massisframework.massis.model.components.VisionArea;
 import com.massisframework.massis.model.components.WallComponent;
@@ -35,13 +31,13 @@ import com.massisframework.massis.model.systems.rendering.renderers.AgentArrowRe
 import com.massisframework.massis.model.systems.rendering.renderers.DoorRenderer;
 import com.massisframework.massis.model.systems.rendering.renderers.RoomRenderer;
 import com.massisframework.massis.model.systems.rendering.renderers.WallRenderer;
-import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
-import com.massisframework.massis.sim.ecs.SimulationEngine;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
-import com.massisframework.massis.sim.ecs.injection.SimulationConfiguration;
 import com.massisframework.massis.sim.ecs.zayes.SimulationComponent;
+import com.massisframework.massis.sim.ecs.zayes.SimulationEntity;
+import com.massisframework.massis.sim.ecs.zayes.SimulationEntityData;
 import com.massisframework.massis.util.SH3DUtils;
 import com.massisframework.massis.util.SimObjectProperty;
+import com.simsilica.es.EntityId;
 
 import straightedge.geom.KPoint;
 import straightedge.geom.KPolygon;
@@ -49,55 +45,62 @@ import straightedge.geom.KPolygon;
 public class BuildingSystem implements SimulationSystem {
 
 	@Inject
-	SimulationEngine<?> engine;
-	@Inject
-	SimulationConfiguration configuration;
 	private Home home;
+
+	@Inject
+	private SimulationEntityData ed;
 
 	@Override
 	public void initialize()
 	{
-		File buildingFile = this.configuration.getBuildingFile();
-
-		try
+		// File buildingFile = this.configuration.getBuildingFile();
+		//
+		// try
+		// {
+		// this.home = new HomeFileRecorder()
+		// .readHome(buildingFile.getAbsolutePath());
+		//
+		//
+		// } catch (RecorderException e)
+		// {
+		// e.printStackTrace();
+		// }
+		if (home.getLevels().isEmpty())
 		{
-			this.home = new HomeFileRecorder()
-					.readHome(buildingFile.getAbsolutePath());
-			if (home.getLevels().isEmpty())
-			{
-				this.createLevel(null);
-			}
-			home.getLevels().forEach(this::createLevel);
-
-		} catch (RecorderException e)
-		{
-			e.printStackTrace();
+			this.createLevel(null);
 		}
+		home.getLevels().forEach(this::createLevel);
 	}
 
 	private void createLevel(Level lvl)
 	{
-		long floorId = this.engine.createEntity();
-		OLDSimulationEntity<?> floorEntity = this.engine
-				.asSimulationEntity(floorId);
-		floorEntity.addComponent(SweetHome3DLevel.class)
-				.setLevel(lvl);
-		floorEntity.addComponent(Floor.class);
+		EntityId floorId = this.ed.createEntity();
+
+		ed.add(floorId, SweetHome3DLevel.class)
+				.set(SweetHome3DLevel::setLevel, lvl)
+				.commit();
+		ed.add(floorId, Floor.class).commit();
 		String floorName = "NONAME";
 		if (lvl != null && lvl.getName() != null)
 		{
 			floorName = lvl.getName();
 		}
-		floorEntity.addComponent(NameComponent.class).set(floorName);
+		ed
+				.add(floorId, NameComponent.class)
+				.set(NameComponent::set, floorName)
+				.commit();
 
 		this.home.getWalls()
 				.stream()
 				.filter(w -> w.getLevel() == lvl)
 				.forEach(w -> {
-					OLDSimulationEntity<?> wallEntity = createEntity(floorId, w);
-					wallEntity.addComponent(WallComponent.class);
-					wallEntity.addComponent(RenderComponent.class)
-							.setRenderer(WallRenderer.renderer);
+					SimulationEntity wallEntity = createEntity(floorId.getId(),
+							w);
+					wallEntity.addC(WallComponent.class).commit();
+					wallEntity.addC(RenderComponent.class)
+							.set(RenderComponent::setRenderer,
+									WallRenderer.renderer)
+							.commit();
 
 				});
 
@@ -105,53 +108,67 @@ public class BuildingSystem implements SimulationSystem {
 				.stream()
 				.filter(w -> w.getLevel() == lvl)
 				.forEach(w -> {
-					OLDSimulationEntity<?> roomEntity = createEntity(floorId, w);
-					roomEntity.addComponent(RoomComponent.class);
-					roomEntity.addComponent(RenderComponent.class)
-							.setRenderer(RoomRenderer.renderer);
+					SimulationEntity roomEntity = createEntity(floorId.getId(),
+							w);
+					//
+
+					roomEntity.addC(RoomComponent.class).commit()
+							.addC(RenderComponent.class)
+							.set(RenderComponent::setRenderer,RoomRenderer.renderer)
+							.commit();
 
 				});
 		this.home.getFurniture()
 				.stream()
 				.filter(w -> w.getLevel() == lvl)
 				.forEach(w -> {
-					createFurnitureComponent(floorId, w);
+					createFurnitureComponent(floorId.getId(), w);
 				});
 	}
 
 	private void createFurnitureComponent(long floorId, HomePieceOfFurniture f)
 	{
-		OLDSimulationEntity<?> e = createEntity(floorId, f);
-		e.addComponent(SweetHome3DFurniture.class).setFurniture(f);
-		e.addComponent(Orientation.class).setAngle(f.getAngle());
+		SimulationEntity e = createEntity(floorId, f);
+		e.addC(SweetHome3DFurniture.class)
+				.set(SweetHome3DFurniture::setFurniture, f)
+				.commit();
+		e.editC(TransformComponent.class)
+				.set(TransformComponent::setAngle, f.getAngle())
+				.commit();
 		if (f instanceof HomeDoorOrWindow)
 		{
 			// Comprobar si es ventana o no
 			if (isWindow(f))
 			{
-				e.addComponent(WindowComponent.class);
+				e.addC(WindowComponent.class).commit();
 
 			} else
 			{
-				e.addComponent(DoorComponent.class);
-				e.addComponent(RenderComponent.class).setRenderer(DoorRenderer.renderer);
+				e.addC(DoorComponent.class).commit();
+				e.addC(RenderComponent.class)
+						.set(RenderComponent::setRenderer,
+								DoorRenderer.renderer)
+						.commit();
 			}
 		} else
 		{
 
-			e.addComponent(Velocity.class);
-			e.addComponent(VisionArea.class);
-			e.addComponent(EntityRangeFinder.class);
-			e.addComponent(RenderComponent.class).setRenderer(AgentArrowRenderer.renderer);
+			e.addC(Velocity.class).commit();
+			e.addC(VisionArea.class).commit();
+			e.addC(EntityRangeFinder.class).commit();
+			e.addC(RenderComponent.class)
+					.set(RenderComponent::setRenderer,
+							AgentArrowRenderer.renderer)
+					.commit();
 			String className = getMetadata(f)
 					.get(SimObjectProperty.CLASSNAME.toString());
 			if (className != null)
 			{
-				e.addComponent(DynamicObstacle.class);
+				e.addC(DynamicObstacle.class).commit();
 				try
 				{
-					e.addComponent((Class<? extends SimulationComponent>) Class
-							.forName(className));
+					e.addC((Class<? extends SimulationComponent>) Class
+							.forName(className)).commit();
 				} catch (ClassNotFoundException e1)
 				{
 					throw new RuntimeException(e1);
@@ -176,20 +193,20 @@ public class BuildingSystem implements SimulationSystem {
 	{
 
 	}
-	
-	private OLDSimulationEntity<?> createEntity(long floorId, Selectable w)
+
+	private SimulationEntity createEntity(long floorId, Selectable w)
 	{
 		KPolygon shape = SH3DUtils.createKPolygonFromSH3DObj(w);
 		KPoint center = shape.getCenter();
-		int entityId = (int) engine.createEntity();
-		OLDSimulationEntity<?> e = engine.asSimulationEntity(entityId);
-		e.addComponent(FloorReference.class).setFloorId(floorId);
-		e.addComponent(Metadata.class).set(getMetadata((HomeObject) w));
-		e.addComponent(Position2D.class).set(center.x, center.y);
-		e.addComponent(ShapeComponentImpl.class).setShape(shape);
-		e.addComponent(Orientation.class);
+		EntityId entityId = this.ed.createEntity();
 
-		return e;
+		ed.addGet(entityId, FloorReference.class).setFloorId(floorId);
+		ed.addGet(entityId, Metadata.class).set(getMetadata((HomeObject) w));
+		ed.get(entityId, TransformComponent.class)
+				.setX((float) center.x).setY((float) center.y);
+		ed.addGet(entityId, ShapeComponentImpl.class).setShape(shape);
+
+		return ed.getSimulationEntity(entityId);
 	}
 
 	private Map<String, String> getMetadata(HomeObject f)

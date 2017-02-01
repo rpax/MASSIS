@@ -8,11 +8,12 @@ import java.util.Map;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
-import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
-import com.massisframework.massis.sim.ecs.SimulationEngine;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
 import com.massisframework.massis.sim.ecs.injection.components.MessageHandler;
 import com.massisframework.massis.sim.ecs.zayes.SimulationComponent;
+import com.massisframework.massis.sim.ecs.zayes.SimulationEntity;
+import com.massisframework.massis.sim.ecs.zayes.SimulationEntityData;
+import com.simsilica.es.EntityData;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 
@@ -22,8 +23,9 @@ public class MessageMapperSystem implements SimulationSystem {
 
 	@Inject
 	private EventBus eventBus;
+
 	@Inject
-	private SimulationEngine<?> engine;
+	private SimulationEntityData ed;
 
 	private Map<Integer, EntityMessageHandler> handlerMap = new Int2ObjectOpenHashMap<>();
 
@@ -87,8 +89,9 @@ public class MessageMapperSystem implements SimulationSystem {
 		public void onMessage(Object message)
 		{
 
-			OLDSimulationEntity<?> se = engine.asSimulationEntity(entityId);
+			SimulationEntity se = ed.getSimulationEntity(entityId);
 			Class<?> messageClass = message.getClass();
+			//TODO FIXME no se recorren todos los componentes!
 			for (SimulationComponent sc : se.getComponents())
 			{
 				Class<? extends SimulationComponent> type = sc.getClass();

@@ -6,6 +6,7 @@ import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.util.TempVars;
 import com.massisframework.massis.model.components.TransformComponent;
+import com.massisframework.massis.model.components.Velocity;
 import com.massisframework.massis.sim.ecs.zayes.SimulationEntity;
 
 public class TransformImpl implements TransformComponent {
@@ -17,6 +18,7 @@ public class TransformImpl implements TransformComponent {
 
 	private boolean needsRefresh;
 
+	@Override
 	public Vector2f getPosition(Vector2f store)
 	{
 		Vector3f tr = localTransform.getTranslation();
@@ -32,6 +34,13 @@ public class TransformImpl implements TransformComponent {
 		return this.entity.getParent().getC(TransformImpl.class);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.massisframework.massis.model.components.impl.TransformImpl2#
+	 * setLocalTranslation(com.jme3.math.Vector2f)
+	 */
+	@Override
 	public void setLocalTranslation(Vector2f tr)
 	{
 		Vector3f current = this.localTransform.getTranslation();
@@ -50,6 +59,14 @@ public class TransformImpl implements TransformComponent {
 		this.needsRefresh = true;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.massisframework.massis.model.components.impl.TransformImpl2#getAngle(
+	 * )
+	 */
+	@Override
 	public float getAngle()
 	{
 		TempVars tmp = TempVars.get();
@@ -58,7 +75,8 @@ public class TransformImpl implements TransformComponent {
 		return angle;
 	}
 
-	public TransformImpl setAngle(float angle)
+	@Override
+	public TransformComponent setAngle(float angle)
 	{
 		TempVars vars = TempVars.get();
 		this.setRotation(vars.quat1.fromAngles(0, angle, 0));
@@ -67,12 +85,13 @@ public class TransformImpl implements TransformComponent {
 		return this;
 	}
 
-	public TransformImpl rotate(float angle)
+	@Override
+	public TransformComponent rotate(float angle)
 	{
 		return this.rotate(0, angle, 0);
 	}
 
-	public TransformImpl rotate(float xAngle, float yAngle, float zAngle)
+	public TransformComponent rotate(float xAngle, float yAngle, float zAngle)
 	{
 		TempVars vars = TempVars.get();
 		Quaternion q = vars.quat1;
@@ -83,7 +102,7 @@ public class TransformImpl implements TransformComponent {
 		return this;
 	}
 
-	public TransformImpl rotate(Quaternion rot)
+	public TransformComponent rotate(Quaternion rot)
 	{
 		this.localTransform.getRotation().multLocal(rot);
 		this.needsRefresh = true;
@@ -109,6 +128,13 @@ public class TransformImpl implements TransformComponent {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.massisframework.massis.model.components.impl.TransformImpl2#
+	 * ensureUpdated()
+	 */
+	@Override
 	public void ensureUpdated()
 	{
 		this.updateWorldTransforms();
@@ -166,6 +192,36 @@ public class TransformImpl implements TransformComponent {
 				rootNode.updateWorldTransforms();
 			}
 		}
+	}
+
+	@Override
+	public float getX()
+	{
+		return this.localTransform.getTranslation().x;
+	}
+
+	@Override
+	public float getY()
+	{
+		return this.localTransform.getTranslation().z;
+	}
+
+	@Override
+	public TransformComponent setX(float x)
+	{
+		Vector3f current = this.localTransform.getTranslation();
+		this.localTransform.setTranslation(x, current.y, current.z);
+		this.needsRefresh = true;
+		return this;
+	}
+
+	@Override
+	public TransformComponent setY(float y)
+	{
+		Vector3f current = this.localTransform.getTranslation();
+		this.localTransform.setTranslation(current.x, current.y, y);
+		this.needsRefresh = true;
+		return this;
 	}
 
 }

@@ -1,13 +1,6 @@
 package com.massisframework.massis.sim.ecs.zayes;
 
-import java.util.Set;
-
-import com.simsilica.es.ComponentFilter;
-import com.simsilica.es.Entity;
 import com.simsilica.es.EntityId;
-import com.simsilica.es.EntitySet;
-import com.simsilica.es.StringIndex;
-import com.simsilica.es.WatchedEntity;
 
 public interface SimulationEntityData {
 
@@ -15,28 +8,22 @@ public interface SimulationEntityData {
 
 	public void removeEntity(EntityId entityId);
 
-	public Entity getEntity(EntityId entityId, Class... types);
-
-	public EntityId findEntity(ComponentFilter filter, Class... types);
-
-	public Set<EntityId> findEntities(ComponentFilter filter, Class... types);
-
 	public SimulationEntitySet createEntitySet(Class... types);
 
-	public EntitySet getEntities(ComponentFilter filter, Class... types);
+	public SimulationEntity getSimulationEntity(EntityId entityId);
 
-	public WatchedEntity watchEntity(EntityId entityId, Class... types);
-
-	public StringIndex getStrings();
+	public SimulationEntity getSimulationEntity(long id);
 
 	public void close();
 
 	/**
 	 * @formatter:off
 	 */
-	public <T extends SimulationComponent> T add(EntityId entityId,Class<T> component);
+	public <T extends SimulationComponent> EntityEdit<T> add(EntityId entityId,Class<T> component);
 	public <T extends SimulationComponent> void remove(EntityId entityId, Class<T> type);
 	public <T extends SimulationComponent> T get(EntityId entityId,Class<T> type);
+	public <T extends SimulationComponent> T addGet(EntityId entityId, Class<T> component);
+	public <T extends SimulationComponent> Iterable<SimulationEntity> findEntities(Class...types);
 	/**
 	 * @formatter:on
 	 */

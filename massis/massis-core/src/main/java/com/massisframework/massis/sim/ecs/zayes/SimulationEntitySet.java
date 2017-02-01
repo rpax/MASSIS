@@ -25,7 +25,7 @@ public interface SimulationEntitySet extends Iterable<SimulationEntity>{
 	/**
 	 * Returns the entities that were added during applyChanges().
 	 */
-	public Set<? super SimulationEntity> getAddedEntities();
+	public Set<SimulationEntity> getAddedEntities();
 
 	/**
 	 * Returns the entities that were changed during applyChanges().

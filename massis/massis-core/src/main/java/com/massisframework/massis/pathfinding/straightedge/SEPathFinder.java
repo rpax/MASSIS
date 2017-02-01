@@ -5,21 +5,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.google.inject.Provider;
 import com.massisframework.massis.model.components.DoorComponent;
 import com.massisframework.massis.model.components.Floor;
 import com.massisframework.massis.model.components.FloorReference;
 import com.massisframework.massis.model.components.RoomComponent;
 import com.massisframework.massis.model.components.ShapeComponent;
 import com.massisframework.massis.model.components.WallComponent;
-import com.massisframework.massis.sim.ecs.ComponentFilter;
-import com.massisframework.massis.sim.ecs.ComponentFilterBuilder;
-import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
-import com.massisframework.massis.sim.ecs.SimulationEngine;
+import com.massisframework.massis.sim.ecs.zayes.SimulationEntity;
+import com.massisframework.massis.sim.ecs.zayes.SimulationEntityData;
 import com.massisframework.massis.util.PathFindingUtils;
 import com.massisframework.massis.util.geom.CoordinateHolder;
 import com.massisframework.massis.util.geom.KPolygonUtils;
 import com.massisframework.massis.util.geom.KVector;
+import com.simsilica.es.EntityId;
 
 import straightedge.geom.KPoint;
 import straightedge.geom.KPolygon;
@@ -75,36 +73,20 @@ public class SEPathFinder {
 	 * Initialization flag
 	 */
 	private boolean initialized = false;
-	private int floorId;
-	private SimulationEngine<?> engine;
-	private List<OLDSimulationEntity<?>> walls;
-	private ArrayList<OLDSimulationEntity<?>> doors;
-	private ArrayList<OLDSimulationEntity<?>> rooms;
+	private EntityId floorId;
+	private SimulationEntityData engine;
+	private List<SimulationEntity> walls;
+	private ArrayList<SimulationEntity> doors;
+	private ArrayList<SimulationEntity> rooms;
 
-	private ComponentFilter wallFilter;
-	/**
-	 * Main constructor. Does not build the pathfinder data, that must be done
-	 * with {@link #initialize()}
-	 *
-	 * @param floor
-	 */
-	private Provider<ComponentFilterBuilder> cfBuilder;
-
-	private ComponentFilter doorFilter;
-	private ComponentFilter roomFilter;
-
-	public SEPathFinder(Provider<ComponentFilterBuilder> cFBuilder,
-			SimulationEngine<?> engine, int floorId)
+	public SEPathFinder(
+			SimulationEntityData engine, EntityId floorId)
 	{
 		this.floorId = floorId;
 		this.engine = engine;
-		this.cfBuilder = cFBuilder;
 		this.walls = new ArrayList<>();
 		this.doors = new ArrayList<>();
 		this.rooms = new ArrayList<>();
-		this.wallFilter = cfBuilder.get().all(WallComponent.class).get();
-		this.doorFilter = cfBuilder.get().all(DoorComponent.class).get();
-		this.roomFilter = cfBuilder.get().all(RoomComponent.class).get();
 	}
 
 	/**
@@ -115,25 +97,26 @@ public class SEPathFinder {
 
 		this.stationaryObstacles = new ArrayList<PathBlockingObstacleImpl>();
 		List<KPolygon> obstPolys = new ArrayList<KPolygon>();
-		engine.getEntitiesFor(wallFilter, walls);
-		engine.getEntitiesFor(doorFilter, doors);
-		for (OLDSimulationEntity<?> wallEntity : walls)
+		engine.findEntities(WallComponent.class).forEach(this.walls::add);
+		engine.findEntities(DoorComponent.class).forEach(this.doors::add);
+		engine.findEntities(RoomComponent.class).forEach(this.rooms::add);
+		for (SimulationEntity wallEntity : walls)
 		{
-			
-			if (wallEntity.get(FloorReference.class)
-					.getFloorId() != this.floorId)
+
+			if (wallEntity.getC(FloorReference.class)
+					.getFloorId() != this.floorId.getId())
 				continue;
 			/*
 			 * Substraction of the doors area to the walls area
 			 */
 			Area area = new Area(
-					wallEntity.get(ShapeComponent.class).getShape());
-			for (OLDSimulationEntity<?> doorEntity : doors)
+					wallEntity.getC(ShapeComponent.class).getShape());
+			for (SimulationEntity doorEntity : doors)
 			{
-				boolean open = doorEntity.get(DoorComponent.class)
+				boolean open = doorEntity.getC(DoorComponent.class)
 						.isOpen();
 				KPolygon shape = PathFindingUtils.createKPolygonFromShape(
-						doorEntity.get(ShapeComponent.class).getShape());
+						doorEntity.getC(ShapeComponent.class).getShape());
 
 				if (open)
 				{
@@ -203,18 +186,17 @@ public class SEPathFinder {
 
 		walkAblePolys = new ArrayList<>();
 
-		for (OLDSimulationEntity<?> sr : this.engine.getEntitiesFor(roomFilter,
-				this.rooms))
+		for (SimulationEntity sr : engine.findEntities(RoomComponent.class))
 		{
-			Area walkAble = new Area(sr.get(ShapeComponent.class).getShape());
+			Area walkAble = new Area(sr.getC(ShapeComponent.class).getShape());
 
 			walkAblePolys
 					.add(PathFindingUtils.createKPolygonFromShape(walkAble));
 
 		}
 		// Connect the obstacles' nodes so that the PathFinder can do its work:
-		Floor floor = this.engine.asSimulationEntity(this.floorId)
-				.get(Floor.class);
+		Floor floor = this.engine.getSimulationEntity(this.floorId)
+				.getC(Floor.class);
 		nodeConnector = new MNodeConnector<>(stationaryObstacles,
 				maxConnectionDistanceBetweenObstacles, AABB_Expansion,
 				floor.getMinX(), floor.getMaxX(), floor.getMinY(),

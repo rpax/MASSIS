@@ -1,14 +1,20 @@
 package com.massisframework.massis.model.components;
 
+import com.jme3.math.Vector2f;
 import com.massisframework.massis.sim.ecs.zayes.SimulationComponent;
-import com.massisframework.massis.util.geom.KVector;
 
-public interface Velocity extends SimulationComponent{
+public interface Velocity extends SimulationComponent {
 
-	KVector getValue();
+	Vector2f getValue(Vector2f store);
 
-	void setValue(KVector velocity);
+	void setValue(Vector2f velocity);
 
-	
+	public float getX();
+
+	public float getY();
+
+	public Velocity setX(float x);
+
+	public Velocity setY(float y);
 
 }

@@ -1,18 +1,13 @@
 package com.massisframework.massis.model.systems.rendering;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.google.inject.Inject;
 import com.massisframework.massis.javafx.util.ApplicationLauncher;
-import com.massisframework.massis.model.components.Floor;
 import com.massisframework.massis.model.components.RenderComponent;
-import com.massisframework.massis.sim.FilterParams;
-import com.massisframework.massis.sim.ecs.ComponentFilter;
-import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
-import com.massisframework.massis.sim.ecs.SimulationEngine;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
+import com.massisframework.massis.sim.ecs.zayes.SimulationEntityData;
+import com.massisframework.massis.sim.ecs.zayes.SimulationEntitySet;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,20 +16,18 @@ import javafx.scene.Scene;
 public class JFXDisplaySystem implements SimulationSystem {
 
 	// TODO
-	@FilterParams(all = Floor.class)
-	private ComponentFilter<?> floorFilter;
-	@FilterParams(all = RenderComponent.class)
-	private ComponentFilter<?> renderFilter;
 	private Simulation2DWindow window;
-	private List<OLDSimulationEntity<?>> entities;
+
 	@Inject
-	private SimulationEngine<?> engine;
+	private SimulationEntityData ed;
+
+	private SimulationEntitySet entities;
 
 	@Override
 	public void initialize()
 	{
+		this.entities = this.ed.createEntitySet(RenderComponent.class);
 
-		this.entities = new ArrayList<>();
 		ApplicationLauncher.launchWrappedApplication((stage, app) -> {
 			try
 			{
@@ -55,7 +48,8 @@ public class JFXDisplaySystem implements SimulationSystem {
 	@Override
 	public void update(float deltaTime)
 	{
-		this.engine.getEntitiesFor(renderFilter, this.entities);
+		this.entities.applyChanges();
+		
 		window.setEntities(this.entities);
 	}
 
