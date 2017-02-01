@@ -1,18 +1,18 @@
 package com.massisframework.massis.sim.ecs.ashley;
 
 import com.massisframework.massis.sim.ecs.SimulationComponent;
-import com.massisframework.massis.sim.ecs.SimulationEntity;
+import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
 
 public class AshleySimulationEntityReference implements SimulationComponent {
 
-	private SimulationEntity reference;
+	private OLDSimulationEntity reference;
 
-	public AshleySimulationEntityReference(SimulationEntity reference)
+	public AshleySimulationEntityReference(OLDSimulationEntity reference)
 	{
 		this.reference = reference;
 	}
 
-	public SimulationEntity getReference()
+	public OLDSimulationEntity getReference()
 	{
 		return reference;
 	}

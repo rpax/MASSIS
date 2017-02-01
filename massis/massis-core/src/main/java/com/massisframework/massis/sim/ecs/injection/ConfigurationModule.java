@@ -7,7 +7,7 @@ import com.google.inject.Singleton;
 import com.massisframework.massis.sim.SimulationScheduler;
 import com.massisframework.massis.sim.ecs.ComponentFilterBuilder;
 import com.massisframework.massis.sim.ecs.SimulationEngine;
-import com.massisframework.massis.sim.ecs.SimulationEntity;
+import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
 import com.massisframework.massis.sim.ecs.UIDProvider;
 import com.massisframework.massis.sim.ecs.ashley.AshleyComponentFilterBuilder;
@@ -46,7 +46,7 @@ public class ConfigurationModule extends AbstractModule {
 		TypeLiterals.bindWild(SimulationEngine.class, config.getEngineType(),
 				this.binder());
 
-		bind(SimulationEntity.class).to(config.getSimulationEntityType());
+		bind(OLDSimulationEntity.class).to(config.getSimulationEntityType());
 		// bind(SimulationEntity.class).to(simulationEntityType);
 
 	}

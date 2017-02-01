@@ -10,7 +10,7 @@ import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 import com.massisframework.massis.sim.ecs.SimulationComponent;
 import com.massisframework.massis.sim.ecs.SimulationEngine;
-import com.massisframework.massis.sim.ecs.SimulationEntity;
+import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
 import com.massisframework.massis.sim.ecs.injection.components.MessageHandler;
 
@@ -87,7 +87,7 @@ public class MessageMapperSystem implements SimulationSystem {
 		public void onMessage(Object message)
 		{
 
-			SimulationEntity<?> se = engine.asSimulationEntity(entityId);
+			OLDSimulationEntity<?> se = engine.asSimulationEntity(entityId);
 			Class<?> messageClass = message.getClass();
 			for (SimulationComponent sc : se.getComponents())
 			{

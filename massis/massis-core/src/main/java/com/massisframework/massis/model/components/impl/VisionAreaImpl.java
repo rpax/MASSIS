@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import com.massisframework.massis.model.components.EntityRangeFinder;
 import com.massisframework.massis.model.components.VisionArea;
 import com.massisframework.massis.sim.ecs.SimulationEngine;
-import com.massisframework.massis.sim.ecs.SimulationEntity;
+import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
 import com.massisframework.massis.sim.ecs.injection.components.EntityReference;
 
 import straightedge.geom.KPolygon;
@@ -17,7 +17,7 @@ public class VisionAreaImpl implements VisionArea {
 	SimulationEngine<?> engine;
 
 	@EntityReference
-	SimulationEntity<?> entity;
+	OLDSimulationEntity<?> entity;
 
 	public VisionAreaImpl()
 	{
@@ -36,7 +36,7 @@ public class VisionAreaImpl implements VisionArea {
 	}
 
 	@Override
-	public Iterable<SimulationEntity<?>> getEntitiesInRange()
+	public Iterable<OLDSimulationEntity<?>> getEntitiesInRange()
 	{
 		return this.entity.get(EntityRangeFinder.class)
 				.getEntitiesInRange(this.visionRadioPolygon.getRadius());

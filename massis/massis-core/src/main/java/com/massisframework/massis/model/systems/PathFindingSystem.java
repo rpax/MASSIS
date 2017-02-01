@@ -16,7 +16,7 @@ import com.massisframework.massis.sim.FilterParams;
 import com.massisframework.massis.sim.ecs.ComponentFilter;
 import com.massisframework.massis.sim.ecs.ComponentFilterBuilder;
 import com.massisframework.massis.sim.ecs.SimulationEngine;
-import com.massisframework.massis.sim.ecs.SimulationEntity;
+import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
 import com.massisframework.massis.util.geom.CoordinateHolder;
 import com.massisframework.massis.util.geom.KVector;
@@ -30,7 +30,7 @@ public class PathFindingSystem implements SimulationSystem {
 
 	@Inject
 	private SimulationEngine<?> engine;
-	private List<SimulationEntity<?>> entities = new ArrayList<>();
+	private List<OLDSimulationEntity<?>> entities = new ArrayList<>();
 	@FilterParams(all = Floor.class)
 	private ComponentFilter floorFilter;
 	@FilterParams(
@@ -53,7 +53,7 @@ public class PathFindingSystem implements SimulationSystem {
 	@Override
 	public void update(float deltaTime)
 	{
-		for (SimulationEntity<?> e : this.engine.getEntitiesFor(floorFilter,
+		for (OLDSimulationEntity<?> e : this.engine.getEntitiesFor(floorFilter,
 				entities))
 		{
 			int floorId = e.getId();
@@ -64,14 +64,14 @@ public class PathFindingSystem implements SimulationSystem {
 			}
 
 		}
-		for (SimulationEntity<?> e : this.engine.getEntitiesFor(followersFilter,
+		for (OLDSimulationEntity<?> e : this.engine.getEntitiesFor(followersFilter,
 				entities))
 		{
 
 			CoordinateHolder target = e.get(FollowTarget.class)
 					.getTarget();
 
-			int floorId = e.get(FloorReference.class)
+			long floorId = e.get(FloorReference.class)
 					.getFloorId();
 			SEPathFinder pF = this.pathFinders.get(floorId);
 			e.get(FollowTarget.class)

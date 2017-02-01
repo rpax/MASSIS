@@ -4,7 +4,7 @@ import com.massisframework.massis.sim.ecs.SimulationComponent;
 
 public interface FloorReference extends SimulationComponent {
 
-	public void setFloorId(int fId);
+	public void setFloorId(long fId);
 
-	public int getFloorId();
+	public long getFloorId();
 }

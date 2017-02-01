@@ -5,7 +5,7 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.matcher.Matchers;
 import com.google.inject.util.Types;
-import com.massisframework.massis.sim.ecs.SimulationEntity;
+import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
 import com.massisframework.massis.sim.ecs.injection.SimulationConfiguration;
 import com.massisframework.massis.sim.ecs.injection.TypeLiterals;
 
@@ -39,13 +39,13 @@ public class ComponentsModule extends AbstractModule {
 		bindListener(Matchers.any(), new ComponentFilterListener(config));
 	}
 
-	private <E extends SimulationEntity<E>> TypeLiteral<ComponentCreator<E>> getCC()
+	private <E extends OLDSimulationEntity<E>> TypeLiteral<ComponentCreator<E>> getCC()
 	{
 		return (TypeLiteral<ComponentCreator<E>>) TypeLiteral
 				.get(Types.newParameterizedType(ComponentCreator.class,
 						config.getSimulationEntityType()));
 	}
-	private <E extends SimulationEntity<E>> TypeLiteral<ComponentCreatorImpl<E>> getCCI()
+	private <E extends OLDSimulationEntity<E>> TypeLiteral<ComponentCreatorImpl<E>> getCCI()
 	{
 		return (TypeLiteral<ComponentCreatorImpl<E>>) TypeLiteral
 				.get(Types.newParameterizedType(ComponentCreatorImpl.class,
@@ -76,7 +76,7 @@ public class ComponentsModule extends AbstractModule {
 	// return injector.getInstance(ComponentCreatorImpl.class);
 	// }
 
-	public <E extends SimulationEntity<E>> TypeLiteral<ComponentCreator<?>> createTL(
+	public <E extends OLDSimulationEntity<E>> TypeLiteral<ComponentCreator<?>> createTL(
 			Class<E> clazz)
 	{
 		return new TypeLiteral<ComponentCreator<?>>() {

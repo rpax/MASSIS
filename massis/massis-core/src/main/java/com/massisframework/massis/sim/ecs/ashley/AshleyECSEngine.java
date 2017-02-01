@@ -17,22 +17,24 @@ import com.google.inject.Singleton;
 import com.massisframework.massis.sim.SimulationScheduler;
 import com.massisframework.massis.sim.SimulationSteppable;
 import com.massisframework.massis.sim.ecs.ComponentFilter;
+import com.massisframework.massis.sim.ecs.MapsFactory;
+import com.massisframework.massis.sim.ecs.MurmurHash3;
 import com.massisframework.massis.sim.ecs.SimulationEngine;
-import com.massisframework.massis.sim.ecs.SimulationEntity;
+import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
 import com.massisframework.massis.sim.ecs.injection.SystemCreator;
 
-import it.unimi.dsi.fastutil.ints.Int2ObjectOpenCustomHashMap;
 import it.unimi.dsi.fastutil.ints.IntHash.Strategy;
+import it.unimi.dsi.fastutil.longs.Long2ObjectOpenCustomHashMap;
 
 @Singleton
-public class AshleySimulationEngine
+public class AshleyECSEngine
 		implements SimulationEngine<AshleySimulationEntity>,
 		SimulationSteppable {
 
 	private Engine ashleyEngine;
 
-	private Map<Integer, AshleySimulationEntity> entityIdMap;
+	private Map<Long, AshleySimulationEntity> entityIdMap;
 
 	private Queue<Runnable> taskQueue = new ConcurrentLinkedDeque<>();
 	private SimulationScheduler scheduler;
@@ -49,12 +51,13 @@ public class AshleySimulationEngine
 	Injector injector;
 
 	@Inject
-	public AshleySimulationEngine(
+	public AshleyECSEngine(
 			SimulationScheduler scheduler,
 			SystemCreator systemCreator)
 	{
 		this.ashleyEngine = new Engine();
-		this.entityIdMap = createEntityIdMap();
+		this.entityIdMap = MapsFactory.get(Long.class,
+				AshleySimulationEntity.class);
 		this.scheduler = scheduler;
 		this.systemCreator = systemCreator;
 
@@ -66,16 +69,17 @@ public class AshleySimulationEngine
 	}
 
 	@Override
-	public AshleySimulationEntity asSimulationEntity(int id)
+	public AshleySimulationEntity asSimulationEntity(long id)
 	{
 		return this.entityIdMap.get(id);
 	}
 
 	@Override
-	public int createEntity()
+	public long createEntity()
 	{
-		AshleySimulationEntity simEntity = injector.getInstance(AshleySimulationEntity.class);
-		this.entityIdMap.put(simEntity.getId(), simEntity);
+		AshleySimulationEntity simEntity = injector
+				.getInstance(AshleySimulationEntity.class);
+		this.entityIdMap.put((long) simEntity.getId(), simEntity);
 		this.ashleyEngine.addEntity(simEntity.getEntity());
 
 		for (SimulationSystem ss : this.running)
@@ -87,7 +91,7 @@ public class AshleySimulationEngine
 	}
 
 	@Override
-	public void destroyEntity(int eId)
+	public void destroyEntity(long eId)
 	{
 		AshleySimulationEntity sE = this.entityIdMap.remove(eId);
 		if (sE != null)
@@ -99,28 +103,6 @@ public class AshleySimulationEngine
 			}
 		}
 
-	}
-
-	private static Map<Integer, AshleySimulationEntity> createEntityIdMap()
-	{
-		return new Int2ObjectOpenCustomHashMap<>(new Strategy() {
-			@Override
-			public int hashCode(int h)
-			{
-				h ^= h >>> 16;
-				h *= 0x85ebca6b;
-				h ^= h >>> 13;
-				h *= 0xc2b2ae35;
-				h ^= h >>> 16;
-				return h;
-			}
-
-			@Override
-			public boolean equals(int a, int b)
-			{
-				return a == b;
-			}
-		});
 	}
 
 	private static boolean containsType(Collection<?> c, Class<?> type)
@@ -213,8 +195,8 @@ public class AshleySimulationEngine
 	}
 
 	@Override
-	public List<SimulationEntity<?>> getEntitiesFor(ComponentFilter<?> filter,
-			List<SimulationEntity<?>> store)
+	public List<OLDSimulationEntity<?>> getEntitiesFor(ComponentFilter<?> filter,
+			List<OLDSimulationEntity<?>> store)
 	{
 		if (store == null)
 			store = new ArrayList<>();

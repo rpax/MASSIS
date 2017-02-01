@@ -1,7 +1,7 @@
 package com.massisframework.massis.model.components.impl;
 
 import com.massisframework.massis.model.components.Position2D;
-import com.massisframework.massis.sim.ecs.SimulationEntity;
+import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
 import com.massisframework.massis.sim.ecs.injection.components.EntityReference;
 
 import straightedge.geom.KPoint;
@@ -12,7 +12,7 @@ public class Position2DImpl implements Position2D {
 	private KPoint worldPosition = new KPoint();
 
 	@EntityReference
-	SimulationEntity<?> entity;
+	OLDSimulationEntity<?> entity;
 
 	@Override
 	public double getX()
@@ -43,7 +43,7 @@ public class Position2DImpl implements Position2D {
 	{
 		// transform...
 		this.worldPosition.setCoords(this.pos);
-		SimulationEntity<?> e = entity.getParent();
+		OLDSimulationEntity<?> e = entity.getParent();
 		while (e != null)
 		{
 			KPoint parentPos = e.get(Position2D.class).getXY();

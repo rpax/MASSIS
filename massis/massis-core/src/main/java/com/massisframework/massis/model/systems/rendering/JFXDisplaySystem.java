@@ -11,7 +11,7 @@ import com.massisframework.massis.model.components.RenderComponent;
 import com.massisframework.massis.sim.FilterParams;
 import com.massisframework.massis.sim.ecs.ComponentFilter;
 import com.massisframework.massis.sim.ecs.SimulationEngine;
-import com.massisframework.massis.sim.ecs.SimulationEntity;
+import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
 
 import javafx.fxml.FXMLLoader;
@@ -26,7 +26,7 @@ public class JFXDisplaySystem implements SimulationSystem {
 	@FilterParams(all = RenderComponent.class)
 	private ComponentFilter<?> renderFilter;
 	private Simulation2DWindow window;
-	private List<SimulationEntity<?>> entities;
+	private List<OLDSimulationEntity<?>> entities;
 	@Inject
 	private SimulationEngine<?> engine;
 

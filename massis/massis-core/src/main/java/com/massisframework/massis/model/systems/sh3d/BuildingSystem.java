@@ -37,7 +37,7 @@ import com.massisframework.massis.model.systems.rendering.renderers.RoomRenderer
 import com.massisframework.massis.model.systems.rendering.renderers.WallRenderer;
 import com.massisframework.massis.sim.ecs.SimulationComponent;
 import com.massisframework.massis.sim.ecs.SimulationEngine;
-import com.massisframework.massis.sim.ecs.SimulationEntity;
+import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
 import com.massisframework.massis.sim.ecs.injection.SimulationConfiguration;
 import com.massisframework.massis.util.SH3DUtils;
@@ -77,8 +77,8 @@ public class BuildingSystem implements SimulationSystem {
 
 	private void createLevel(Level lvl)
 	{
-		int floorId = this.engine.createEntity();
-		SimulationEntity<?> floorEntity = this.engine
+		long floorId = this.engine.createEntity();
+		OLDSimulationEntity<?> floorEntity = this.engine
 				.asSimulationEntity(floorId);
 		floorEntity.addComponent(SweetHome3DLevel.class)
 				.setLevel(lvl);
@@ -94,7 +94,7 @@ public class BuildingSystem implements SimulationSystem {
 				.stream()
 				.filter(w -> w.getLevel() == lvl)
 				.forEach(w -> {
-					SimulationEntity<?> wallEntity = createEntity(floorId, w);
+					OLDSimulationEntity<?> wallEntity = createEntity(floorId, w);
 					wallEntity.addComponent(WallComponent.class);
 					wallEntity.addComponent(RenderComponent.class)
 							.setRenderer(WallRenderer.renderer);
@@ -105,7 +105,7 @@ public class BuildingSystem implements SimulationSystem {
 				.stream()
 				.filter(w -> w.getLevel() == lvl)
 				.forEach(w -> {
-					SimulationEntity<?> roomEntity = createEntity(floorId, w);
+					OLDSimulationEntity<?> roomEntity = createEntity(floorId, w);
 					roomEntity.addComponent(RoomComponent.class);
 					roomEntity.addComponent(RenderComponent.class)
 							.setRenderer(RoomRenderer.renderer);
@@ -119,9 +119,9 @@ public class BuildingSystem implements SimulationSystem {
 				});
 	}
 
-	private void createFurnitureComponent(int floorId, HomePieceOfFurniture f)
+	private void createFurnitureComponent(long floorId, HomePieceOfFurniture f)
 	{
-		SimulationEntity<?> e = createEntity(floorId, f);
+		OLDSimulationEntity<?> e = createEntity(floorId, f);
 		e.addComponent(SweetHome3DFurniture.class).setFurniture(f);
 		e.addComponent(Orientation.class).setAngle(f.getAngle());
 		if (f instanceof HomeDoorOrWindow)
@@ -176,13 +176,13 @@ public class BuildingSystem implements SimulationSystem {
 	{
 
 	}
-
-	private SimulationEntity<?> createEntity(int floorId, Selectable w)
+	
+	private OLDSimulationEntity<?> createEntity(long floorId, Selectable w)
 	{
 		KPolygon shape = SH3DUtils.createKPolygonFromSH3DObj(w);
 		KPoint center = shape.getCenter();
-		int entityId = engine.createEntity();
-		SimulationEntity<?> e = engine.asSimulationEntity(entityId);
+		int entityId = (int) engine.createEntity();
+		OLDSimulationEntity<?> e = engine.asSimulationEntity(entityId);
 		e.addComponent(FloorReference.class).setFloorId(floorId);
 		e.addComponent(Metadata.class).set(getMetadata((HomeObject) w));
 		e.addComponent(Position2D.class).set(center.x, center.y);

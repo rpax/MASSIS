@@ -1,6 +1,6 @@
 package com.massisframework.massis.sim.ecs;
 
-public interface SimulationEntity<E extends SimulationEntity<E>> {
+public interface OLDSimulationEntity<E extends OLDSimulationEntity<E>> {
 
 	public int getId();
 

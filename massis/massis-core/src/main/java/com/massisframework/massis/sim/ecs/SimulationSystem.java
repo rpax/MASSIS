@@ -14,11 +14,11 @@ public interface SimulationSystem {
 	{
 	}
 
-	public default void onEntityAdded(int entityId)
+	public default void onEntityAdded(long entityId)
 	{
 	}
 
-	public default void onEntityRemoved(int entityId)
+	public default void onEntityRemoved(long entityId)
 	{
 	}
 

@@ -27,7 +27,7 @@ import com.massisframework.massis.model.systems.sh3d.SweetHome3DLevel;
 import com.massisframework.massis.sim.FilterParams;
 import com.massisframework.massis.sim.ecs.ComponentFilter;
 import com.massisframework.massis.sim.ecs.SimulationEngine;
-import com.massisframework.massis.sim.ecs.SimulationEntity;
+import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
 
 public class HomeDisplay3D extends JFrame implements SimulationSystem {
@@ -133,7 +133,7 @@ public class HomeDisplay3D extends JFrame implements SimulationSystem {
 		this.setVisible(true);
 	}
 
-	private List<SimulationEntity<?>> entities = new ArrayList<>();
+	private List<OLDSimulationEntity<?>> entities = new ArrayList<>();
 
 	@Override
 	public void update(float deltaTime)
@@ -148,7 +148,7 @@ public class HomeDisplay3D extends JFrame implements SimulationSystem {
 			return;
 		}
 
-		for (SimulationEntity<?> obj : this.engine.getEntitiesFor(
+		for (OLDSimulationEntity<?> obj : this.engine.getEntitiesFor(
 				furnitureFilter,
 				entities))
 		{
@@ -156,7 +156,7 @@ public class HomeDisplay3D extends JFrame implements SimulationSystem {
 			final HomePieceOfFurniture hpof = obj
 					.get(SweetHome3DFurniture.class).getFurniture();
 
-			final int floorId = obj.get(FloorReference.class)
+			final long floorId = obj.get(FloorReference.class)
 					.getFloorId();
 
 			final Level floorLevel = engine.asSimulationEntity(floorId)

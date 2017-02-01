@@ -1,7 +1,7 @@
 package com.massisframework.massis.model.components;
 
 import com.massisframework.massis.sim.ecs.SimulationComponent;
-import com.massisframework.massis.sim.ecs.SimulationEntity;
+import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
 
 public interface Floor extends SimulationComponent {
 
@@ -17,6 +17,6 @@ public interface Floor extends SimulationComponent {
 
 	public int getMaxX();
 
-	Iterable<SimulationEntity<?>> getEntitiesIn();
+	Iterable<OLDSimulationEntity<?>> getEntitiesIn();
 
 }

@@ -7,13 +7,13 @@ import com.badlogic.ashley.core.Entity;
 import com.google.common.eventbus.EventBus;
 import com.google.inject.Inject;
 import com.massisframework.massis.sim.ecs.SimulationComponent;
-import com.massisframework.massis.sim.ecs.SimulationEntity;
+import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
 import com.massisframework.massis.sim.ecs.UIDProvider;
 import com.massisframework.massis.sim.ecs.injection.SimulationConfiguration;
 import com.massisframework.massis.sim.ecs.injection.components.ComponentCreator;
 
 public class AshleySimulationEntity
-		implements SimulationEntity<AshleySimulationEntity> {
+		implements OLDSimulationEntity<AshleySimulationEntity> {
 
 	private ComponentCreator<AshleySimulationEntity> componentCreator;
 	private int id;

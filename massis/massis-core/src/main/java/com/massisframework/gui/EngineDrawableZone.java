@@ -5,7 +5,7 @@ import com.massisframework.massis.model.components.Floor;
 import com.massisframework.massis.model.components.NameComponent;
 import com.massisframework.massis.sim.ecs.ComponentFilterBuilder;
 import com.massisframework.massis.sim.ecs.SimulationEngine;
-import com.massisframework.massis.sim.ecs.SimulationEntity;
+import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
 
 public class EngineDrawableZone implements DrawableZone {
 
@@ -57,7 +57,7 @@ public class EngineDrawableZone implements DrawableZone {
 				.get();
 	}
 
-	public SimulationEntity<?> getFloor()
+	public OLDSimulationEntity<?> getFloor()
 	{
 		return this.engine.asSimulationEntity(floorId);
 	}

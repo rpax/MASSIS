@@ -11,7 +11,7 @@ import com.massisframework.massis.model.components.Position2D;
 import com.massisframework.massis.sim.FilterParams;
 import com.massisframework.massis.sim.ecs.ComponentFilter;
 import com.massisframework.massis.sim.ecs.SimulationEngine;
-import com.massisframework.massis.sim.ecs.SimulationEntity;
+import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
 import com.massisframework.massis.sim.ecs.injection.components.EntityReference;
 
 public class FloorImpl implements Floor {
@@ -22,16 +22,16 @@ public class FloorImpl implements Floor {
 	private ComponentFilter<?> referenceFilter;
 
 	@EntityReference
-	SimulationEntity<?> entity;
+	OLDSimulationEntity<?> entity;
 
-	private List<SimulationEntity<?>> entities = new ArrayList<>();
+	private List<OLDSimulationEntity<?>> entities = new ArrayList<>();
 	/*
 	 * Bounds
 	 */
 	public int minX, maxX, minY, maxY, xlength, ylength;
 
 	@Override
-	public Iterable<SimulationEntity<?>> getEntitiesIn()
+	public Iterable<OLDSimulationEntity<?>> getEntitiesIn()
 	{
 		return engine.getEntitiesFor(referenceFilter, entities).stream()
 				.filter(e -> e.get(FloorReference.class)

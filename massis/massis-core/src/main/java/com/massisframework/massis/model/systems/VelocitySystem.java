@@ -10,7 +10,7 @@ import com.massisframework.massis.model.components.Velocity;
 import com.massisframework.massis.sim.ecs.ComponentFilter;
 import com.massisframework.massis.sim.ecs.ComponentFilterBuilder;
 import com.massisframework.massis.sim.ecs.SimulationEngine;
-import com.massisframework.massis.sim.ecs.SimulationEntity;
+import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
 import com.massisframework.massis.util.geom.KVector;
 
@@ -22,7 +22,7 @@ public class VelocitySystem implements SimulationSystem {
 	private SimulationEngine engine;
 
 	private ComponentFilter filter;
-	private List<SimulationEntity> entities = new ArrayList<>();
+	private List<OLDSimulationEntity> entities = new ArrayList<>();
 
 	@Override
 	public void initialize()
@@ -37,7 +37,7 @@ public class VelocitySystem implements SimulationSystem {
 	{
 		engine.getEntitiesFor(filter, entities);
 
-		for (SimulationEntity<?> se : entities)
+		for (OLDSimulationEntity<?> se : entities)
 		{
 			// final SteeringBehavior steeringBeh = se
 			// .getComponent(SteeringComponent.class)
@@ -94,7 +94,7 @@ public class VelocitySystem implements SimulationSystem {
 	 *            the forces applied to that agent
 	 */
 	private void applySteeringForcesAndMove(
-			SimulationEntity<?> vehicle,
+			OLDSimulationEntity<?> vehicle,
 			KVector forces)
 	{
 

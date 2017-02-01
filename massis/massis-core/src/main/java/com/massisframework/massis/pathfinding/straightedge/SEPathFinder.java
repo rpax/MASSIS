@@ -15,7 +15,7 @@ import com.massisframework.massis.model.components.WallComponent;
 import com.massisframework.massis.sim.ecs.ComponentFilter;
 import com.massisframework.massis.sim.ecs.ComponentFilterBuilder;
 import com.massisframework.massis.sim.ecs.SimulationEngine;
-import com.massisframework.massis.sim.ecs.SimulationEntity;
+import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
 import com.massisframework.massis.util.PathFindingUtils;
 import com.massisframework.massis.util.geom.CoordinateHolder;
 import com.massisframework.massis.util.geom.KPolygonUtils;
@@ -77,9 +77,9 @@ public class SEPathFinder {
 	private boolean initialized = false;
 	private int floorId;
 	private SimulationEngine<?> engine;
-	private List<SimulationEntity<?>> walls;
-	private ArrayList<SimulationEntity<?>> doors;
-	private ArrayList<SimulationEntity<?>> rooms;
+	private List<OLDSimulationEntity<?>> walls;
+	private ArrayList<OLDSimulationEntity<?>> doors;
+	private ArrayList<OLDSimulationEntity<?>> rooms;
 
 	private ComponentFilter wallFilter;
 	/**
@@ -117,7 +117,7 @@ public class SEPathFinder {
 		List<KPolygon> obstPolys = new ArrayList<KPolygon>();
 		engine.getEntitiesFor(wallFilter, walls);
 		engine.getEntitiesFor(doorFilter, doors);
-		for (SimulationEntity<?> wallEntity : walls)
+		for (OLDSimulationEntity<?> wallEntity : walls)
 		{
 			
 			if (wallEntity.get(FloorReference.class)
@@ -128,7 +128,7 @@ public class SEPathFinder {
 			 */
 			Area area = new Area(
 					wallEntity.get(ShapeComponent.class).getShape());
-			for (SimulationEntity<?> doorEntity : doors)
+			for (OLDSimulationEntity<?> doorEntity : doors)
 			{
 				boolean open = doorEntity.get(DoorComponent.class)
 						.isOpen();
@@ -203,7 +203,7 @@ public class SEPathFinder {
 
 		walkAblePolys = new ArrayList<>();
 
-		for (SimulationEntity<?> sr : this.engine.getEntitiesFor(roomFilter,
+		for (OLDSimulationEntity<?> sr : this.engine.getEntitiesFor(roomFilter,
 				this.rooms))
 		{
 			Area walkAble = new Area(sr.get(ShapeComponent.class).getShape());

@@ -14,9 +14,10 @@ import com.google.inject.Injector;
 import com.massisframework.massis.sim.SimulationScheduler;
 import com.massisframework.massis.sim.SimulationSteppable;
 import com.massisframework.massis.sim.ecs.SimulationComponent;
-import com.massisframework.massis.sim.ecs.SimulationEntity;
+import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
 
-public class ComponentCreatorImpl<E extends SimulationEntity<E>> implements ComponentCreator<E> {
+public class ComponentCreatorImpl<E extends OLDSimulationEntity<E>>
+		implements ComponentCreator<E> {
 
 	@Inject
 	private Injector injector;
@@ -34,19 +35,18 @@ public class ComponentCreatorImpl<E extends SimulationEntity<E>> implements Comp
 		T rootComponent = injector.getInstance(type);
 
 		setEntityIdField(e, rootComponent);
-		if (SimulationSteppable.class.isAssignableFrom(rootComponent.getClass()))
+		if (SimulationSteppable.class
+				.isAssignableFrom(rootComponent.getClass()))
 		{
-			this.scheduler.scheduleRepeating((SimulationSteppable) rootComponent);
+			this.scheduler
+					.scheduleRepeating((SimulationSteppable) rootComponent);
 		}
 		return rootComponent;
 	}
 
-	private void setEntityIdField(SimulationEntity<?> e, SimulationComponent sc)
+	private void setEntityIdField(OLDSimulationEntity<?> e, SimulationComponent sc)
 	{
-		for (Field f : getFieldsByAnnotation(sc.getClass(), EntityId.class))
-		{
-			setFieldValue(f, sc, e.getId());
-		}
+
 		for (Field f : getFieldsByAnnotation(sc.getClass(),
 				EntityReference.class))
 		{

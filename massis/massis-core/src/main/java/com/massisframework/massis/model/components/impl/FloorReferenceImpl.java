@@ -4,17 +4,17 @@ import com.massisframework.massis.model.components.FloorReference;
 
 public class FloorReferenceImpl implements FloorReference {
 
-	private int floorId;
+	private long floorId;
 
 	@Override
-	public void setFloorId(int fId)
+	public void setFloorId(long fId)
 	{
 		this.floorId = fId;
 
 	}
 
 	@Override
-	public int getFloorId()
+	public long getFloorId()
 	{
 		return this.floorId;
 	}

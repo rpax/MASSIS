@@ -4,7 +4,7 @@ import com.massisframework.massis.model.components.JFXRenderer;
 import com.massisframework.massis.model.components.Orientation;
 import com.massisframework.massis.model.components.Position2D;
 import com.massisframework.massis.model.components.ShapeComponent;
-import com.massisframework.massis.sim.ecs.SimulationEntity;
+import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -18,7 +18,7 @@ public class AgentArrowRenderer implements JFXRenderer {
 	public static JFXRenderer renderer = new AgentArrowRenderer();
 
 	@Override
-	public void render(SimulationEntity<?> e, GraphicsContext gc)
+	public void render(OLDSimulationEntity<?> e, GraphicsContext gc)
 	{
 		KPolygon triangle = triangle_render_TL.get();
 

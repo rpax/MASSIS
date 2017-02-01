@@ -1,10 +1,10 @@
 package com.massisframework.massis.model.components;
 
 import com.massisframework.massis.sim.ecs.SimulationComponent;
-import com.massisframework.massis.sim.ecs.SimulationEntity;
+import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
 
 public interface EntityRangeFinder extends SimulationComponent {
 
-	Iterable<SimulationEntity<?>> getEntitiesInRange(double radius);
+	Iterable<OLDSimulationEntity<?>> getEntitiesInRange(double radius);
 
 }

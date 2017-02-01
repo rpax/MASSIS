@@ -11,7 +11,7 @@ import java.util.Map;
 import com.massisframework.massis.sim.SimulationScheduler;
 import com.massisframework.massis.sim.ecs.SimulationComponent;
 import com.massisframework.massis.sim.ecs.SimulationEngine;
-import com.massisframework.massis.sim.ecs.SimulationEntity;
+import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
 
 public class SimulationConfiguration {
@@ -53,7 +53,7 @@ public class SimulationConfiguration {
 		return getBinding(type, false);
 	}
 
-	public Class<? extends SimulationEntity<?>> getSimulationEntityType()
+	public Class<? extends OLDSimulationEntity<?>> getSimulationEntityType()
 	{
 		Class entityClass = (Class) ((ParameterizedType) this.getEngineType()
 				.getGenericInterfaces()[0]).getActualTypeArguments()[0];

@@ -10,7 +10,7 @@ import com.massisframework.massis.model.components.Velocity;
 import com.massisframework.massis.sim.FilterParams;
 import com.massisframework.massis.sim.ecs.ComponentFilter;
 import com.massisframework.massis.sim.ecs.SimulationEngine;
-import com.massisframework.massis.sim.ecs.SimulationEntity;
+import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
 import com.massisframework.massis.util.geom.CoordinateHolder;
 import com.massisframework.massis.util.geom.KVector;
@@ -20,7 +20,7 @@ public class MovementSystem implements SimulationSystem {
 	@FilterParams(all = { MovingTo.class, Velocity.class, Position2D.class })
 	private ComponentFilter movingFilter;
 
-	private List<SimulationEntity<?>> entities;
+	private List<OLDSimulationEntity<?>> entities;
 	@Inject
 	SimulationEngine<?> engine;
 
@@ -33,7 +33,7 @@ public class MovementSystem implements SimulationSystem {
 	@Override
 	public void update(float deltaTime)
 	{
-		for (SimulationEntity<?> e : this.engine.getEntitiesFor(movingFilter,
+		for (OLDSimulationEntity<?> e : this.engine.getEntitiesFor(movingFilter,
 				this.entities))
 		{
 

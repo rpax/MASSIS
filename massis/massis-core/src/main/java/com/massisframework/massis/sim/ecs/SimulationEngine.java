@@ -2,13 +2,13 @@ package com.massisframework.massis.sim.ecs;
 
 import java.util.List;
 
-public interface SimulationEngine<E extends SimulationEntity<E>> {
+public interface SimulationEngine<E extends OLDSimulationEntity<E>> {
 
-	public int createEntity();
+	public long createEntity();
 
-	public void destroyEntity(int eId);
+	public void destroyEntity(long eId);
 
-	public SimulationEntity<?> asSimulationEntity(int id);
+	public OLDSimulationEntity<?> asSimulationEntity(long id);
 
 	public void addSystem(Class<? extends SimulationSystem> system);
 
@@ -18,8 +18,8 @@ public interface SimulationEngine<E extends SimulationEntity<E>> {
 
 	public void stop();
 
-	public List<SimulationEntity<?>> getEntitiesFor(ComponentFilter<?> filter,
-			List<SimulationEntity<?>> store);
+	public List<OLDSimulationEntity<?>> getEntitiesFor(ComponentFilter<?> filter,
+			List<OLDSimulationEntity<?>> store);
 
 	public <T extends SimulationSystem> T getSystem(Class<T> type);
 }
