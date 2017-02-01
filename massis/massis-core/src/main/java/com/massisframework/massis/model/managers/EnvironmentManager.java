@@ -1,14 +1,11 @@
 package com.massisframework.massis.model.managers;
 
-import java.util.stream.StreamSupport;
+import java.util.Collections;
 
 import com.google.inject.Inject;
-import com.massisframework.massis.model.components.Floor;
-import com.massisframework.massis.model.components.FloorReference;
-import com.massisframework.massis.model.components.Position2D;
-import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
-import com.massisframework.massis.sim.ecs.SimulationEngine;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
+import com.massisframework.massis.sim.ecs.zayes.SimulationEntity;
+import com.massisframework.massis.sim.ecs.zayes.SimulationEntityData;
 
 /**
  * Manages the environment information of an agent
@@ -19,7 +16,7 @@ import com.massisframework.massis.sim.ecs.SimulationSystem;
 public class EnvironmentManager implements SimulationSystem {
 
 	@Inject
-	private SimulationEngine<?> engine;
+	private SimulationEntityData ed;
 
 	@Override
 	public void initialize()
@@ -27,18 +24,19 @@ public class EnvironmentManager implements SimulationSystem {
 
 	}
 
-	public Iterable<OLDSimulationEntity<?>> getAgentsInRange(OLDSimulationEntity<?> entity,
+	public Iterable<SimulationEntity> getAgentsInRange(SimulationEntity entity,
 			double radius)
 	{
-		long floorId = entity.get(FloorReference.class).getFloorId();
-		return StreamSupport
-				.stream(engine.asSimulationEntity(floorId)
-						.get(Floor.class).getEntitiesIn()
-						.spliterator(),
-						false)
-				.filter(other -> other != entity)
-				.filter(other -> other.get(Position2D.class).distance(
-						entity.get(Position2D.class)) < radius)::iterator;
+		// long floorId = entity.getC(FloorReference.class).getFloorId();
+		// return StreamSupport
+		// .stream(ed.getSimulationEntity(floorId)
+		// .get(Floor.class).getEntitiesIn()
+		// .spliterator(),
+		// false)
+		// .filter(other -> other != entity)
+		// .filter(other -> other.get(Position2D.class).distance(
+		// entity.get(Position2D.class)) < radius)::iterator;
+		return Collections.emptyList();
 	}
 
 	@Override

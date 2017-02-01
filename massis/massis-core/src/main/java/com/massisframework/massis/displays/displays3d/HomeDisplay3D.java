@@ -1,8 +1,5 @@
 package com.massisframework.massis.displays.displays3d;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.swing.JFrame;
@@ -19,16 +16,13 @@ import com.eteks.sweethome3d.swing.FileContentManager;
 import com.eteks.sweethome3d.swing.SwingViewFactory;
 import com.google.inject.Inject;
 import com.massisframework.massis.model.components.FloorReference;
-import com.massisframework.massis.model.components.Orientation;
-import com.massisframework.massis.model.components.Position2D;
-import com.massisframework.massis.model.systems.sh3d.BuildingSystem;
+import com.massisframework.massis.model.components.TransformComponent;
 import com.massisframework.massis.model.systems.sh3d.SweetHome3DFurniture;
 import com.massisframework.massis.model.systems.sh3d.SweetHome3DLevel;
-import com.massisframework.massis.sim.FilterParams;
-import com.massisframework.massis.sim.ecs.ComponentFilter;
-import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
-import com.massisframework.massis.sim.ecs.SimulationEngine;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
+import com.massisframework.massis.sim.ecs.zayes.SimulationEntity;
+import com.massisframework.massis.sim.ecs.zayes.SimulationEntityData;
+import com.massisframework.massis.sim.ecs.zayes.SimulationEntitySet;
 
 public class HomeDisplay3D extends JFrame implements SimulationSystem {
 
@@ -37,15 +31,11 @@ public class HomeDisplay3D extends JFrame implements SimulationSystem {
 	HomeComponentDisplay3D homeComponent3D;
 	private boolean initiated = false;
 	@Inject
-	private SimulationEngine<?> engine;
-	@FilterParams(all = {
-			SweetHome3DFurniture.class,
-			Position2D.class
-	})
-	private ComponentFilter<?> furnitureFilter;
+	private SimulationEntityData ed;
 
 	private Home home;
 	private boolean ready = false;
+	private SimulationEntitySet entities;
 
 	private static Transform3D getPieceOFFurnitureNormalizedModelTransformation(
 			HomePieceOfFurniture piece)
@@ -79,12 +69,14 @@ public class HomeDisplay3D extends JFrame implements SimulationSystem {
 
 	private void init()
 	{
-		if (engine.getSystem(BuildingSystem.class) == null)
-			return;
+		// if (engine.getSystem(BuildingSystem.class) == null)
+		// return;
+
 		System.setProperty("com.eteks.sweethome3d.j3d.useOffScreen3DView",
 				"true");
 		this.initiated = true;
-		this.home = engine.getSystem(BuildingSystem.class).getHome();
+		// this.home = engine.getSystem(BuildingSystem.class).getHome();
+
 		final UserPreferences fileUserPreferences = new FileUserPreferences();
 
 		this.planController = new HomeControllerDisplay3D(this.home,
@@ -128,12 +120,12 @@ public class HomeDisplay3D extends JFrame implements SimulationSystem {
 	@Override
 	public void initialize()
 	{
+		this.entities = this.ed.createEntitySet(SweetHome3DFurniture.class,
+				TransformComponent.class);
 		setTitle("HomeDisplay3D");
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setVisible(true);
 	}
-
-	private List<OLDSimulationEntity<?>> entities = new ArrayList<>();
 
 	@Override
 	public void update(float deltaTime)
@@ -147,48 +139,47 @@ public class HomeDisplay3D extends JFrame implements SimulationSystem {
 		{
 			return;
 		}
-
-		for (OLDSimulationEntity<?> obj : this.engine.getEntitiesFor(
-				furnitureFilter,
-				entities))
+		if (this.entities.applyChanges())
 		{
-
-			final HomePieceOfFurniture hpof = obj
-					.get(SweetHome3DFurniture.class).getFurniture();
-
-			final long floorId = obj.get(FloorReference.class)
-					.getFloorId();
-
-			final Level floorLevel = engine.asSimulationEntity(floorId)
-					.get(SweetHome3DLevel.class).getLevel();
-
-			if (hpof == null)
+			for (SimulationEntity obj : this.entities.getChangedEntities())
 			{
-				System.err.println(obj + " has no representation");
-				return;
+
+				final HomePieceOfFurniture hpof = obj
+						.getC(SweetHome3DFurniture.class).getFurniture();
+
+				final long floorId = obj.getC(FloorReference.class)
+						.getFloorId();
+
+				final Level floorLevel = ed.getSimulationEntity(floorId)
+						.getC(SweetHome3DLevel.class).getLevel();
+
+				if (hpof == null)
+				{
+					System.err.println(obj + " has no representation");
+					return;
+				}
+				if (hpof.getLevel() != floorLevel)
+				{
+					hpof.setLevel(floorLevel);
+				}
+				hpof.setAngle(obj.getC(TransformComponent.class).getAngle());
+				hpof.setX(obj.getC(TransformComponent.class).getX());
+				hpof.setY(obj.getC(TransformComponent.class).getY());
+				final HomePieceOfFurniture3D hpof3D = ((HomePieceOfFurniture3D) this.homeComponent3D.homeObjects
+						.get(hpof));
+				// si todavia no se ha cargado, fuera
+				if (hpof3D == null)
+				{
+					return;
+				}
+				// animateFurniture3D(hpof3D);
+				final Transform3D pieceTransform = getPieceOFFurnitureNormalizedModelTransformation(
+						hpof);
+				// Change model transformation
+				((TransformGroup) hpof3D.getChild(0))
+						.setTransform(pieceTransform);
 			}
-			if (hpof.getLevel() != floorLevel)
-			{
-				hpof.setLevel(floorLevel);
-			}
-			hpof.setAngle(
-					(float) (obj.get(Orientation.class).getAngle()
-							- Math.PI / 2));
-			hpof.setX((float) obj.get(Position2D.class).getX());
-			hpof.setY((float) obj.get(Position2D.class).getY());
-			final HomePieceOfFurniture3D hpof3D = ((HomePieceOfFurniture3D) this.homeComponent3D.homeObjects
-					.get(hpof));
-			// si todavia no se ha cargado, fuera
-			if (hpof3D == null)
-			{
-				return;
-			}
-			// animateFurniture3D(hpof3D);
-			final Transform3D pieceTransform = getPieceOFFurnitureNormalizedModelTransformation(
-					hpof);
-			// Change model transformation
-			((TransformGroup) hpof3D.getChild(0)).setTransform(pieceTransform);
+
 		}
-
 	}
 }
