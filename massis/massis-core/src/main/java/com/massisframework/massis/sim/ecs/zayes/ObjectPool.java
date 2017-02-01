@@ -18,7 +18,7 @@ public class ObjectPool<T> {
 		cache = new ArrayList<T>();
 	}
 
-	public static <R extends Reseteable> ObjectPool<R> create(Class<R> type,
+	public static <R extends PooledObject> ObjectPool<R> create(Class<R> type,
 			Supplier<R> instantiator)
 	{
 		return new ObjectPool<>(instantiator, (item) -> item.reset());
@@ -48,4 +48,5 @@ public class ObjectPool<T> {
 		Logger.getLogger(getClass().getName())
 				.info("freed item. Cache size: " + this.cache.size());
 	}
+
 }

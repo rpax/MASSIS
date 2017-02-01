@@ -4,5 +4,5 @@ import com.simsilica.es.EntityComponent;
 
 public interface SimulationComponent extends EntityComponent {
 
-	public void reset();
+	
 }

@@ -1,14 +1,11 @@
 package com.massisframework.massis.sim.ecs.zayes;
 
-import java.io.File;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.massisframework.massis.sim.SimulationScheduler;
-import com.massisframework.massis.sim.ecs.SimulationEngine;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
-import com.massisframework.massis.sim.ecs.injection.SimulationConfiguration;
 
 public class InterfaceBindings {
 
@@ -48,16 +45,11 @@ public class InterfaceBindings {
 		<I extends SimulationComponent> ToBindingBuilder<I> map(
 				Class<I> source);
 
-		SimulationConfigurationBuilder withEngine(
-				Class<? extends SimulationEngine<?>> type);
-
 		SimulationConfigurationBuilder withScheduler(
 				Class<? extends SimulationScheduler> type);
 
 		SimulationConfigurationBuilder withSystem(
 				Class<? extends SimulationSystem> system);
-
-		SimulationConfiguration build(File buildingFile);
 	}
 
 	public interface ToBindingBuilder<I extends SimulationComponent> {

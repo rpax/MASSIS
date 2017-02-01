@@ -15,6 +15,10 @@ public interface SimulationEntity {
 	public <T extends SimulationComponent> EntityEdit<T> editC(
 			Class<T> c);
 
+	public SimulationEntity getParent();
+	
+	public Iterable<SimulationEntity> getChildren();
+
 	public EntityId getId();
 
 }

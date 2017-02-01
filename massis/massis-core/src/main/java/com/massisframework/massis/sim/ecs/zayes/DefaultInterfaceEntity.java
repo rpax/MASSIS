@@ -2,6 +2,7 @@ package com.massisframework.massis.sim.ecs.zayes;
 
 import java.util.Arrays;
 
+import com.simsilica.es.EntityComponent;
 import com.simsilica.es.EntityId;
 import com.simsilica.es.base.DefaultEntity;
 
@@ -16,7 +17,9 @@ public class DefaultInterfaceEntity extends DefaultEntity
 				return ObjectPool.create(EntityEditImpl.class,
 						() -> new EntityEditImpl());
 			});
-	private Class[] types; // temporarily for validating component types
+	private Class<? extends SimulationComponent>[] types; // temporarily for
+															// validating
+															// component types
 
 	public DefaultInterfaceEntity(InterfaceEntityData ed, EntityId id,
 			SimulationComponent[] components, Class[] types)
@@ -127,13 +130,20 @@ public class DefaultInterfaceEntity extends DefaultEntity
 	@Override
 	public <T extends SimulationComponent> EntityEdit<T> addC(Class<T> c)
 	{
-		return replace(c, true);
+		// ?¿
+		T cmp = getComponent_internal(c);
+		if (cmp == null)
+		{
+			cmp = this.ed.add(id, c);
+		}
+		return getEntityEdit(cmp);
+
 	}
 
 	@Override
 	public <T extends SimulationComponent> T getC(Class<T> c)
 	{
-		return replace(c, false);
+		return getComponent_internal(c);
 	}
 
 	@Override
@@ -144,55 +154,34 @@ public class DefaultInterfaceEntity extends DefaultEntity
 		return getEntityEdit(cmp);
 	}
 
-	private EntityEditImpl getEntityEdit(SimulationComponent cmp)
+	private <T extends SimulationComponent> T getComponent_internal(Class<T> c)
+	{
+		for (int i = 0; i < types.length; i++)
+		{
+			if (components[i] != null && c.isAssignableFrom(types[i]))
+			{
+				return c.cast(components[i]);
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public <T extends SimulationComponent> void removeC(Class<T> type)
+	{
+		this.ed.removeComponent(id, type);
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private <T extends SimulationComponent> EntityEdit<T> getEntityEdit(T cmp)
 	{
 		ObjectPool<EntityEditImpl> objectPool = entityEditPool_TL.get();
-		EntityEditImpl entityEdit = objectPool.get();
+		EntityEditImpl<T> entityEdit = objectPool.get();
 		entityEdit.setObjectPool(objectPool);
 		entityEdit.setCmp(cmp);
 		entityEdit.setEd(ed);
 		entityEdit.setSe(this);
 		return entityEdit;
-	}
-
-	private <T extends SimulationComponent> T replace(Class c,
-			boolean create)
-	{
-		for (int i = 0; i < types.length; i++)
-		{
-			if (components[i] != null && c.isAssignableFrom(types[i]))
-			{
-				if (create)
-				{
-					components[i].reset();
-				}
-				return (T) components[i];
-			}
-		}
-		if (create)
-		{
-			return (T) this.ed.add(this.id, c);
-		} else
-		{
-			return null;
-		}
-
-	}
-
-	@Override
-	public <T extends SimulationComponent> void removeC(Class<T> c)
-	{
-		for (int i = 0; i < types.length; i++)
-		{
-			if (components[i] != null && c.isAssignableFrom(types[i]))
-			{
-				SimulationComponent cmp = components[i];
-				this.ed.removeComponent(id, types[i]);
-				components[i] = null;
-				cmp.reset();
-			}
-		}
-
 	}
 
 }

@@ -1,7 +1,7 @@
 package com.massisframework.massis.sim.ecs.zayes;
 
 public interface EntityEdit<T extends SimulationComponent>
-		extends Reseteable {
+		extends PooledObject {
 
 	public T get();
 

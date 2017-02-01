@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.google.inject.Inject;
 import com.simsilica.es.ComponentFilter;
@@ -19,6 +20,8 @@ public class InterfaceEntityData extends DefaultEntityData
 	private InterfaceBindings bindings;
 	private EntityComponentCreator componentCreator;
 
+	private Map<Class<? extends SimulationComponent>, ObjectPool<? extends SimulationComponent>> componentPoolMap;
+
 	@Inject
 	public InterfaceEntityData(
 			InterfaceBindings bindings,
@@ -28,6 +31,7 @@ public class InterfaceEntityData extends DefaultEntityData
 		super();
 		this.bindings = bindings;
 		this.componentCreator = componentCreator;
+		this.componentPoolMap = new ConcurrentHashMap<>();
 		this.setUpPrivateFields();
 	}
 
@@ -55,7 +59,8 @@ public class InterfaceEntityData extends DefaultEntityData
 	}
 
 	@Override
-	protected InterfaceEntitySet createSet(ComponentFilter filter, Class... types)
+	protected InterfaceEntitySet createSet(ComponentFilter filter,
+			Class... types)
 	{
 		InterfaceEntitySet set = new InterfaceEntitySet(this, filter, types);
 		entitySets.add(set);
@@ -112,6 +117,31 @@ public class InterfaceEntityData extends DefaultEntityData
 			Class<T> type)
 	{
 		return super.getComponent(entityId, type);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T extends SimulationComponent> void remove(EntityId entityId,
+			Class<T> type)
+	{
+		T cmp = null;
+		if (PooledObject.class.isAssignableFrom(type))
+		{
+			cmp = this.get(entityId, type);
+		}
+		super.removeComponent(entityId, type);
+		if (cmp != null)
+		{
+			ObjectPool<T> pool = (ObjectPool<T>) this.componentPoolMap
+					.get(cmp.getClass());
+			if (pool == null)
+			{
+				pool = ObjectPool.create(type,
+						() -> this.componentCreator.create(type),
+						item -> ((PooledObject) item).reset());
+			}
+			pool.free(cmp);
+		}
 	}
 
 }

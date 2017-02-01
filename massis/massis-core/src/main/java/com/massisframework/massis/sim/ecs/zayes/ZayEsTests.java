@@ -21,7 +21,7 @@ public class ZayEsTests {
 		EntityId eid = ed.createEntity();
 		ed.add(eid, A.class);
 		ed.add(eid, B.class);
-	
+
 		SimulationEntitySet es = ed.createEntitySet(A.class, B.class);
 		es.applyChanges();
 		for (SimulationEntity e : es)
@@ -51,12 +51,6 @@ public class ZayEsTests {
 
 	static class BImpl implements B {
 
-		@Override
-		public void reset()
-		{
-
-		}
-
 	}
 
 	static interface A extends SimulationComponent {
@@ -76,12 +70,6 @@ public class ZayEsTests {
 	}
 
 	static class AImpl implements A {
-
-		@Override
-		public void reset()
-		{
-
-		}
 
 		@Override
 		public void uh(int a)

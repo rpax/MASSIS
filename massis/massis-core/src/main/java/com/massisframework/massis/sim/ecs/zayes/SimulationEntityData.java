@@ -15,14 +15,6 @@ public interface SimulationEntityData {
 
 	public void removeEntity(EntityId entityId);
 
-	public <T extends SimulationComponent> T add(EntityId entityId,
-			Class<T> component);
-
-	public boolean removeComponent(EntityId entityId, Class type);
-
-	public <T extends SimulationComponent> T get(EntityId entityId,
-			Class<T> type);
-
 	public Entity getEntity(EntityId entityId, Class... types);
 
 	public EntityId findEntity(ComponentFilter filter, Class... types);
@@ -38,5 +30,15 @@ public interface SimulationEntityData {
 	public StringIndex getStrings();
 
 	public void close();
+
+	/**
+	 * @formatter:off
+	 */
+	public <T extends SimulationComponent> T add(EntityId entityId,Class<T> component);
+	public <T extends SimulationComponent> void remove(EntityId entityId, Class<T> type);
+	public <T extends SimulationComponent> T get(EntityId entityId,Class<T> type);
+	/**
+	 * @formatter:on
+	 */
 
 }
