@@ -42,7 +42,7 @@ public class ZayEsTests {
 
 	}
 
-	static interface B extends SimulationEntityComponent {
+	static interface B extends SimulationComponent {
 		public default int peter(String name)
 		{
 			return 0;
@@ -59,7 +59,7 @@ public class ZayEsTests {
 
 	}
 
-	static interface A extends SimulationEntityComponent {
+	static interface A extends SimulationComponent {
 		public void uh(int a);
 
 		public default void setName(String name)

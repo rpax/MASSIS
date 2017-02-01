@@ -42,7 +42,7 @@ public class ZayEsModule extends AbstractModule {
 		return new EntityComponentCreator() {
 
 			@Override
-			public <T extends SimulationEntityComponent> T create(Class<T> type)
+			public <T extends SimulationComponent> T create(Class<T> type)
 			{
 				return injector.getInstance(type);
 			}

@@ -10,7 +10,7 @@ public class DefaultInterfaceEntity extends DefaultEntity
 
 	private InterfaceEntityData ed;
 	private EntityId id;
-	private SimulationEntityComponent[] components;
+	private SimulationComponent[] components;
 	private static ThreadLocal<ObjectPool<EntityEditImpl>> entityEditPool_TL = ThreadLocal
 			.withInitial(() -> {
 				return ObjectPool.create(EntityEditImpl.class,
@@ -19,7 +19,7 @@ public class DefaultInterfaceEntity extends DefaultEntity
 	private Class[] types; // temporarily for validating component types
 
 	public DefaultInterfaceEntity(InterfaceEntityData ed, EntityId id,
-			SimulationEntityComponent[] components, Class[] types)
+			SimulationComponent[] components, Class[] types)
 	{
 		super(ed, id, components, types);
 		this.ed = ed;
@@ -59,7 +59,7 @@ public class DefaultInterfaceEntity extends DefaultEntity
 	}
 
 	@Override
-	public SimulationEntityComponent[] getComponents()
+	public SimulationComponent[] getComponents()
 	{
 		return components;
 	}
@@ -125,26 +125,26 @@ public class DefaultInterfaceEntity extends DefaultEntity
 	}
 
 	@Override
-	public <T extends SimulationEntityComponent> EntityEdit<T> addC(Class<T> c)
+	public <T extends SimulationComponent> EntityEdit<T> addC(Class<T> c)
 	{
 		return replace(c, true);
 	}
 
 	@Override
-	public <T extends SimulationEntityComponent> T getC(Class<T> c)
+	public <T extends SimulationComponent> T getC(Class<T> c)
 	{
 		return replace(c, false);
 	}
 
 	@Override
-	public <T extends SimulationEntityComponent> EntityEdit<T> editC(
+	public <T extends SimulationComponent> EntityEdit<T> editC(
 			Class<T> type)
 	{
 		T cmp = this.getC(type);
 		return getEntityEdit(cmp);
 	}
 
-	private EntityEditImpl getEntityEdit(SimulationEntityComponent cmp)
+	private EntityEditImpl getEntityEdit(SimulationComponent cmp)
 	{
 		ObjectPool<EntityEditImpl> objectPool = entityEditPool_TL.get();
 		EntityEditImpl entityEdit = objectPool.get();
@@ -155,7 +155,7 @@ public class DefaultInterfaceEntity extends DefaultEntity
 		return entityEdit;
 	}
 
-	private <T extends SimulationEntityComponent> T replace(Class c,
+	private <T extends SimulationComponent> T replace(Class c,
 			boolean create)
 	{
 		for (int i = 0; i < types.length; i++)
@@ -180,13 +180,13 @@ public class DefaultInterfaceEntity extends DefaultEntity
 	}
 
 	@Override
-	public <T extends SimulationEntityComponent> void removeC(Class<T> c)
+	public <T extends SimulationComponent> void removeC(Class<T> c)
 	{
 		for (int i = 0; i < types.length; i++)
 		{
 			if (components[i] != null && c.isAssignableFrom(types[i]))
 			{
-				SimulationEntityComponent cmp = components[i];
+				SimulationComponent cmp = components[i];
 				this.ed.removeComponent(id, types[i]);
 				components[i] = null;
 				cmp.reset();

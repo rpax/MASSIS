@@ -26,8 +26,8 @@ import com.massisframework.massis.model.systems.sh3d.SweetHome3DFurniture;
 import com.massisframework.massis.model.systems.sh3d.SweetHome3DLevel;
 import com.massisframework.massis.sim.FilterParams;
 import com.massisframework.massis.sim.ecs.ComponentFilter;
-import com.massisframework.massis.sim.ecs.SimulationEngine;
 import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
+import com.massisframework.massis.sim.ecs.SimulationEngine;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
 
 public class HomeDisplay3D extends JFrame implements SimulationSystem {

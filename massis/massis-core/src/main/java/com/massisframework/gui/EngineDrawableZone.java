@@ -4,8 +4,8 @@ import com.google.inject.Provider;
 import com.massisframework.massis.model.components.Floor;
 import com.massisframework.massis.model.components.NameComponent;
 import com.massisframework.massis.sim.ecs.ComponentFilterBuilder;
-import com.massisframework.massis.sim.ecs.SimulationEngine;
 import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
+import com.massisframework.massis.sim.ecs.SimulationEngine;
 
 public class EngineDrawableZone implements DrawableZone {
 

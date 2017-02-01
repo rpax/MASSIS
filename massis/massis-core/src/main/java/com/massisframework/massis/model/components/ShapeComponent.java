@@ -2,7 +2,7 @@ package com.massisframework.massis.model.components;
 
 import java.awt.Shape;
 
-import com.massisframework.massis.sim.ecs.SimulationComponent;
+import com.massisframework.massis.sim.ecs.zayes.SimulationComponent;
 
 public interface ShapeComponent extends SimulationComponent {
 

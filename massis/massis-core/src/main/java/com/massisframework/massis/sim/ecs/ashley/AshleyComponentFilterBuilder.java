@@ -10,8 +10,8 @@ import com.badlogic.ashley.core.Family.Builder;
 import com.google.inject.Inject;
 import com.massisframework.massis.sim.ecs.ComponentFilter;
 import com.massisframework.massis.sim.ecs.ComponentFilterBuilder;
-import com.massisframework.massis.sim.ecs.SimulationComponent;
 import com.massisframework.massis.sim.ecs.injection.SimulationConfiguration;
+import com.massisframework.massis.sim.ecs.zayes.SimulationComponent;
 
 public class AshleyComponentFilterBuilder implements ComponentFilterBuilder {
 

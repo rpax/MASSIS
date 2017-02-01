@@ -8,11 +8,11 @@ import java.util.Map;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
-import com.massisframework.massis.sim.ecs.SimulationComponent;
-import com.massisframework.massis.sim.ecs.SimulationEngine;
 import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
+import com.massisframework.massis.sim.ecs.SimulationEngine;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
 import com.massisframework.massis.sim.ecs.injection.components.MessageHandler;
+import com.massisframework.massis.sim.ecs.zayes.SimulationComponent;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 

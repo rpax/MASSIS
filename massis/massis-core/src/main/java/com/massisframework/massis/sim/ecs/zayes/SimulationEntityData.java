@@ -15,12 +15,12 @@ public interface SimulationEntityData {
 
 	public void removeEntity(EntityId entityId);
 
-	public <T extends SimulationEntityComponent> T add(EntityId entityId,
+	public <T extends SimulationComponent> T add(EntityId entityId,
 			Class<T> component);
 
 	public boolean removeComponent(EntityId entityId, Class type);
 
-	public <T extends SimulationEntityComponent> T get(EntityId entityId,
+	public <T extends SimulationComponent> T get(EntityId entityId,
 			Class<T> type);
 
 	public Entity getEntity(EntityId entityId, Class... types);

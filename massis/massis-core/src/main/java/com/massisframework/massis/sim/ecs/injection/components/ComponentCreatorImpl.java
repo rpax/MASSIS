@@ -13,8 +13,8 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.massisframework.massis.sim.SimulationScheduler;
 import com.massisframework.massis.sim.SimulationSteppable;
-import com.massisframework.massis.sim.ecs.SimulationComponent;
 import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
+import com.massisframework.massis.sim.ecs.zayes.SimulationComponent;
 
 public class ComponentCreatorImpl<E extends OLDSimulationEntity<E>>
 		implements ComponentCreator<E> {

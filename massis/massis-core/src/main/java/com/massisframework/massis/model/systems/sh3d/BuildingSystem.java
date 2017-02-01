@@ -35,11 +35,11 @@ import com.massisframework.massis.model.systems.rendering.renderers.AgentArrowRe
 import com.massisframework.massis.model.systems.rendering.renderers.DoorRenderer;
 import com.massisframework.massis.model.systems.rendering.renderers.RoomRenderer;
 import com.massisframework.massis.model.systems.rendering.renderers.WallRenderer;
-import com.massisframework.massis.sim.ecs.SimulationComponent;
-import com.massisframework.massis.sim.ecs.SimulationEngine;
 import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
+import com.massisframework.massis.sim.ecs.SimulationEngine;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
 import com.massisframework.massis.sim.ecs.injection.SimulationConfiguration;
+import com.massisframework.massis.sim.ecs.zayes.SimulationComponent;
 import com.massisframework.massis.util.SH3DUtils;
 import com.massisframework.massis.util.SimObjectProperty;
 

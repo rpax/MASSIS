@@ -2,7 +2,7 @@ package com.massisframework.massis.sim.ecs.zayes;
 
 import com.simsilica.es.EntityData;
 
-public class EntityEditImpl<T extends SimulationEntityComponent>
+public class EntityEditImpl<T extends SimulationComponent>
 		implements EntityEdit<T>, Reseteable {
 
 	private Object cmp;

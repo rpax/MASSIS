@@ -3,7 +3,6 @@ package com.massisframework.massis.sim.ecs.zayes;
 import java.util.Set;
 
 import com.simsilica.es.ComponentFilter;
-import com.simsilica.es.Entity;
 import com.simsilica.es.EntityId;
 import com.simsilica.es.base.DefaultEntitySet;
 
@@ -40,7 +39,7 @@ public class InterfaceEntitySet extends DefaultEntitySet {
 		// just as easily called ed.getEntity() for each ID.
 
 		// Now we have the info needed to build the entity set
-		SimulationEntityComponent[] buffer = new SimulationEntityComponent[types.length];
+		SimulationComponent[] buffer = new SimulationComponent[types.length];
 		for (EntityId id : idSet)
 		{
 			// If we already have the entity then it is not a new
@@ -55,7 +54,7 @@ public class InterfaceEntitySet extends DefaultEntitySet {
 
 			for (int i = 0; i < buffer.length; i++)
 			{
-				buffer[i] = (SimulationEntityComponent) ed.getComponent(id,
+				buffer[i] = (SimulationComponent) ed.getComponent(id,
 						types[i]);
 			}
 

@@ -3,9 +3,7 @@ package com.massisframework.massis.sim.ecs.zayes;
 import java.util.Iterator;
 import java.util.Set;
 
-import com.simsilica.es.ComponentFilter;
 import com.simsilica.es.EntityId;
-import com.simsilica.es.EntitySet;
 
 public class EntitySetWrapper implements SimulationEntitySet {
 

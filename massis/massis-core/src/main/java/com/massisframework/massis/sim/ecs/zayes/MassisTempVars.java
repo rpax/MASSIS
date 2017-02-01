@@ -1,8 +1,5 @@
 package com.massisframework.massis.sim.ecs.zayes;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Temporary variables assigned to each thread. Engine classes may access these
  * temp variables with TempVars.get(), all retrieved TempVars instances must be

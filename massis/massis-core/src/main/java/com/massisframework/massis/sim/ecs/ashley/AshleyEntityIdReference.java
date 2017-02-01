@@ -1,6 +1,6 @@
 package com.massisframework.massis.sim.ecs.ashley;
 
-import com.massisframework.massis.sim.ecs.SimulationComponent;
+import com.massisframework.massis.sim.ecs.zayes.SimulationComponent;
 
 public class AshleyEntityIdReference implements SimulationComponent {
 

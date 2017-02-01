@@ -1,7 +1,7 @@
 package com.massisframework.massis.model.systems.sh3d;
 
 import com.eteks.sweethome3d.model.Room;
-import com.massisframework.massis.sim.ecs.SimulationComponent;
+import com.massisframework.massis.sim.ecs.zayes.SimulationComponent;
 
 public class SweetHome3DRoom implements SimulationComponent {
 

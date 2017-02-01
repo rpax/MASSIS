@@ -10,8 +10,8 @@ import com.massisframework.massis.model.components.FloorReference;
 import com.massisframework.massis.model.components.Position2D;
 import com.massisframework.massis.sim.FilterParams;
 import com.massisframework.massis.sim.ecs.ComponentFilter;
-import com.massisframework.massis.sim.ecs.SimulationEngine;
 import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
+import com.massisframework.massis.sim.ecs.SimulationEngine;
 import com.massisframework.massis.sim.ecs.injection.components.EntityReference;
 
 public class FloorImpl implements Floor {

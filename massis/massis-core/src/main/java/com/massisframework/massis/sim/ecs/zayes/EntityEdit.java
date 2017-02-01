@@ -1,6 +1,6 @@
 package com.massisframework.massis.sim.ecs.zayes;
 
-public interface EntityEdit<T extends SimulationEntityComponent>
+public interface EntityEdit<T extends SimulationComponent>
 		extends Reseteable {
 
 	public T get();

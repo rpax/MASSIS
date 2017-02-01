@@ -6,7 +6,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import com.massisframework.massis.sim.ecs.SimulationComponent;
+import com.massisframework.massis.sim.ecs.zayes.SimulationComponent;
 
 @Retention(RUNTIME)
 @Target(FIELD)

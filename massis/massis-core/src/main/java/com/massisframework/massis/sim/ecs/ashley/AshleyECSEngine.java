@@ -18,14 +18,10 @@ import com.massisframework.massis.sim.SimulationScheduler;
 import com.massisframework.massis.sim.SimulationSteppable;
 import com.massisframework.massis.sim.ecs.ComponentFilter;
 import com.massisframework.massis.sim.ecs.MapsFactory;
-import com.massisframework.massis.sim.ecs.MurmurHash3;
-import com.massisframework.massis.sim.ecs.SimulationEngine;
 import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
+import com.massisframework.massis.sim.ecs.SimulationEngine;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
 import com.massisframework.massis.sim.ecs.injection.SystemCreator;
-
-import it.unimi.dsi.fastutil.ints.IntHash.Strategy;
-import it.unimi.dsi.fastutil.longs.Long2ObjectOpenCustomHashMap;
 
 @Singleton
 public class AshleyECSEngine

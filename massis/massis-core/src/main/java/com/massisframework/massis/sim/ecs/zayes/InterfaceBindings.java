@@ -12,7 +12,7 @@ import com.massisframework.massis.sim.ecs.injection.SimulationConfiguration;
 
 public class InterfaceBindings {
 
-	private Map<Class<? extends SimulationEntityComponent>, Class<? extends SimulationEntityComponent>> bindings = new HashMap<>();
+	private Map<Class<? extends SimulationComponent>, Class<? extends SimulationComponent>> bindings = new HashMap<>();
 
 	public static InterfaceBindingsBuilder builder()
 	{
@@ -24,14 +24,14 @@ public class InterfaceBindings {
 		return Collections.unmodifiableMap(this.bindings);
 	}
 
-	public <I extends SimulationEntityComponent, C extends I> Class<C> getBinding(
+	public <I extends SimulationComponent, C extends I> Class<C> getBinding(
 			Class<I> type)
 	{
 		return getBinding(type, true);
 	}
 
 	@SuppressWarnings("unchecked")
-	public <I extends SimulationEntityComponent, C extends I> Class<C> getBinding(
+	public <I extends SimulationComponent, C extends I> Class<C> getBinding(
 			Class<I> type, boolean loadDefaultIfNotExists)
 	{
 		if (loadDefaultIfNotExists)
@@ -45,7 +45,7 @@ public class InterfaceBindings {
 
 	public interface SimulationConfigurationBuilder {
 
-		<I extends SimulationEntityComponent> ToBindingBuilder<I> map(
+		<I extends SimulationComponent> ToBindingBuilder<I> map(
 				Class<I> source);
 
 		SimulationConfigurationBuilder withEngine(
@@ -60,7 +60,7 @@ public class InterfaceBindings {
 		SimulationConfiguration build(File buildingFile);
 	}
 
-	public interface ToBindingBuilder<I extends SimulationEntityComponent> {
+	public interface ToBindingBuilder<I extends SimulationComponent> {
 		InterfaceBindingsBuilder to(Class<? extends I> target);
 	}
 
@@ -68,7 +68,7 @@ public class InterfaceBindings {
 
 		private InterfaceBindings config = new InterfaceBindings();
 
-		public <I extends SimulationEntityComponent> ToBindingBuilder<I> map(
+		public <I extends SimulationComponent> ToBindingBuilder<I> map(
 				final Class<I> source)
 		{
 			return target -> {

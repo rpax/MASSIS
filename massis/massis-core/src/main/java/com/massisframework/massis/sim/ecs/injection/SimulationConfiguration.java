@@ -9,10 +9,10 @@ import java.util.HashSet;
 import java.util.Map;
 
 import com.massisframework.massis.sim.SimulationScheduler;
-import com.massisframework.massis.sim.ecs.SimulationComponent;
-import com.massisframework.massis.sim.ecs.SimulationEngine;
 import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
+import com.massisframework.massis.sim.ecs.SimulationEngine;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
+import com.massisframework.massis.sim.ecs.zayes.SimulationComponent;
 
 public class SimulationConfiguration {
 

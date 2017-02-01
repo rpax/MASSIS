@@ -9,8 +9,8 @@ import com.massisframework.massis.model.components.Position2D;
 import com.massisframework.massis.model.components.Velocity;
 import com.massisframework.massis.sim.ecs.ComponentFilter;
 import com.massisframework.massis.sim.ecs.ComponentFilterBuilder;
-import com.massisframework.massis.sim.ecs.SimulationEngine;
 import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
+import com.massisframework.massis.sim.ecs.SimulationEngine;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
 import com.massisframework.massis.util.geom.KVector;
 

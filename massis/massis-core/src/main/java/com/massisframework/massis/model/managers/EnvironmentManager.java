@@ -6,8 +6,8 @@ import com.google.inject.Inject;
 import com.massisframework.massis.model.components.Floor;
 import com.massisframework.massis.model.components.FloorReference;
 import com.massisframework.massis.model.components.Position2D;
-import com.massisframework.massis.sim.ecs.SimulationEngine;
 import com.massisframework.massis.sim.ecs.OLDSimulationEntity;
+import com.massisframework.massis.sim.ecs.SimulationEngine;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
 
 /**

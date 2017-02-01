@@ -5,10 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.common.collect.HashBiMap;
 import com.google.inject.Inject;
 import com.simsilica.es.ComponentFilter;
-import com.simsilica.es.Entity;
 import com.simsilica.es.EntityId;
 import com.simsilica.es.EntitySet;
 import com.simsilica.es.base.ComponentHandler;
@@ -100,7 +98,7 @@ public class InterfaceEntityData extends DefaultEntityData
 	}
 
 	@Override
-	public <T extends SimulationEntityComponent> T add(EntityId entityId,
+	public <T extends SimulationComponent> T add(EntityId entityId,
 			Class<T> component)
 	{
 		//
@@ -110,7 +108,7 @@ public class InterfaceEntityData extends DefaultEntityData
 	}
 
 	@Override
-	public <T extends SimulationEntityComponent> T get(EntityId entityId,
+	public <T extends SimulationComponent> T get(EntityId entityId,
 			Class<T> type)
 	{
 		return super.getComponent(entityId, type);

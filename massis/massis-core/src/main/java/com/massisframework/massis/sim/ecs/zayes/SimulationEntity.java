@@ -4,15 +4,15 @@ import com.simsilica.es.EntityId;
 
 public interface SimulationEntity {
 
-	public SimulationEntityComponent[] getComponents();
+	public SimulationComponent[] getComponents();
 
-	public <T extends SimulationEntityComponent> EntityEdit<T> addC(Class<T> c);
+	public <T extends SimulationComponent> EntityEdit<T> addC(Class<T> c);
 
-	public <T extends SimulationEntityComponent> T getC(Class<T> c);
+	public <T extends SimulationComponent> T getC(Class<T> c);
 
-	public <T extends SimulationEntityComponent> void removeC(Class<T> c);
+	public <T extends SimulationComponent> void removeC(Class<T> c);
 
-	public <T extends SimulationEntityComponent> EntityEdit<T> editC(
+	public <T extends SimulationComponent> EntityEdit<T> editC(
 			Class<T> c);
 
 	public EntityId getId();
