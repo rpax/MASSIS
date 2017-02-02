@@ -1,8 +1,11 @@
 package com.massisframework.massis.model.systems.rendering;
 
 import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.massisframework.massis.javafx.util.ApplicationLauncher;
 import com.massisframework.massis.model.components.RenderComponent;
 import com.massisframework.massis.model.components.ShapeComponent;
@@ -15,10 +18,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
+@Singleton
 public class JFXDisplaySystem implements SimulationSystem {
 
 	// TODO
-	private Simulation2DWindow window;
+	private CompletableFuture<Simulation2DWindow> window=new CompletableFuture<>();;
 
 	@Inject
 	private SimulationEntityData ed;
@@ -28,7 +32,8 @@ public class JFXDisplaySystem implements SimulationSystem {
 	@Override
 	public void initialize()
 	{
-		this.entities = this.ed.createEntitySet(RenderComponent.class,TransformComponent.class,ShapeComponent.class);
+		this.entities = this.ed.createEntitySet(RenderComponent.class,
+				TransformComponent.class, ShapeComponent.class);
 
 		ApplicationLauncher.launchWrappedApplication((stage, app) -> {
 			try
@@ -36,13 +41,13 @@ public class JFXDisplaySystem implements SimulationSystem {
 				FXMLLoader loader = new FXMLLoader(getClass()
 						.getResource("Simulation2DWindow.fxml"));
 				Parent root = loader.load();
-				this.window = loader.getController();
+				Simulation2DWindow controller = loader.getController();
+				this.window.complete(controller);
 				stage.setScene(new Scene(root, 800, 600));
 				stage.show();
 			} catch (IOException e)
 			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				this.window.completeExceptionally(e);
 			}
 		});
 	}
@@ -51,8 +56,14 @@ public class JFXDisplaySystem implements SimulationSystem {
 	public void update(float deltaTime)
 	{
 		this.entities.applyChanges();
-		
-		window.setEntities(this.entities);
+		try
+		{
+			window.get().setEntities(this.entities);
+		} catch (InterruptedException | ExecutionException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

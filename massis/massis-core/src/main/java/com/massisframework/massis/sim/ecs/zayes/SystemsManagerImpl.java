@@ -86,7 +86,7 @@ public class SystemsManagerImpl implements SystemsManager {
 			if (!hasState(stateType))
 			{
 				SimulationSystem state = systemsCreator.createSystem(stateType);
-				state.initialize();
+				System.out.println("creating "+state);
 				initializing.add(state);
 				return true;
 			} else

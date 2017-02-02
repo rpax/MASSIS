@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-import java.util.logging.Logger;
 
 public class ObjectPool<T> {
 	private Consumer<T> resetter;
@@ -32,7 +31,6 @@ public class ObjectPool<T> {
 
 	public T get()
 	{
-		System.out.println("retrieved item. Cache size: " + this.cache.size());
 		if (cache.size() > 0)
 			return cache.remove(cache.size() - 1);
 		else
@@ -45,8 +43,6 @@ public class ObjectPool<T> {
 	{
 		this.resetter.accept(component);
 		cache.add(component);
-		Logger.getLogger(getClass().getName())
-				.info("freed item. Cache size: " + this.cache.size());
 	}
 
 }

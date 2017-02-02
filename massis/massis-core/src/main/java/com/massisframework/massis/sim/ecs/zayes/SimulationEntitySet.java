@@ -1,10 +1,11 @@
 package com.massisframework.massis.sim.ecs.zayes;
 
 import java.util.Set;
+import java.util.stream.Stream;
 
 import com.simsilica.es.EntityId;
 
-public interface SimulationEntitySet extends Iterable<SimulationEntity>{
+public interface SimulationEntitySet extends Iterable<SimulationEntity> {
 
 	/**
 	 * Returns true if this set contains the entity with the specified ID.
@@ -26,6 +27,13 @@ public interface SimulationEntitySet extends Iterable<SimulationEntity>{
 	 * Returns the entities that were added during applyChanges().
 	 */
 	public Set<SimulationEntity> getAddedEntities();
+
+	public default Iterable<SimulationEntity> getActiveEntities()
+	{
+		return Stream.concat(
+				getAddedEntities().stream(),
+				getChangedEntities().stream())::iterator;
+	}
 
 	/**
 	 * Returns the entities that were changed during applyChanges().

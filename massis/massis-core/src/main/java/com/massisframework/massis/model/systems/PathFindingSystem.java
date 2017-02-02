@@ -19,8 +19,6 @@ import com.massisframework.massis.sim.ecs.zayes.SimulationEntitySet;
 import com.massisframework.massis.util.geom.CoordinateHolder;
 import com.massisframework.massis.util.geom.KVector;
 
-import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-
 public class PathFindingSystem implements SimulationSystem {
 
 	private Map<Long, SEPathFinder> pathFinders;
@@ -43,8 +41,8 @@ public class PathFindingSystem implements SimulationSystem {
 		this.pathFinders = CollectionsFactory.newMap(Long.class,
 				SEPathFinder.class);
 		this.floors = this.ed.createEntitySet(Floor.class);
-		this.followers = this.ed.createEntitySet(FollowTarget.class,
-				FloorReference.class,
+		this.followers = this.ed.createEntitySet(
+				FollowTarget.class,
 				TransformComponent.class);
 	}
 
@@ -60,12 +58,12 @@ public class PathFindingSystem implements SimulationSystem {
 
 			}
 		}
-
 		if (this.followers.applyChanges())
 		{
-			for (SimulationEntity e : this.followers.getAddedEntities())
+			for (SimulationEntity e : this.followers.getActiveEntities())
 			{
-
+				System.out.println("ASD");
+				
 				CoordinateHolder target = e.getC(FollowTarget.class)
 						.getTarget();
 
