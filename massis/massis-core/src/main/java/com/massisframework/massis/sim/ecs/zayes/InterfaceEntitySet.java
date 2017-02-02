@@ -2,11 +2,13 @@ package com.massisframework.massis.sim.ecs.zayes;
 
 import java.util.Set;
 
+import com.massisframework.massis.sim.ecs.SimulationComponent;
 import com.simsilica.es.ComponentFilter;
 import com.simsilica.es.EntityId;
 import com.simsilica.es.base.DefaultEntitySet;
 
-public class InterfaceEntitySet extends DefaultEntitySet {
+@SuppressWarnings({ "rawtypes", "unchecked" })
+class InterfaceEntitySet extends DefaultEntitySet {
 
 	private InterfaceEntityData ed;
 	private Class[] types;
@@ -20,13 +22,12 @@ public class InterfaceEntitySet extends DefaultEntitySet {
 
 	}
 
-	
-
 	/**
 	 * Called to have the entity set load its initial set of data. This is
 	 * called during creation (but not construction) and when the filter is
 	 * reset.
 	 */
+
 	protected void loadEntities(boolean reload)
 	{
 
@@ -54,8 +55,7 @@ public class InterfaceEntitySet extends DefaultEntitySet {
 
 			for (int i = 0; i < buffer.length; i++)
 			{
-				buffer[i] = (SimulationComponent) ed.getComponent(id,
-						types[i]);
+				buffer[i] = (SimulationComponent) ed.getComponent(id, types[i]);
 			}
 
 			// Now create the entity

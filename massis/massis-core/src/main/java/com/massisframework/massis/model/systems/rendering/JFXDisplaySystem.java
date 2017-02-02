@@ -10,9 +10,9 @@ import com.massisframework.massis.javafx.util.ApplicationLauncher;
 import com.massisframework.massis.model.components.RenderComponent;
 import com.massisframework.massis.model.components.ShapeComponent;
 import com.massisframework.massis.model.components.TransformComponent;
+import com.massisframework.massis.sim.ecs.SimulationEntityData;
+import com.massisframework.massis.sim.ecs.SimulationEntitySet;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
-import com.massisframework.massis.sim.ecs.zayes.SimulationEntityData;
-import com.massisframework.massis.sim.ecs.zayes.SimulationEntitySet;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

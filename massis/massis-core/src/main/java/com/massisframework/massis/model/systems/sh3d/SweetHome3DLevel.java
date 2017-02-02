@@ -1,7 +1,7 @@
 package com.massisframework.massis.model.systems.sh3d;
 
 import com.eteks.sweethome3d.model.Level;
-import com.massisframework.massis.sim.ecs.zayes.SimulationComponent;
+import com.massisframework.massis.sim.ecs.SimulationComponent;
 
 public class SweetHome3DLevel implements SimulationComponent {
 

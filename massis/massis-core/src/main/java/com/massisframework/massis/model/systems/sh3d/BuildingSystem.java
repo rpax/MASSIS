@@ -31,10 +31,10 @@ import com.massisframework.massis.model.systems.rendering.renderers.AgentArrowRe
 import com.massisframework.massis.model.systems.rendering.renderers.DoorRenderer;
 import com.massisframework.massis.model.systems.rendering.renderers.RoomRenderer;
 import com.massisframework.massis.model.systems.rendering.renderers.WallRenderer;
+import com.massisframework.massis.sim.ecs.SimulationComponent;
+import com.massisframework.massis.sim.ecs.SimulationEntity;
+import com.massisframework.massis.sim.ecs.SimulationEntityData;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
-import com.massisframework.massis.sim.ecs.zayes.SimulationComponent;
-import com.massisframework.massis.sim.ecs.zayes.SimulationEntity;
-import com.massisframework.massis.sim.ecs.zayes.SimulationEntityData;
 import com.massisframework.massis.util.SH3DUtils;
 import com.massisframework.massis.util.SimObjectProperty;
 import com.simsilica.es.EntityId;
@@ -79,33 +79,33 @@ public class BuildingSystem implements SimulationSystem {
 
 	private void createLevel(Level lvl)
 	{
-		EntityId floorId = this.ed.createEntity();
+		SimulationEntity floorEntity = this.ed.createEntity();
 
-		ed.add(floorId, SweetHome3DLevel.class)
-				.set(SweetHome3DLevel::setLevel, lvl)
-				.commit();
-		ed.add(floorId, Floor.class).commit();
+		floorEntity
+				.addC(SweetHome3DLevel.class)
+				.set(SweetHome3DLevel::setLevel, lvl);
+		// TODO max min...etc
+		floorEntity.addC(Floor.class);
+
 		String floorName = "NONAME";
 		if (lvl != null && lvl.getName() != null)
 		{
 			floorName = lvl.getName();
 		}
-		ed
-				.add(floorId, NameComponent.class)
-				.set(NameComponent::set, floorName)
-				.commit();
+		floorEntity
+				.addC(NameComponent.class)
+				.set(NameComponent::set, floorName);
 
 		this.home.getWalls()
 				.stream()
 				.filter(w -> w.getLevel() == lvl)
 				.forEach(w -> {
-					SimulationEntity wallEntity = createEntity(floorId.getId(),
-							w);
-					wallEntity.addC(WallComponent.class).commit();
-					wallEntity.addC(RenderComponent.class)
-							.set(RenderComponent::setRenderer,
-									WallRenderer.renderer)
-							.commit();
+					SimulationEntity wallEntity = createEntity(
+							floorEntity.getId().getId(), w);
+					wallEntity.addC(WallComponent.class);
+					wallEntity.addC(RenderComponent.class).set(
+							RenderComponent::setRenderer,
+							WallRenderer.renderer);
 
 				});
 
@@ -113,22 +113,22 @@ public class BuildingSystem implements SimulationSystem {
 				.stream()
 				.filter(w -> w.getLevel() == lvl)
 				.forEach(w -> {
-					SimulationEntity roomEntity = createEntity(floorId.getId(),
+					SimulationEntity roomEntity = createEntity(
+							floorEntity.getId().getId(),
 							w);
 					//
 
-					roomEntity.addC(RoomComponent.class).commit()
-							.addC(RenderComponent.class)
+					roomEntity.addC(RoomComponent.class);
+					roomEntity.addC(RenderComponent.class)
 							.set(RenderComponent::setRenderer,
-									RoomRenderer.renderer)
-							.commit();
+									RoomRenderer.renderer);
 
 				});
 		this.home.getFurniture()
 				.stream()
 				.filter(w -> w.getLevel() == lvl)
 				.forEach(w -> {
-					createFurnitureComponent(floorId.getId(), w);
+					createFurnitureComponent(floorEntity.getId().getId(), w);
 				});
 	}
 
@@ -136,45 +136,42 @@ public class BuildingSystem implements SimulationSystem {
 	{
 		SimulationEntity e = createEntity(floorId, f);
 		e.addC(SweetHome3DFurniture.class)
-				.set(SweetHome3DFurniture::setFurniture, f)
-				.commit();
+				.set(SweetHome3DFurniture::setFurniture, f);
 		e.editC(TransformComponent.class)
-				.set(TransformComponent::setAngle, f.getAngle())
-				.commit();
+		.set(TransformComponent::setAngle,f.getAngle());
 		if (f instanceof HomeDoorOrWindow)
 		{
 			// Comprobar si es ventana o no
 			if (isWindow(f))
 			{
-				e.addC(WindowComponent.class).commit();
+				e.addC(WindowComponent.class);
 
 			} else
 			{
-				e.addC(DoorComponent.class).commit();
+				e.addC(DoorComponent.class);
 				e.addC(RenderComponent.class)
 						.set(RenderComponent::setRenderer,
-								DoorRenderer.renderer)
-						.commit();
+								DoorRenderer.renderer);
+
 			}
 		} else
 		{
 
-			e.addC(Velocity.class).commit();
-			e.addC(VisionArea.class).commit();
-			e.addC(EntityRangeFinder.class).commit();
+			e.addC(Velocity.class);
+			e.addC(VisionArea.class);
+			e.addC(EntityRangeFinder.class);
 			e.addC(RenderComponent.class)
 					.set(RenderComponent::setRenderer,
-							AgentArrowRenderer.renderer)
-					.commit();
+							AgentArrowRenderer.renderer);
 			String className = getMetadata(f)
 					.get(SimObjectProperty.CLASSNAME.toString());
 			if (className != null)
 			{
-				e.addC(DynamicObstacle.class).commit();
+				e.addC(DynamicObstacle.class);
 				try
 				{
 					e.addC((Class<? extends SimulationComponent>) Class
-							.forName(className)).commit();
+							.forName(className));
 				} catch (ClassNotFoundException e1)
 				{
 					throw new RuntimeException(e1);
@@ -204,17 +201,23 @@ public class BuildingSystem implements SimulationSystem {
 	{
 		KPolygon shape = SH3DUtils.createKPolygonFromSH3DObj(w);
 		KPoint center = shape.getCenter();
-		EntityId entityId = this.ed.createEntity();
+		SimulationEntity entity = this.ed.createEntity();
 
-		ed.addGet(entityId, FloorReference.class).setFloorId(floorId);
-		ed.addGet(entityId, Metadata.class).set(getMetadata((HomeObject) w));
-		ed.get(entityId, TransformComponent.class)
-				.setX((float) center.x).setY((float) center.y);
-		ed.add(entityId, ShapeComponentImpl.class)
-				.set(ShapeComponentImpl::setShape, shape)
-				.commit();
+		entity.addC(FloorReference.class).set(FloorReference::setFloorId,
+				floorId);
+		entity.addC(Metadata.class).set(Metadata::set,
+				getMetadata((HomeObject) w));
 
-		return ed.getSimulationEntity(entityId);
+		entity.editC(TransformComponent.class)
+				.set(TransformComponent::setX, center.x)
+				.set(TransformComponent::setY, center.y);
+
+		shape.translateTo(0, 0);
+
+		entity.addC(ShapeComponentImpl.class)
+				.set(ShapeComponentImpl::setShape, shape);
+
+		return entity;
 	}
 
 	private Map<String, String> getMetadata(HomeObject f)

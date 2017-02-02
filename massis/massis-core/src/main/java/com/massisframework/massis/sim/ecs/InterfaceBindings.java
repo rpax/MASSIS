@@ -1,4 +1,4 @@
-package com.massisframework.massis.sim.ecs.zayes;
+package com.massisframework.massis.sim.ecs;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Set;
 
 import com.massisframework.massis.sim.SimulationScheduler;
-import com.massisframework.massis.sim.ecs.SimulationSystem;
 
 public class InterfaceBindings {
 
@@ -20,7 +19,7 @@ public class InterfaceBindings {
 		return new InterfaceBindingsBuilder();
 	}
 
-	public Map<Class<?>, Class<?>> getBindings()
+	public Map<Class<? extends SimulationComponent>, Class<? extends SimulationComponent>> getBindings()
 	{
 		return Collections.unmodifiableMap(this.bindings);
 	}

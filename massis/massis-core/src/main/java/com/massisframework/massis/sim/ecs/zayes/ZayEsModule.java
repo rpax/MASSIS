@@ -9,8 +9,15 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.massisframework.massis.sim.ecs.EntityComponentCreator;
+import com.massisframework.massis.sim.ecs.InterfaceBindings;
+import com.massisframework.massis.sim.ecs.SimulationComponent;
+import com.massisframework.massis.sim.ecs.SimulationEntityData;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
+import com.massisframework.massis.sim.ecs.SimulationSystemCreator;
+import com.massisframework.massis.sim.ecs.SystemsManager;
 
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class ZayEsModule extends AbstractModule {
 
 	private InterfaceBindings interfaceBindings;
@@ -20,7 +27,6 @@ public class ZayEsModule extends AbstractModule {
 		this.interfaceBindings = interfaceBindings;
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	protected void configure()
 	{
@@ -28,10 +34,8 @@ public class ZayEsModule extends AbstractModule {
 		this.interfaceBindings.getBindings().forEach((itf, impl) -> {
 			bind(itf).to((Class) impl);
 		});
-		bind(SimulationEntityData.class).to(InterfaceEntityData.class)
-				.in(Singleton.class);
-		bind(SystemsManager.class).to(SystemsManagerImpl.class)
-				.in(Singleton.class);
+		bind(SimulationEntityData.class).to(SimulationEntityDataImpl.class).in(Singleton.class);
+		bind(SystemsManager.class).to(SystemsManagerImpl.class).in(Singleton.class);
 		try
 		{
 			HomeRecorder recorder = new HomeFileRecorder();

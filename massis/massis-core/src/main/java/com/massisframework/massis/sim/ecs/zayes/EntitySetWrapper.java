@@ -3,10 +3,12 @@ package com.massisframework.massis.sim.ecs.zayes;
 import java.util.Iterator;
 import java.util.Set;
 
+import com.massisframework.massis.sim.ecs.SimulationEntity;
+import com.massisframework.massis.sim.ecs.SimulationEntitySet;
 import com.simsilica.es.EntityId;
 
-public class EntitySetWrapper implements SimulationEntitySet {
-
+@SuppressWarnings({ "unchecked", "rawtypes" })
+class EntitySetWrapper implements SimulationEntitySet {
 	private InterfaceEntitySet es;
 
 	public EntitySetWrapper(InterfaceEntitySet es)

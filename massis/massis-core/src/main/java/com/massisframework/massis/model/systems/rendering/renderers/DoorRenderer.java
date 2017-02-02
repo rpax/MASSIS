@@ -3,7 +3,7 @@ package com.massisframework.massis.model.systems.rendering.renderers;
 import com.massisframework.massis.model.components.DoorComponent;
 import com.massisframework.massis.model.components.JFXRenderer;
 import com.massisframework.massis.model.components.ShapeComponent;
-import com.massisframework.massis.sim.ecs.zayes.SimulationEntity;
+import com.massisframework.massis.sim.ecs.SimulationEntity;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;

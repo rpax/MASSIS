@@ -4,9 +4,11 @@ import java.util.Collections;
 import java.util.List;
 
 import com.massisframework.massis.sim.ecs.CollectionsFactory;
+import com.massisframework.massis.sim.ecs.SimulationComponent;
+import com.massisframework.massis.sim.ecs.SimulationEntity;
 import com.simsilica.es.EntityId;
 
-public class ChildrenComponent implements SimulationComponent {
+class ChildrenComponent implements SimulationComponent {
 
 	private List<Long> children;
 

@@ -1,4 +1,4 @@
-package com.massisframework.massis.sim.ecs;
+package com.massisframework.massis.sim;
 
 public interface UIDProvider {
 

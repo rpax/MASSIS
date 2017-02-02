@@ -2,28 +2,36 @@ package com.massisframework.massis.sim.ecs;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Supplier;
 
 import it.unimi.dsi.fastutil.doubles.DoubleArrayList;
+import it.unimi.dsi.fastutil.doubles.DoubleOpenHashSet;
 import it.unimi.dsi.fastutil.floats.FloatArrayList;
+import it.unimi.dsi.fastutil.floats.FloatOpenHashSet;
 import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
 import it.unimi.dsi.fastutil.ints.Int2LongOpenHashMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.longs.Long2IntOpenHashMap;
 import it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.longs.LongArrayList;
+import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import it.unimi.dsi.fastutil.shorts.ShortArrayList;
+import it.unimi.dsi.fastutil.shorts.ShortOpenHashSet;
 
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class CollectionsFactory {
 
 	private static final List<MapFactory> MAP_FACTORIES;
 	private static final Map<Class, Supplier<List>> LIST_FACTORIES;
+	private static final Map<Class, Supplier<Set>> SET_FACTORIES;
 
 	static
 	{
@@ -45,6 +53,13 @@ public class CollectionsFactory {
 		LIST_FACTORIES.put(Long.class, LongArrayList::new);
 		LIST_FACTORIES.put(Float.class, FloatArrayList::new);
 		LIST_FACTORIES.put(Double.class, DoubleArrayList::new);
+
+		SET_FACTORIES = new HashMap<>();
+		SET_FACTORIES.put(Short.class, ShortOpenHashSet::new);
+		SET_FACTORIES.put(Integer.class, IntOpenHashSet::new);
+		SET_FACTORIES.put(Long.class, LongOpenHashSet::new);
+		SET_FACTORIES.put(Float.class, FloatOpenHashSet::new);
+		SET_FACTORIES.put(Double.class, DoubleOpenHashSet::new);
 
 	}
 
@@ -127,5 +142,17 @@ public class CollectionsFactory {
 			return new CopyOnWriteArrayList<>(this.factories);
 		}
 
+	}
+
+	
+
+	public static <T> Set<T> newSet(Class<T> type)
+	{
+		Supplier<Set> supplier = SET_FACTORIES.get(type);
+		if (supplier == null)
+		{
+			return new HashSet<>();
+		}
+		return (Set<T>) supplier.get();
 	}
 }

@@ -3,7 +3,7 @@ package com.massisframework.massis.model.components.impl;
 import java.util.Collections;
 
 import com.massisframework.massis.model.components.VisionArea;
-import com.massisframework.massis.sim.ecs.zayes.SimulationEntity;
+import com.massisframework.massis.sim.ecs.SimulationEntity;
 
 import straightedge.geom.KPolygon;
 

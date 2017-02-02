@@ -1,6 +1,6 @@
 package com.massisframework.massis.model.components;
 
-import com.massisframework.massis.sim.ecs.zayes.SimulationEntity;
+import com.massisframework.massis.sim.ecs.SimulationEntity;
 
 import javafx.scene.canvas.GraphicsContext;
 

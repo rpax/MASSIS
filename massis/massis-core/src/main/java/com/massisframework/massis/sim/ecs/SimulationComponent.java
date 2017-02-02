@@ -1,4 +1,4 @@
-package com.massisframework.massis.sim.ecs.zayes;
+package com.massisframework.massis.sim.ecs;
 
 import com.simsilica.es.EntityComponent;
 

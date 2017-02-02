@@ -2,6 +2,6 @@ package com.massisframework.massis.sim;
 
 public interface SimulationSteppable {
 
-	public void step(SimulationScheduler scheduler, float deltaTime);
+	public void update(float deltaTime);
 
 }

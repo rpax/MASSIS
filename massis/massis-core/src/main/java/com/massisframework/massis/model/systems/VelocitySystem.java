@@ -5,10 +5,10 @@ import com.jme3.math.Vector2f;
 import com.jme3.util.TempVars;
 import com.massisframework.massis.model.components.TransformComponent;
 import com.massisframework.massis.model.components.Velocity;
+import com.massisframework.massis.sim.ecs.SimulationEntity;
+import com.massisframework.massis.sim.ecs.SimulationEntityData;
+import com.massisframework.massis.sim.ecs.SimulationEntitySet;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
-import com.massisframework.massis.sim.ecs.zayes.SimulationEntity;
-import com.massisframework.massis.sim.ecs.zayes.SimulationEntityData;
-import com.massisframework.massis.sim.ecs.zayes.SimulationEntitySet;
 
 public class VelocitySystem implements SimulationSystem {
 

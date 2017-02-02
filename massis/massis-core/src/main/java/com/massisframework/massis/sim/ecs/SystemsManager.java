@@ -1,11 +1,14 @@
-package com.massisframework.massis.sim.ecs.zayes;
+package com.massisframework.massis.sim.ecs;
+
+import java.util.Collection;
 
 import com.massisframework.massis.sim.SimulationSteppable;
-import com.massisframework.massis.sim.ecs.SimulationSystem;
 
 public interface SystemsManager extends SimulationSteppable {
 
-	<T extends SimulationSystem> T getState(Class<T> type);
+	<T extends SimulationSystem> T getSystem(Class<T> type);
+
+	public Collection<SimulationSystem> getActiveSystems();
 
 	/**
 	 * Check if a state is attached or not.
@@ -16,8 +19,12 @@ public interface SystemsManager extends SimulationSteppable {
 	 * 
 	 * @see SystemsManagerImpl#attach(com.jme3.app.state.AppState)
 	 */
-	boolean hasState(Class<? extends SimulationSystem> stateType);
+	boolean hasSystem(Class<? extends SimulationSystem> stateType);
+
+	void add(Class<? extends SimulationSystem> systems);
 
 	void addAll(Iterable<Class<? extends SimulationSystem>> systems);
 
+	public void setEnabled(Class<? extends SimulationSystem> stateType,
+			boolean value);
 }

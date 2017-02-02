@@ -1,5 +1,5 @@
 
-package com.massisframework.massis.sim.ecs.zayes;
+package com.massisframework.massis.sim.ecs;
 
 public interface EntityComponentCreator {
 

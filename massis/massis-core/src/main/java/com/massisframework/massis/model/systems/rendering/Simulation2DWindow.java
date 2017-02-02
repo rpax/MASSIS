@@ -6,7 +6,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.massisframework.massis.model.components.RenderComponent;
 import com.massisframework.massis.model.components.TransformComponent;
-import com.massisframework.massis.sim.ecs.zayes.SimulationEntity;
+import com.massisframework.massis.sim.ecs.SimulationEntity;
 
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;

@@ -1,15 +1,19 @@
 package com.massisframework.massis.sim.ecs.zayes;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import com.google.inject.Inject;
 import com.jme3.util.SafeArrayList;
-import com.massisframework.massis.sim.SimulationScheduler;
-import com.massisframework.massis.sim.SimulationSteppable;
+import com.massisframework.massis.sim.ecs.CollectionsFactory;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
-
-public class SystemsManagerImpl implements SystemsManager {
+import com.massisframework.massis.sim.ecs.SimulationSystemCreator;
+import com.massisframework.massis.sim.ecs.SystemsManager;
+@SuppressWarnings({"unchecked","rawtypes"})
+class SystemsManagerImpl implements SystemsManager {
 
 	/**
 	 * List holding the attached app states that are pending initialization.
@@ -30,19 +34,15 @@ public class SystemsManagerImpl implements SystemsManager {
 	private final SafeArrayList<SimulationSystem> terminating = new SafeArrayList<>(
 			SimulationSystem.class);
 
-	// All of the above lists need to be thread safe but access will be
-	// synchronized separately.... but always on the states list. This
-	// is to avoid deadlocking that may occur and the most common use case
-	// is that they are all modified from the same thread anyway.
-
-	private SimulationSystem[] stateArray;
-
 	private SimulationSystemCreator systemsCreator;
+
+	private Set<Class> disabled;
 
 	@Inject
 	public SystemsManagerImpl(SimulationSystemCreator systemsCreator)
 	{
 		this.systemsCreator = systemsCreator;
+		this.disabled = CollectionsFactory.newSet(Class.class);
 	}
 
 	protected SimulationSystem[] getInitializing()
@@ -83,10 +83,10 @@ public class SystemsManagerImpl implements SystemsManager {
 		synchronized (states)
 		{
 
-			if (!hasState(stateType))
+			if (!hasSystem(stateType))
 			{
 				SimulationSystem state = systemsCreator.createSystem(stateType);
-				System.out.println("creating "+state);
+				System.out.println("creating " + state);
 				initializing.add(state);
 				return true;
 			} else
@@ -104,6 +104,7 @@ public class SystemsManagerImpl implements SystemsManager {
 	 * @param states
 	 *            The states to attach
 	 */
+	
 	public void attachAll(Class<? extends SimulationSystem>... states)
 	{
 		attachAll(Arrays.asList(states));
@@ -161,11 +162,16 @@ public class SystemsManagerImpl implements SystemsManager {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.sim.ecs.zayes.SystemsManager#getState(java.lang.Class)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.massisframework.massis.sim.ecs.zayes.SystemsManager#getState(java.
+	 * lang.Class)
 	 */
+
 	@Override
-	public <T extends SimulationSystem> T getState(Class<T> type)
+	public <T extends SimulationSystem> T getSystem(Class<T> type)
 	{
 		SimulationSystem s = getStateIn(type, this.initializing);
 		if (s == null)
@@ -194,15 +200,19 @@ public class SystemsManagerImpl implements SystemsManager {
 				.isPresent();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.sim.ecs.zayes.SystemsManager#hasState(java.lang.Class)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.massisframework.massis.sim.ecs.zayes.SystemsManager#hasState(java.
+	 * lang.Class)
 	 */
 	@Override
-	public boolean hasState(Class<? extends SimulationSystem> stateType)
+	public boolean hasSystem(Class<? extends SimulationSystem> stateType)
 	{
 		synchronized (states)
 		{
-			return     contains(stateType, initializing)
+			return contains(stateType, initializing)
 					|| contains(stateType, states);
 		}
 	}
@@ -255,6 +265,7 @@ public class SystemsManagerImpl implements SystemsManager {
 	 * @param tpf
 	 *            Time per frame.
 	 */
+	@Override
 	public void update(float tpf)
 	{
 
@@ -268,47 +279,29 @@ public class SystemsManagerImpl implements SystemsManager {
 		SimulationSystem[] array = getStates();
 		for (SimulationSystem state : array)
 		{
-			if (state.isEnabled())
+			if (isEnabled(state.getClass()))
 			{
 				state.update(tpf);
 			}
 		}
 	}
 
-	// /**
-	// * Calls render for all attached and initialized states, do not call
-	// * directly.
-	// *
-	// * @param rm
-	// * The RenderManager
-	// */
-	// public void render(RenderManager rm)
-	// {
-	// AppState[] array = getStates();
-	// for (AppState state : array)
-	// {
-	// if (state.isEnabled())
-	// {
-	// state.render(rm);
-	// }
-	// }
-	// }
+	public boolean isEnabled(Class<? extends SimulationSystem> state)
+	{
+		return this.hasSystem(state) && this.disabled.contains(state);
+	}
 
-	// /**
-	// * Calls render for all attached and initialized states, do not call
-	// * directly.
-	// */
-	// public void postRender()
-	// {
-	// AppState[] array = getStates();
-	// for (AppState state : array)
-	// {
-	// if (state.isEnabled())
-	// {
-	// state.postRender();
-	// }
-	// }
-	// }
+	public void setEnabled(Class<? extends SimulationSystem> state,
+			boolean enable)
+	{
+		if (enable)
+		{
+			this.disabled.remove(state);
+		} else if (this.hasSystem(state))
+		{
+			this.disabled.add(state);
+		}
+	}
 
 	/**
 	 * Calls cleanup on attached states, do not call directly.
@@ -323,15 +316,21 @@ public class SystemsManagerImpl implements SystemsManager {
 	}
 
 	@Override
-	public void step(SimulationScheduler scheduler, float deltaTime)
-	{
-		this.update(deltaTime);
-	}
-
-	@Override
 	public void addAll(Iterable<Class<? extends SimulationSystem>> systems)
 	{
 		this.attachAll(systems);
-		
+
+	}
+
+	@Override
+	public void add(Class<? extends SimulationSystem> system)
+	{
+		this.attach(system);
+	}
+
+	@Override
+	public Collection<SimulationSystem> getActiveSystems()
+	{
+		return Collections.unmodifiableCollection(this.states);
 	}
 }

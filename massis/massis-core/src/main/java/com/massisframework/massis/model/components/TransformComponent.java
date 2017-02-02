@@ -1,7 +1,7 @@
 package com.massisframework.massis.model.components;
 
 import com.jme3.math.Vector2f;
-import com.massisframework.massis.sim.ecs.zayes.SimulationComponent;
+import com.massisframework.massis.sim.ecs.SimulationComponent;
 
 public interface TransformComponent extends SimulationComponent {
 
@@ -11,7 +11,11 @@ public interface TransformComponent extends SimulationComponent {
 
 	float getAngle();
 
+	TransformComponent setAngle(double angle);
+
 	TransformComponent setAngle(float angle);
+
+	TransformComponent rotate(double angle);
 
 	TransformComponent rotate(float angle);
 
@@ -25,5 +29,11 @@ public interface TransformComponent extends SimulationComponent {
 
 	public TransformComponent setY(float y);
 
+	public TransformComponent setX(double x);
+
+	public TransformComponent setY(double y);
+
 	public float distance2D(double x, double y);
+
+	public double distanceSquared2D(double otherX, double otherY);
 }

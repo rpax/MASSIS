@@ -6,7 +6,7 @@ import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.util.TempVars;
 import com.massisframework.massis.model.components.TransformComponent;
-import com.massisframework.massis.sim.ecs.zayes.SimulationEntity;
+import com.massisframework.massis.sim.ecs.SimulationEntity;
 
 public class TransformImpl implements TransformComponent {
 
@@ -75,6 +75,11 @@ public class TransformImpl implements TransformComponent {
 	}
 
 	@Override
+	public TransformComponent setAngle(double angle)
+	{
+		return this.setAngle((float) angle);
+	}
+
 	public TransformComponent setAngle(float angle)
 	{
 		TempVars vars = TempVars.get();
@@ -85,6 +90,11 @@ public class TransformImpl implements TransformComponent {
 	}
 
 	@Override
+	public TransformComponent rotate(double angle)
+	{
+		return rotate((float) angle);
+	}
+
 	public TransformComponent rotate(float angle)
 	{
 		return this.rotate(0, angle, 0);
@@ -206,6 +216,18 @@ public class TransformImpl implements TransformComponent {
 	}
 
 	@Override
+	public TransformComponent setX(double x)
+	{
+		return setX((float) x);
+	}
+
+	@Override
+	public TransformComponent setY(double y)
+	{
+		return setY((float) y);
+	}
+
+	@Override
 	public TransformComponent setX(float x)
 	{
 		Vector3f current = this.localTransform.getTranslation();
@@ -228,7 +250,7 @@ public class TransformImpl implements TransformComponent {
 	{
 		return (float) Math.sqrt(distanceSquared2D(x, y));
 	}
-
+	@Override
 	public double distanceSquared2D(double otherX, double otherY)
 	{
 		double dx = getX() - otherX;

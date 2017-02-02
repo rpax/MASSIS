@@ -1,7 +1,7 @@
 package com.massisframework.massis.model.components;
 
 import com.jme3.math.Vector2f;
-import com.massisframework.massis.sim.ecs.zayes.SimulationComponent;
+import com.massisframework.massis.sim.ecs.SimulationComponent;
 
 public interface Velocity extends SimulationComponent {
 

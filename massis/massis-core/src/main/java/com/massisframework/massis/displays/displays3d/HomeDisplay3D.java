@@ -19,10 +19,10 @@ import com.massisframework.massis.model.components.FloorReference;
 import com.massisframework.massis.model.components.TransformComponent;
 import com.massisframework.massis.model.systems.sh3d.SweetHome3DFurniture;
 import com.massisframework.massis.model.systems.sh3d.SweetHome3DLevel;
+import com.massisframework.massis.sim.ecs.SimulationEntity;
+import com.massisframework.massis.sim.ecs.SimulationEntityData;
+import com.massisframework.massis.sim.ecs.SimulationEntitySet;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
-import com.massisframework.massis.sim.ecs.zayes.SimulationEntity;
-import com.massisframework.massis.sim.ecs.zayes.SimulationEntityData;
-import com.massisframework.massis.sim.ecs.zayes.SimulationEntitySet;
 
 public class HomeDisplay3D extends JFrame implements SimulationSystem {
 

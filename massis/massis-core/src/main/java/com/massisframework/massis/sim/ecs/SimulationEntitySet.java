@@ -1,4 +1,4 @@
-package com.massisframework.massis.sim.ecs.zayes;
+package com.massisframework.massis.sim.ecs;
 
 import java.util.Set;
 import java.util.stream.Stream;
@@ -67,5 +67,5 @@ public interface SimulationEntitySet extends Iterable<SimulationEntity> {
 	 * Returns true if this EntitySet is made of entities that have the
 	 * specified type of component.
 	 */
-	public boolean hasType(Class type);
+	public boolean hasType(Class<? extends SimulationComponent> type);
 }

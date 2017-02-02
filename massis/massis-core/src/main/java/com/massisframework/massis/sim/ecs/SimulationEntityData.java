@@ -1,14 +1,16 @@
-package com.massisframework.massis.sim.ecs.zayes;
+package com.massisframework.massis.sim.ecs;
 
 import com.simsilica.es.EntityId;
 
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public interface SimulationEntityData {
 
-	public EntityId createEntity();
+	public SimulationEntity createEntity();
 
 	public void removeEntity(EntityId entityId);
 
-	public SimulationEntitySet createEntitySet(Class... types);
+	public SimulationEntitySet createEntitySet(
+			Class<? extends SimulationComponent>... types);
 
 	public SimulationEntity getSimulationEntity(EntityId entityId);
 

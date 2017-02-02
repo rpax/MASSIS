@@ -3,9 +3,9 @@ package com.massisframework.massis.model.managers;
 import java.util.Collections;
 
 import com.google.inject.Inject;
+import com.massisframework.massis.sim.ecs.SimulationEntity;
+import com.massisframework.massis.sim.ecs.SimulationEntityData;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
-import com.massisframework.massis.sim.ecs.zayes.SimulationEntity;
-import com.massisframework.massis.sim.ecs.zayes.SimulationEntityData;
 
 /**
  * Manages the environment information of an agent

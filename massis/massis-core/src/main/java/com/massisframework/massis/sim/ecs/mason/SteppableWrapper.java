@@ -23,8 +23,7 @@ public class SteppableWrapper implements Steppable {
 		float currentTime = (float) (simState.schedule.getTime() / 60);
 		if (lastUpdate > 0)
 		{
-			simulationSteppable.step((MasonScheduler) simState,
-					currentTime - lastUpdate);
+			simulationSteppable.update(currentTime - lastUpdate);
 		}
 		lastUpdate = currentTime;
 	}

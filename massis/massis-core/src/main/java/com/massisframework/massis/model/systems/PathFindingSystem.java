@@ -12,10 +12,10 @@ import com.massisframework.massis.model.components.MovingTo;
 import com.massisframework.massis.model.components.TransformComponent;
 import com.massisframework.massis.pathfinding.straightedge.SEPathFinder;
 import com.massisframework.massis.sim.ecs.CollectionsFactory;
+import com.massisframework.massis.sim.ecs.SimulationEntity;
+import com.massisframework.massis.sim.ecs.SimulationEntityData;
+import com.massisframework.massis.sim.ecs.SimulationEntitySet;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
-import com.massisframework.massis.sim.ecs.zayes.SimulationEntity;
-import com.massisframework.massis.sim.ecs.zayes.SimulationEntityData;
-import com.massisframework.massis.sim.ecs.zayes.SimulationEntitySet;
 import com.massisframework.massis.util.geom.CoordinateHolder;
 import com.massisframework.massis.util.geom.KVector;
 
@@ -63,7 +63,7 @@ public class PathFindingSystem implements SimulationSystem {
 			for (SimulationEntity e : this.followers.getActiveEntities())
 			{
 				System.out.println("ASD");
-				
+
 				CoordinateHolder target = e.getC(FollowTarget.class)
 						.getTarget();
 
@@ -79,10 +79,8 @@ public class PathFindingSystem implements SimulationSystem {
 				TransformComponent tr = e.getC(TransformComponent.class);
 				List<CoordinateHolder> path = pF
 						.findPath(new KVector(tr.getX(), tr.getY()), target);
-
 				e.addC(MovingTo.class)
-						.set(MovingTo::setTarget, path.get(1))
-						.commit();
+						.set(MovingTo::setTarget, path.get(1));
 			}
 		}
 

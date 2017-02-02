@@ -1,6 +1,4 @@
-package com.massisframework.massis.sim.ecs.zayes;
-
-import com.massisframework.massis.sim.ecs.SimulationSystem;
+package com.massisframework.massis.sim.ecs;
 
 public interface SimulationSystemCreator {
 
