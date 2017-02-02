@@ -91,17 +91,17 @@ public class MessageMapperSystem implements SimulationSystem {
 			SimulationEntity se = ed.getSimulationEntity(entityId);
 			Class<?> messageClass = message.getClass();
 			//TODO FIXME no se recorren todos los componentes!
-			for (SimulationComponent sc : se.getAllComponents())
-			{
-				Class<? extends SimulationComponent> type = sc.getClass();
-				getMethods(type)
-						.entrySet()
-						.stream()
-						.filter(e -> e.getKey().isAssignableFrom(messageClass))
-						.map(e -> e.getValue())
-						.forEach(m -> invokeMethod(sc, m, message));
-
-			}
+//			for (SimulationComponent sc : se.getAllComponents())
+//			{
+//				Class<? extends SimulationComponent> type = sc.getClass();
+//				getMethods(type)
+//						.entrySet()
+//						.stream()
+//						.filter(e -> e.getKey().isAssignableFrom(messageClass))
+//						.map(e -> e.getValue())
+//						.forEach(m -> invokeMethod(sc, m, message));
+//
+//			}
 		}
 
 		private void invokeMethod(SimulationComponent sc, Method m,

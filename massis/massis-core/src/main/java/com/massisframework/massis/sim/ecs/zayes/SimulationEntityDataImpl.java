@@ -1,10 +1,15 @@
 package com.massisframework.massis.sim.ecs.zayes;
 
+import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.google.inject.Inject;
 import com.massisframework.massis.model.components.impl.TransformImpl;
 import com.massisframework.massis.sim.ecs.CollectionsFactory;
+import com.massisframework.massis.sim.ecs.ComponentChangeListener;
 import com.massisframework.massis.sim.ecs.EntityComponentCreator;
 import com.massisframework.massis.sim.ecs.ComponentEdit;
 import com.massisframework.massis.sim.ecs.InterfaceBindings;
@@ -12,6 +17,7 @@ import com.massisframework.massis.sim.ecs.SimulationComponent;
 import com.massisframework.massis.sim.ecs.SimulationEntity;
 import com.massisframework.massis.sim.ecs.SimulationEntityData;
 import com.massisframework.massis.sim.ecs.SimulationEntitySet;
+import com.massisframework.massis.sim.ecs.injection.components.EntityReference;
 import com.simsilica.es.EntityId;
 
 @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -21,6 +27,7 @@ class SimulationEntityDataImpl implements SimulationEntityData {
 	protected InterfaceBindings bindings;
 	protected EntityComponentCreator componentCreator;
 	private Map<Long, DefaultInterfaceEntity> allEntities;
+	private List<ComponentChangeListener> componentChangeListeners;
 
 	private static final Class[] DEFAULT_COMPONENTS = {
 			TransformImpl.class,
@@ -37,7 +44,8 @@ class SimulationEntityDataImpl implements SimulationEntityData {
 		this.componentCreator = componentCreator;
 		this.allEntities = CollectionsFactory.newMap(Long.class,
 				DefaultInterfaceEntity.class);
-		this.ed = new InterfaceEntityData(bindings, componentCreator, this);
+		this.ed = new InterfaceEntityData(bindings, this);
+		this.componentChangeListeners = new CopyOnWriteArrayList<>();
 	}
 
 	@Override
@@ -45,6 +53,7 @@ class SimulationEntityDataImpl implements SimulationEntityData {
 	{
 		// TODO detect parent children dependencies
 		this.ed.removeEntity(entityId);
+		this.allEntities.remove(entityId.getId());
 	}
 
 	@Override
@@ -84,11 +93,47 @@ class SimulationEntityDataImpl implements SimulationEntityData {
 			Class<T> component)
 	{
 		//
-		T cmp = addGet(entityId, component);
+		T cmp = this.componentCreator.create(component);
+		//
+		this.fillWithEntityAnnotation(cmp,
+				this.allEntities.get(entityId.getId()));
+		//
+		ed.setComponent(entityId, cmp);
 		ComponentEditImpl<T> entityEdit = new ComponentEditImpl<>(
 				getSimulationEntity(entityId.getId()));
 		entityEdit.setComponent(cmp);
+		this.componentChangeListeners.forEach(l -> l.componentInserted(cmp));
 		return entityEdit;
+	}
+
+	private static void fillWithEntityAnnotation(SimulationComponent sc,
+			SimulationEntity e)
+	{
+		Field entityField = Arrays.stream(sc.getClass().getDeclaredFields())
+				.filter(f -> f.getAnnotation(EntityReference.class) != null)
+				.findAny()
+				.orElse(null);
+		if (entityField != null)
+		{
+			entityField.setAccessible(true);
+			try
+			{
+				entityField.set(sc, e);
+			} catch (IllegalArgumentException | IllegalAccessException e1)
+			{
+				throw new RuntimeException(e1);
+			}
+		}
+	}
+
+	@Override
+	public <T extends SimulationComponent> void remove(EntityId entityId,
+			Class<T> type)
+	{
+		T cmp = ed.getComponent(entityId, type);
+		this.componentChangeListeners.forEach(l -> l.componentRemoved(cmp));
+		ed.removeComponent(entityId, type);
+
 	}
 
 	@Override
@@ -108,13 +153,6 @@ class SimulationEntityDataImpl implements SimulationEntityData {
 	}
 
 	@Override
-	public <T extends SimulationComponent> void remove(EntityId entityId,
-			Class<T> type)
-	{
-		ed.removeComponent(entityId, type);
-	}
-
-	@Override
 	public <T extends SimulationComponent> Iterable<SimulationEntity> findEntities(
 			Class... types)
 	{
@@ -125,20 +163,22 @@ class SimulationEntityDataImpl implements SimulationEntityData {
 	}
 
 	@Override
-	public <T extends SimulationComponent> T addGet(
-			EntityId entityId,
-			Class<T> component)
-	{
-		T cmp = this.componentCreator.create(component);
-		ed.setComponent(entityId, cmp);
-		return cmp;
-	}
-
-	@Override
 	public <T extends SimulationComponent> T get(EntityId entityId,
 			Class<T> type)
 	{
 		return ed.getComponent(entityId, type);
+	}
+
+	@Override
+	public void addComponentChangeListener(ComponentChangeListener l)
+	{
+		this.componentChangeListeners.add(l);
+	}
+
+	@Override
+	public void removeComponentChangeListener(ComponentChangeListener l)
+	{
+		this.componentChangeListeners.remove(l);
 	}
 
 }

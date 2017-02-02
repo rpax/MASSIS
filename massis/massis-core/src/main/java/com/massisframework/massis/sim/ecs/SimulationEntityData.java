@@ -24,10 +24,13 @@ public interface SimulationEntityData {
 	public <T extends SimulationComponent> ComponentEdit<T> add(EntityId entityId,Class<T> component);
 	public <T extends SimulationComponent> void remove(EntityId entityId, Class<T> type);
 	public <T extends SimulationComponent> T get(EntityId entityId,Class<T> type);
-	public <T extends SimulationComponent> T addGet(EntityId entityId, Class<T> component);
 	public <T extends SimulationComponent> Iterable<SimulationEntity> findEntities(Class...types);
 	/**
 	 * @formatter:on
 	 */
+
+	public void addComponentChangeListener(ComponentChangeListener l);
+
+	public void removeComponentChangeListener(ComponentChangeListener l);
 
 }

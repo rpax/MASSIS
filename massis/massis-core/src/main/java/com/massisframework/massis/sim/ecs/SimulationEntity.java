@@ -20,6 +20,6 @@ public interface SimulationEntity extends ComponentModifier {
 
 	void removeFromParent();
 
-	public SimulationComponent[] getAllComponents();
+	//public SimulationComponent[] getAllComponents();
 
 }

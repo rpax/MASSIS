@@ -1,5 +1,7 @@
 package com.massisframework.massis.sim.ecs.zayes;
 
+import java.util.Arrays;
+
 import com.massisframework.massis.sim.ecs.ComponentEdit;
 import com.massisframework.massis.sim.ecs.ComponentModifier;
 import com.massisframework.massis.sim.ecs.SimulationComponent;
@@ -43,7 +45,6 @@ public class DefaultInterfaceEntity
 	public <T extends SimulationComponent, K extends ComponentModifier & ComponentEdit<T>> K add(
 			Class<T> c)
 	{
-		// ?¿
 		T cmp = this.add_internal(c);
 		ComponentEditorAndModifier editor = new ComponentEditorAndModifier(
 				this);
@@ -84,7 +85,7 @@ public class DefaultInterfaceEntity
 				return c.cast(components[i]);
 			}
 		}
-		return this.ed.getComponent(this.getId(), c);
+		return this.ed.simED.get(this.getId(), c);
 	}
 
 	@Override
@@ -163,9 +164,15 @@ public class DefaultInterfaceEntity
 	}
 
 	@Override
-	public SimulationComponent[] getAllComponents()
+	public String toString()
 	{
-		return this.components;
+		return this.getClass().getSimpleName() + "[" + getId() + ", values="
+				+ Arrays.asList(components) + "]";
 	}
+	// @Override
+	// public SimulationComponent[] getAllComponents()
+	// {
+	// return this.components;
+	// }
 
 }

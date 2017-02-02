@@ -35,9 +35,9 @@ class EntitySetWrapper implements SimulationEntitySet {
 	}
 
 	@Override
-	public Set<SimulationEntity> getAddedEntities()
+	public Set getAddedEntities()
 	{
-		return (Set) es.getAddedEntities();
+		return  es.getAddedEntities();
 	}
 
 	@Override
