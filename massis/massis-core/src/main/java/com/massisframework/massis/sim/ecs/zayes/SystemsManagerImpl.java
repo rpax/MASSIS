@@ -288,7 +288,7 @@ class SystemsManagerImpl implements SystemsManager {
 
 	public boolean isEnabled(Class<? extends SimulationSystem> state)
 	{
-		return this.hasSystem(state) && this.disabled.contains(state);
+		return this.hasSystem(state) && !this.disabled.contains(state);
 	}
 
 	public void setEnabled(Class<? extends SimulationSystem> state,

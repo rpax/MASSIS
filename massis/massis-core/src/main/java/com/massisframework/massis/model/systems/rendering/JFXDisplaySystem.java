@@ -5,7 +5,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import com.massisframework.massis.javafx.util.ApplicationLauncher;
 import com.massisframework.massis.model.components.RenderComponent;
 import com.massisframework.massis.model.components.ShapeComponent;
@@ -18,11 +17,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
-@Singleton
 public class JFXDisplaySystem implements SimulationSystem {
 
 	// TODO
-	private CompletableFuture<Simulation2DWindow> window=new CompletableFuture<>();;
+	private CompletableFuture<Simulation2DWindow> window = new CompletableFuture<>();;
 
 	@Inject
 	private SimulationEntityData ed;
@@ -32,8 +30,10 @@ public class JFXDisplaySystem implements SimulationSystem {
 	@Override
 	public void initialize()
 	{
-		this.entities = this.ed.createEntitySet(RenderComponent.class,
-				TransformComponent.class, ShapeComponent.class);
+		this.entities = this.ed.createEntitySet(
+				RenderComponent.class,
+				TransformComponent.class,
+				ShapeComponent.class);
 
 		ApplicationLauncher.launchWrappedApplication((stage, app) -> {
 			try

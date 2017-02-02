@@ -24,9 +24,7 @@ public class SimulationLauncher {
 				.getInstance(SimulationScheduler.class);
 		bindings.getSystems();
 		SystemsManager sm = injector.getInstance(SystemsManager.class);
-		
 		sm.addAll(bindings.getSystems());
-		
 		ss.start();
 		ss.scheduleRepeating(sm);
 	}

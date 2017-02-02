@@ -2,7 +2,7 @@ package com.massisframework.massis.sim.ecs;
 
 import com.simsilica.es.EntityId;
 
-@SuppressWarnings({ "rawtypes", "unchecked" })
+@SuppressWarnings("rawtypes")
 public interface SimulationEntityData {
 
 	public SimulationEntity createEntity();
@@ -10,7 +10,7 @@ public interface SimulationEntityData {
 	public void removeEntity(EntityId entityId);
 
 	public SimulationEntitySet createEntitySet(
-			Class<? extends SimulationComponent>... types);
+			Class... types);
 
 	public SimulationEntity getSimulationEntity(EntityId entityId);
 
