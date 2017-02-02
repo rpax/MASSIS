@@ -213,8 +213,6 @@ public class BuildingSystem implements SimulationSystem {
 				.set(TransformComponent::setX, center.x)
 				.set(TransformComponent::setY, center.y);
 
-		shape.translateTo(0, 0);
-
 		entity.add(ShapeComponentImpl.class)
 				.set(ShapeComponentImpl::setShape, shape);
 

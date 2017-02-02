@@ -3,7 +3,7 @@ package com.massisframework.massis.sim.ecs;
 import com.massisframework.massis.sim.SimulationSteppable;
 
 public interface SimulationSystem
-		extends SimulationSteppable, SimulationInitializable {
+		extends SimulationInitializable, SimulationSteppable {
 
 	public default void onAdded()
 	{
@@ -24,7 +24,5 @@ public interface SimulationSystem
 	public default void cleanup()
 	{
 	}
-
-	
 
 }
