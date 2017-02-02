@@ -15,7 +15,7 @@ import sim.engine.SimState;
 import sim.engine.Stoppable;
 
 @SuppressWarnings("serial")
-public class MasonScheduler extends SimState implements SimulationScheduler {
+class MasonScheduler extends SimState implements SimulationScheduler {
 
 	private Map<SimulationSteppable, Stoppable> steppableMap;
 

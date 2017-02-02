@@ -6,7 +6,7 @@ import sim.engine.SimState;
 import sim.engine.Steppable;
 
 @SuppressWarnings("serial")
-public class SteppableWrapper implements Steppable {
+class SteppableWrapper implements Steppable {
 
 	// TODO ?
 	private float lastUpdate = -1;
