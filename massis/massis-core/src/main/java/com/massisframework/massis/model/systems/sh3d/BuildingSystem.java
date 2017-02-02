@@ -82,10 +82,10 @@ public class BuildingSystem implements SimulationSystem {
 		SimulationEntity floorEntity = this.ed.createEntity();
 
 		floorEntity
-				.addC(SweetHome3DLevel.class)
+				.add(SweetHome3DLevel.class)
 				.set(SweetHome3DLevel::setLevel, lvl);
 		// TODO max min...etc
-		floorEntity.addC(Floor.class);
+		floorEntity.add(Floor.class);
 
 		String floorName = "NONAME";
 		if (lvl != null && lvl.getName() != null)
@@ -93,7 +93,7 @@ public class BuildingSystem implements SimulationSystem {
 			floorName = lvl.getName();
 		}
 		floorEntity
-				.addC(NameComponent.class)
+				.add(NameComponent.class)
 				.set(NameComponent::set, floorName);
 
 		this.home.getWalls()
@@ -102,8 +102,8 @@ public class BuildingSystem implements SimulationSystem {
 				.forEach(w -> {
 					SimulationEntity wallEntity = createEntity(
 							floorEntity.getId().getId(), w);
-					wallEntity.addC(WallComponent.class);
-					wallEntity.addC(RenderComponent.class).set(
+					wallEntity.add(WallComponent.class);
+					wallEntity.add(RenderComponent.class).set(
 							RenderComponent::setRenderer,
 							WallRenderer.renderer);
 
@@ -118,8 +118,8 @@ public class BuildingSystem implements SimulationSystem {
 							w);
 					//
 
-					roomEntity.addC(RoomComponent.class);
-					roomEntity.addC(RenderComponent.class)
+					roomEntity.add(RoomComponent.class);
+					roomEntity.add(RenderComponent.class)
 							.set(RenderComponent::setRenderer,
 									RoomRenderer.renderer);
 
@@ -135,21 +135,22 @@ public class BuildingSystem implements SimulationSystem {
 	private void createFurnitureComponent(long floorId, HomePieceOfFurniture f)
 	{
 		SimulationEntity e = createEntity(floorId, f);
-		e.addC(SweetHome3DFurniture.class)
+		e.add(SweetHome3DFurniture.class)
 				.set(SweetHome3DFurniture::setFurniture, f);
-		e.editC(TransformComponent.class)
-		.set(TransformComponent::setAngle,f.getAngle());
+		e.edit(TransformComponent.class)
+				.set(TransformComponent::setAngle, f.getAngle());
 		if (f instanceof HomeDoorOrWindow)
 		{
 			// Comprobar si es ventana o no
 			if (isWindow(f))
 			{
-				e.addC(WindowComponent.class);
+				e.add(WindowComponent.class);
 
 			} else
 			{
-				e.addC(DoorComponent.class);
-				e.addC(RenderComponent.class)
+				e
+						.add(DoorComponent.class)
+						.add(RenderComponent.class)
 						.set(RenderComponent::setRenderer,
 								DoorRenderer.renderer);
 
@@ -157,20 +158,20 @@ public class BuildingSystem implements SimulationSystem {
 		} else
 		{
 
-			e.addC(Velocity.class);
-			e.addC(VisionArea.class);
-			e.addC(EntityRangeFinder.class);
-			e.addC(RenderComponent.class)
+			e.add(Velocity.class);
+			e.add(VisionArea.class);
+			e.add(EntityRangeFinder.class);
+			e.add(RenderComponent.class)
 					.set(RenderComponent::setRenderer,
 							AgentArrowRenderer.renderer);
 			String className = getMetadata(f)
 					.get(SimObjectProperty.CLASSNAME.toString());
 			if (className != null)
 			{
-				e.addC(DynamicObstacle.class);
+				e.add(DynamicObstacle.class);
 				try
 				{
-					e.addC((Class<? extends SimulationComponent>) Class
+					e.add((Class<? extends SimulationComponent>) Class
 							.forName(className));
 				} catch (ClassNotFoundException e1)
 				{
@@ -203,18 +204,18 @@ public class BuildingSystem implements SimulationSystem {
 		KPoint center = shape.getCenter();
 		SimulationEntity entity = this.ed.createEntity();
 
-		entity.addC(FloorReference.class).set(FloorReference::setFloorId,
+		entity.add(FloorReference.class).set(FloorReference::setFloorId,
 				floorId);
-		entity.addC(Metadata.class).set(Metadata::set,
+		entity.add(Metadata.class).set(Metadata::set,
 				getMetadata((HomeObject) w));
 
-		entity.editC(TransformComponent.class)
+		entity.add(TransformComponent.class)
 				.set(TransformComponent::setX, center.x)
 				.set(TransformComponent::setY, center.y);
 
 		shape.translateTo(0, 0);
 
-		entity.addC(ShapeComponentImpl.class)
+		entity.add(ShapeComponentImpl.class)
 				.set(ShapeComponentImpl::setShape, shape);
 
 		return entity;

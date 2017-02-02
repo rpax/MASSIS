@@ -145,13 +145,13 @@ public class HomeDisplay3D extends JFrame implements SimulationSystem {
 			{
 
 				final HomePieceOfFurniture hpof = obj
-						.getC(SweetHome3DFurniture.class).getFurniture();
+						.getComponent(SweetHome3DFurniture.class).getFurniture();
 
-				final long floorId = obj.getC(FloorReference.class)
+				final long floorId = obj.getComponent(FloorReference.class)
 						.getFloorId();
 
 				final Level floorLevel = ed.getSimulationEntity(floorId)
-						.getC(SweetHome3DLevel.class).getLevel();
+						.getComponent(SweetHome3DLevel.class).getLevel();
 
 				if (hpof == null)
 				{
@@ -162,9 +162,9 @@ public class HomeDisplay3D extends JFrame implements SimulationSystem {
 				{
 					hpof.setLevel(floorLevel);
 				}
-				hpof.setAngle(obj.getC(TransformComponent.class).getAngle());
-				hpof.setX(obj.getC(TransformComponent.class).getX());
-				hpof.setY(obj.getC(TransformComponent.class).getY());
+				hpof.setAngle(obj.getComponent(TransformComponent.class).getAngle());
+				hpof.setX(obj.getComponent(TransformComponent.class).getX());
+				hpof.setY(obj.getComponent(TransformComponent.class).getY());
 				final HomePieceOfFurniture3D hpof3D = ((HomePieceOfFurniture3D) this.homeComponent3D.homeObjects
 						.get(hpof));
 				// si todavia no se ha cargado, fuera

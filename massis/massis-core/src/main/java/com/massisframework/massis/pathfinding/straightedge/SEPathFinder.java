@@ -104,20 +104,20 @@ public class SEPathFinder {
 		for (SimulationEntity wallEntity : walls)
 		{
 
-			if (wallEntity.getC(FloorReference.class)
+			if (wallEntity.getComponent(FloorReference.class)
 					.getFloorId() != this.floorId.getId())
 				continue;
 			/*
 			 * Substraction of the doors area to the walls area
 			 */
 			Area area = new Area(
-					wallEntity.getC(ShapeComponentImpl.class).getShape());
+					wallEntity.getComponent(ShapeComponentImpl.class).getShape());
 			for (SimulationEntity doorEntity : doors)
 			{
-				boolean open = doorEntity.getC(DoorComponent.class)
+				boolean open = doorEntity.getComponent(DoorComponent.class)
 						.isOpen();
 				KPolygon shape = PathFindingUtils.createKPolygonFromShape(
-						doorEntity.getC(ShapeComponentImpl.class).getShape());
+						doorEntity.getComponent(ShapeComponentImpl.class).getShape());
 
 				if (open)
 				{
@@ -189,7 +189,7 @@ public class SEPathFinder {
 
 		for (SimulationEntity sr : engine.findEntities(RoomComponent.class))
 		{
-			Area walkAble = new Area(sr.getC(ShapeComponentImpl.class).getShape());
+			Area walkAble = new Area(sr.getComponent(ShapeComponentImpl.class).getShape());
 
 			walkAblePolys
 					.add(PathFindingUtils.createKPolygonFromShape(walkAble));
@@ -197,11 +197,17 @@ public class SEPathFinder {
 		}
 		// Connect the obstacles' nodes so that the PathFinder can do its work:
 		Floor floor = this.engine.getSimulationEntity(this.floorId)
-				.getC(Floor.class);
-		nodeConnector = new MNodeConnector<>(stationaryObstacles,
+				.getComponent(Floor.class);
+		int scale=100;
+		int bounds=1000;
+		int length=bounds*scale;
+		nodeConnector = 
+				new MNodeConnector<>(stationaryObstacles,
 				maxConnectionDistanceBetweenObstacles, AABB_Expansion,
-				floor.getMinX(), floor.getMaxX(), floor.getMinY(),
-				floor.getMaxY());
+				-length,length,-length,length);
+				
+//				floor.getMinX(), floor.getMaxX(), floor.getMinY(),
+//				floor.getMaxY());
 
 		pathFinder = new MASSISPathFinder();
 		// ////////

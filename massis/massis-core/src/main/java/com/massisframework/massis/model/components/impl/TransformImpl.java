@@ -30,7 +30,7 @@ public class TransformImpl implements TransformComponent {
 		{
 			return null;
 		}
-		return this.entity.getParent().getC(TransformImpl.class);
+		return this.entity.getParent().getComponent(TransformImpl.class);
 	}
 
 	/*

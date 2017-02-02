@@ -14,7 +14,7 @@ public class WallRenderer implements JFXRenderer {
 	@Override
 	public void render(SimulationEntity e, GraphicsContext gc)
 	{
-		ShapeComponent sc = e.getC(ShapeComponent.class);
+		ShapeComponent sc = e.getComponent(ShapeComponent.class);
 		RenderUtils.fill(gc, sc, Color.YELLOW);
 		RenderUtils.stroke(gc, sc, Color.BLACK);
 

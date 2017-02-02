@@ -91,7 +91,7 @@ public class MessageMapperSystem implements SimulationSystem {
 			SimulationEntity se = ed.getSimulationEntity(entityId);
 			Class<?> messageClass = message.getClass();
 			//TODO FIXME no se recorren todos los componentes!
-			for (SimulationComponent sc : se.getComponents())
+			for (SimulationComponent sc : se.getAllComponents())
 			{
 				Class<? extends SimulationComponent> type = sc.getClass();
 				getMethods(type)

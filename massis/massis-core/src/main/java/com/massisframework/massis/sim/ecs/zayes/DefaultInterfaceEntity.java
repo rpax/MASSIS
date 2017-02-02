@@ -1,19 +1,18 @@
 package com.massisframework.massis.sim.ecs.zayes;
 
-import java.util.Arrays;
-
 import com.massisframework.massis.sim.ecs.ComponentEdit;
+import com.massisframework.massis.sim.ecs.ComponentModifier;
 import com.massisframework.massis.sim.ecs.SimulationComponent;
 import com.massisframework.massis.sim.ecs.SimulationEntity;
 import com.simsilica.es.EntityId;
 import com.simsilica.es.base.DefaultEntity;
 
 @SuppressWarnings({ "unchecked", "rawtypes" })
-class DefaultInterfaceEntity extends DefaultEntity
+public class DefaultInterfaceEntity
+		extends DefaultEntity
 		implements SimulationEntity {
 
 	private InterfaceEntityData ed;
-	private EntityId id;
 	private SimulationComponent[] components;
 	private Class<? extends SimulationComponent>[] types;
 
@@ -24,7 +23,6 @@ class DefaultInterfaceEntity extends DefaultEntity
 	{
 		super(ed, id, components, types);
 		this.ed = ed;
-		this.id = id;
 		this.components = components;
 		this.types = types;
 		validate();
@@ -33,129 +31,51 @@ class DefaultInterfaceEntity extends DefaultEntity
 	protected void validate()
 	{
 		if (types == null)
+		{
 			return;
-		else
+		} else
 		{
-			for (int i = 0; i < types.length; i++)
-			{
-				if (components[i] == null)
-				{
-					continue;
-				}
-				if (components[i].getClass().isInstance(types[i]))
-				{
-					throw new RuntimeException(
-							"Validation error.  components[" + i + "]:"
-									+ components[i] + " is not of type:"
-									+ types[i]);
-				}
-			}
+			super.validate();
 		}
 	}
 
 	@Override
-	public EntityId getId()
-	{
-		return id;
-	}
-
-	@Override
-	public SimulationComponent[] getComponents()
-	{
-		return components;
-	}
-
-	// @Override
-	// public <T extends EntityComponent> T get(Class<T> type)
-	// {
-	// for (EntityComponent c : components)
-	// {
-	// if (c != null && type.isAssignableFrom(c.getClass()))
-	// {
-	// return type.cast(c);
-	// }
-	// }
-	// return ed.getComponent(id, type);
-	// }
-
-	@Override
-	public boolean equals(Object obj)
-	{
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		DefaultInterfaceEntity other = (DefaultInterfaceEntity) obj;
-		if (id == null)
-		{
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
-	}
-
-	@Override
-	public boolean isComplete()
-	{
-		for (int i = 0; i < components.length; i++)
-		{
-			if (components[i] == null)
-			{
-				return false;
-			}
-		}
-		return true;
-	}
-
-	@Override
-	public String toString()
-	{
-		return "Entity[" + id + ", values=" + Arrays.asList(components) + "]";
-	}
-
-	@Override
-	public int hashCode()
-	{
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-
-	@Override
-	public <T extends SimulationComponent> ComponentEdit<T> addC(Class<T> c)
+	public <T extends SimulationComponent, K extends ComponentModifier & ComponentEdit<T>> K add(
+			Class<T> c)
 	{
 		// ?¿
-		T cmp = getComponent_internal(c);
+		T cmp = this.add_internal(c);
+		ComponentEditorAndModifier editor = new ComponentEditorAndModifier(
+				this);
+		editor.setComponent(cmp);
+		return (K) editor;
+	}
+
+	protected <T extends SimulationComponent> T add_internal(Class<T> c)
+	{
+		T cmp = get_internal(c);
 		if (cmp == null)
 		{
-			cmp = this.ed.addNewComponent(id, c);
+			cmp = this.ed.addNewComponent(this.getId(), c);
 		}
-		ComponentEditImpl entityEdit = new ComponentEditImpl<>(this);
-		entityEdit.setComponent(cmp);
-		return entityEdit;
-
+		return cmp;
 	}
 
 	@Override
-	public <T extends SimulationComponent> T getC(Class<T> c)
+	public <T extends SimulationComponent> T getComponent(Class<T> c)
 	{
-		return getComponent_internal(c);
+		return get_internal(c);
 	}
 
 	@Override
-	public <T extends SimulationComponent> ComponentEdit<T> editC(
-			Class<T> type)
+	public <T extends SimulationComponent> ComponentEdit<T> edit(Class<T> type)
 	{
 		ComponentEditImpl<T> entityEdit = new ComponentEditImpl<>(this);
-		entityEdit.setComponent(this.getC(type));
+		entityEdit.setComponent(this.get_internal(type));
 		return entityEdit;
 	}
 
-	private <T extends SimulationComponent> T getComponent_internal(Class<T> c)
+	private <T extends SimulationComponent> T get_internal(Class<T> c)
 	{
 		for (int i = 0; i < types.length; i++)
 		{
@@ -164,19 +84,21 @@ class DefaultInterfaceEntity extends DefaultEntity
 				return c.cast(components[i]);
 			}
 		}
-		return this.ed.getComponent(this.id, c);
+		return this.ed.getComponent(this.getId(), c);
 	}
 
 	@Override
-	public <T extends SimulationComponent> void removeC(Class<T> type)
+	public <T extends SimulationComponent> ComponentModifier remove(
+			Class<T> type)
 	{
-		this.ed.removeComponent(id, type);
+		this.ed.removeComponent(this.getId(), type);
+		return this;
 	}
 
 	@Override
 	public SimulationEntity getParent()
 	{
-		EntityId pId = this.getC(ParentComponent.class).getParentId();
+		EntityId pId = this.get_internal(ParentComponent.class).getParentId();
 		if (pId == null)
 			return null;
 		return this.ed.simED.getSimulationEntity(pId);
@@ -185,7 +107,7 @@ class DefaultInterfaceEntity extends DefaultEntity
 	@Override
 	public Iterable<SimulationEntity> getChildren()
 	{
-		return this.getC(ChildrenComponent.class)
+		return this.get_internal(ChildrenComponent.class)
 				.getChildren()
 				.stream()
 				.map(this.ed.simED::getSimulationEntity)::iterator;
@@ -194,39 +116,38 @@ class DefaultInterfaceEntity extends DefaultEntity
 	private void setRelationship(EntityId child, EntityId parent)
 	{
 
-		EntityId oldPId = this.ed.simED
-				.getSimulationEntity(child)
-				.getC(ParentComponent.class)
+		EntityId oldPId = this.ed.simED.getSimulationEntity(child)
+				.getComponent(ParentComponent.class)
 				.getParentId();
 		if (oldPId != null)
 		{
 			this.ed.simED
 					.getSimulationEntity(oldPId)
-					.editC(ChildrenComponent.class)
+					.edit(ChildrenComponent.class)
 					.set(ChildrenComponent::remove, child);
 		}
 		if (parent != null)
 		{
 			this.ed.simED.getSimulationEntity(parent)
-					.editC(ChildrenComponent.class)
+					.edit(ChildrenComponent.class)
 					.set(ChildrenComponent::add, child);
 		}
 		this.ed.simED
 				.getSimulationEntity(child)
-				.editC(ParentComponent.class)
+				.edit(ParentComponent.class)
 				.set(ParentComponent::setParentId, parent);
 	}
 
 	@Override
 	public void addChild(EntityId child)
 	{
-		setRelationship(child, this.id);
+		setRelationship(child, this.getId());
 	}
 
 	@Override
 	public void setParent(EntityId parent)
 	{
-		setRelationship(this.id, parent);
+		setRelationship(this.getId(), parent);
 	}
 
 	@Override
@@ -238,7 +159,13 @@ class DefaultInterfaceEntity extends DefaultEntity
 	@Override
 	public void removeFromParent()
 	{
-		this.setRelationship(this.id, null);
+		this.setRelationship(this.getId(), null);
+	}
+
+	@Override
+	public SimulationComponent[] getAllComponents()
+	{
+		return this.components;
 	}
 
 }

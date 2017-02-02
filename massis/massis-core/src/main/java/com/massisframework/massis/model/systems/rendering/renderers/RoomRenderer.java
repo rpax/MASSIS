@@ -14,7 +14,7 @@ public class RoomRenderer implements JFXRenderer {
 	@Override
 	public void render(SimulationEntity e, GraphicsContext g2c)
 	{
-		ShapeComponent sc = e.getC(ShapeComponent.class);
+		ShapeComponent sc = e.getComponent(ShapeComponent.class);
 		RenderUtils.fill(g2c, sc, Color.GRAY);
 	}
 }

@@ -5,18 +5,6 @@ import com.massisframework.massis.sim.ecs.SimulationEntity;
 
 public interface Floor extends SimulationComponent {
 
-	public Iterable<SimulationEntity> getEntitiesIn();
 	
-	public int getYlength();
-
-	public int getXlength();
-
-	public int getMinY();
-
-	public int getMinX();
-
-	public int getMaxY();
-
-	public int getMaxX();
 
 }

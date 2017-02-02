@@ -4,8 +4,6 @@ import java.lang.ref.WeakReference;
 
 import com.massisframework.massis.sim.ecs.ComponentEdit;
 import com.massisframework.massis.sim.ecs.SimulationComponent;
-import com.simsilica.es.Entity;
-import com.simsilica.es.EntityComponent;
 
 class ComponentEditImpl<T extends SimulationComponent>
 		implements ComponentEdit<T> {
@@ -82,12 +80,14 @@ class ComponentEditImpl<T extends SimulationComponent>
 		return (T) this.component;
 	}
 
-	private void update()
+	protected DefaultInterfaceEntity getEntity()
 	{
-		// TODO remove casts. Only to ensure we are calling the right method
-		((Entity) this.entityRef.get()).set((EntityComponent) this.component);
+		return this.entityRef.get();
 	}
 
-	
+	private void update()
+	{
+		this.getEntity().set(this.component);
+	}
 
 }

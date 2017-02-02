@@ -37,6 +37,7 @@ class SimulationEntityDataImpl implements SimulationEntityData {
 		this.componentCreator = componentCreator;
 		this.allEntities = CollectionsFactory.newMap(Long.class,
 				DefaultInterfaceEntity.class);
+		this.ed = new InterfaceEntityData(bindings, componentCreator, this);
 	}
 
 	@Override
