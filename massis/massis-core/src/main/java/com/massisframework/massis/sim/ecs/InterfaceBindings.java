@@ -14,6 +14,10 @@ public class InterfaceBindings {
 	private Set<Class<? extends SimulationSystem>> systems = new HashSet<>();
 	public String buildingPath;
 
+	private InterfaceBindings()
+	{
+	}
+
 	public static InterfaceBindingsBuilder builder()
 	{
 		return new InterfaceBindingsBuilder();
