@@ -24,9 +24,14 @@ public class ShapeSystem implements SimulationSystem {
 	@Override
 	public void update(float deltaTime)
 	{
-		for (SimulationEntity e : this.entities.getActiveEntities())
+		if (this.entities.applyChanges())
 		{
-			e.get(TransformComponent.class);
+			for (SimulationEntity e : this.entities.getActiveEntities())
+			{
+				TransformComponent tc = e.get(TransformComponent.class);
+				e.edit(ShapeComponent.class)
+						.set(ShapeComponent::translateTo, tc.getX(), tc.getY());
+			}
 		}
 	}
 

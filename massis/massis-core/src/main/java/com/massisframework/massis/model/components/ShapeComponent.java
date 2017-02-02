@@ -11,6 +11,10 @@ public interface ShapeComponent extends SimulationComponent {
 	public double centerX();
 
 	public double centerY();
+	
+	public void translateTo(double x,double y);
+	
+	public void translateTo(float x,float y);
 
 	public double getX(int i);
 

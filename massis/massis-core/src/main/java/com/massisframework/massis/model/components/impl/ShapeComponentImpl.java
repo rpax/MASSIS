@@ -8,12 +8,13 @@ public class ShapeComponentImpl implements ShapeComponent {
 
 	private KPolygon polygon;
 
-//	@Override
+	// @Override
 	public KPolygon getShape()
 	{
 		return this.polygon;
 	}
-//
+
+	//
 	public void setShape(KPolygon shape)
 	{
 		this.polygon = shape;
@@ -53,6 +54,18 @@ public class ShapeComponentImpl implements ShapeComponent {
 	public double getY(int i)
 	{
 		return this.polygon.getPoint(i).y;
+	}
+
+	@Override
+	public void translateTo(float x, float y)
+	{
+		this.translateTo(x, y);
+	}
+
+	@Override
+	public void translateTo(double x, double y)
+	{
+		this.polygon.translateTo(x, y);
 	}
 
 }
