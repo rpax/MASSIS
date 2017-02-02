@@ -15,8 +15,8 @@ public class DoorRenderer implements JFXRenderer {
 	@Override
 	public void render(SimulationEntity e, GraphicsContext g2c)
 	{
-		ShapeComponent sc = e.getComponent(ShapeComponent.class);
-		DoorComponent dc = e.getComponent(DoorComponent.class);
+		ShapeComponent sc = e.get(ShapeComponent.class);
+		DoorComponent dc = e.get(DoorComponent.class);
 		if (dc.isOpen())
 		{
 			RenderUtils.fill(g2c, sc, Color.GREEN);

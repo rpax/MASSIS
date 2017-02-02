@@ -4,7 +4,7 @@ import com.simsilica.es.EntityId;
 
 public interface SimulationEntity extends ComponentModifier {
 
-	public <T extends SimulationComponent> T getComponent(Class<T> c);
+	public <T extends SimulationComponent> T get(Class<T> c);
 
 	public SimulationEntity getParent();
 

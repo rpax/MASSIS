@@ -32,13 +32,13 @@ public class MovementSystem implements SimulationSystem {
 		for (SimulationEntity e : this.entities)
 		{
 
-			CoordinateHolder target = e.getComponent(MovingTo.class)
+			CoordinateHolder target = e.get(MovingTo.class)
 					.getTarget();
 
 			// followPath
 			Vector2f newVel = new Vector2f((float) target.getX(),
 					(float) target.getY())
-							.subtractLocal(e.getComponent(TransformComponent.class)
+							.subtractLocal(e.get(TransformComponent.class)
 									.getPosition(new Vector2f()))
 							.normalizeLocal()
 							.multLocal(100);

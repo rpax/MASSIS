@@ -62,7 +62,7 @@ public class DefaultInterfaceEntity
 	}
 
 	@Override
-	public <T extends SimulationComponent> T getComponent(Class<T> c)
+	public SimulationComponent get(Class c)
 	{
 		return get_internal(c);
 	}
@@ -117,7 +117,7 @@ public class DefaultInterfaceEntity
 	{
 
 		EntityId oldPId = this.ed.simED.getSimulationEntity(child)
-				.getComponent(ParentComponent.class)
+				.get(ParentComponent.class)
 				.getParentId();
 		if (oldPId != null)
 		{

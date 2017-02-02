@@ -75,7 +75,7 @@ public class Simulation2DWindow {
 					for (SimulationEntity se : entities)
 					{
 						TransformComponent tr = se
-								.getComponent(TransformComponent.class);
+								.get(TransformComponent.class);
 						minX = Math.min(minX, tr.getX());
 						minY = Math.min(minY, tr.getY());
 
@@ -93,7 +93,7 @@ public class Simulation2DWindow {
 					g2c.transform(tr);
 					for (SimulationEntity se : entities)
 					{
-						se.getComponent(RenderComponent.class).getRenderer().render(se,
+						se.get(RenderComponent.class).getRenderer().render(se,
 								g2c);
 					}
 				}

@@ -104,20 +104,20 @@ public class SEPathFinder {
 		for (SimulationEntity wallEntity : walls)
 		{
 
-			if (wallEntity.getComponent(FloorReference.class)
+			if (wallEntity.get(FloorReference.class)
 					.getFloorId() != this.floorId.getId())
 				continue;
 			/*
 			 * Substraction of the doors area to the walls area
 			 */
 			Area area = new Area(
-					wallEntity.getComponent(ShapeComponentImpl.class).getShape());
+					wallEntity.get(ShapeComponentImpl.class).getShape());
 			for (SimulationEntity doorEntity : doors)
 			{
-				boolean open = doorEntity.getComponent(DoorComponent.class)
+				boolean open = doorEntity.get(DoorComponent.class)
 						.isOpen();
 				KPolygon shape = PathFindingUtils.createKPolygonFromShape(
-						doorEntity.getComponent(ShapeComponentImpl.class).getShape());
+						doorEntity.get(ShapeComponentImpl.class).getShape());
 
 				if (open)
 				{
@@ -189,7 +189,7 @@ public class SEPathFinder {
 
 		for (SimulationEntity sr : engine.findEntities(RoomComponent.class))
 		{
-			Area walkAble = new Area(sr.getComponent(ShapeComponentImpl.class).getShape());
+			Area walkAble = new Area(sr.get(ShapeComponentImpl.class).getShape());
 
 			walkAblePolys
 					.add(PathFindingUtils.createKPolygonFromShape(walkAble));
@@ -197,7 +197,7 @@ public class SEPathFinder {
 		}
 		// Connect the obstacles' nodes so that the PathFinder can do its work:
 		Floor floor = this.engine.getSimulationEntity(this.floorId)
-				.getComponent(Floor.class);
+				.get(Floor.class);
 		int scale=100;
 		int bounds=1000;
 		int length=bounds*scale;

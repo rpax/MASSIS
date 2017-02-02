@@ -21,9 +21,9 @@ public class AgentArrowRenderer implements JFXRenderer {
 	{
 		KPolygon triangle = triangle_render_TL.get();
 
-		TransformComponent tr = e.getComponent(TransformComponent.class);
+		TransformComponent tr = e.get(TransformComponent.class);
 
-		ShapeComponent sc = e.getComponent(ShapeComponent.class);
+		ShapeComponent sc = e.get(ShapeComponent.class);
 		double radius = sc.getRadius();
 		double scale = radius;
 

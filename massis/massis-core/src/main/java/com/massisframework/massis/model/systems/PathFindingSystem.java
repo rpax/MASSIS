@@ -64,10 +64,10 @@ public class PathFindingSystem implements SimulationSystem {
 			{
 				System.out.println("ASD");
 
-				CoordinateHolder target = e.getComponent(FollowTarget.class)
+				CoordinateHolder target = e.get(FollowTarget.class)
 						.getTarget();
 
-				long floorId = e.getComponent(FloorReference.class).getFloorId();
+				long floorId = e.get(FloorReference.class).getFloorId();
 				SEPathFinder pF = this.pathFinders.get(floorId);
 				if (pF == null)
 				{
@@ -76,7 +76,7 @@ public class PathFindingSystem implements SimulationSystem {
 					continue;
 				}
 
-				TransformComponent tr = e.getComponent(TransformComponent.class);
+				TransformComponent tr = e.get(TransformComponent.class);
 				List<CoordinateHolder> path = pF
 						.findPath(new KVector(tr.getX(), tr.getY()), target);
 				e.add(MovingTo.class)

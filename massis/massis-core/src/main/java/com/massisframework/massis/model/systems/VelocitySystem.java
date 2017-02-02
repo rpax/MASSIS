@@ -31,10 +31,10 @@ public class VelocitySystem implements SimulationSystem {
 		{
 			for (SimulationEntity e : this.entities.getAddedEntities())
 			{
-				TransformComponent transform = e.getComponent(TransformComponent.class);
+				TransformComponent transform = e.get(TransformComponent.class);
 				TempVars tmp = TempVars.get();
 				Vector2f pos = transform.getPosition(tmp.vect2d);
-				Vector2f newPos = e.getComponent(Velocity.class)
+				Vector2f newPos = e.get(Velocity.class)
 						.getValue(tmp.vect2d2)
 						.multLocal(deltaTime)
 						.addLocal(pos);
