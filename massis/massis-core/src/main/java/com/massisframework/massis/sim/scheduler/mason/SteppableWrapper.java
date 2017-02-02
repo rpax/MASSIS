@@ -1,4 +1,4 @@
-package com.massisframework.massis.sim.ecs.mason;
+package com.massisframework.massis.sim.scheduler.mason;
 
 import com.massisframework.massis.sim.SimulationSteppable;
 
