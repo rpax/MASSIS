@@ -6,13 +6,13 @@ public interface SimulationEntity {
 
 	public SimulationComponent[] getComponents();
 
-	public <T extends SimulationComponent> EntityEdit<T> addC(Class<T> c);
+	public <T extends SimulationComponent> ComponentEdit<T> addC(Class<T> c);
 
 	public <T extends SimulationComponent> T getC(Class<T> c);
 
 	public <T extends SimulationComponent> void removeC(Class<T> c);
 
-	public <T extends SimulationComponent> EntityEdit<T> editC(
+	public <T extends SimulationComponent> ComponentEdit<T> editC(
 			Class<T> c);
 
 	public SimulationEntity getParent();

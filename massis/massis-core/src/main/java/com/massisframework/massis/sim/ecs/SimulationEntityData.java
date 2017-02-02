@@ -21,7 +21,7 @@ public interface SimulationEntityData {
 	/**
 	 * @formatter:off
 	 */
-	public <T extends SimulationComponent> EntityEdit<T> add(EntityId entityId,Class<T> component);
+	public <T extends SimulationComponent> ComponentEdit<T> add(EntityId entityId,Class<T> component);
 	public <T extends SimulationComponent> void remove(EntityId entityId, Class<T> type);
 	public <T extends SimulationComponent> T get(EntityId entityId,Class<T> type);
 	public <T extends SimulationComponent> T addGet(EntityId entityId, Class<T> component);

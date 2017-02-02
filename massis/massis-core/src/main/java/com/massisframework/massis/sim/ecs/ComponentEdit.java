@@ -1,23 +1,23 @@
 package com.massisframework.massis.sim.ecs;
 
-public interface EntityEdit<T extends SimulationComponent> {
+public interface ComponentEdit<T extends SimulationComponent> {
 
 	public T get();
 
-	public EntityEdit<T> set(Consumer0<T> action);
+	public ComponentEdit<T> set(Consumer0<T> action);
 
-	public <U> EntityEdit<T> set(Consumer1<T, U> consumer, U value);
+	public <U> ComponentEdit<T> set(Consumer1<T, U> consumer, U value);
 
-	public <U1, U2> EntityEdit<T> set(Consumer2<T, U1, U2> consumer,
+	public <U1, U2> ComponentEdit<T> set(Consumer2<T, U1, U2> consumer,
 			U1 u, U2 u2);
 
-	public <U1, U2, U3> EntityEdit<T> set(
+	public <U1, U2, U3> ComponentEdit<T> set(
 			Consumer3<T, U1, U2, U3> consumer, U1 u, U2 u2, U3 u3);
 
-	public <U1, U2, U3, U4> EntityEdit<T> set(
+	public <U1, U2, U3, U4> ComponentEdit<T> set(
 			Consumer4<T, U1, U2, U3, U4> consumer, U1 u, U2 u2, U3 u3, U4 u4);
 
-	public <U1, U2, U3, U4, U5> EntityEdit<T> set(
+	public <U1, U2, U3, U4, U5> ComponentEdit<T> set(
 			Consumer5<T, U1, U2, U3, U4, U5> consumer, U1 u, U2 u2, U3 u3,
 			U4 u4, U5 u5);
 

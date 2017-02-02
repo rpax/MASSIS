@@ -6,7 +6,7 @@ import com.google.inject.Inject;
 import com.massisframework.massis.model.components.impl.TransformImpl;
 import com.massisframework.massis.sim.ecs.CollectionsFactory;
 import com.massisframework.massis.sim.ecs.EntityComponentCreator;
-import com.massisframework.massis.sim.ecs.EntityEdit;
+import com.massisframework.massis.sim.ecs.ComponentEdit;
 import com.massisframework.massis.sim.ecs.InterfaceBindings;
 import com.massisframework.massis.sim.ecs.SimulationComponent;
 import com.massisframework.massis.sim.ecs.SimulationEntity;
@@ -78,13 +78,13 @@ class SimulationEntityDataImpl implements SimulationEntityData {
 	}
 
 	@Override
-	public <T extends SimulationComponent> EntityEdit<T> add(
+	public <T extends SimulationComponent> ComponentEdit<T> add(
 			EntityId entityId,
 			Class<T> component)
 	{
 		//
 		T cmp = addGet(entityId, component);
-		EntityEditImpl<T> entityEdit = new EntityEditImpl<>(
+		ComponentEditImpl<T> entityEdit = new ComponentEditImpl<>(
 				getSimulationEntity(entityId.getId()));
 		entityEdit.setComponent(cmp);
 		return entityEdit;

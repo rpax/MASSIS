@@ -2,7 +2,7 @@ package com.massisframework.massis.sim.ecs.zayes;
 
 import java.util.Arrays;
 
-import com.massisframework.massis.sim.ecs.EntityEdit;
+import com.massisframework.massis.sim.ecs.ComponentEdit;
 import com.massisframework.massis.sim.ecs.SimulationComponent;
 import com.massisframework.massis.sim.ecs.SimulationEntity;
 import com.simsilica.es.EntityId;
@@ -126,7 +126,7 @@ class DefaultInterfaceEntity extends DefaultEntity
 	}
 
 	@Override
-	public <T extends SimulationComponent> EntityEdit<T> addC(Class<T> c)
+	public <T extends SimulationComponent> ComponentEdit<T> addC(Class<T> c)
 	{
 		// ?¿
 		T cmp = getComponent_internal(c);
@@ -134,7 +134,7 @@ class DefaultInterfaceEntity extends DefaultEntity
 		{
 			cmp = this.ed.addNewComponent(id, c);
 		}
-		EntityEditImpl entityEdit = new EntityEditImpl<>(this);
+		ComponentEditImpl entityEdit = new ComponentEditImpl<>(this);
 		entityEdit.setComponent(cmp);
 		return entityEdit;
 
@@ -147,10 +147,10 @@ class DefaultInterfaceEntity extends DefaultEntity
 	}
 
 	@Override
-	public <T extends SimulationComponent> EntityEdit<T> editC(
+	public <T extends SimulationComponent> ComponentEdit<T> editC(
 			Class<T> type)
 	{
-		EntityEditImpl<T> entityEdit = new EntityEditImpl<>(this);
+		ComponentEditImpl<T> entityEdit = new ComponentEditImpl<>(this);
 		entityEdit.setComponent(this.getC(type));
 		return entityEdit;
 	}
