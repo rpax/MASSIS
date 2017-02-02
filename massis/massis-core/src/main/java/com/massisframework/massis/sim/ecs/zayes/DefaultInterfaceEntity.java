@@ -158,7 +158,7 @@ public class DefaultInterfaceEntity extends DefaultEntity
 				return c.cast(components[i]);
 			}
 		}
-		return null;
+		return this.ed.get(this.id, c);
 	}
 
 	@Override

@@ -11,6 +11,7 @@ import com.massisframework.massis.model.components.FloorReference;
 import com.massisframework.massis.model.components.RoomComponent;
 import com.massisframework.massis.model.components.ShapeComponent;
 import com.massisframework.massis.model.components.WallComponent;
+import com.massisframework.massis.model.components.impl.ShapeComponentImpl;
 import com.massisframework.massis.sim.ecs.zayes.SimulationEntity;
 import com.massisframework.massis.sim.ecs.zayes.SimulationEntityData;
 import com.massisframework.massis.util.PathFindingUtils;
@@ -97,9 +98,9 @@ public class SEPathFinder {
 
 		this.stationaryObstacles = new ArrayList<PathBlockingObstacleImpl>();
 		List<KPolygon> obstPolys = new ArrayList<KPolygon>();
-		engine.findEntities(WallComponent.class).forEach(this.walls::add);
-		engine.findEntities(DoorComponent.class).forEach(this.doors::add);
-		engine.findEntities(RoomComponent.class).forEach(this.rooms::add);
+		engine.findEntities(WallComponent.class,ShapeComponent.class).forEach(this.walls::add);
+		engine.findEntities(DoorComponent.class,ShapeComponent.class).forEach(this.doors::add);
+		engine.findEntities(RoomComponent.class,ShapeComponent.class).forEach(this.rooms::add);
 		for (SimulationEntity wallEntity : walls)
 		{
 
@@ -110,13 +111,13 @@ public class SEPathFinder {
 			 * Substraction of the doors area to the walls area
 			 */
 			Area area = new Area(
-					wallEntity.getC(ShapeComponent.class).getShape());
+					wallEntity.getC(ShapeComponentImpl.class).getShape());
 			for (SimulationEntity doorEntity : doors)
 			{
 				boolean open = doorEntity.getC(DoorComponent.class)
 						.isOpen();
 				KPolygon shape = PathFindingUtils.createKPolygonFromShape(
-						doorEntity.getC(ShapeComponent.class).getShape());
+						doorEntity.getC(ShapeComponentImpl.class).getShape());
 
 				if (open)
 				{
@@ -188,7 +189,7 @@ public class SEPathFinder {
 
 		for (SimulationEntity sr : engine.findEntities(RoomComponent.class))
 		{
-			Area walkAble = new Area(sr.getC(ShapeComponent.class).getShape());
+			Area walkAble = new Area(sr.getC(ShapeComponentImpl.class).getShape());
 
 			walkAblePolys
 					.add(PathFindingUtils.createKPolygonFromShape(walkAble));

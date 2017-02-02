@@ -24,4 +24,6 @@ public interface TransformComponent extends SimulationComponent {
 	public TransformComponent setX(float x);
 
 	public TransformComponent setY(float y);
+
+	public float distance2D(double x, double y);
 }

@@ -8,12 +8,12 @@ public class ShapeComponentImpl implements ShapeComponent {
 
 	private KPolygon polygon;
 
-	@Override
+//	@Override
 	public KPolygon getShape()
 	{
 		return this.polygon;
 	}
-
+//
 	public void setShape(KPolygon shape)
 	{
 		this.polygon = shape;

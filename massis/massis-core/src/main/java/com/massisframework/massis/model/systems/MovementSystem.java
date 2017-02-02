@@ -21,6 +21,7 @@ public class MovementSystem implements SimulationSystem {
 	public void initialize()
 	{
 		this.entities = ed.createEntitySet(TransformComponent.class,
+				MovingTo.class,
 				Velocity.class);
 	}
 

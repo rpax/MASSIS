@@ -6,7 +6,6 @@ import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.util.TempVars;
 import com.massisframework.massis.model.components.TransformComponent;
-import com.massisframework.massis.model.components.Velocity;
 import com.massisframework.massis.sim.ecs.zayes.SimulationEntity;
 
 public class TransformImpl implements TransformComponent {
@@ -222,6 +221,19 @@ public class TransformImpl implements TransformComponent {
 		this.localTransform.setTranslation(current.x, current.y, y);
 		this.needsRefresh = true;
 		return this;
+	}
+
+	@Override
+	public float distance2D(double x, double y)
+	{
+		return (float) Math.sqrt(distanceSquared2D(x, y));
+	}
+
+	public double distanceSquared2D(double otherX, double otherY)
+	{
+		double dx = getX() - otherX;
+		double dy = getY() - otherY;
+		return (dx * dx + dy * dy);
 	}
 
 }

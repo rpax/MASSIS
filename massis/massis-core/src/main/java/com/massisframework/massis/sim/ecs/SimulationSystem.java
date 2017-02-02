@@ -22,4 +22,8 @@ public interface SimulationSystem {
 	{
 	}
 
+	public default void cleanup(){}
+
+	public default boolean isEnabled(){return true;}
+
 }

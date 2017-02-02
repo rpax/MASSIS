@@ -13,7 +13,6 @@ import com.massisframework.massis.sim.ecs.zayes.SimulationEntitySet;
 
 public class FloorImpl implements Floor {
 
-	@Inject
 	private SimulationEntityData entityData;
 
 	private SimulationEntitySet entities;
@@ -22,9 +21,10 @@ public class FloorImpl implements Floor {
 	private SimulationEntity entity;
 
 	@Inject
-	public FloorImpl()
+	public FloorImpl(SimulationEntityData entityData)
 	{
-		this.entities = entityData.createEntitySet(FloorReference.class);
+		this.entityData = entityData;
+		this.entities = this.entityData.createEntitySet(FloorReference.class);
 	}
 
 	/*
@@ -47,7 +47,7 @@ public class FloorImpl implements Floor {
 				.map(e -> e.getC(TransformComponent.class))
 				.mapToInt(p -> (int) p.getX()).min().orElseGet(() -> 0);
 	}
-	
+
 	public void setMinX(int minX)
 	{
 		this.minX = minX;

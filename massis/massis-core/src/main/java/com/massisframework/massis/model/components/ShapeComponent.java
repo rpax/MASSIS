@@ -6,7 +6,7 @@ import com.massisframework.massis.sim.ecs.zayes.SimulationComponent;
 
 public interface ShapeComponent extends SimulationComponent {
 
-	public Shape getShape();
+	//public Shape getShape();
 
 	public int getNumPoints();
 

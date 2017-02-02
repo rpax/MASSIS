@@ -44,8 +44,13 @@ import straightedge.geom.KPolygon;
 
 public class BuildingSystem implements SimulationSystem {
 
-	@Inject
 	private Home home;
+
+	@Inject
+	public BuildingSystem(Home home)
+	{
+		this.home = home;
+	}
 
 	@Inject
 	private SimulationEntityData ed;
@@ -114,7 +119,8 @@ public class BuildingSystem implements SimulationSystem {
 
 					roomEntity.addC(RoomComponent.class).commit()
 							.addC(RenderComponent.class)
-							.set(RenderComponent::setRenderer,RoomRenderer.renderer)
+							.set(RenderComponent::setRenderer,
+									RoomRenderer.renderer)
 							.commit();
 
 				});
@@ -204,7 +210,9 @@ public class BuildingSystem implements SimulationSystem {
 		ed.addGet(entityId, Metadata.class).set(getMetadata((HomeObject) w));
 		ed.get(entityId, TransformComponent.class)
 				.setX((float) center.x).setY((float) center.y);
-		ed.addGet(entityId, ShapeComponentImpl.class).setShape(shape);
+		ed.add(entityId, ShapeComponentImpl.class)
+				.set(ShapeComponentImpl::setShape, shape)
+				.commit();
 
 		return ed.getSimulationEntity(entityId);
 	}

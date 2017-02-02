@@ -5,6 +5,8 @@ import java.io.IOException;
 import com.google.inject.Inject;
 import com.massisframework.massis.javafx.util.ApplicationLauncher;
 import com.massisframework.massis.model.components.RenderComponent;
+import com.massisframework.massis.model.components.ShapeComponent;
+import com.massisframework.massis.model.components.TransformComponent;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
 import com.massisframework.massis.sim.ecs.zayes.SimulationEntityData;
 import com.massisframework.massis.sim.ecs.zayes.SimulationEntitySet;
@@ -26,7 +28,7 @@ public class JFXDisplaySystem implements SimulationSystem {
 	@Override
 	public void initialize()
 	{
-		this.entities = this.ed.createEntitySet(RenderComponent.class);
+		this.entities = this.ed.createEntitySet(RenderComponent.class,TransformComponent.class,ShapeComponent.class);
 
 		ApplicationLauncher.launchWrappedApplication((stage, app) -> {
 			try

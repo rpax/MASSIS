@@ -24,8 +24,9 @@ public class EntityEditImpl<T extends SimulationComponent>
 	public SimulationEntity commit()
 	{
 		((EntityData) ed).setComponent(se.getId(), (T) cmp);
+		SimulationEntity se_aux = se;
 		this.op.free(this);
-		return se;
+		return se_aux;
 	}
 
 	public void reset()
