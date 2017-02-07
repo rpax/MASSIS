@@ -44,4 +44,10 @@ public class VelocityImpl implements Velocity {
 		return this;
 	}
 
+	@Override
+	public String toString()
+	{
+		return "Velocity[" + velocity + "]";
+	}
+
 }

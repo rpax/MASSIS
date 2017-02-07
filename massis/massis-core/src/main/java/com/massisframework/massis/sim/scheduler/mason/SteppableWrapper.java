@@ -9,8 +9,8 @@ import sim.engine.Steppable;
 class SteppableWrapper implements Steppable {
 
 	// TODO ?
-	private float lastUpdate = -1;
 	private SimulationSteppable simulationSteppable;
+	private int fps = 60;
 
 	public SteppableWrapper(SimulationSteppable simulationSteppable)
 	{
@@ -20,12 +20,10 @@ class SteppableWrapper implements Steppable {
 	@Override
 	public void step(SimState simState)
 	{
-		float currentTime = (float) (simState.schedule.getTime() / 60);
-		if (lastUpdate > 0)
+		double stepSize = 1D / fps;
+//		for (int i = 0; i < 10; i++)
 		{
-			simulationSteppable.update(currentTime - lastUpdate);
+			simulationSteppable.update((float) stepSize);
 		}
-		lastUpdate = currentTime;
 	}
-
 }

@@ -20,26 +20,34 @@ public class VelocitySystem implements SimulationSystem {
 	@Override
 	public void initialize()
 	{
-		this.entities = this.ed.createEntitySet(Velocity.class,
+		this.entities = this.ed.createEntitySet(
+				Velocity.class,
 				TransformComponent.class);
 	}
 
 	@Override
 	public void update(float deltaTime)
 	{
-		if (this.entities.applyChanges())
+		this.entities.applyChanges();
+		//if (this.entities.applyChanges())
 		{
-			for (SimulationEntity e : this.entities.getAddedEntities())
+			for (SimulationEntity e : this.entities)
 			{
 				TransformComponent transform = e.get(TransformComponent.class);
+				Velocity velocity=e.get(Velocity.class);
 				TempVars tmp = TempVars.get();
-				Vector2f pos = transform.getPosition(tmp.vect2d);
-				Vector2f newPos = e.get(Velocity.class)
-						.getValue(tmp.vect2d2)
-						.multLocal(deltaTime)
-						.addLocal(pos);
+				Vector2f pos = transform.getPosition(new Vector2f());
+				
+//				Vector2f newPos = velocity
+//						.getValue(tmp.vect2d2)
+//						.multLocal(deltaTime)
+//						.addLocal(pos)
+//						.clone();
+				Vector2f offset = velocity.getValue(new Vector2f());
+				offset.multLocal(deltaTime);
+				pos.addLocal(offset);
 				e.edit(TransformComponent.class)
-						.set(TransformComponent::setLocalTranslation, newPos);
+						.set(TransformComponent::setLocalTranslation, pos);
 				tmp.release();
 
 			}

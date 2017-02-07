@@ -58,11 +58,11 @@ public class PathFindingSystem implements SimulationSystem {
 
 			}
 		}
-		if (this.followers.applyChanges())
+		// if (this.followers.applyChanges())
+		this.followers.applyChanges();
 		{
-			for (SimulationEntity e : this.followers.getActiveEntities())
+			for (SimulationEntity e : this.followers)
 			{
-				System.out.println("ASD");
 
 				CoordinateHolder target = e.get(FollowTarget.class)
 						.getTarget();
@@ -79,6 +79,7 @@ public class PathFindingSystem implements SimulationSystem {
 				TransformComponent tr = e.get(TransformComponent.class);
 				List<CoordinateHolder> path = pF
 						.findPath(new KVector(tr.getX(), tr.getY()), target);
+				if (path==null) continue;
 				e.add(MovingTo.class)
 						.set(MovingTo::setTarget, path.get(1));
 			}
