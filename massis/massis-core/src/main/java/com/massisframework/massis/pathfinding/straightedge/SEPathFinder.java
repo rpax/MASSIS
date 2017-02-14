@@ -18,7 +18,6 @@ import com.massisframework.massis.util.PathFindingUtils;
 import com.massisframework.massis.util.geom.CoordinateHolder;
 import com.massisframework.massis.util.geom.KPolygonUtils;
 import com.massisframework.massis.util.geom.KVector;
-import com.simsilica.es.EntityId;
 
 import straightedge.geom.KPoint;
 import straightedge.geom.KPolygon;
@@ -74,14 +73,14 @@ public class SEPathFinder {
 	 * Initialization flag
 	 */
 	private boolean initialized = false;
-	private EntityId floorId;
+	private long floorId;
 	private SimulationEntityData engine;
 	private List<SimulationEntity> walls;
 	private ArrayList<SimulationEntity> doors;
 	private ArrayList<SimulationEntity> rooms;
 
 	public SEPathFinder(
-			SimulationEntityData engine, EntityId floorId)
+			SimulationEntityData engine, long floorId)
 	{
 		this.floorId = floorId;
 		this.engine = engine;
@@ -105,7 +104,7 @@ public class SEPathFinder {
 		{
 
 			if (wallEntity.get(FloorReference.class)
-					.getFloorId() != this.floorId.getId())
+					.getFloorId() != this.floorId)
 				continue;
 			/*
 			 * Substraction of the doors area to the walls area

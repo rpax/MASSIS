@@ -100,7 +100,7 @@ public class BuildingSystem implements SimulationSystem {
 				.filter(w -> w.getLevel() == lvl)
 				.forEach(w -> {
 					SimulationEntity wallEntity = createEntity(
-							floorEntity.getId().getId(), w);
+							floorEntity.id(), w);
 					wallEntity.add(WallComponent.class);
 					wallEntity.add(RenderComponent.class).set(
 							RenderComponent::setRenderer,
@@ -113,7 +113,7 @@ public class BuildingSystem implements SimulationSystem {
 				.filter(w -> w.getLevel() == lvl)
 				.forEach(w -> {
 					SimulationEntity roomEntity = createEntity(
-							floorEntity.getId().getId(),
+							floorEntity.id(),
 							w);
 					//
 
@@ -127,7 +127,7 @@ public class BuildingSystem implements SimulationSystem {
 				.stream()
 				.filter(w -> w.getLevel() == lvl)
 				.forEach(w -> {
-					createFurnitureComponent(floorEntity.getId().getId(), w);
+					createFurnitureComponent(floorEntity.id(), w);
 				});
 	}
 

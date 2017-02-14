@@ -1,18 +1,17 @@
 package com.massisframework.massis.sim.ecs.zayes;
 
 import com.massisframework.massis.sim.ecs.SimulationComponent;
-import com.simsilica.es.EntityId;
 
 class ParentComponent implements SimulationComponent {
 
-	private EntityId parentId = null;
+	private Long parentId = null;
 
-	public EntityId getParentId()
+	public Long getParentId()
 	{
 		return parentId;
 	}
 
-	public void setParentId(EntityId parentId)
+	public void setParentId(Long parentId)
 	{
 		this.parentId = parentId;
 	}

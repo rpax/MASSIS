@@ -63,6 +63,12 @@ public class CollectionsFactory {
 
 	}
 
+	public static <K, V> Map<K, List<V>> newMapList(Class<K> a,
+			Class<V> listClass)
+	{
+		return (Map) newMap(a, List.class);
+	}
+
 	public static <K, V> Map<K, V> newMap(Class<K> a, Class<V> b)
 	{
 		for (MapFactory f : MAP_FACTORIES)
@@ -143,8 +149,6 @@ public class CollectionsFactory {
 		}
 
 	}
-
-	
 
 	public static <T> Set<T> newSet(Class<T> type)
 	{

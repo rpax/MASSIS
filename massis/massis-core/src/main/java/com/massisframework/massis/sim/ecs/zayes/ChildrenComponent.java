@@ -27,12 +27,12 @@ class ChildrenComponent implements SimulationComponent {
 
 	public void add(SimulationEntity child)
 	{
-		this.add(child.getId());
+		this.add(child.id());
 	}
 
 	public void remove(SimulationEntity child)
 	{
-		this.remove(child.getId());
+		this.remove(child.id());
 	}
 
 	public void add(EntityId childId)

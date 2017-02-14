@@ -53,8 +53,8 @@ public class PathFindingSystem implements SimulationSystem {
 		{
 			for (SimulationEntity e : this.floors.getAddedEntities())
 			{
-				this.pathFinders.put(e.getId().getId(),
-						new SEPathFinder(this.ed, e.getId()));
+				this.pathFinders.put(e.id(),
+						new SEPathFinder(this.ed, e.id()));
 
 			}
 		}

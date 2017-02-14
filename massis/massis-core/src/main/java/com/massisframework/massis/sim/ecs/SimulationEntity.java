@@ -1,7 +1,5 @@
 package com.massisframework.massis.sim.ecs;
 
-import com.simsilica.es.EntityId;
-
 public interface SimulationEntity extends ComponentModifier {
 
 	public <T extends SimulationComponent> T get(Class<T> c);
@@ -10,13 +8,13 @@ public interface SimulationEntity extends ComponentModifier {
 
 	public Iterable<SimulationEntity> getChildren();
 
-	public EntityId getId();
+	public long id();
 
 	void setParent(SimulationEntity se);
 
-	void addChild(EntityId child);
+	void addChild(long child);
 
-	void setParent(EntityId parent);
+	void setParent(Long parent);
 
 	void removeFromParent();
 

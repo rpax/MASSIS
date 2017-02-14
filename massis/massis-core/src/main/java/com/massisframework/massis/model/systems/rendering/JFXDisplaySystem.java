@@ -19,8 +19,7 @@ import javafx.scene.Scene;
 
 public class JFXDisplaySystem implements SimulationSystem {
 
-	// TODO
-	private CompletableFuture<Simulation2DWindow> window = new CompletableFuture<>();;
+	private CompletableFuture<Simulation2DWindow> window = new CompletableFuture<>();
 
 	@Inject
 	private SimulationEntityData ed;
