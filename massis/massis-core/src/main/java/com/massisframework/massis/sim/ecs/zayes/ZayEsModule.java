@@ -30,7 +30,10 @@ public class ZayEsModule extends AbstractModule {
 	{
 
 		this.interfaceBindings.getBindings().forEach((itf, impl) -> {
-			bind(itf).to((Class) impl);
+			if (itf != impl)
+			{
+				bind(itf).to((Class) impl);
+			}
 		});
 		bind(SimulationEntityData.class).to(SimulationEntityDataImpl.class)
 				.in(Singleton.class);

@@ -2,6 +2,8 @@ package com.massisframework.massis.sim.ecs.zayes;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import com.massisframework.massis.sim.ecs.InterfaceBindings;
 import com.massisframework.massis.sim.ecs.SimulationComponent;
@@ -18,6 +20,7 @@ class InterfaceEntityData
 
 	private InterfaceBindings bindings;
 	private List<DefaultEntitySet> entitySets;
+	private Map<Class, ComponentHandler> _handlers;
 	private SimulationEntityDataImpl simulationED;
 
 	public InterfaceEntityData(
@@ -28,6 +31,7 @@ class InterfaceEntityData
 		this.simulationED = simED;
 		this.bindings = bindings;
 		this.entitySets = getFieldValue("entitySets");
+		this._handlers = getFieldValue("handlers");
 	}
 
 	@Override
@@ -53,7 +57,7 @@ class InterfaceEntityData
 	@Override
 	protected ComponentHandler getHandler(Class type)
 	{
-		return super.getHandler(this.bindings.getBinding(type));
+		return super.getHandler(type);
 	}
 
 	////////////////////////////////////////////////
@@ -70,11 +74,11 @@ class InterfaceEntityData
 		}
 	}
 
-//	public <T extends SimulationComponent> T addNewComponent(
-//			long id, Class<T> c)
-//	{
-//		return this.simulationED.add(id, c).get();
-//	}
+	// public <T extends SimulationComponent> T addNewComponent(
+	// long id, Class<T> c)
+	// {
+	// return this.simulationED.add(id, c).get();
+	// }
 
 	public <T extends SimulationComponent> T get(long id, Class<T> type)
 	{
@@ -89,6 +93,25 @@ class InterfaceEntityData
 	protected SimulationEntityDataImpl getSimulationED()
 	{
 		return simulationED;
+	}
+
+//	@Override
+//	protected Set<EntityId> getEntityIds(Class type)
+//	{
+//		// return getHandler(type).getEntities();
+//		return new MultiHandlerSet(this, type, null);
+//	}
+//
+//	@Override
+//	protected Set<EntityId> getEntityIds(Class type, ComponentFilter filter)
+//	{
+//		return new MultiHandlerSet(this, type, filter);
+//		// return getHandler(type).getEntities(filter);
+//	}
+
+	public Map<Class, ComponentHandler> getHandlers()
+	{
+		return _handlers;
 	}
 
 }

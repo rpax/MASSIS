@@ -173,7 +173,7 @@ public class DefaultInterfaceEntity
 			entityField.setAccessible(true);
 			try
 			{
-				entityField.set(sc, this.ed);
+				entityField.set(sc, this);
 			} catch (IllegalArgumentException | IllegalAccessException e1)
 			{
 				throw new RuntimeException(e1);
@@ -189,6 +189,17 @@ public class DefaultInterfaceEntity
 		{
 			this.ed.add(this.id(), cmp);
 		}
+	}
+
+	@Override
+	public boolean has(Class... types)
+	{
+		for (Class type : types)
+		{
+			if (this.get(type) == null)
+				return false;
+		}
+		return true;
 	}
 
 }

@@ -38,16 +38,11 @@ public class VelocitySystem implements SimulationSystem {
 				TempVars tmp = TempVars.get();
 				Vector2f pos = transform.getPosition(new Vector2f());
 				
-//				Vector2f newPos = velocity
-//						.getValue(tmp.vect2d2)
-//						.multLocal(deltaTime)
-//						.addLocal(pos)
-//						.clone();
 				Vector2f offset = velocity.getValue(new Vector2f());
 				offset.multLocal(deltaTime);
 				pos.addLocal(offset);
-				e.edit(TransformComponent.class)
-						.set(TransformComponent::setLocalTranslation, pos);
+				e.get(TransformComponent.class).setLocalTranslation(pos);
+				e.markChanged(TransformComponent.class);
 				tmp.release();
 
 			}

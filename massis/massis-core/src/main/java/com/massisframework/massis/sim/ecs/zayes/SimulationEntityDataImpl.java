@@ -62,10 +62,15 @@ class SimulationEntityDataImpl implements SimulationEntityData {
 		Class[] typesImpl = new Class[types.length];
 		for (int i = 0; i < types.length; i++)
 		{
+			if (!SimulationComponent.class.isAssignableFrom(types[i]))
+			{
+				throw new IllegalArgumentException("type " + types[i] +
+						" must implement "
+						+ SimulationComponent.class.getName());
+			}
 			typesImpl[i] = this.bindings.getBinding(types[i]);
 		}
-		InterfaceEntitySet entitySet = (InterfaceEntitySet) ed
-				.getEntities(typesImpl);
+		InterfaceEntitySet entitySet = (InterfaceEntitySet) ed.getEntities(typesImpl);
 		return new EntitySetWrapper(entitySet);
 	}
 
@@ -94,7 +99,8 @@ class SimulationEntityDataImpl implements SimulationEntityData {
 	}
 
 	@Override
-	public <T extends SimulationComponent> void remove(long entityId,Class<T> type)
+	public <T extends SimulationComponent> void remove(long entityId,
+			Class<T> type)
 	{
 		T cmp = ed.getComponent(getMappedEntityId(entityId), type);
 		this.componentChangeListeners.forEach(l -> l.componentRemoved(cmp));
@@ -140,10 +146,9 @@ class SimulationEntityDataImpl implements SimulationEntityData {
 	}
 
 	@Override
-	public <T extends SimulationComponent> T get(long entityId,
-			Class<T> type)
+	public <T extends SimulationComponent> T get(long entityId,Class<T> type)
 	{
-		return ed.getComponent(getMappedEntityId(entityId), type);
+		return ed.getComponent(getMappedEntityId(entityId), bindings.getBinding(type));
 	}
 
 	@Override

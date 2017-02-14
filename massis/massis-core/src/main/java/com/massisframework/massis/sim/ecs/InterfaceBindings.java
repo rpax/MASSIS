@@ -1,18 +1,22 @@
 package com.massisframework.massis.sim.ecs;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.massisframework.massis.model.components.JFXRenderer;
 import com.massisframework.massis.sim.SimulationScheduler;
 
 public class InterfaceBindings {
 
 	private Map<Class<? extends SimulationComponent>, Class<? extends SimulationComponent>> bindings = new HashMap<>();
 	private Set<Class<? extends SimulationSystem>> systems = new HashSet<>();
-	public String buildingPath;
+	protected String buildingPath;
+	protected List<Class<? extends JFXRenderer>> renderers;
 
 	private InterfaceBindings()
 	{
@@ -38,13 +42,20 @@ public class InterfaceBindings {
 	public <I extends SimulationComponent, C extends I> Class<C> getBinding(
 			Class<I> type, boolean loadDefaultIfNotExists)
 	{
-		if (loadDefaultIfNotExists)
+		Class t = this.bindings.get(type);
+		if (t == null)
 		{
-			return (Class<C>) this.bindings.getOrDefault(type, type);
-		} else
-		{
-			return (Class<C>) this.bindings.get(type);
+			throw new IllegalArgumentException(
+					"Type " + type.getName() + " not mapped");
 		}
+		return (Class<C>) t;
+		// if (loadDefaultIfNotExists)
+		// {
+		// return (Class<C>) this.bindings.getOrDefault(type, type);
+		// } else
+		// {
+		// return (Class<C>) this.bindings.get(type);
+		// }
 	}
 
 	public interface SimulationConfigurationBuilder {
@@ -94,6 +105,13 @@ public class InterfaceBindings {
 			return this;
 		}
 
+		public InterfaceBindingsBuilder renderOrder(
+				Class... renderers)
+		{
+			this.config.renderers = Arrays.asList(renderers);
+			return this;
+		}
+
 	}
 
 	public Iterable<Class<? extends SimulationSystem>> getSystems()
@@ -105,6 +123,11 @@ public class InterfaceBindings {
 	public String getBuildingPath()
 	{
 		return this.buildingPath;
+	}
+
+	public List<Class<? extends JFXRenderer>> getRenderers()
+	{
+		return renderers;
 	}
 
 }

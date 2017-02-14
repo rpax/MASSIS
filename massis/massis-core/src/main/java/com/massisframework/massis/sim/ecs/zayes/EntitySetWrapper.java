@@ -81,4 +81,10 @@ class EntitySetWrapper implements SimulationEntitySet {
 	{
 		return (Iterator) es.iterator();
 	}
+
+	@Override
+	public String toString()
+	{
+		return this.es.toString();
+	}
 }

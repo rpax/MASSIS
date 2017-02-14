@@ -6,6 +6,8 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.massisframework.massis.model.components.Metadata;
 import com.massisframework.massis.model.components.impl.DoorComponentImpl;
+import com.massisframework.massis.model.components.impl.DynamicObstacleImpl;
+import com.massisframework.massis.model.components.impl.StationaryObstacleImpl;
 import com.massisframework.massis.model.components.impl.WindowComponentImpl;
 import com.massisframework.massis.model.systems.sh3d.SweetHome3DFurniture;
 import com.massisframework.massis.sim.ecs.SimulationEntity;
@@ -32,7 +34,6 @@ public class FurnitureSystem implements SimulationSystem {
 	{
 		this.furniture = ed.createEntitySet(SweetHome3DFurniture.class);
 		this.furniture.applyChanges();
-		// Iterate over walls, windows...etc
 		for (SimulationEntity e : furniture)
 		{
 			this.addFurniture(e);
@@ -54,24 +55,39 @@ public class FurnitureSystem implements SimulationSystem {
 			}
 		} else
 		{
-			AgentComponentImpl agent = new AgentComponentImpl();
+
 			String className = e.get(Metadata.class)
 					.get(SimObjectProperty.CLASSNAME.toString());
 			if (className != null)
 			{
+
 				HighLevelAgent hl;
+				AgentComponentImpl agent = new AgentComponentImpl();
 				try
 				{
 					hl = (HighLevelAgent) injector
 							.getInstance(Class.forName(className));
 					agent.setHighLevelAgent(hl);
+					String dyn = e.get(Metadata.class).get(SimObjectProperty.IS_DYNAMIC);
+					if (!"false".equalsIgnoreCase(dyn))
+					{
+						e.add(new DynamicObstacleImpl());
+					} else
+					{
+						e.add(new StationaryObstacleImpl());
+					}
+					e.add(agent);
 				} catch (ClassNotFoundException e1)
 				{
 					// TODO catch properly
 					e1.printStackTrace();
 				}
 
+			} else
+			{
+				e.add(new StationaryObstacleImpl());
 			}
+
 		}
 
 	}

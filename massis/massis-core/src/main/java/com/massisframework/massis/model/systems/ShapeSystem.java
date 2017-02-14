@@ -29,8 +29,8 @@ public class ShapeSystem implements SimulationSystem {
 			for (SimulationEntity e : this.entities.getActiveEntities())
 			{
 				TransformComponent tc = e.get(TransformComponent.class);
-				e.edit(ShapeComponent.class)
-						.set(ShapeComponent::translateTo, tc.getX(), tc.getY());
+				e.get(ShapeComponent.class).translateTo(tc.getX(), tc.getY());
+				e.markChanged(ShapeComponent.class);
 			}
 		}
 	}

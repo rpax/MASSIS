@@ -35,14 +35,15 @@ public class MovementSystem implements SimulationSystem {
 
 			CoordinateHolder target = e.get(MovingTo.class)
 					.getTarget();
-			// followPath
-			Vector2f newVel =
-							new Vector2f((float) target.getX(), (float) target.getY())
-							.subtractLocal(e.get(TransformComponent.class).getPosition(new Vector2f()))
+			Vector2f newVel = new Vector2f((float) target.getX(),
+					(float) target.getY())
+							.subtractLocal(e.get(TransformComponent.class)
+									.getPosition(new Vector2f()))
 							.normalizeLocal()
 							.multLocal(100);
-			e.edit(Velocity.class).set(Velocity::setValue, newVel);
-			
+			e.get(Velocity.class).setValue(newVel);
+			e.markChanged(Velocity.class);
+
 		}
 	}
 }

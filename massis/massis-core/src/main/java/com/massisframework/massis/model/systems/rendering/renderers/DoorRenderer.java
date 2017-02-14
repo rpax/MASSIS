@@ -10,7 +10,7 @@ import javafx.scene.paint.Color;
 
 public class DoorRenderer implements JFXRenderer {
 
-	public static final JFXRenderer renderer = new DoorRenderer();
+	// public static final JFXRenderer renderer = new DoorRenderer();
 
 	@Override
 	public void render(SimulationEntity e, GraphicsContext g2c)
@@ -24,6 +24,12 @@ public class DoorRenderer implements JFXRenderer {
 		{
 			RenderUtils.fill(g2c, sc, Color.RED);
 		}
+	}
+
+	@Override
+	public boolean matches(SimulationEntity e)
+	{
+		return e.has(DoorComponent.class);
 	}
 
 }

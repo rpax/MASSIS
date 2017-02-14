@@ -13,6 +13,7 @@ import com.massisframework.massis.sim.ecs.SimulationSystem;
  * @author rpax
  *
  */
+@Deprecated
 public class EnvironmentManager implements SimulationSystem {
 
 	@Inject

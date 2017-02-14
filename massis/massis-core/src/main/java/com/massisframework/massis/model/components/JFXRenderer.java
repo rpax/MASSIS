@@ -7,4 +7,6 @@ import javafx.scene.canvas.GraphicsContext;
 public interface JFXRenderer {
 
 	public void render(SimulationEntity e, GraphicsContext gc);
+
+	public boolean matches(SimulationEntity e);
 }

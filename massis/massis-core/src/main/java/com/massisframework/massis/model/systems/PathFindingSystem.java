@@ -9,6 +9,7 @@ import com.massisframework.massis.model.components.FloorReference;
 import com.massisframework.massis.model.components.FollowTarget;
 import com.massisframework.massis.model.components.MovingTo;
 import com.massisframework.massis.model.components.TransformComponent;
+import com.massisframework.massis.model.components.impl.MovingToImpl;
 import com.massisframework.massis.model.systems.floor.Floor;
 import com.massisframework.massis.pathfinding.straightedge.SEPathFinder;
 import com.massisframework.massis.sim.ecs.CollectionsFactory;
@@ -25,14 +26,7 @@ public class PathFindingSystem implements SimulationSystem {
 
 	@Inject
 	private SimulationEntityData ed;
-	// @FilterParams(all = Floor.class)
 	private SimulationEntitySet floors;
-
-	// @FilterParams(
-	// all = { FollowTarget.class,
-	// FloorReference.class,
-	// Position2D.class })
-
 	private SimulationEntitySet followers;
 
 	@Override
@@ -80,8 +74,8 @@ public class PathFindingSystem implements SimulationSystem {
 				List<CoordinateHolder> path = pF
 						.findPath(new KVector(tr.getX(), tr.getY()), target);
 				if (path==null) continue;
-				e.add(MovingTo.class)
-						.set(MovingTo::setTarget, path.get(1));
+				e.add(new MovingToImpl()).setTarget(path.get(1));
+				e.markChanged(MovingTo.class);
 			}
 		}
 

@@ -2,6 +2,8 @@ package com.massisframework.massis.sim.ecs;
 
 public interface SimulationEntity {
 
+	public boolean has(Class...types);
+
 	public <T extends SimulationComponent> T get(Class<T> type);
 
 	public <T extends SimulationComponent> T add(T cmp);

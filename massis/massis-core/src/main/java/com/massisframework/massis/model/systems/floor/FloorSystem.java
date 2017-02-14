@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.inject.Inject;
 import com.massisframework.massis.model.components.FloorReference;
+import com.massisframework.massis.model.components.Renderable;
 import com.massisframework.massis.model.components.TransformComponent;
 import com.massisframework.massis.model.components.impl.FloorReferenceImpl;
 import com.massisframework.massis.model.components.impl.MetadataComponentImpl;
@@ -59,7 +60,7 @@ public class FloorSystem implements SimulationSystem {
 		this.floorReferences = this.ed.createEntitySet(
 				FloorReference.class,
 				TransformComponent.class);
-		this.floors = this.ed.createEntitySet(Level.class);
+		this.floors = this.ed.createEntitySet(SweetHome3DLevel.class);
 		this.floors.applyChanges();
 		this.floors.forEach(this::addFloorComponent);
 		this.recomputeBounds();
@@ -125,12 +126,17 @@ public class FloorSystem implements SimulationSystem {
 				.set(getMetadata((HomeObject) w));
 		entity.add(new TransformImpl()).setX(center.x).setY(center.y);
 		entity.add(new ShapeComponentImpl()).setShape(shape);
+		entity.add(new Renderable());
 		return entity;
 	}
 
 	@Override
 	public void update(float deltaTime)
 	{
+		if (this.floors.applyChanges())
+		{
+			this.floors.getAddedEntities().forEach(this::addFloorComponent);
+		}
 		if (this.floorReferences.applyChanges())
 		{
 			this.recomputeBounds();
@@ -168,7 +174,7 @@ public class FloorSystem implements SimulationSystem {
 	{
 		for (SimulationEntity e : this.floors)
 		{
-			FloorImpl f = e.get(FloorImpl.class);
+			FloorImpl f = (FloorImpl) e.get(Floor.class);
 			f.setMaxX(Integer.MIN_VALUE);
 			f.setMaxY(Integer.MIN_VALUE);
 			f.setMinX(Integer.MAX_VALUE);
@@ -186,7 +192,7 @@ public class FloorSystem implements SimulationSystem {
 				this.floorEntities.put(fId, entitiesInFloor);
 			}
 			TransformComponent t = e.get(TransformComponent.class);
-			FloorImpl floor = ed.get(fId, FloorImpl.class);
+			FloorImpl floor = (FloorImpl) ed.get(fId, Floor.class);
 
 			floor.setMaxX((int) Math.max(floor.getMaxX(), t.getX() + 1));
 			floor.setMaxY((int) Math.max(floor.getMaxY(), t.getY() + 1));

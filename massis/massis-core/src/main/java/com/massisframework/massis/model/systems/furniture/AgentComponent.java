@@ -1,6 +1,8 @@
 package com.massisframework.massis.model.systems.furniture;
 
-public interface AgentComponent {
+import com.massisframework.massis.sim.ecs.SimulationComponent;
+
+public interface AgentComponent extends SimulationComponent {
 
 	HighLevelAgent getHighLevelAgent();
 

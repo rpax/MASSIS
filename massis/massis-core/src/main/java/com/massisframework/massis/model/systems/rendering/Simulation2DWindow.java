@@ -2,13 +2,16 @@ package com.massisframework.massis.model.systems.rendering;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import com.massisframework.massis.model.components.RenderComponent;
+import com.massisframework.massis.model.components.JFXRenderer;
 import com.massisframework.massis.model.components.TransformComponent;
 import com.massisframework.massis.sim.ecs.SimulationEntity;
 
 import javafx.animation.AnimationTimer;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -21,6 +24,9 @@ public class Simulation2DWindow {
 	private AnchorPane mainAnchorPane;
 	private Canvas canvas;
 	private Collection<SimulationEntity> entities = new ArrayList<>();
+	private ObservableList<JFXRenderer> renderers = FXCollections
+			.observableArrayList();
+	private Affine tr = new Affine();
 
 	@FXML
 	public void initialize()
@@ -48,60 +54,68 @@ public class Simulation2DWindow {
 	public void configureDrawingTimer()
 	{
 		new AnimationTimer() {
-
-			private Affine tr = new Affine();
-			Simulation2DWindow window = Simulation2DWindow.this;
-
 			@Override
 			public void handle(long now)
 			{
-
-				if (!updated.getAndSet(false))
-					return;
-				Canvas canvas = window.getCanvas();
-				GraphicsContext g2c = canvas.getGraphicsContext2D();
-
-				tr.setToIdentity();
-				g2c.setTransform(tr);
-
-				canvas.getGraphicsContext2D().clearRect(0, 0,
-						canvas.getWidth(),
-						canvas.getHeight());
-
-				double minX = Double.MAX_VALUE, maxX = Double.MIN_VALUE,
-						minY = Double.MAX_VALUE, maxY = Double.MIN_VALUE;
-				synchronized (entities)
-				{
-					for (SimulationEntity se : entities)
-					{
-						TransformComponent tr = se
-								.get(TransformComponent.class);
-						minX = Math.min(minX, tr.getX());
-						minY = Math.min(minY, tr.getY());
-
-						maxX = Math.max(maxX, tr.getX());
-						maxY = Math.max(maxY, tr.getY());
-					}
-
-					double scale = Math.min(canvas.getWidth() / (maxX - minX),
-							canvas.getHeight() / (maxY - minY));
-					double translateX = -minX;
-					double translateY = -minY;
-
-					tr.appendScale(scale, scale);
-					tr.appendTranslation(translateX, translateY);
-					g2c.transform(tr);
-					for (SimulationEntity se : entities)
-					{
-						se.get(RenderComponent.class).getRenderer().render(se,
-								g2c);
-					}
-				}
+				refresh();
 			}
 		}.start();
 	}
 
 	AtomicBoolean updated = new AtomicBoolean(false);
+
+	private void refresh()
+	{
+
+		if (!updated.getAndSet(false))
+			return;
+		Canvas canvas = this.getCanvas();
+		GraphicsContext g2c = canvas.getGraphicsContext2D();
+
+		tr.setToIdentity();
+		g2c.setTransform(tr);
+
+		canvas.getGraphicsContext2D().clearRect(0, 0,
+				canvas.getWidth(),
+				canvas.getHeight());
+
+		double minX = Double.MAX_VALUE, maxX = Double.MIN_VALUE,
+				minY = Double.MAX_VALUE, maxY = Double.MIN_VALUE;
+		synchronized (entities)
+		{
+			// TODO multiple floors
+			for (SimulationEntity se : entities)
+			{
+				TransformComponent tr = se
+						.get(TransformComponent.class);
+				minX = Math.min(minX, tr.getX());
+				minY = Math.min(minY, tr.getY());
+
+				maxX = Math.max(maxX, tr.getX());
+				maxY = Math.max(maxY, tr.getY());
+			}
+
+			double scale = Math.min(canvas.getWidth() / (maxX - minX),
+					canvas.getHeight() / (maxY - minY));
+			double translateX = -minX;
+			double translateY = -minY;
+
+			tr.appendScale(scale, scale);
+			tr.appendTranslation(translateX, translateY);
+			g2c.transform(tr);
+			for (JFXRenderer renderer : this.renderers)
+			{
+				for (SimulationEntity se : entities)
+				{
+					if (renderer.matches(se))
+					{
+						renderer.render(se, g2c);
+					}
+				}
+			}
+
+		}
+	}
 
 	public void setEntities(Iterable<SimulationEntity> entities)
 	{
@@ -197,6 +211,12 @@ public class Simulation2DWindow {
 			_tmp_heigth = height;
 			// repaint?
 		}
+	}
+
+	public void setRenderOrder(List<JFXRenderer> renderers)
+	{
+		// In
+		this.renderers.setAll(renderers);
 	}
 
 }
