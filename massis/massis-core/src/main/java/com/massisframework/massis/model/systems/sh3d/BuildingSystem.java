@@ -37,7 +37,6 @@ import com.massisframework.massis.sim.ecs.SimulationEntityData;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
 import com.massisframework.massis.util.SH3DUtils;
 import com.massisframework.massis.util.SimObjectProperty;
-import com.simsilica.es.EntityId;
 
 import straightedge.geom.KPoint;
 import straightedge.geom.KPolygon;

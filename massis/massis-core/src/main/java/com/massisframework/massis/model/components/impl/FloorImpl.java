@@ -1,11 +1,8 @@
 package com.massisframework.massis.model.components.impl;
 
-import java.util.stream.StreamSupport;
-
 import com.google.inject.Inject;
 import com.massisframework.massis.model.components.Floor;
 import com.massisframework.massis.model.components.FloorReference;
-import com.massisframework.massis.model.components.TransformComponent;
 import com.massisframework.massis.sim.ecs.SimulationEntity;
 import com.massisframework.massis.sim.ecs.SimulationEntityData;
 import com.massisframework.massis.sim.ecs.SimulationEntitySet;
