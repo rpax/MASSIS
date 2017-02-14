@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.massisframework.massis.model.components.DoorComponent;
-import com.massisframework.massis.model.components.Floor;
 import com.massisframework.massis.model.components.FloorReference;
 import com.massisframework.massis.model.components.RoomComponent;
 import com.massisframework.massis.model.components.ShapeComponent;
-import com.massisframework.massis.model.components.WallComponent;
 import com.massisframework.massis.model.components.impl.ShapeComponentImpl;
+import com.massisframework.massis.model.systems.floor.Floor;
+import com.massisframework.massis.model.systems.floor.WallComponent;
 import com.massisframework.massis.sim.ecs.SimulationEntity;
 import com.massisframework.massis.sim.ecs.SimulationEntityData;
 import com.massisframework.massis.util.PathFindingUtils;

@@ -1,6 +1,4 @@
-package com.massisframework.massis.model.components.impl;
-
-import com.massisframework.massis.model.components.Floor;
+package com.massisframework.massis.model.systems.floor;
 
 public class FloorImpl implements Floor {
 

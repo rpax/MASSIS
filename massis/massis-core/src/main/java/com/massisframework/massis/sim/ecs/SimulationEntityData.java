@@ -1,18 +1,14 @@
 package com.massisframework.massis.sim.ecs;
 
-import com.simsilica.es.EntityId;
-
 @SuppressWarnings("rawtypes")
 public interface SimulationEntityData {
 
 	public SimulationEntity createEntity();
 
-	public void removeEntity(EntityId entityId);
+	public void removeEntity(long entityId);
 
 	public SimulationEntitySet createEntitySet(
 			Class... types);
-
-	public SimulationEntity getSimulationEntity(EntityId entityId);
 
 	public SimulationEntity getSimulationEntity(long id);
 
@@ -21,9 +17,9 @@ public interface SimulationEntityData {
 	/**
 	 * @formatter:off
 	 */
-	public <T extends SimulationComponent> ComponentEdit<T> add(EntityId entityId,Class<T> component);
-	public <T extends SimulationComponent> void remove(EntityId entityId, Class<T> type);
-	public <T extends SimulationComponent> T get(EntityId entityId,Class<T> type);
+	public <T extends SimulationComponent> void add(long entityId, T cmp);
+	public <T extends SimulationComponent> void remove(long entityId, Class<T> type);
+	public <T extends SimulationComponent> T get(long entityId,Class<T> type);
 	public <T extends SimulationComponent> Iterable<SimulationEntity> findEntities(Class...types);
 	/**
 	 * @formatter:on

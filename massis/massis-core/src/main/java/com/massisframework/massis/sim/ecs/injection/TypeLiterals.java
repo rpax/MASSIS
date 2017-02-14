@@ -12,6 +12,7 @@ public class TypeLiterals {
 		return createParametrizedTL(type, Object.class);
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <T> TypeLiteral<T> createParametrizedTL(Class<T> type,
 			Class<?> paramType)
 	{

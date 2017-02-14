@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.massisframework.massis.sim.ecs.InterfaceBindings;
 import com.massisframework.massis.sim.ecs.SimulationComponent;
-import com.massisframework.massis.sim.ecs.SimulationEntityData;
+import com.massisframework.massis.sim.ecs.SimulationEntity;
 import com.simsilica.es.ComponentFilter;
 import com.simsilica.es.EntityId;
 import com.simsilica.es.base.ComponentHandler;
@@ -18,14 +18,14 @@ class InterfaceEntityData
 
 	private InterfaceBindings bindings;
 	private List<DefaultEntitySet> entitySets;
-	protected SimulationEntityData simED;
+	private SimulationEntityDataImpl simulationED;
 
 	public InterfaceEntityData(
 			InterfaceBindings bindings,
-			SimulationEntityData simED)
+			SimulationEntityDataImpl simED)
 	{
 		super();
-		this.simED = simED;
+		this.simulationED = simED;
 		this.bindings = bindings;
 		this.entitySets = getFieldValue("entitySets");
 	}
@@ -38,14 +38,18 @@ class InterfaceEntityData
 		entitySets.add(set);
 		return set;
 	}
+
 	@Override
-    public DefaultInterfaceEntity getEntity( EntityId entityId, Class... types ) {
-		SimulationComponent[] values = new SimulationComponent[types.length]; 
-        for( int i = 0; i < values.length; i++ ) {
-            values[i] = (SimulationComponent) getComponent( entityId, types[i] );
-        }
-        return new DefaultInterfaceEntity( this, entityId, values, types );            
-    }
+	public DefaultInterfaceEntity getEntity(EntityId entityId, Class... types)
+	{
+		SimulationComponent[] values = new SimulationComponent[types.length];
+		for (int i = 0; i < values.length; i++)
+		{
+			values[i] = (SimulationComponent) getComponent(entityId, types[i]);
+		}
+		return new DefaultInterfaceEntity(this, entityId, values, types);
+	}
+
 	@Override
 	protected ComponentHandler getHandler(Class type)
 	{
@@ -66,14 +70,25 @@ class InterfaceEntityData
 		}
 	}
 
-	public <T extends SimulationComponent> T addNewComponent(
-			EntityId id, Class<T> c)
+//	public <T extends SimulationComponent> T addNewComponent(
+//			long id, Class<T> c)
+//	{
+//		return this.simulationED.add(id, c).get();
+//	}
+
+	public <T extends SimulationComponent> T get(long id, Class<T> type)
 	{
-//		T cmp = componentCreator.create(c);
-//		super.setComponent(id, cmp);
-//		return cmp;
-		return this.simED.add(id, c).get();
+		return this.simulationED.get(id, type);
 	}
 
+	public SimulationEntity getSimulationEntity(long id)
+	{
+		return this.simulationED.getSimulationEntity(id);
+	}
+
+	protected SimulationEntityDataImpl getSimulationED()
+	{
+		return simulationED;
+	}
 
 }

@@ -1,4 +1,4 @@
-package com.massisframework.massis.model.components;
+package com.massisframework.massis.model.systems.floor;
 
 import com.massisframework.massis.sim.ecs.SimulationComponent;
 

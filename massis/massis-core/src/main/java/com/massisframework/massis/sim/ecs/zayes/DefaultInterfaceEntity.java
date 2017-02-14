@@ -1,11 +1,12 @@
 package com.massisframework.massis.sim.ecs.zayes;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
 
-import com.massisframework.massis.sim.ecs.ComponentEdit;
-import com.massisframework.massis.sim.ecs.ComponentModifier;
 import com.massisframework.massis.sim.ecs.SimulationComponent;
 import com.massisframework.massis.sim.ecs.SimulationEntity;
+import com.massisframework.massis.sim.ecs.SimulationEntityData;
+import com.massisframework.massis.sim.ecs.injection.components.EntityReference;
 import com.simsilica.es.EntityId;
 import com.simsilica.es.base.DefaultEntity;
 
@@ -14,7 +15,7 @@ public class DefaultInterfaceEntity
 		extends DefaultEntity
 		implements SimulationEntity {
 
-	private InterfaceEntityData ed;
+	private SimulationEntityData ed;
 	private SimulationComponent[] components;
 	private Class<? extends SimulationComponent>[] types;
 
@@ -24,7 +25,7 @@ public class DefaultInterfaceEntity
 			Class[] types)
 	{
 		super(ed, id, components, types);
-		this.ed = ed;
+		this.ed = ed.getSimulationED();
 		this.components = components;
 		this.types = types;
 		validate();
@@ -42,23 +43,10 @@ public class DefaultInterfaceEntity
 	}
 
 	@Override
-	public <T extends SimulationComponent, K extends ComponentModifier & ComponentEdit<T>> K add(
-			Class<T> c)
+	public <T extends SimulationComponent> T add(T cmp)
 	{
-		T cmp = this.add_internal(c);
-		ComponentEditorAndModifier editor = new ComponentEditorAndModifier(
-				this);
-		editor.setComponent(cmp);
-		return (K) editor;
-	}
-
-	protected <T extends SimulationComponent> T add_internal(Class<T> c)
-	{
-		T cmp = get_internal(c);
-		if (cmp == null)
-		{
-			cmp = this.ed.addNewComponent(this.getId(), c);
-		}
+		this.fillWithEntityReference(cmp);
+		this.set(cmp);
 		return cmp;
 	}
 
@@ -68,13 +56,14 @@ public class DefaultInterfaceEntity
 		return get_internal(c);
 	}
 
-	@Override
-	public <T extends SimulationComponent> ComponentEdit<T> edit(Class<T> type)
-	{
-		ComponentEditImpl<T> entityEdit = new ComponentEditImpl<>(this);
-		entityEdit.setComponent(this.get_internal(type));
-		return entityEdit;
-	}
+	// @Override
+	// public <T extends SimulationComponent> ComponentEdit<T> edit(Class<T>
+	// type)
+	// {
+	// ComponentEditImpl<T> entityEdit = new ComponentEditImpl<>(this);
+	// entityEdit.setComponent(this.get_internal(type));
+	// return entityEdit;
+	// }
 
 	private <T extends SimulationComponent> T get_internal(Class<T> c)
 	{
@@ -85,15 +74,13 @@ public class DefaultInterfaceEntity
 				return c.cast(components[i]);
 			}
 		}
-		return this.ed.simED.get(this.getId(), c);
+		return this.ed.get(this.id(), c);
 	}
 
 	@Override
-	public <T extends SimulationComponent> ComponentModifier remove(
-			Class<T> type)
+	public <T extends SimulationComponent> void remove(Class<T> type)
 	{
-		this.ed.removeComponent(this.getId(), type);
-		return this;
+		this.ed.remove(this.id(), type);
 	}
 
 	@Override
@@ -102,7 +89,7 @@ public class DefaultInterfaceEntity
 		Long pId = this.get_internal(ParentComponent.class).getParentId();
 		if (pId == null)
 			return null;
-		return this.ed.simED.getSimulationEntity(pId);
+		return this.ed.getSimulationEntity(pId);
 	}
 
 	@Override
@@ -111,32 +98,31 @@ public class DefaultInterfaceEntity
 		return this.get_internal(ChildrenComponent.class)
 				.getChildren()
 				.stream()
-				.map(this.ed.simED::getSimulationEntity)::iterator;
+				.map(this.ed::getSimulationEntity)::iterator;
 	}
 
 	private void setRelationship(Long child, Long parent)
 	{
 
-		Long oldPId = this.ed.simED.getSimulationEntity(child)
+		Long oldPId = this.ed.getSimulationEntity(child)
 				.get(ParentComponent.class)
 				.getParentId();
 		if (oldPId != null)
 		{
-			this.ed.simED
-					.getSimulationEntity(oldPId)
-					.edit(ChildrenComponent.class)
-					.set(ChildrenComponent::remove, child);
+			SimulationEntity pEntity = this.ed.getSimulationEntity(oldPId);
+			pEntity.get(ChildrenComponent.class).remove(child);
+			pEntity.markChanged(ChildrenComponent.class);
 		}
 		if (parent != null)
 		{
-			this.ed.simED.getSimulationEntity(parent)
-					.edit(ChildrenComponent.class)
-					.set(ChildrenComponent::add, child);
+			SimulationEntity pEntity = this.ed.getSimulationEntity(parent);
+			pEntity.get(ChildrenComponent.class).add(child);
+			pEntity.markChanged(ChildrenComponent.class);
 		}
-		this.ed.simED
-				.getSimulationEntity(child)
-				.edit(ParentComponent.class)
-				.set(ParentComponent::setParentId, parent);
+		SimulationEntity pEntity = this.ed.getSimulationEntity(child);
+		pEntity.get(ParentComponent.class).setParentId(parent);
+		pEntity.markChanged(ChildrenComponent.class);
+
 	}
 
 	@Override
@@ -169,16 +155,40 @@ public class DefaultInterfaceEntity
 		return this.getClass().getSimpleName() + "[" + id() + ", values="
 				+ Arrays.asList(components) + "]";
 	}
-	// @Override
-	// public SimulationComponent[] getAllComponents()
-	// {
-	// return this.components;
-	// }
 
 	@Override
 	public long id()
 	{
 		return this.getId().getId();
+	}
+
+	private void fillWithEntityReference(SimulationComponent sc)
+	{
+		Field entityField = Arrays.stream(sc.getClass().getDeclaredFields())
+				.filter(f -> f.getAnnotation(EntityReference.class) != null)
+				.findAny()
+				.orElse(null);
+		if (entityField != null)
+		{
+			entityField.setAccessible(true);
+			try
+			{
+				entityField.set(sc, this.ed);
+			} catch (IllegalArgumentException | IllegalAccessException e1)
+			{
+				throw new RuntimeException(e1);
+			}
+		}
+	}
+
+	@Override
+	public <T extends SimulationComponent> void markChanged(Class<T> type)
+	{
+		SimulationComponent cmp = this.get(type);
+		if (cmp != null)
+		{
+			this.ed.add(this.id(), cmp);
+		}
 	}
 
 }

@@ -7,12 +7,13 @@ import com.jme3.math.Vector3f;
 import com.jme3.util.TempVars;
 import com.massisframework.massis.model.components.TransformComponent;
 import com.massisframework.massis.sim.ecs.SimulationEntity;
+import com.massisframework.massis.sim.ecs.injection.components.EntityReference;
 
 public class TransformImpl implements TransformComponent {
 
 	protected Transform localTransform = new Transform();
 	protected Transform worldTransform = new Transform();
-
+	@EntityReference
 	private SimulationEntity entity;
 
 	private boolean needsRefresh;
@@ -250,6 +251,7 @@ public class TransformImpl implements TransformComponent {
 	{
 		return (float) Math.sqrt(distanceSquared2D(x, y));
 	}
+
 	@Override
 	public double distanceSquared2D(double otherX, double otherY)
 	{

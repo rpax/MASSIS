@@ -1,8 +1,14 @@
 package com.massisframework.massis.sim.ecs;
 
-public interface SimulationEntity extends ComponentModifier {
+public interface SimulationEntity {
 
-	public <T extends SimulationComponent> T get(Class<T> c);
+	public <T extends SimulationComponent> T get(Class<T> type);
+
+	public <T extends SimulationComponent> T add(T cmp);
+
+	public <T extends SimulationComponent> void remove(Class<T> type);
+
+	public <T extends SimulationComponent> void markChanged(Class<T> type);
 
 	public SimulationEntity getParent();
 
@@ -18,6 +24,6 @@ public interface SimulationEntity extends ComponentModifier {
 
 	void removeFromParent();
 
-	//public SimulationComponent[] getAllComponents();
+	// public SimulationComponent[] getAllComponents();
 
 }

@@ -5,11 +5,11 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import com.google.inject.Inject;
-import com.massisframework.massis.model.components.Floor;
 import com.massisframework.massis.model.components.FloorReference;
 import com.massisframework.massis.model.components.FollowTarget;
 import com.massisframework.massis.model.components.MovingTo;
 import com.massisframework.massis.model.components.TransformComponent;
+import com.massisframework.massis.model.systems.floor.Floor;
 import com.massisframework.massis.pathfinding.straightedge.SEPathFinder;
 import com.massisframework.massis.sim.ecs.CollectionsFactory;
 import com.massisframework.massis.sim.ecs.SimulationEntity;

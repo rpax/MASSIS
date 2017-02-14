@@ -9,9 +9,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import com.massisframework.massis.sim.ecs.EntityComponentCreator;
 import com.massisframework.massis.sim.ecs.InterfaceBindings;
-import com.massisframework.massis.sim.ecs.SimulationComponent;
 import com.massisframework.massis.sim.ecs.SimulationEntityData;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
 import com.massisframework.massis.sim.ecs.SimulationSystemCreator;
@@ -34,8 +32,10 @@ public class ZayEsModule extends AbstractModule {
 		this.interfaceBindings.getBindings().forEach((itf, impl) -> {
 			bind(itf).to((Class) impl);
 		});
-		bind(SimulationEntityData.class).to(SimulationEntityDataImpl.class).in(Singleton.class);
-		bind(SystemsManager.class).to(SystemsManagerImpl.class).in(Singleton.class);
+		bind(SimulationEntityData.class).to(SimulationEntityDataImpl.class)
+				.in(Singleton.class);
+		bind(SystemsManager.class).to(SystemsManagerImpl.class)
+				.in(Singleton.class);
 		try
 		{
 			HomeRecorder recorder = new HomeFileRecorder();
@@ -69,22 +69,6 @@ public class ZayEsModule extends AbstractModule {
 	public InterfaceBindings getInterfaceBindings()
 	{
 		return this.interfaceBindings;
-	}
-
-	@Provides
-	@Inject
-	@Singleton
-	public EntityComponentCreator getECC(Injector injector)
-	{
-		return new EntityComponentCreator() {
-
-			@Override
-			public <T extends SimulationComponent> T create(Class<T> type)
-			{
-				return injector.getInstance(type);
-			}
-
-		};
 	}
 
 }
