@@ -188,7 +188,7 @@ public class SEPathFinder {
 
 		for (SimulationEntity sr : engine.findEntities(RoomComponent.class))
 		{
-			Area walkAble = new Area(sr.get(ShapeComponentImpl.class).getShape());
+			Area walkAble = new Area(sr.get(ShapeComponent.class).asShape());
 
 			walkAblePolys
 					.add(PathFindingUtils.createKPolygonFromShape(walkAble));

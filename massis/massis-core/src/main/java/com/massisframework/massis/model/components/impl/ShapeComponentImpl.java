@@ -1,5 +1,7 @@
 package com.massisframework.massis.model.components.impl;
 
+import java.awt.Shape;
+
 import com.massisframework.massis.model.components.ShapeComponent;
 
 import straightedge.geom.KPolygon;
@@ -67,6 +69,12 @@ public class ShapeComponentImpl implements ShapeComponent {
 	public void translateTo(double x, double y)
 	{
 		this.translateTo((float)x, (float)y);
+	}
+
+	@Override
+	public Shape asShape()
+	{
+		return this.polygon;
 	}
 
 }
