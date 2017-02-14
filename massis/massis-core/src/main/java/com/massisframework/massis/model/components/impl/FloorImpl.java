@@ -1,109 +1,64 @@
 package com.massisframework.massis.model.components.impl;
 
-import com.google.inject.Inject;
 import com.massisframework.massis.model.components.Floor;
-import com.massisframework.massis.model.components.FloorReference;
-import com.massisframework.massis.sim.ecs.SimulationEntity;
-import com.massisframework.massis.sim.ecs.SimulationEntityData;
-import com.massisframework.massis.sim.ecs.SimulationEntitySet;
-import com.massisframework.massis.sim.ecs.injection.components.EntityReference;
 
 public class FloorImpl implements Floor {
 
-	private SimulationEntityData entityData;
+	private int minX, maxX, minY, maxY;
 
-	private SimulationEntitySet entities;
-
-	@EntityReference
-	private SimulationEntity entity;
-
-	@Inject
-	public FloorImpl(SimulationEntityData entityData)
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.components.impl.IFF#getMinX()
+	 */
+	@Override
+	public int getMinX()
 	{
-		this.entityData = entityData;
-		this.entities = this.entityData.createEntitySet(FloorReference.class);
+		return minX;
 	}
 
-	/*
-	 * Bounds
+	public void setMinX(int minX)
+	{
+		this.minX = minX;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.components.impl.IFF#getMaxX()
 	 */
-	public int minX, maxX, minY, maxY, xlength, ylength;
+	@Override
+	public int getMaxX()
+	{
+		return maxX;
+	}
 
-//	@Override
-//	public Iterable<SimulationEntity> getEntitiesIn()
-//	{
-//		this.entities.applyChanges();
-//		return StreamSupport.stream(this.entities.spliterator(), false)
-//				.filter(e -> e.getC(FloorReference.class)
-//						.getFloorId() == this.entity.getId().getId())::iterator;
-//	}
-//
-//	public int getMinX()
-//	{
-//		return StreamSupport.stream(getEntitiesIn().spliterator(), false)
-//				.map(e -> e.getC(TransformComponent.class))
-//				.mapToInt(p -> (int) p.getX()).min().orElseGet(() -> 0);
-//	}
-//
-//	public void setMinX(int minX)
-//	{
-//		this.minX = minX;
-//	}
-//
-//	public int getMaxX()
-//	{
-//		return StreamSupport.stream(getEntitiesIn().spliterator(), false)
-//				.map(e -> e.getC(TransformComponent.class))
-//				.mapToInt(p -> (int) p.getX()).max().orElseGet(() -> 0);
-//	}
-//
-//	public void setMaxX(int maxX)
-//	{
-//		this.maxX = maxX;
-//	}
-//
-//	public int getMinY()
-//	{
-//		return StreamSupport.stream(getEntitiesIn().spliterator(), false)
-//				.map(e -> e.getC(TransformComponent.class))
-//				.mapToInt(p -> (int) p.getY()).min().orElseGet(() -> 0);
-//	}
-//
-//	public void setMinY(int minY)
-//	{
-//		this.minY = minY;
-//	}
-//
-//	public int getMaxY()
-//	{
-//		return StreamSupport.stream(getEntitiesIn().spliterator(), false)
-//				.map(e -> e.getC(TransformComponent.class))
-//				.mapToInt(p -> (int) p.getX()).max().orElseGet(() -> 0);
-//	}
-//
-//	public void setMaxY(int maxY)
-//	{
-//		this.maxY = maxY;
-//	}
-//
-//	public int getXlength()
-//	{
-//		return xlength;
-//	}
-//
-//	public void setXlength(int xlength)
-//	{
-//		this.xlength = xlength;
-//	}
-//
-//	public int getYlength()
-//	{
-//		return getMaxY() - getMinY();
-//	}
-//
-//	public void setYlength(int ylength)
-//	{
-//		this.ylength = ylength;
-//	}
+	public void setMaxX(int maxX)
+	{
+		this.maxX = maxX;
+	}
 
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.components.impl.IFF#getMinY()
+	 */
+	@Override
+	public int getMinY()
+	{
+		return minY;
+	}
+
+	public void setMinY(int minY)
+	{
+		this.minY = minY;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.massisframework.massis.model.components.impl.IFF#getMaxY()
+	 */
+	@Override
+	public int getMaxY()
+	{
+		return maxY;
+	}
+
+	public void setMaxY(int maxY)
+	{
+		this.maxY = maxY;
+	}
 }
