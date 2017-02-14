@@ -3,7 +3,6 @@ package com.massisframework.massis.sim.ecs.zayes;
 import java.lang.reflect.Field;
 import java.util.List;
 
-import com.massisframework.massis.sim.ecs.EntityComponentCreator;
 import com.massisframework.massis.sim.ecs.InterfaceBindings;
 import com.massisframework.massis.sim.ecs.SimulationComponent;
 import com.massisframework.massis.sim.ecs.SimulationEntityData;
@@ -19,7 +18,6 @@ class InterfaceEntityData
 
 	private InterfaceBindings bindings;
 	private List<DefaultEntitySet> entitySets;
-	private EntityComponentCreator componentCreator;
 	protected SimulationEntityData simED;
 
 	public InterfaceEntityData(
