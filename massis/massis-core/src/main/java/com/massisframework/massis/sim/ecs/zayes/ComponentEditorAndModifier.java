@@ -4,6 +4,7 @@ import com.massisframework.massis.sim.ecs.ComponentEdit;
 import com.massisframework.massis.sim.ecs.ComponentModifier;
 import com.massisframework.massis.sim.ecs.SimulationComponent;
 
+@SuppressWarnings({"rawtypes","unchecked"})
 public class ComponentEditorAndModifier extends ComponentEditImpl
 		implements ComponentModifier {
 

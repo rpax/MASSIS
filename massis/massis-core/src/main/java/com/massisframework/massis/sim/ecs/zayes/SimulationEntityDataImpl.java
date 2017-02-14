@@ -95,8 +95,7 @@ class SimulationEntityDataImpl implements SimulationEntityData {
 		//
 		T cmp = this.componentCreator.create(component);
 		//
-		this.fillWithEntityAnnotation(cmp,
-				this.allEntities.get(entityId.getId()));
+		fillWithEntityAnnotation(cmp,this.allEntities.get(entityId.getId()));
 		//
 		ed.setComponent(entityId, cmp);
 		ComponentEditImpl<T> entityEdit = new ComponentEditImpl<>(
