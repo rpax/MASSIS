@@ -26,7 +26,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<sweethome3d-plugins.version>0.0.1</sweethome3d-plugins.version>
+		<sweethome3d-plugins.version>0.0.6</sweethome3d-plugins.version>
 		<sweethome3d.version>5.3.0.1</sweethome3d.version>
 	</properties>
 
