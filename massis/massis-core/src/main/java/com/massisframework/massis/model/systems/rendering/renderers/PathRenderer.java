@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.massisframework.massis.model.components.JFXRenderer;
 import com.massisframework.massis.model.systems.PathComponent;
-import com.massisframework.massis.model.systems.PathComponentImpl;
 import com.massisframework.massis.sim.ecs.SimulationEntity;
 import com.massisframework.massis.util.geom.CoordinateHolder;
 

@@ -94,19 +94,19 @@ class InterfaceEntityData
 		return simulationED;
 	}
 
-//	@Override
-//	protected Set<EntityId> getEntityIds(Class type)
-//	{
-//		// return getHandler(type).getEntities();
-//		return new MultiHandlerSet(this, type, null);
-//	}
-//
-//	@Override
-//	protected Set<EntityId> getEntityIds(Class type, ComponentFilter filter)
-//	{
-//		return new MultiHandlerSet(this, type, filter);
-//		// return getHandler(type).getEntities(filter);
-//	}
+	// @Override
+	// protected Set<EntityId> getEntityIds(Class type)
+	// {
+	// // return getHandler(type).getEntities();
+	// return new MultiHandlerSet(this, type, null);
+	// }
+	//
+	// @Override
+	// protected Set<EntityId> getEntityIds(Class type, ComponentFilter filter)
+	// {
+	// return new MultiHandlerSet(this, type, filter);
+	// // return getHandler(type).getEntities(filter);
+	// }
 
 	public Map<Class, ComponentHandler> getHandlers()
 	{

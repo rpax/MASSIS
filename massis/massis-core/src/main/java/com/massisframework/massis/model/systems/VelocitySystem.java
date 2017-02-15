@@ -29,15 +29,15 @@ public class VelocitySystem implements SimulationSystem {
 	public void update(float deltaTime)
 	{
 		this.entities.applyChanges();
-		//if (this.entities.applyChanges())
+		// if (this.entities.applyChanges())
 		{
 			for (SimulationEntity e : this.entities)
 			{
 				TransformComponent transform = e.get(TransformComponent.class);
-				Velocity velocity=e.get(Velocity.class);
+				Velocity velocity = e.get(Velocity.class);
 				TempVars tmp = TempVars.get();
 				Vector2f pos = transform.getPosition(new Vector2f());
-				
+
 				Vector2f offset = velocity.getValue(new Vector2f());
 				offset.multLocal(deltaTime);
 				pos.addLocal(offset);

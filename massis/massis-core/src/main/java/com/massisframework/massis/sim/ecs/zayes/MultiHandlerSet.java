@@ -85,13 +85,15 @@ public class MultiHandlerSet implements Set<EntityId> {
 	@Override
 	public boolean add(EntityId e)
 	{
-		throw new UnsupportedOperationException(MultiHandlerSet.class.getName()+ " is a view-only set");
+		throw new UnsupportedOperationException(
+				MultiHandlerSet.class.getName() + " is a view-only set");
 	}
 
 	@Override
 	public boolean remove(Object o)
 	{
-		throw new UnsupportedOperationException(MultiHandlerSet.class.getName()+ " is a view-only set");
+		throw new UnsupportedOperationException(
+				MultiHandlerSet.class.getName() + " is a view-only set");
 	}
 
 	@Override
@@ -105,25 +107,29 @@ public class MultiHandlerSet implements Set<EntityId> {
 	@Override
 	public boolean addAll(Collection<? extends EntityId> c)
 	{
-		throw new UnsupportedOperationException(MultiHandlerSet.class.getName()+ " is a view-only set");
+		throw new UnsupportedOperationException(
+				MultiHandlerSet.class.getName() + " is a view-only set");
 	}
 
 	@Override
 	public boolean retainAll(Collection<?> c)
 	{
-		throw new UnsupportedOperationException(MultiHandlerSet.class.getName()+ " is a view-only set");
+		throw new UnsupportedOperationException(
+				MultiHandlerSet.class.getName() + " is a view-only set");
 	}
 
 	@Override
 	public boolean removeAll(Collection<?> c)
 	{
-		throw new UnsupportedOperationException(MultiHandlerSet.class.getName()+ " is a view-only set");
+		throw new UnsupportedOperationException(
+				MultiHandlerSet.class.getName() + " is a view-only set");
 	}
 
 	@Override
 	public void clear()
 	{
-		throw new UnsupportedOperationException(MultiHandlerSet.class.getName()+ " is a view-only set");
+		throw new UnsupportedOperationException(
+				MultiHandlerSet.class.getName() + " is a view-only set");
 	}
 
 }

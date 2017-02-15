@@ -17,7 +17,6 @@ import com.massisframework.massis.sim.ecs.SimulationEntity;
 import com.massisframework.massis.sim.ecs.SimulationEntityData;
 import com.massisframework.massis.util.PathFindingUtils;
 import com.massisframework.massis.util.geom.CoordinateHolder;
-import com.massisframework.massis.util.geom.KPolygonUtils;
 import com.massisframework.massis.util.geom.KVector;
 
 import straightedge.geom.KPoint;
@@ -116,7 +115,8 @@ public class SEPathFinder {
 			/*
 			 * Substraction of the doors area to the walls area
 			 */
-			Area area = new Area(wallEntity.get(ShapeComponent.class).asShape());
+			Area area = new Area(
+					wallEntity.get(ShapeComponent.class).asShape());
 			for (SimulationEntity doorEntity : doors)
 			{
 				boolean open = doorEntity.get(DoorComponent.class).isOpen();
@@ -140,12 +140,13 @@ public class SEPathFinder {
 					continue;
 				}
 				PathBlockingObstacleImpl obst = PathFindingUtils
-						.createObstacleFromInnerPolygon(poly, BUFFER_AMOUNT,NUM_POINTS_IN_A_QUADRANT);
+						.createObstacleFromInnerPolygon(poly, BUFFER_AMOUNT,
+								NUM_POINTS_IN_A_QUADRANT);
 				so.addObstacle(obst);
 				this.stationaryObstacles.add(obst);
 			}
 			wallEntity.add(so);
-			
+
 		}
 		/*
 		 * Debugging stuff

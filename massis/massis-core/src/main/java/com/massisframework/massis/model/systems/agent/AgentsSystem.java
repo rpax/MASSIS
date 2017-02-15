@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import com.massisframework.massis.model.components.impl.VelocityImpl;
 import com.massisframework.massis.model.components.impl.VisionAreaImpl;
 import com.massisframework.massis.model.systems.furniture.AgentComponent;
-import com.massisframework.massis.model.systems.furniture.AgentComponentImpl;
 import com.massisframework.massis.sim.ecs.SimulationEntity;
 import com.massisframework.massis.sim.ecs.SimulationEntityData;
 import com.massisframework.massis.sim.ecs.SimulationEntitySet;
@@ -41,9 +40,10 @@ public class AgentsSystem implements SimulationSystem {
 		}
 		for (SimulationEntity e : agents)
 		{
-			e.get(AgentComponent.class).getHighLevelAgent().update(deltaTime,e);
+			e.get(AgentComponent.class).getHighLevelAgent().update(deltaTime,
+					e);
 		}
-		//System.out.println(this.ed.findEntities(AgentComponentImpl.class));
+		// System.out.println(this.ed.findEntities(AgentComponentImpl.class));
 
 	}
 

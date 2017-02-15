@@ -21,7 +21,7 @@ class SteppableWrapper implements Steppable {
 	public void step(SimState simState)
 	{
 		double stepSize = 1D / fps;
-//		for (int i = 0; i < 10; i++)
+		// for (int i = 0; i < 10; i++)
 		{
 			simulationSteppable.update((float) stepSize);
 		}

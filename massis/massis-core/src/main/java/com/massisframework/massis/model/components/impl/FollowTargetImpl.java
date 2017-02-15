@@ -8,8 +8,11 @@ public class FollowTargetImpl implements FollowTarget {
 
 	private KVector target = new KVector();
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.components.impl.FollowTarget#getTarget()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.massisframework.massis.model.components.impl.FollowTarget#getTarget()
 	 */
 	@Override
 	public CoordinateHolder getTarget()
@@ -17,8 +20,12 @@ public class FollowTargetImpl implements FollowTarget {
 		return this.target;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.massisframework.massis.model.components.impl.FollowTarget#setTarget(com.massisframework.massis.util.geom.CoordinateHolder)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.massisframework.massis.model.components.impl.FollowTarget#setTarget(
+	 * com.massisframework.massis.util.geom.CoordinateHolder)
 	 */
 	@Override
 	public void setTarget(CoordinateHolder target)

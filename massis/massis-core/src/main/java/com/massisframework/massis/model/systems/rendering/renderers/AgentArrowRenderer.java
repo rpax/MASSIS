@@ -14,7 +14,7 @@ public class AgentArrowRenderer implements JFXRenderer {
 	private static ThreadLocal<KPolygon> triangle_render_TL = ThreadLocal
 			.withInitial(() -> KPolygon.createRegularPolygon(3, 1));
 
-	//public static JFXRenderer renderer = new AgentArrowRenderer();
+	// public static JFXRenderer renderer = new AgentArrowRenderer();
 
 	@Override
 	public void render(SimulationEntity e, GraphicsContext gc)

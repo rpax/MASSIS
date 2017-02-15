@@ -10,7 +10,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import com.google.inject.Inject;
 import com.massisframework.massis.model.components.impl.TransformImpl;
 import com.massisframework.massis.sim.ecs.ComponentChangeListener;
-import com.massisframework.massis.sim.ecs.ComponentEdit;
 import com.massisframework.massis.sim.ecs.InterfaceBindings;
 import com.massisframework.massis.sim.ecs.SimulationComponent;
 import com.massisframework.massis.sim.ecs.SimulationEntity;
@@ -70,7 +69,8 @@ class SimulationEntityDataImpl implements SimulationEntityData {
 			}
 			typesImpl[i] = this.bindings.getBinding(types[i]);
 		}
-		InterfaceEntitySet entitySet = (InterfaceEntitySet) ed.getEntities(typesImpl);
+		InterfaceEntitySet entitySet = (InterfaceEntitySet) ed
+				.getEntities(typesImpl);
 		return new EntitySetWrapper(entitySet);
 	}
 
@@ -146,9 +146,10 @@ class SimulationEntityDataImpl implements SimulationEntityData {
 	}
 
 	@Override
-	public <T extends SimulationComponent> T get(long entityId,Class<T> type)
+	public <T extends SimulationComponent> T get(long entityId, Class<T> type)
 	{
-		return ed.getComponent(getMappedEntityId(entityId), bindings.getBinding(type));
+		return ed.getComponent(getMappedEntityId(entityId),
+				bindings.getBinding(type));
 	}
 
 	@Override

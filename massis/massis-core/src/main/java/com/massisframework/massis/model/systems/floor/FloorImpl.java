@@ -4,7 +4,9 @@ public class FloorImpl implements Floor {
 
 	private int minX, maxX, minY, maxY;
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.massisframework.massis.model.components.impl.IFF#getMinX()
 	 */
 	@Override
@@ -18,7 +20,9 @@ public class FloorImpl implements Floor {
 		this.minX = minX;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.massisframework.massis.model.components.impl.IFF#getMaxX()
 	 */
 	@Override
@@ -32,7 +36,9 @@ public class FloorImpl implements Floor {
 		this.maxX = maxX;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.massisframework.massis.model.components.impl.IFF#getMinY()
 	 */
 	@Override
@@ -46,7 +52,9 @@ public class FloorImpl implements Floor {
 		this.minY = minY;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.massisframework.massis.model.components.impl.IFF#getMaxY()
 	 */
 	@Override

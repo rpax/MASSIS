@@ -62,13 +62,13 @@ public class ShapeComponentImpl implements ShapeComponent {
 	public void translateTo(float x, float y)
 	{
 		this.polygon.translateTo(x, y);
-		
+
 	}
 
 	@Override
 	public void translateTo(double x, double y)
 	{
-		this.translateTo((float)x, (float)y);
+		this.translateTo((float) x, (float) y);
 	}
 
 	@Override

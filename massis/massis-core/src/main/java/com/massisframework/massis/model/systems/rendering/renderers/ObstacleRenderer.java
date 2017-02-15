@@ -14,7 +14,8 @@ public class ObstacleRenderer implements JFXRenderer {
 	public void render(SimulationEntity e, GraphicsContext gc)
 	{
 		// Render lines
-		for (PathBlockingObstacle obst : e.get(StationaryObstacle.class).getObstacles())
+		for (PathBlockingObstacle obst : e.get(StationaryObstacle.class)
+				.getObstacles())
 		{
 			RenderUtils.stroke(gc, obst.getOuterPolygon(), Color.YELLOW, 1);
 		}

@@ -17,7 +17,9 @@ public class PathComponentImpl implements PathComponent {
 		return this;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.massisframework.massis.model.systems.PathComponent#getPath()
 	 */
 	@Override

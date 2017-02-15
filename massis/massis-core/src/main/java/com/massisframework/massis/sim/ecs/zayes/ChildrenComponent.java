@@ -14,7 +14,7 @@ class ChildrenComponent implements SimulationComponent {
 
 	public ChildrenComponent()
 	{
-		
+
 	}
 
 	public List<Long> getChildren()

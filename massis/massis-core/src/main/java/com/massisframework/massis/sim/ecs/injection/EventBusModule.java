@@ -10,7 +10,7 @@ public class EventBusModule extends AbstractModule {
 	@Override
 	protected void configure()
 	{
-//Listener para subscribir o des-subscirbir?
+		// Listener para subscribir o des-subscirbir?
 	}
 
 	@Provides

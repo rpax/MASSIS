@@ -37,7 +37,6 @@ public class BuildingSystem implements SimulationSystem {
 		floorEntity.add(new SweetHome3DLevel()).setLevel(lvl);
 
 	}
-	
 
 	@Override
 	public void update(float deltaTime)

@@ -116,10 +116,10 @@ public class FloorSystem implements SimulationSystem {
 	{
 		KPolygon shape = SH3DUtils.createKPolygonFromSH3DObj(w);
 		KPoint center = shape.getCenter();
-//		if (w instanceof HomePieceOfFurniture)
-//		{
-//			shape.rotate(-((HomePieceOfFurniture) w).getAngle());
-//		}
+		// if (w instanceof HomePieceOfFurniture)
+		// {
+		// shape.rotate(-((HomePieceOfFurniture) w).getAngle());
+		// }
 		SimulationEntity entity = this.ed.createEntity();
 		entity.add(new FloorReferenceImpl()).setFloorId(floorId);
 		entity.add(new MetadataComponentImpl())

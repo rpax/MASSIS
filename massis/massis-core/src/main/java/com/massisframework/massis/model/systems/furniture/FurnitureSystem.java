@@ -68,13 +68,14 @@ public class FurnitureSystem implements SimulationSystem {
 					hl = (HighLevelAgent) injector
 							.getInstance(Class.forName(className));
 					agent.setHighLevelAgent(hl);
-					String dyn = e.get(Metadata.class).get(SimObjectProperty.IS_DYNAMIC);
+					String dyn = e.get(Metadata.class)
+							.get(SimObjectProperty.IS_DYNAMIC);
 					if (!"false".equalsIgnoreCase(dyn))
 					{
 						e.add(new DynamicObstacleImpl());
 					} else
 					{
-						//e.add(new StationaryObstacleImpl());
+						// e.add(new StationaryObstacleImpl());
 					}
 					e.add(agent);
 				} catch (ClassNotFoundException e1)

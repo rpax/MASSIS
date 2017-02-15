@@ -7,7 +7,6 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 import com.massisframework.massis.model.components.FloorReference;
 import com.massisframework.massis.model.components.FollowTarget;
-import com.massisframework.massis.model.components.MovingTo;
 import com.massisframework.massis.model.components.TransformComponent;
 import com.massisframework.massis.model.components.impl.MovingToImpl;
 import com.massisframework.massis.model.systems.floor.Floor;
@@ -74,7 +73,7 @@ public class PathFindingSystem implements SimulationSystem {
 						.findPath(new KVector(tr.getX(), tr.getY()), target);
 				if (path == null || path.isEmpty())
 					continue;
-				
+
 				e.add(new PathComponentImpl().setPath(path));
 				CoordinateHolder pathPoint = null;
 				if (path.size() > 1)
@@ -85,7 +84,7 @@ public class PathFindingSystem implements SimulationSystem {
 					pathPoint = path.get(0);
 				}
 				e.add(new MovingToImpl()).setTarget(pathPoint);
-				//e.markChanged(MovingTo.class);
+				// e.markChanged(MovingTo.class);
 			}
 		}
 

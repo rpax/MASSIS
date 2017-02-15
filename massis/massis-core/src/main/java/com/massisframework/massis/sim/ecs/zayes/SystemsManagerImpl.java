@@ -12,7 +12,8 @@ import com.massisframework.massis.sim.ecs.CollectionsFactory;
 import com.massisframework.massis.sim.ecs.SimulationSystem;
 import com.massisframework.massis.sim.ecs.SimulationSystemCreator;
 import com.massisframework.massis.sim.ecs.SystemsManager;
-@SuppressWarnings({"unchecked","rawtypes"})
+
+@SuppressWarnings({ "unchecked", "rawtypes" })
 class SystemsManagerImpl implements SystemsManager {
 
 	/**
@@ -104,7 +105,7 @@ class SystemsManagerImpl implements SystemsManager {
 	 * @param states
 	 *            The states to attach
 	 */
-	
+
 	public void attachAll(Class<? extends SimulationSystem>... states)
 	{
 		attachAll(Arrays.asList(states));

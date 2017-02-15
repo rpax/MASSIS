@@ -22,6 +22,4 @@ public class ComponentFactoryImpl implements ComponentFactory {
 		return cmp;
 	}
 
-	
-
 }

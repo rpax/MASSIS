@@ -15,11 +15,11 @@ public class SimulationLauncher {
 		// fill default values:
 
 	}
-	
+
 	public static void launch(InterfaceBindings bindings)
 	{
 		Injector injector = Guice.createInjector(new ZayEsModule(bindings),
-				new EventBusModule(),new MasonModule());
+				new EventBusModule(), new MasonModule());
 		SimulationScheduler ss = injector
 				.getInstance(SimulationScheduler.class);
 		bindings.getSystems();

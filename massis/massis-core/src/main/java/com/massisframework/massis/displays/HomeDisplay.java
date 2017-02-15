@@ -28,111 +28,112 @@ import com.eteks.sweethome3d.viewcontroller.PlanController;
  */
 public class HomeDisplay extends JFrame {
 
-    private static final long serialVersionUID = -6696779235522417183L;
-    private PlanComponent planComponent;
-    private PlanController planController;
-    private Home home;
+	private static final long serialVersionUID = -6696779235522417183L;
+	private PlanComponent planComponent;
+	private PlanController planController;
+	private Home home;
 
-    public HomeDisplay(Home home)
-    {
-        this.home = home;
-        setTitle("HomeDisplay2D");
-    }
+	public HomeDisplay(Home home)
+	{
+		this.home = home;
+		setTitle("HomeDisplay2D");
+	}
 
-    @Override
-    public void dispose()
-    {
-        super.dispose();
-        unregisterListeners();
-    }
+	@Override
+	public void dispose()
+	{
+		super.dispose();
+		unregisterListeners();
+	}
 
-    private void init()
-    {
-        FileUserPreferences fileUserPreferences = new FileUserPreferences();
-        planController = new PlanController(home, fileUserPreferences,
-                new SwingViewFactory(), new FileContentManager(
-                fileUserPreferences), null);
+	private void init()
+	{
+		FileUserPreferences fileUserPreferences = new FileUserPreferences();
+		planController = new PlanController(home, fileUserPreferences,
+				new SwingViewFactory(), new FileContentManager(
+						fileUserPreferences),
+				null);
 
-        planComponent = new PlanComponent(home, fileUserPreferences,
-                planController);
+		planComponent = new PlanComponent(home, fileUserPreferences,
+				planController);
 
-        JScrollPane scrolledPlanComponent = new JScrollPane(planComponent);
+		JScrollPane scrolledPlanComponent = new JScrollPane(planComponent);
 
-        JPanel controlPanel = new JPanel(new GridLayout(2, 2));
+		JPanel controlPanel = new JPanel(new GridLayout(2, 2));
 
-        JPanel scalePanel = new JPanel(new GridLayout(1, 2));
-        scalePanel.setBorder(BorderFactory.createTitledBorder("Zoom"));
-        JButton decreaseScaleButton = new JButton("-");
-        decreaseScaleButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                planComponent.setScale(planComponent.getScale() / 2.0f);
-            }
-        });
-        JButton increaseScaleButton = new JButton("+");
-        increaseScaleButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                planComponent.setScale(planComponent.getScale() * 2.0f);
-            }
-        });
-        JPanel lvlPanel = new JPanel(new GridLayout(1, 2));
-        String[] levels = new String[home.getLevels().size()];
-        for (int i = 0; i < home.getLevels().size(); i++)
-        {
-            levels[i] = home.getLevels().get(i).getName();
-        }
-        final JComboBox<String> levelComboBox = new JComboBox<String>(levels);
+		JPanel scalePanel = new JPanel(new GridLayout(1, 2));
+		scalePanel.setBorder(BorderFactory.createTitledBorder("Zoom"));
+		JButton decreaseScaleButton = new JButton("-");
+		decreaseScaleButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				planComponent.setScale(planComponent.getScale() / 2.0f);
+			}
+		});
+		JButton increaseScaleButton = new JButton("+");
+		increaseScaleButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				planComponent.setScale(planComponent.getScale() * 2.0f);
+			}
+		});
+		JPanel lvlPanel = new JPanel(new GridLayout(1, 2));
+		String[] levels = new String[home.getLevels().size()];
+		for (int i = 0; i < home.getLevels().size(); i++)
+		{
+			levels[i] = home.getLevels().get(i).getName();
+		}
+		final JComboBox<String> levelComboBox = new JComboBox<String>(levels);
 
-        levelComboBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                Level currentLevel = home.getLevels().get(
-                        levelComboBox.getSelectedIndex());
-                home.setSelectedLevel(currentLevel);
-            }
-        });
-        lvlPanel.add(levelComboBox);
-        scalePanel.add(decreaseScaleButton);
-        scalePanel.add(increaseScaleButton);
-        controlPanel.add(scalePanel);
-        controlPanel.add(lvlPanel);
-        getContentPane().add("South", controlPanel);
-        getContentPane().add("Center", scrolledPlanComponent);
+		levelComboBox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				Level currentLevel = home.getLevels().get(
+						levelComboBox.getSelectedIndex());
+				home.setSelectedLevel(currentLevel);
+			}
+		});
+		lvlPanel.add(levelComboBox);
+		scalePanel.add(decreaseScaleButton);
+		scalePanel.add(increaseScaleButton);
+		controlPanel.add(scalePanel);
+		controlPanel.add(lvlPanel);
+		getContentPane().add("South", controlPanel);
+		getContentPane().add("Center", scrolledPlanComponent);
 
-        pack();
-        setSize(600, 500);
+		pack();
+		setSize(600, 500);
 
-        registerListeners();
-    }
+		registerListeners();
+	}
 
-    private void unregisterListeners()
-    {
-    }
+	private void unregisterListeners()
+	{
+	}
 
-    private void registerListeners()
-    {
-    }
+	private void registerListeners()
+	{
+	}
 
-    @Override
-    public void setVisible(boolean visible)
-    {
-        if (visible)
-        {
-            if (planComponent == null)
-            {
-                init();
-            } else
-            {
-                registerListeners();
-            }
-        } else
-        {
-            unregisterListeners();
-        }
-        super.setVisible(visible);
-    }
+	@Override
+	public void setVisible(boolean visible)
+	{
+		if (visible)
+		{
+			if (planComponent == null)
+			{
+				init();
+			} else
+			{
+				registerListeners();
+			}
+		} else
+		{
+			unregisterListeners();
+		}
+		super.setVisible(visible);
+	}
 }

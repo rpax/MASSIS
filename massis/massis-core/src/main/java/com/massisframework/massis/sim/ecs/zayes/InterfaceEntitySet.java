@@ -34,7 +34,7 @@ class InterfaceEntitySet extends DefaultEntitySet {
 		{
 			throw new RuntimeException(e);
 		}
-		this.transaction=new InterfaceTransaction();
+		this.transaction = new InterfaceTransaction();
 
 	}
 
@@ -265,6 +265,7 @@ class InterfaceEntitySet extends DefaultEntitySet {
 			// or something.
 
 		}
+
 		private <K> K getFieldValue(String name, Class clazz)
 		{
 			try
@@ -279,5 +280,4 @@ class InterfaceEntitySet extends DefaultEntitySet {
 		}
 	}
 
-	
 }

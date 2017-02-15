@@ -43,7 +43,8 @@ public class JFXDisplaySystem implements SimulationSystem {
 		ApplicationLauncher.launchWrappedApplication((stage, app) -> {
 			try
 			{
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("Simulation2DWindow.fxml"));
+				FXMLLoader loader = new FXMLLoader(
+						getClass().getResource("Simulation2DWindow.fxml"));
 				Parent root = loader.load();
 				Simulation2DWindow controller = loader.getController();
 
@@ -52,7 +53,7 @@ public class JFXDisplaySystem implements SimulationSystem {
 								.stream()
 								.map(injector::getInstance)
 								.collect(Collectors.toList()));
-				
+
 				this.window.complete(controller);
 				stage.setScene(new Scene(root, 800, 600));
 				stage.show();
