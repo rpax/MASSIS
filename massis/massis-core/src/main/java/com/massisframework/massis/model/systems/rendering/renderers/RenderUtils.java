@@ -14,6 +14,16 @@ public class RenderUtils {
 		stroke(gc, sc, paint, 1);
 	}
 
+	public static void stroke(GraphicsContext gc, double x1, double y1,
+			double x2, double y2,
+			Paint paint, double lineWidth)
+	{
+		gc.setStroke(paint);
+		gc.setLineWidth(lineWidth);
+		gc.strokeLine(x1, y1, x2, y2);
+
+	}
+
 	public static void stroke(GraphicsContext gc, ShapeComponent sc,
 			Paint paint, double lineWidth)
 	{
@@ -92,6 +102,5 @@ public class RenderUtils {
 		}
 		gc.fillPolygon(xPoints, yPoints, nPoints);
 	}
-
 
 }

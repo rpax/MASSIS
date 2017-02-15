@@ -16,7 +16,7 @@ public class WallRenderer implements JFXRenderer {
 	public void render(SimulationEntity e, GraphicsContext gc)
 	{
 		ShapeComponent sc = e.get(ShapeComponent.class);
-		RenderUtils.fill(gc, sc, Color.YELLOW);
+		RenderUtils.fill(gc, sc, Color.BLACK);
 		RenderUtils.stroke(gc, sc, Color.BLACK);
 
 	}

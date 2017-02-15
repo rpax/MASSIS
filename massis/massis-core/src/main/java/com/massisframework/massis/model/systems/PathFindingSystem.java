@@ -47,9 +47,7 @@ public class PathFindingSystem implements SimulationSystem {
 		{
 			for (SimulationEntity e : this.floors.getAddedEntities())
 			{
-				this.pathFinders.put(e.id(),
-						new SEPathFinder(this.ed, e.id()));
-
+				this.pathFinders.put(e.id(), new SEPathFinder(this.ed, e.id()));
 			}
 		}
 		// if (this.followers.applyChanges())
@@ -63,19 +61,31 @@ public class PathFindingSystem implements SimulationSystem {
 
 				long floorId = e.get(FloorReference.class).getFloorId();
 				SEPathFinder pF = this.pathFinders.get(floorId);
+
 				if (pF == null)
 				{
 					Logger.getLogger(getClass().getName())
 							.warning("Pathfinder not ready");
 					continue;
 				}
-
+				pF.recomputeMesh();
 				TransformComponent tr = e.get(TransformComponent.class);
 				List<CoordinateHolder> path = pF
 						.findPath(new KVector(tr.getX(), tr.getY()), target);
-				if (path==null) continue;
-				e.add(new MovingToImpl()).setTarget(path.get(1));
-				e.markChanged(MovingTo.class);
+				if (path == null || path.isEmpty())
+					continue;
+				
+				e.add(new PathComponentImpl().setPath(path));
+				CoordinateHolder pathPoint = null;
+				if (path.size() > 1)
+				{
+					pathPoint = path.get(1);
+				} else
+				{
+					pathPoint = path.get(0);
+				}
+				e.add(new MovingToImpl()).setTarget(pathPoint);
+				//e.markChanged(MovingTo.class);
 			}
 		}
 

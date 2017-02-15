@@ -19,7 +19,6 @@ public class AgentArrowRenderer implements JFXRenderer {
 	@Override
 	public void render(SimulationEntity e, GraphicsContext gc)
 	{
-		System.out.println("RENDERING "+e);
 		RenderUtils.fill(gc, e.get(ShapeComponent.class), Color.WHITE);
 		RenderUtils.stroke(gc, e.get(ShapeComponent.class), Color.BLACK);
 	}

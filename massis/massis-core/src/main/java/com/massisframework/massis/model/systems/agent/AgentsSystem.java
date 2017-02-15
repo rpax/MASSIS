@@ -1,6 +1,7 @@
 package com.massisframework.massis.model.systems.agent;
 
 import com.google.inject.Inject;
+import com.massisframework.massis.model.components.impl.VelocityImpl;
 import com.massisframework.massis.model.components.impl.VisionAreaImpl;
 import com.massisframework.massis.model.systems.furniture.AgentComponent;
 import com.massisframework.massis.model.systems.furniture.AgentComponentImpl;
@@ -26,6 +27,7 @@ public class AgentsSystem implements SimulationSystem {
 	private void initAgent(SimulationEntity se)
 	{
 		se.add(new VisionAreaImpl());
+		se.add(new VelocityImpl());
 		// y el HL?
 
 	}

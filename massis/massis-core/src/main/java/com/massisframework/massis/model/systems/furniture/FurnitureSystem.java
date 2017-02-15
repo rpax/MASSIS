@@ -74,7 +74,7 @@ public class FurnitureSystem implements SimulationSystem {
 						e.add(new DynamicObstacleImpl());
 					} else
 					{
-						e.add(new StationaryObstacleImpl());
+						//e.add(new StationaryObstacleImpl());
 					}
 					e.add(agent);
 				} catch (ClassNotFoundException e1)

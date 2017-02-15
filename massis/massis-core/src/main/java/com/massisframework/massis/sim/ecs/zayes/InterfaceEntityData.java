@@ -3,7 +3,6 @@ package com.massisframework.massis.sim.ecs.zayes;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import com.massisframework.massis.sim.ecs.InterfaceBindings;
 import com.massisframework.massis.sim.ecs.SimulationComponent;

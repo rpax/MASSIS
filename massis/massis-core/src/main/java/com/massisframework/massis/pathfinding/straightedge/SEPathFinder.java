@@ -10,6 +10,7 @@ import com.massisframework.massis.model.components.FloorReference;
 import com.massisframework.massis.model.components.RoomComponent;
 import com.massisframework.massis.model.components.ShapeComponent;
 import com.massisframework.massis.model.components.impl.ShapeComponentImpl;
+import com.massisframework.massis.model.components.impl.StationaryObstacleImpl;
 import com.massisframework.massis.model.systems.floor.Floor;
 import com.massisframework.massis.model.systems.floor.WallComponent;
 import com.massisframework.massis.sim.ecs.SimulationEntity;
@@ -79,27 +80,33 @@ public class SEPathFinder {
 	private ArrayList<SimulationEntity> doors;
 	private ArrayList<SimulationEntity> rooms;
 
-	public SEPathFinder(
-			SimulationEntityData engine, long floorId)
+	public SEPathFinder(SimulationEntityData engine, long floorId)
 	{
 		this.floorId = floorId;
 		this.engine = engine;
 		this.walls = new ArrayList<>();
 		this.doors = new ArrayList<>();
 		this.rooms = new ArrayList<>();
+		this.stationaryObstacles = new ArrayList<PathBlockingObstacleImpl>();
 	}
 
 	/**
 	 * Recomputes the pathfinder data
 	 */
-	private void recomputeMesh()
+	public void recomputeMesh()
 	{
 
-		this.stationaryObstacles = new ArrayList<PathBlockingObstacleImpl>();
+		this.walls.clear();
+		this.doors.clear();
+		this.rooms.clear();
+		this.stationaryObstacles.clear();
 		List<KPolygon> obstPolys = new ArrayList<KPolygon>();
-		engine.findEntities(WallComponent.class,ShapeComponent.class).forEach(this.walls::add);
-		engine.findEntities(DoorComponent.class,ShapeComponent.class).forEach(this.doors::add);
-		engine.findEntities(RoomComponent.class,ShapeComponent.class).forEach(this.rooms::add);
+		engine.findEntities(WallComponent.class, ShapeComponent.class)
+				.forEach(this.walls::add);
+		engine.findEntities(DoorComponent.class, ShapeComponent.class)
+				.forEach(this.doors::add);
+		engine.findEntities(RoomComponent.class, ShapeComponent.class)
+				.forEach(this.rooms::add);
 		for (SimulationEntity wallEntity : walls)
 		{
 
@@ -109,12 +116,10 @@ public class SEPathFinder {
 			/*
 			 * Substraction of the doors area to the walls area
 			 */
-			Area area = new Area(
-					wallEntity.get(ShapeComponentImpl.class).getShape());
+			Area area = new Area(wallEntity.get(ShapeComponent.class).asShape());
 			for (SimulationEntity doorEntity : doors)
 			{
-				boolean open = doorEntity.get(DoorComponent.class)
-						.isOpen();
+				boolean open = doorEntity.get(DoorComponent.class).isOpen();
 				KPolygon shape = PathFindingUtils.createKPolygonFromShape(
 						doorEntity.get(ShapeComponentImpl.class).getShape());
 
@@ -126,6 +131,7 @@ public class SEPathFinder {
 			/*
 			 * It is possible that the area to be splitted in two
 			 */
+			StationaryObstacleImpl so = new StationaryObstacleImpl();
 			for (Area a : PathFindingUtils.getAreas(area))
 			{
 				KPolygon poly = PathFindingUtils.createKPolygonFromShape(a);
@@ -133,43 +139,47 @@ public class SEPathFinder {
 				{
 					continue;
 				}
-				obstPolys.add(poly);
-
+				PathBlockingObstacleImpl obst = PathFindingUtils
+						.createObstacleFromInnerPolygon(poly, BUFFER_AMOUNT,NUM_POINTS_IN_A_QUADRANT);
+				so.addObstacle(obst);
+				this.stationaryObstacles.add(obst);
 			}
+			wallEntity.add(so);
+			
 		}
 		/*
 		 * Debugging stuff
 		 */
-		int nlines1 = 0;
-		for (KPolygon kPolygon : obstPolys)
-		{
-			nlines1 += KPolygonUtils.getLines(kPolygon).size();
-		}
-
-		int beforeReduction = obstPolys.size();
-		long start = System.currentTimeMillis();
-		obstPolys = PathFindingUtils.getMinimizedPolygons2(obstPolys);
-		long end = System.currentTimeMillis();
-
-		int afterReduction = obstPolys.size();
-		int nlines2 = 0;
-		for (KPolygon kPolygon : obstPolys)
-		{
-			nlines2 += KPolygonUtils.getLines(kPolygon).size();
-		}
+		// int nlines1 = 0;
+		// for (KPolygon kPolygon : obstPolys)
+		// {
+		// nlines1 += KPolygonUtils.getLines(kPolygon).size();
+		// }
+		//
+		// int beforeReduction = obstPolys.size();
+		// long start = System.currentTimeMillis();
+		// obstPolys = PathFindingUtils.getMinimizedPolygons2(obstPolys);
+		// long end = System.currentTimeMillis();
+		//
+		// int afterReduction = obstPolys.size();
+		// int nlines2 = 0;
+		// for (KPolygon kPolygon : obstPolys)
+		// {
+		// nlines2 += KPolygonUtils.getLines(kPolygon).size();
+		// }
 		/*
 		 * Inflation
 		 */
-		for (KPolygon kPolygon : obstPolys)
-		{
-			this.stationaryObstacles.add(
-					PathFindingUtils.createObstacleFromInnerPolygon(kPolygon,
-							BUFFER_AMOUNT, NUM_POINTS_IN_A_QUADRANT));
-		}
+		// for (KPolygon kPolygon : obstPolys)
+		// {
+		// this.stationaryObstacles.add(PathFindingUtils.createObstacleFromInnerPolygon(kPolygon,BUFFER_AMOUNT,
+		// NUM_POINTS_IN_A_QUADRANT));
+		// }
 
-		System.out.println("Before/After Reduction : " + beforeReduction + "/"
-				+ afterReduction + ",[" + nlines1 + "=>"
-				+ nlines2 + "] took " + (end - start) + " ms");
+		// System.out.println("Before/After Reduction : " + beforeReduction +
+		// "/"
+		// + afterReduction + ",[" + nlines1 + "=>"
+		// + nlines2 + "] took " + (end - start) + " ms");
 		// for (LowLevelAgent v : floor.getAgents())
 		// {
 		// if (v.isObstacle() && !v.isDynamic())
@@ -197,16 +207,15 @@ public class SEPathFinder {
 		// Connect the obstacles' nodes so that the PathFinder can do its work:
 		Floor floor = this.engine.getSimulationEntity(this.floorId)
 				.get(Floor.class);
-		int scale=100;
-		int bounds=1000;
-		int length=bounds*scale;
-		nodeConnector = 
-				new MNodeConnector<>(stationaryObstacles,
+		int scale = 100;
+		int bounds = 1000;
+		int length = bounds * scale;
+		nodeConnector = new MNodeConnector<>(stationaryObstacles,
 				maxConnectionDistanceBetweenObstacles, AABB_Expansion,
-				-length,length,-length,length);
-				
-//				floor.getMinX(), floor.getMaxX(), floor.getMinY(),
-//				floor.getMaxY());
+				-length, length, -length, length);
+
+		// floor.getMinX(), floor.getMaxX(), floor.getMinY(),
+		// floor.getMaxY());
 
 		pathFinder = new MASSISPathFinder();
 		// ////////
