@@ -1,7 +1,7 @@
 {
 "$schema": "http://json-schema.org/draft-04/schema#",
   "definitions": {},
-  "id": "http://www.massisframework.com/schemas/jme3/Vector3f.json",
+  "id": "http://www.massisframework.com/public/schemas/jme3/Vector3f.json",
   "properties": {
     "x": {
       "id": "/properties/x",
